@@ -1,0 +1,88 @@
+<?php
+
+return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Password Reset Language Lines
+    |--------------------------------------------------------------------------
+    |
+    | The following language lines are the default lines which match reasons
+    | that are given by the password broker for a password update attempt
+    | has failed, such as for an invalid token or invalid new password.
+    |
+    */
+
+    'dashboard'             => 'Dashboard',
+    'booking'               => 'Booking',
+    'admin_user'            => 'Admin User',
+    'role_management'       => 'Role Management',
+    'role'                  => 'Role',
+    'menus'                 => 'Menus',
+    'actions'               => 'Actions',
+    'shipping'              => 'Shipping',
+    'add_shipping'          => 'Create Shipping',
+    'list_shipping'         => 'Shipping List',
+    'processing_shipping'   => 'Shipment Processing',
+    'gym_admin'             => 'Gym Admin',
+    'gym'                   => 'Gym',
+    'user_category'         => 'User Group',
+    'admin_category'        => 'Admin Category',
+    'new_page_title'        => 'Branch',
+    'new_page_title'        => 'Branch',
+    'new_page_title'        => 'Branch',
+    'new_page_title'        => 'Branch',
+    'new_page_title'        => 'Branch',
+    'product'               => 'Product',
+    'products'              => 'Products',
+    'Account'               => 'Account',
+    'account'               => 'Accounts',
+    'account list'          => 'Source-Acc-Method',
+    'payment'               =>  'Payment',
+    'add_payment'           =>  'Add Payment',
+    'box_list'              =>  'Box List',
+    'unshelved_list'        =>  'Unshelved List',
+    'shelve_list'           =>  'Shelve List',
+    'not_box_list'          =>  'Not Boxed List',
+    'product_list'          =>  'Product List',
+    'product_list_'         =>  'Product List',
+    'agent'                 => 'Agent',
+    'add_agent'             => 'Add Agent',
+    'agent_list'            => 'Agent List',
+    'reseller'              => 'Reseller',
+    'add_reseller'          => 'Add Reseller',
+    'reseller_list'         => 'Reseller List',
+    'Vat'                   => 'Vat',
+    'Name'                  => 'Name',
+    'Method'                => 'Method',
+    'product list'          => 'Product Master Index',
+    'add new product'       => 'Add New Product',
+    'add_booking'           => 'Add New Booking',
+    'booking_list'          => 'Booking List',
+    'product category'      => 'Product Category',
+    'category'              => 'Category-Sub-HScode',
+    'sub_category'          => 'Sub Category',
+    'product attribute'     => 'Product Attribute',
+    'inventory'             => 'Inventory',
+    'customer'              => 'Sales',
+    'product_model'         => 'Product Model',
+    'procurement'           => 'Procurement',
+    'vendor'                => 'Vendor',
+    'invoice'               => 'Invoice',
+    'agent'                 => 'Agents',
+    'invoice_details'       => 'Invoice Details',
+    'hscode'                => 'HS Code',
+    'admin_management'      => 'Admin Management',
+    'assign_access'         => 'Assign Access',
+    'workout_item'          => 'Workout Item',
+    'product_management'    => 'Product Management',
+    'product_list'          => 'Product List',
+    'others'                => 'Others',
+    'product_brand'         => 'Brand-Model-Colour-Size',
+    'product_color'         => 'Color',
+    'product_size'          => 'Size',
+    'sales_agent'           => 'Sales Agent',
+    'customer_list'         => 'Customer List',
+    'address_type'          => 'Address type',
+    'invoice_processing'    => 'Invoice Processing',
+];

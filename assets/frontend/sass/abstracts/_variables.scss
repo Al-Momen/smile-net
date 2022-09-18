@@ -1,0 +1,65 @@
+/*-------------------------------------------------
+    [ ### font-variable start ]
+*/
+$font_heading: "Poppins", sans-serif;
+$font_sub_heading: "Poppins", sans-serif;
+$font_body: "Poppins", sans-serif;
+/*-------------------------------------------------
+    [ ### font-variable end ]
+*/
+
+/*-------------------------------------------------
+    [ ### font_family-variable start ]
+*/
+$font-awesome: "Font Awesome 5 Free";
+/*-------------------------------------------------
+    [ ### font_family-variable end ]
+*/
+
+/*-------------------------------------------------
+    [ ### font_size-variable start ]
+*/
+$base__font-size: 16px;
+$heading__one: 60px;
+$heading__two: 35px;
+$heading__three: 24px;
+$heading__four: 20px;
+$heading__five: 14px;
+$heading__six: 12px;
+/*-------------------------------------------------
+    [ ### font_size-variable end ]
+*/
+
+/*-------------------------------------------------
+    [ ### line_height-variable start ]
+*/
+$font__line-height-body: 1.5em;
+$font__line-height-heading: 1.2em;
+$font__line-height-paragraph: 1.8em;
+$font__line-height-pre: 1.6em;
+/*-------------------------------------------------
+    [ ### line_height-variable start ]
+*/
+
+/*-------------------------------------------------
+    [ ### initial-color-variable start ]
+*/
+$white: #fff; // white color
+$red: #ce3242;
+$color__heading: black; // Heading color
+$color__text: #6c6c6f; // Text color
+$bg--base: #0d6efd; // Background base color
+$text--base: #384d78; // Text base color
+$border--base: #e5e5e5; // Border base color
+$section--bg: #384d78; // Section bg color
+$bg--gray: #929eaa; // Gray bg color
+$common: #2dbe60;
+$main-bg: linear-gradient(
+  90deg,
+  rgba(46, 46, 55, 1) 0%,
+  rgba(18, 17, 17, 1) 43%,
+  rgba(16, 36, 40, 1) 100%
+);
+/*-------------------------------------------------
+    [ ### initial-color-variable end ]
+*/
