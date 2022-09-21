@@ -2,10 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Frontend\UserAuthController;
-use App\Http\Controllers\Frontend\UserDashboardController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Controllers\Frontend\UsersAuthController;
+use App\Http\Controllers\Frontend\UsersDeshboardController;
 
 
 // user page route
@@ -21,23 +19,19 @@ Route::get('/deshboard/place_order', [HomeController::class, 'placeOrder'])->nam
 
 
 // user login route
-Route::get('/regstration/form', [UserAuthController::class, 'userRegstrationForm'])->name('regstration.form');
-Route::get('/login', [UserAuthController::class, 'userLoginForm'])->name('login.form');
-Route::post('/regstration', [UserAuthController::class, 'userRegstration'])->name('regstration');
-Route::post('/login', [UserAuthController::class, 'userLogin'])->name('login');
-Route::get('/logout', [UserAuthController::class, 'userLogout'])->name('logout');
+Route::get('/regstration', [UsersAuthController::class, 'userRegstrationForm'])->name('regstration.form');
+Route::get('/login', [UsersAuthController::class, 'userLoginForm'])->name('login.form');
+// Route::post('/regstration', [UserAuthController::class, 'userRegstration'])->name('regstration');
+// Route::post('/login', [UserAuthController::class, 'userLogin'])->name('login');
+// Route::get('/logout', [UsersAuthController::class, 'userLogout'])->name('logout');
 
 
-// user deshboard route
-Route::middleware('general_user')->group(function(){
-    Route::get('/deshboard', [UserDashboardController::class, 'index'])->name('deshboard');
-    Route::get('/deshboard/ticket', [UserDashboardController::class, 'ticket'])->name('deshboard.ticket');
-    Route::get('/deshboard/book', [UserDashboardController::class, 'book'])->name('deshboard.book');
-    Route::get('/deshboard/news', [UserDashboardController::class, 'news'])->name('deshboard.news');
-    
-});
+Route::get('/deshboard', [UsersDeshboardController::class, 'index'])->name('deshboard');
+Route::get('/deshboard/ticket', [UsersDeshboardController::class, 'ticket'])->name('deshboard.ticket');
+Route::get('/deshboard/book', [UsersDeshboardController::class, 'book'])->name('deshboard.book');
+Route::get('/deshboard/news', [UsersDeshboardController::class, 'news'])->name('deshboard.news');
 
 
 // Email verify by OTP
-Route::get('/otp', [UserAuthController::class, 'userOtpForm'])->name('otp.form');
-Route::post('/otp', [UserAuthController::class, 'userOtp'])->name('otp');
+Route::get('/otp', [UsersAuthController::class, 'userOtpForm'])->name('otp.form');
+// Route::post('/otp', [UserAuthController::class, 'userOtp'])->name('otp');

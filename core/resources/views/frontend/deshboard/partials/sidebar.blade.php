@@ -3,7 +3,7 @@
         <div class="sidebar-top-inner">
             <div class="sidebar__logo">
                 <a href="index.html" class="sidebar__main-logo">
-                    <img src="assets/images/logo/logo1.png" alt="logo">
+                    <img src="{{asset('assets/frontend/images/logo/logo1.png')}}" alt="logo">
                 </a>
                 <div class="navbar__left">
                     <button class="navbar__expand">
@@ -23,19 +23,19 @@
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="{{route('user.deshboard.ticket')}}">
+                        <a href="{{route('user.ticket')}}">
                             <i class="menu-icon las la-credit-card"></i>
                             <span class="menu-title">Ticket</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="{{route('user.deshboard.book')}}">
+                        <a href="{{route('user.book')}}">
                             <i class="menu-icon las fa-solid fa-book"></i>
                             <span class="menu-title">Book</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="{{route('user.deshboard.news')}}">
+                        <a href="{{route('user.news')}}">
                             <i class="menu-icon las fa-solid fa-newspaper"></i>
                             <span class="menu-title">News</span>
                         </a>

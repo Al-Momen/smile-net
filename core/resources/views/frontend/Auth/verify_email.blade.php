@@ -9,7 +9,7 @@
 <body>
    <h2> Welcome to our website Smilenet</h2>
    
-    <p> Your OTP code {{$code}} </p>
+    <p> Your OTP code <h1>{{$code}}</h1> </p>
     
 </body>
 </html>

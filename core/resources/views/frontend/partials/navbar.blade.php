@@ -4,7 +4,7 @@
     <header class="header-section">
         <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
-                <a class="navbar-brand header-logo" href="index.html"><img src="{{URL::asset("assets/frontend/images/logo/logo1.png")}}" alt="logo"
+                <a class="navbar-brand header-logo" href="index.html"><img src="{{asset("assets/frontend/images/logo/logo1.png")}}" alt="logo"
                         srcset=""></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -14,10 +14,10 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                         <li class="nav-item pe-1">
-                            <a class="nav-link text-white fs-6 nav-text" aria-current="page" href="{{route('user.index')}}">Home</a>
+                            <a class="nav-link text-white fs-6 nav-text" aria-current="page" href="{{route('index')}}">Home</a>
                         </li>
                         <li class="nav-item pe-1">
-                            <a class="nav-link text-white fs-6" href="{{route('user.pricing')}}">Pricing</a>
+                            <a class="nav-link text-white fs-6" href="{{route('pricing')}}">Pricing</a>
                             
                             
                         </li>
@@ -48,29 +48,29 @@
                             </ul>
                         </li>
                         <li class="nav-item pe-1">
-                            <a class="nav-link text-white fs-6" href="{{route('user.voting')}}">Voting</a>
+                            <a class="nav-link text-white fs-6" href="{{route('voting')}}">Voting</a>
                         </li>
                         <li class="nav-item pe-1">
-                            <a class="nav-link text-white fs-6" href="{{route('user.magazine')}}">Magazine</a>
+                            <a class="nav-link text-white fs-6" href="{{route('magazine')}}">Magazine</a>
                         </li>
                         <li class="nav-item pe-1">
-                            <a class="nav-link text-white fs-6" href="{{route('user.live_now')}}">Live Now</a>
+                            <a class="nav-link text-white fs-6" href="{{route('live_now')}}">Live Now</a>
                         </li>
                         <li class="nav-item pe-1">
-                            <a class="nav-link text-white fs-6" href="{{route('user.music')}}">Music</a>
+                            <a class="nav-link text-white fs-6" href="{{route('music')}}">Music</a>
                         </li>
                         <li class="nav-item pe-1">
-                            <a class="nav-link text-white fs-6" href="{{route('user.smile_tv')}}">Smile TV</a>
+                            <a class="nav-link text-white fs-6" href="{{route('smile_tv')}}">Smile TV</a>
                         </li>
                         <li class="nav-item pe-1">
-                            <a class="nav-link text-white fs-6" href="{{route('user.news')}}">News</a>
+                            <a class="nav-link text-white fs-6" href="{{route('news')}}">News</a>
                         </li>
                     </ul>
                     <select class="my-select selectpicker me-3" data-container="body">
                         <option>Eng</option>
                         <option>Esp</option>
                     </select>
-                    <a href="{{route('user.login.form')}}">
+                    <a href="{{ url('login') }}">
                         <button class="btn btn-danger" type="submit">Sign In</button>
                     </a>
                 </div>

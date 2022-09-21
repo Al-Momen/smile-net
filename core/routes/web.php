@@ -1,12 +1,22 @@
 <?php
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\FrontEnd\HomeController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Frontend\UserAuthController;
+use App\Http\Controllers\Frontend\UsersAuthController;
+use App\Http\Controllers\Frontend\UsersDeshboardController;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
 //To clear all cache
 Route::get('cc', function () {
@@ -14,20 +24,6 @@ Route::get('cc', function () {
     return "Cleared!";
 });
 
-Route::namespace('FrontEnd')->name('user.')->group(function(){
-    Route::get('/',[HomeController::class,'index'])->name('index');
-    Route::get('/pricing',[HomeController::class,'pricing'])->name('pricing');
-});
-
-
-// Route::group(['namespace' => 'Frontend'], function () {
-
-
-//     Route::group(['namespace' => 'Web'], function () {
-
-//     });
-
-// });
 
 // Admin Login & Logout
 Route::prefix('admin')->name('admin.')->group(function(){
@@ -48,12 +44,38 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
 
 
 
-Route::name('user.')->as('user.')->group(function(){
-    Route::post('/login', [UserAuthController::class, 'userLogin'])->name('login');
-    require_once __DIR__ . '/users/user.php';
+//
+
+Route::namespace('Frontend')->group(function () {
+
+    // user page route
+    Route::get('/', [HomeController::class, 'index'])->name('index');
+    Route::get('pricing', [HomeController::class, 'pricing'])->name('pricing');
+    Route::get('voting', [HomeController::class, 'voting'])->name('voting');
+    Route::get('magazine', [HomeController::class, 'magazine'])->name('magazine');
+    Route::get('live/now', [HomeController::class, 'live_now'])->name('live_now');
+    Route::get('music', [HomeController::class, 'music'])->name('music');
+    Route::get('smile/tv', [HomeController::class, 'smile_tv'])->name('smile_tv');
+    Route::get('news', [HomeController::class, 'news'])->name('news');
+    
+
+    // Email verify by OTP
+     Route::get('otp', [UsersAuthController::class, 'userOtpForm'])->name('otp.form');
+     Route::post('otp', [UsersAuthController::class, 'userOtp'])->name('otp');
+
+
+    // user login route
+    Route::match(['get', 'post'], 'registration', [UsersAuthController::class, 'userRegistrationForm'])->name('registration');
+    Route::get('login', [UsersAuthController::class, 'userLoginForm'])->name('login');
+    Route::post('login/action', [UsersAuthController::class, 'loginAction'])->name('login.action');
+
+    Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+        Route::get('deshboard', [UsersDeshboardController::class, 'index'])->name('deshboard');
+        Route::get('ticket', [UsersDeshboardController::class, 'ticket'])->name('ticket');
+        Route::get('book', [UsersDeshboardController::class, 'book'])->name('book');
+        Route::get('news', [UsersDeshboardController::class, 'news'])->name('news');
+    });
+
+    Route::get('deshboard/place_order', [HomeController::class, 'placeOrder'])->name('deshboard.place_order');
+   
 });
-
-
-
-
-

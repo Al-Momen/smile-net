@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\BaseController;
-use App\Repositories\Admin\PermissionGroup\PermissionGroupInterface;
-use App\Http\Requests\Admin\PermissionGroupRequest;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
+use App\Http\Requests\Admin\PermissionGroupRequest;
+use App\Repositories\Admin\PermissionGroup\PermissionGroupInterface;
 
-class PermissionGroupController extends BaseController
+class PermissionGroupController extends Controller
 {
     protected $permissionGroup;
 

@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\BaseController;
-use App\Repositories\Admin\UserGroup\UserGroupInterface;
 use App\Http\Requests\Admin\UserGroupRequest;
 use App\Repositories\Admin\Role\RoleInterface;
-use Illuminate\Http\Request;
+use App\Repositories\Admin\UserGroup\UserGroupInterface;
 
-class UserGroupController extends BaseController
+class UserGroupController extends Controller
 {
     protected $userGroup;
     protected $role;

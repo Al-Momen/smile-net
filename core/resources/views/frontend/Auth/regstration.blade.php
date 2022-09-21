@@ -11,7 +11,6 @@
                 <div class="shadow-lg rounded">
                     <div class="pe-0">
                         <div class="form-left h-100 py-5 px-5 text-white">
-
                             @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -28,10 +27,7 @@
                                     data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
-
-
-
-                            <form class="row g-4" action="{{route('user.regstration')}}" method="POST">
+                            <form class="row g-4" action="{{url('registration')}}" method="POST">
                                 @csrf
                                 <div class="col-12">
                                     <label class="text-white">Full Name<span class="text-danger">*</span></label>
@@ -88,7 +84,7 @@
                             </form>
                         </div>
                     </div>
-                    <a href="{{route('user.login.form')}}" class="d-flex justify-content-center">
+                    <a href="#" class="d-flex justify-content-center">
                         <h3 class="text-capitalize text-center text-danger fs-6 pb-3">already have an account?</h3>
                     </a>
                 </div>

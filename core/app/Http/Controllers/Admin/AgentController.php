@@ -8,7 +8,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\Admin\AgentRequest;
 use App\Repositories\Admin\Agent\AgentInterface;
 
-class AgentController extends BaseController
+class AgentController extends Controller
 {
     protected $agent;
 

@@ -5,21 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Smile Net</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/style.css') }}">
+    <link rel="stylesheet" href="{{asset('assets/frontend/css/style.css') }}">
     <!-- fontawesome css link -->
-    <link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/fontawesome-all.min.css') }}">
     <!-- bootstrap css link -->
-    <link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/bootstrap.min.css') }}">
     <!-- lightcase css links -->
-    <link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/lightcase.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/lightcase.css') }}">
     <!-- swipper css link -->
-    <link rel="stylesheet" href="{{ URL::asset('assets/frontend/css/swiper.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/swiper.min.css') }}">
     <!-- favicon -->
-    <link rel="icon" href="{{ URL::asset(imagePath()['logoIcon']['path'] . '/' . 'favicon.png') }}" type="image/x-icon">
+    <link rel="icon" href="{{asset('images/logoIcon/favicon.png') }}" type="image/x-icon">
 </head>
 
 <body>
@@ -68,7 +69,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <video id="player" class="video-player" playsinline controls data-poster="">
-                        <source src="{{URL::asset('assets/frontend/video/video.mp4')}}" type="video/mp4" />
+                        <source src="{{asset('assets/frontend/video/video.mp4')}}" type="video/mp4" />
                     </video>
                 </div>
             </div>
@@ -78,14 +79,14 @@
 
 
     <!-- bootstrap js -->
-    <script src="{{ URL::asset('assets/frontend/js/bootstrap.min.js')}}"></script>
-    <script src="{{ URL::asset('assets/frontend/js/bootstrap.min.js')}}"></script>
+    <script src="{{ asset('assets/frontend/js/jquery-3.3.1.min.js')}}"></script>
+    <script src="{{ asset('assets/frontend/js/bootstrap.min.js')}}"></script>
     <!-- swipper js -->
-    <script src="{{URL::asset('assets/frontend/js/swiper.min.js')}}"></script>
+    <script src="{{asset('assets/frontend/js/swiper.min.js')}}"></script>
     <!-- lightcase js-->
-    <script src="{{URL::asset('assets/frontend/js/lightcase.js')}}"></script>
+    <script src="{{asset('assets/frontend/js/lightcase.js')}}"></script>
     <!-- script -->
-    <script src="{{URL::asset('assets/frontend/js/script.js')}}"></script>
+    <script src="{{asset('assets/frontend/js/script.js')}}"></script>
 
 
     <!-- Initialize Swiper -->

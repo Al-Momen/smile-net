@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\BaseController;
+// use App\Http\Controllers\BaseController;
+
+use App\Http\Controllers\Controller;
 use App\Repositories\Admin\AdminUser\AdminUserInterface;
 use App\Repositories\Admin\Role\RoleInterface;
 use App\Repositories\Admin\UserGroup\UserGroupInterface;
 use App\Http\Requests\Admin\AdminUserRequest;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller as BaseController;
 
 
-class AdminUserController extends BaseController
+class AdminUserController extends Controller
 {
     protected $user;
     protected $role;

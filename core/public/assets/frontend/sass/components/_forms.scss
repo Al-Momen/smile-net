@@ -1,0 +1,223 @@
+/*-------------------------------------------------
+    [ ## Fields ]
+*/
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    &:focus {
+        outline: none;
+    }
+}
+// select {
+//     appearance: none;
+//     -webkit-appearance: none;
+//     -moz-appearance: none;
+// }
+input,textarea{
+    padding: 12px 20px;
+    &::placeholder{
+        color: $color__text;
+    }
+}
+textarea {
+    display: block;
+    width: 100%;
+    display: block;
+    min-height: 120px;
+}
+input,
+select,
+textarea {
+    border: 1px solid $border--base;
+    vertical-align: baseline;
+    font-size: 100%;
+    color: $color__text;
+}
+label {
+    font-size: 14px;
+    color: $color__heading;
+    font-family: $font_heading;
+    font-weight: 600;
+    margin-bottom: 10px;
+    display: block;
+}
+/*-------------------------------------------------
+    [ ## Forms ]
+*/
+select{
+    outline: none;
+    cursor: pointer;
+}
+option{
+    color: $color__heading;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+.form-control{
+    border: 1px solid $border--base;
+    font-size: 14px;
+    height: 50px;
+    &:focus{
+        box-shadow: none;
+        border: 1px solid $border--base;
+    }
+}
+.input-group-text{
+    border: none;
+    font-size: 14px;
+    background-color: $bg--base;
+    color: #fff;
+}
+.form--control{
+    background-color: transparent;
+    border: 1px solid #dadada;
+    box-shadow: none;
+    height: 45px;
+    padding: 0 20px;
+    color: $color__heading;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    width: 100%;
+    &:focus{
+        background-color: transparent;
+        border: 1px solid #dadada;
+        box-shadow: none;
+        color: $color__heading;
+    }
+    &::placeholder{
+        color: $color__heading;
+    }
+}
+.checkbox-wrapper{
+    margin-top: 10px;
+    .checkbox-item{
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        input[type="checkbox"]{
+            width: 12px;
+            height: 12px;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            margin-right: 10px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 0;
+            @media only screen and (max-width: 991px) {
+                width: 24px;
+            }
+        }
+        label{
+            margin: 0;
+            font-size: 14px;
+            a{
+                color: $text--base;
+            }
+        }
+    }
+}
+.forgot-password{
+    a{
+      color: $text--base;
+      font-weight: 600;
+    }
+}
+.submit-btn{
+    padding: 8px 30px;
+    color: $white;
+    background-color: $bg--base;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 3px;
+    @media only screen and (max-width: 991px) {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
+
+/*-------------------------------------------------
+    [ ## Chosen Select ]
+*/
+.chosen-select{
+    z-index: 1;
+    width: 100%;
+    position: relative;
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    padding: 10px 30px 10px 20px;
+}
+.chosen-container{
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    width: 100%;
+    .chosen-single{
+        margin: 0;
+        z-index: 2;
+        width: 100%;
+        height: auto;
+        outline: none;
+        background: none;
+        font-size: 14px;
+        box-shadow: none;
+        padding: 15px 18px;
+        border-radius: 5px;
+        vertical-align: top;
+        display: inline-block;
+        border: 1px solid $border--base;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        span{
+            margin: 0;
+            width: 100%;
+            color: $color__text;
+            line-height: initial;
+        }
+    }
+    .chosen-search{
+        input{
+            height: 40px !important;
+            border-color: $border--base !important;
+            border-radius: 5px !important;
+        }
+    }
+    .chosen-results{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        float: left;
+        line-height: 34px;
+        li{
+            &.highlighted{
+                background: $bg--base;
+            }
+        }
+    }
+    .chosen-drop{
+        border-radius: 5px;
+    }
+}
+.chosen-container-active.chosen-with-drop .chosen-single{
+    border-radius: 5px;
+    border: 1px solid $border--base;
+    background: transparent;
+    box-shadow: none;
+}
+.btn-toggle{
+    color: #fff !important;
+    background-color: $bg--base !important;
+    border-radius: 0 5px 5px 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 100%;
+    z-index: 9;
+}
+.input-group{
+    margin-bottom: 10px;
+}

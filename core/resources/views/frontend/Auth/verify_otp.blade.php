@@ -32,7 +32,7 @@
                 <div class="shadow-lg rounded">
                     <div class="pe-0">
                         <div class="form-left h-100 py-5 px-5 text-white">
-                            <form class="row g-4" action="{{route('user.otp')}}" method="post">
+                            <form class="row g-4" action="{{route('otp')}}" method="post">
                                 @csrf
                                 <div class="col-12">
                                     <label class="text-white">OTP Code<span class="text-danger">*</span></label>

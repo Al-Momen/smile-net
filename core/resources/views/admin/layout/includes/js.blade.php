@@ -1,23 +1,23 @@
 <!-- jquery -->
-<script src="{{ URL::asset('core/public/backend') }}/assets/js/jquery-3.5.1.min.js"></script>
+<script src="{{ URL::asset('core/public/admin') }}/assets/js/jquery-3.5.1.min.js"></script>
 <!-- bootstrap js -->
-<script src="{{ URL::asset('core/public/backend') }}/assets/js/bootstrap.bundle.min.js"></script>
+<script src="{{ URL::asset('core/public/admin') }}/assets/js/bootstrap.bundle.min.js"></script>
 <!-- grid.bundle js -->
-<script src="{{ URL::asset('core/public/backend') }}/assets/js/grid.bundle.min.js"></script>
+<script src="{{ URL::asset('core/public/admin') }}/assets/js/grid.bundle.min.js"></script>
 <!-- select2 js -->
-<script src="{{ URL::asset('core/public/backend') }}/assets/js/select2.min.js"></script>
+<script src="{{ URL::asset('core/public/admin') }}/assets/js/select2.min.js"></script>
 <!-- toggle js -->
-<script src="{{ URL::asset('core/public/backend') }}/assets/js/toggle.js"></script>
+<script src="{{ URL::asset('core/public/admin') }}/assets/js/toggle.js"></script>
 <!-- nicEdit js -->
-<script src="{{ URL::asset('core/public/backend') }}/assets/js/nicEdit.js"></script>
+<script src="{{ URL::asset('core/public/admin') }}/assets/js/nicEdit.js"></script>
 <!-- bootstrap-iconpicker js -->
-<script src="{{ URL::asset('core/public/backend') }}/assets/js/bootstrap-iconpicker.bundle.min.js"></script>
+<script src="{{ URL::asset('core/public/admin') }}/assets/js/bootstrap-iconpicker.bundle.min.js"></script>
 <!-- apexcharts js -->
-<script src="{{ URL::asset('core/public/backend') }}/assets/js/apexcharts.min.js"></script>
+<script src="{{ URL::asset('core/public/admin') }}/assets/js/apexcharts.min.js"></script>
 <!-- dashboard-chart js -->
-<script src="{{ URL::asset('core/public/backend') }}/assets/js/dashboard-chart.js"></script>
+<script src="{{ URL::asset('core/public/admin') }}/assets/js/dashboard-chart.js"></script>
 <!-- main -->
-<script src="{{ URL::asset('core/public/backend') }}/assets/js/main.js"></script>
+<script src="{{ URL::asset('core/public/admin') }}/assets/js/main.js"></script>
 <script>
     // fullscreen-btn
 
