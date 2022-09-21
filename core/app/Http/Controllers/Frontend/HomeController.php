@@ -49,5 +49,14 @@ class HomeController extends Controller
     public function placeOrder(){
         return view('frontend.pages.place_order');
     }
+    public function newsDetails(){
+        return view('frontend.pages.news_details');
+    }
+    public function smileTv(){
+        return view('frontend.pages.smile_tv');
+    }
+    public function magazineDetails(){
+        return view('frontend.pages.magazine_details');
+    }
 
 }

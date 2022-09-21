@@ -25,7 +25,7 @@
                             <img src="{{URL::asset('assets/frontend/images/bookMagazine/book1.jpg')}}" class="img-fluid" />
                         </div>
                         <div class="card-body text-white">
-                            <a href="news-details.html" class="text-decoration-none">
+                            <a href="{{ route('news_details')}}" class="text-decoration-none">
                                 <h5 class="card-title">15 movie blogs fans should</h5>
                                 <p class="card-text py-2 text-muted">Most people have heard of IMBd. If you’ve ever
                                     wondered, ‘Who
@@ -34,15 +34,15 @@
                                     in?</p>
                             </a>
                             <div class="d-flex justify-content-between pt-2">
-                                <a href="news-details.html" class="btn btn-primary">More</a>
+                                <a href="{{ route('news_details')}}" class="btn btn-primary">More</a>
                                 <div class="d-flex">
                                     <div class="pe-3">
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-heart"></i>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-comment"></i>
                                         </a>
                                     </div>
@@ -58,7 +58,7 @@
                             <img src="{{URL::asset('assets/frontend/images/bookMagazine/book1.jpg')}}" class="img-fluid" />
                         </div>
                         <div class="card-body text-white">
-                            <a href="news-details.html" class="text-decoration-none">
+                            <a href="{{ route('news_details')}}" class="text-decoration-none">
                                 <h5 class="card-title">15 movie blogs fans should</h5>
                                 <p class="card-text py-2 text-muted">Most people have heard of IMBd. If you’ve ever
                                     wondered, ‘Who
@@ -67,15 +67,15 @@
                                     in?</p>
                             </a>
                             <div class="d-flex justify-content-between pt-2">
-                                <a href="news-details.html" class="btn btn-primary">More</a>
+                                <a href="{{ route('news_details')}}" class="btn btn-primary">More</a>
                                 <div class="d-flex">
                                     <div class="pe-3">
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-heart"></i>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-comment"></i>
                                         </a>
                                     </div>
@@ -91,7 +91,7 @@
                             <img src="{{URL::asset('assets/frontend/images/bookMagazine/book1.jpg')}}" class="img-fluid" />
                         </div>
                         <div class="card-body text-white">
-                            <a href="news-details.html" class="text-decoration-none">
+                            <a href="{{ route('news_details')}}" class="text-decoration-none">
                                 <h5 class="card-title">15 movie blogs fans should</h5>
                                 <p class="card-text py-2 text-muted">Most people have heard of IMBd. If you’ve ever
                                     wondered, ‘Who
@@ -100,15 +100,15 @@
                                     in?</p>
                             </a>
                             <div class="d-flex justify-content-between pt-2">
-                                <a href="news-details.html" class="btn btn-primary">More</a>
+                                <a href="{{ route('news_details')}}" class="btn btn-primary">More</a>
                                 <div class="d-flex">
                                     <div class="pe-3">
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-heart"></i>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-comment"></i>
                                         </a>
                                     </div>
@@ -124,7 +124,7 @@
                             <img src="{{URL::asset('assets/frontend/images/bookMagazine/book1.jpg')}}" class="img-fluid" />
                         </div>
                         <div class="card-body text-white">
-                            <a href="news-details.html" class="text-decoration-none">
+                            <a href="{{ route('news_details')}}" class="text-decoration-none">
                                 <h5 class="card-title">15 movie blogs fans should</h5>
                                 <p class="card-text py-2 text-muted">Most people have heard of IMBd. If you’ve ever
                                     wondered, ‘Who
@@ -133,15 +133,15 @@
                                     in?</p>
                             </a>
                             <div class="d-flex justify-content-between pt-2">
-                                <a href="news-details.html" class="btn btn-primary">More</a>
+                                <a href="{{ route('news_details')}}" class="btn btn-primary">More</a>
                                 <div class="d-flex">
                                     <div class="pe-3">
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-heart"></i>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-comment"></i>
                                         </a>
                                     </div>
@@ -157,7 +157,7 @@
                             <img src="{{URL::asset('assets/frontend/images/bookMagazine/book1.jpg')}}" class="img-fluid" />
                         </div>
                         <div class="card-body text-white">
-                            <a href="news-details.html" class="text-decoration-none">
+                            <a href="{{ route('news_details')}}" class="text-decoration-none">
                                 <h5 class="card-title">15 movie blogs fans should</h5>
                                 <p class="card-text py-2 text-muted">Most people have heard of IMBd. If you’ve ever
                                     wondered, ‘Who
@@ -166,15 +166,15 @@
                                     in?</p>
                             </a>
                             <div class="d-flex justify-content-between pt-2">
-                                <a href="news-details.html" class="btn btn-primary">More</a>
+                                <a href="{{ route('news_details')}}" class="btn btn-primary">More</a>
                                 <div class="d-flex">
                                     <div class="pe-3">
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-heart"></i>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-comment"></i>
                                         </a>
                                     </div>
@@ -190,7 +190,7 @@
                             <img src="{{URL::asset('assets/frontend/images/bookMagazine/book1.jpg')}}" class="img-fluid" />
                         </div>
                         <div class="card-body text-white">
-                            <a href="news-details.html" class="text-decoration-none">
+                            <a href="{{ route('news_details')}}" class="text-decoration-none">
                                 <h5 class="card-title">15 movie blogs fans should</h5>
                                 <p class="card-text py-2 text-muted">Most people have heard of IMBd. If you’ve ever
                                     wondered, ‘Who
@@ -199,15 +199,15 @@
                                     in?</p>
                             </a>
                             <div class="d-flex justify-content-between pt-2">
-                                <a href="news-details.html" class="btn btn-primary">More</a>
+                                <a href="{{ route('news_details')}}" class="btn btn-primary">More</a>
                                 <div class="d-flex">
                                     <div class="pe-3">
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-heart"></i>
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="news-details.html" class="btn btn-outline-primary">
+                                        <a href="{{ route('news_details')}}" class="btn btn-outline-primary">
                                             <i class="fas fa-comment"></i>
                                         </a>
                                     </div>

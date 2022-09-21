@@ -41,6 +41,15 @@ class AdminAuthController extends Controller
      *
      * @return Response
      */
+    public function getLoginForm()
+    {
+        if (!$this->auth->check()) {
+            return redirect()->route('admin.login-form');
+        } else {
+            return redirect()->route('admin.dashboard');
+        }
+    }
+
     public function getLogin()
     {
         if (!$this->auth->check()) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use Exception;
 use App\Mail\VerifyEmail;
 use App\Models\GeneralUser;
 use Illuminate\Http\Request;
@@ -10,6 +11,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Session;
 
 class UsersAuthController extends Controller
 {
@@ -79,14 +82,14 @@ class UsersAuthController extends Controller
         }
     }
 
-    //   public function userLogout()
-    //   {
-    //       if (Auth::guard('general_user')->check()) {
-    //           Session::flush();
-    //           Auth::guard('general_user')->logout();
-    //       }
-    //       return redirect()->route('user.login.form');
-    //   }
-    //   
-    //
+      public function logout()
+      {
+          if (Auth::guard('general')->check()) {
+              Session::flush();
+              Auth::guard('general')->logout();
+          }
+          return redirect()->route('login');
+      }
+      
+    
 }

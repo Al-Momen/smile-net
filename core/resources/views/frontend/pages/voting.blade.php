@@ -28,7 +28,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">Movie Award</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">Video Award</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">Award</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -88,7 +88,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">Football</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -102,7 +102,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">basketball</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">golf</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">Football</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">basketball</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">golf</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -211,7 +211,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">Football</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -225,7 +225,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">basketball</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>
@@ -239,7 +239,7 @@
                                 style="width: 100%; height: 220px">
                             <div class="card-body d-flex">
                                 <h5 class="card-title text-white my-auto text-capitalize">golf</h5>
-                                <a href="voting-details.html" class="btn btn-outline-secondary ms-auto">Vote</a>
+                                <a href="{{ route('vote_details') }}" class="btn btn-outline-secondary ms-auto">Vote</a>
                             </div>
                         </div>
                     </div>

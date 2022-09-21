@@ -30,7 +30,7 @@
                             <i class="dropdown-menu__icon las la-key"></i>
                             <span class="dropdown-menu__caption">Password</span>
                         </a>
-                        <a href=""
+                        <a href="{{ route('logout')}}"
                             class="dropdown-menu__item d-flex align-items-center ps-3 pe-3 pt-2 pb-2">
                             <i class="dropdown-menu__icon las la-sign-out-alt"></i>
                             <span class="dropdown-menu__caption">Logout</span>

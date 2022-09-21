@@ -26,10 +26,11 @@ Route::get('cc', function () {
 
 
 // Admin Login & Logout
-Route::prefix('admin')->name('admin.')->group(function(){
-    Route::get('login', [AdminAuthController::class,'getLogin'])->name('login-form');
-    Route::post('login', [AdminAuthController::class,'postLogin'])->name('login');
-    Route::get('logout', [AdminAuthController::class,'getLogout'])->name('logout');
+Route::get('admin', [AdminAuthController::class, 'getLoginForm'])->name('login.form');
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('login', [AdminAuthController::class, 'getLogin'])->name('login-form');
+    Route::post('login', [AdminAuthController::class, 'postLogin'])->name('login');
+    Route::get('logout', [AdminAuthController::class, 'getLogout'])->name('logout');
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
@@ -57,25 +58,32 @@ Route::namespace('Frontend')->group(function () {
     Route::get('music', [HomeController::class, 'music'])->name('music');
     Route::get('smile/tv', [HomeController::class, 'smile_tv'])->name('smile_tv');
     Route::get('news', [HomeController::class, 'news'])->name('news');
-    
+    Route::get('news-details', [HomeController::class, 'newsDetails'])->name('news_details');
+    Route::get('smile-tv', [HomeController::class, 'smileTv'])->name('smile_tv');
+    Route::get('magazine-details', [HomeController::class, 'magazineDetails'])->name('magazine_details');
+
 
     // Email verify by OTP
-     Route::get('otp', [UsersAuthController::class, 'userOtpForm'])->name('otp.form');
-     Route::post('otp', [UsersAuthController::class, 'userOtp'])->name('otp');
-
+    Route::get('otp', [UsersAuthController::class, 'userOtpForm'])->name('otp.form');
+    Route::post('otp', [UsersAuthController::class, 'userOtp'])->name('otp');
 
     // user login route
     Route::match(['get', 'post'], 'registration', [UsersAuthController::class, 'userRegistrationForm'])->name('registration');
     Route::get('login', [UsersAuthController::class, 'userLoginForm'])->name('login');
     Route::post('login/action', [UsersAuthController::class, 'loginAction'])->name('login.action');
+    Route::get('logout', [UsersAuthController::class, 'logout'])->name('logout');
 
-    Route::group(['prefix' => 'user', 'as' => 'user.'], function () {
+    //user deshboard route
+    Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'general_user'], function () {
         Route::get('deshboard', [UsersDeshboardController::class, 'index'])->name('deshboard');
         Route::get('ticket', [UsersDeshboardController::class, 'ticket'])->name('ticket');
         Route::get('book', [UsersDeshboardController::class, 'book'])->name('book');
         Route::get('news', [UsersDeshboardController::class, 'news'])->name('news');
     });
 
-    Route::get('deshboard/place_order', [HomeController::class, 'placeOrder'])->name('deshboard.place_order');
-   
+    // if login then access pages
+    Route::group(['middleware' => 'general_user'], function () {
+        Route::get('place_order', [UsersDeshboardController::class, 'placeOrder'])->name('place_order');
+        Route::get('vote-details', [UsersDeshboardController::class, 'voteDetails'])->name('vote_details');
+    });
 });

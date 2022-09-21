@@ -36,7 +36,7 @@
                                         <p class="text-uppercase">Most people have heard of IMBd. If you’ve ever
                                             wondered, ‘Who</p>
                                     </div>
-                                    <a href="live-now-details.html">
+                                    <a href="{{ route('smile_tv')}}">
                                         <button class="btn btn-outline-danger mt-3">
                                             Watch Now
                                         </button>
@@ -62,7 +62,7 @@
                                         <p class="text-uppercase">Most people have heard of IMBd. If you’ve ever
                                             wondered, ‘Who</p>
                                     </div>
-                                    <a href="live-now-details.html">
+                                    <a href="{{ route('smile_tv')}}">
                                         <button class="btn btn-outline-danger mt-3">
                                             Watch Now
                                         </button>
@@ -88,7 +88,7 @@
                                         <p class="text-uppercase">Most people have heard of IMBd. If you’ve ever
                                             wondered, ‘Who</p>
                                     </div>
-                                    <a href="live-now-details.html">
+                                    <a href="{{ route('smile_tv')}}">
                                         <button class="btn btn-outline-danger mt-3">
                                             Watch Now
                                         </button>
@@ -114,7 +114,7 @@
                                         <p class="text-uppercase">Most people have heard of IMBd. If you’ve ever
                                             wondered, ‘Who</p>
                                     </div>
-                                    <a href="live-now-details.html">
+                                    <a href="{{ route('smile_tv')}}">
                                         <button class="btn btn-outline-danger mt-3">
                                             Watch Now
                                         </button>

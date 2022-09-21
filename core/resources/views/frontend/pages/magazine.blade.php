@@ -34,7 +34,7 @@
                                     <p class="fw-light text-white">Price</p>
                                     <p class="text-success fw-bold ms-auto">20 $</p>
                                 </div>
-                                <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                                <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                                     <p class="fw-light text-white">Price</p>
                                     <p class="text-success fw-bold ms-auto">20 $</p>
                                 </div>
-                                <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                                <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                                     <p class="fw-light text-white">Price</p>
                                     <p class="text-success fw-bold ms-auto">20 $</p>
                                 </div>
-                                <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                                <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                             </div>
                         </div>
                     </div>
@@ -79,7 +79,7 @@
                                     <p class="fw-light text-white">Price</p>
                                     <p class="text-success fw-bold ms-auto">20 $</p>
                                 </div>
-                                <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                                <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                             </div>
                         </div>
                     </div>
@@ -94,7 +94,7 @@
                                     <p class="fw-light text-white">Price</p>
                                     <p class="text-success fw-bold ms-auto">20 $</p>
                                 </div>
-                                <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                                <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                             </div>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
                                     <p class="fw-light text-white">Price</p>
                                     <p class="text-success fw-bold ms-auto">20 $</p>
                                 </div>
-                                <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                                <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                             </div>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                                 <p class="fw-light text-white">Price</p>
                                 <p class="text-success fw-bold ms-auto">20 $</p>
                             </div>
-                            <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                            <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                         </div>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                                 <p class="fw-light text-white">Price</p>
                                 <p class="text-success fw-bold ms-auto">20 $</p>
                             </div>
-                            <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                            <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                         </div>
                     </div>
                 </div>
@@ -169,7 +169,7 @@
                                 <p class="fw-light text-white">Price</p>
                                 <p class="text-success fw-bold ms-auto">20 $</p>
                             </div>
-                            <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                            <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                         </div>
                     </div>
                 </div>
@@ -184,7 +184,7 @@
                                 <p class="fw-light text-white">Price</p>
                                 <p class="text-success fw-bold ms-auto">20 $</p>
                             </div>
-                            <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                            <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                         </div>
                     </div>
                 </div>
@@ -199,7 +199,7 @@
                                 <p class="fw-light text-white">Price</p>
                                 <p class="text-success fw-bold ms-auto">20 $</p>
                             </div>
-                            <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                            <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                         </div>
                     </div>
                 </div>
@@ -214,7 +214,7 @@
                                 <p class="fw-light text-white">Price</p>
                                 <p class="text-success fw-bold ms-auto">20 $</p>
                             </div>
-                            <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                            <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                         </div>
                     </div>
                 </div>
@@ -229,7 +229,7 @@
                                 <p class="fw-light text-white">Price</p>
                                 <p class="text-success fw-bold ms-auto">20 $</p>
                             </div>
-                            <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                            <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                         </div>
                     </div>
                 </div>
@@ -244,7 +244,7 @@
                                 <p class="fw-light text-white">Price</p>
                                 <p class="text-success fw-bold ms-auto">20 $</p>
                             </div>
-                            <a href="book-magazine-details.html" class="btn btn-outline-secondary">More Details</a>
+                            <a href="{{ route('magazine_details') }}" class="btn btn-outline-secondary">More Details</a>
                         </div>
                     </div>
                 </div>

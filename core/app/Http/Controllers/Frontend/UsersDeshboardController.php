@@ -20,4 +20,10 @@ class UsersDeshboardController extends Controller
     public function news(){
         return view('frontend.deshboard.pages.news');
     }
+    public function placeOrder(){
+        return view('frontend.pages.place_order');
+    }
+    public function voteDetails(){
+        return view('frontend.pages.vote_details');
+    }
 }
