@@ -64,6 +64,7 @@ class UsersAuthController extends Controller
                 }
             }
         }
+        return redirect()->back()->withErrors('Access denied');;
     }
 
     //user otp Check functon

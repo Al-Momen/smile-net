@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Frontend\BookController;
+use App\Http\Controllers\Frontend\NewsController;
+use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\TicketController;
 use App\Http\Controllers\Frontend\UsersAuthController;
 use App\Http\Controllers\Frontend\UsersDeshboardController;
 
@@ -45,10 +49,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
 
 
 
-//
-
+// Users all route
 Route::namespace('Frontend')->group(function () {
-
     // user page route
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('pricing', [HomeController::class, 'pricing'])->name('pricing');
@@ -61,7 +63,6 @@ Route::namespace('Frontend')->group(function () {
     Route::get('news-details', [HomeController::class, 'newsDetails'])->name('news_details');
     Route::get('smile-tv', [HomeController::class, 'smileTv'])->name('smile_tv');
     Route::get('magazine-details', [HomeController::class, 'magazineDetails'])->name('magazine_details');
-
 
     // Email verify by OTP
     Route::get('otp', [UsersAuthController::class, 'userOtpForm'])->name('otp.form');
@@ -76,9 +77,16 @@ Route::namespace('Frontend')->group(function () {
     //user deshboard route
     Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'general_user'], function () {
         Route::get('deshboard', [UsersDeshboardController::class, 'index'])->name('deshboard');
+        Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::get('ticket', [UsersDeshboardController::class, 'ticket'])->name('ticket');
         Route::get('book', [UsersDeshboardController::class, 'book'])->name('book');
         Route::get('news', [UsersDeshboardController::class, 'news'])->name('news');
+        Route::post('store/news', [NewsController::class, 'storeNews'])->name('store.news');
+        Route::get('destroy/news/{id}', [NewsController::class, 'destroy'])->name('destroy.news');
+        Route::post('store/tickets', [TicketController::class, 'storeTickets'])->name('store.tickets');
+        Route::get('destroy/tickets/{id}', [TicketController::class, 'destroy'])->name('destroy.tickets');
+        Route::post('store/books', [BookController::class, 'storeBooks'])->name('store.books');
+        Route::get('destroy/books/{id}', [BookController::class, 'destroy'])->name('destroy.books');
     });
 
     // if login then access pages

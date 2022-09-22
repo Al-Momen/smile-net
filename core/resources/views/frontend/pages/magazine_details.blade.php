@@ -18,8 +18,12 @@
     <section class="overflow-hidden pt-5">
         <div class="container py-5">
             <div class="row shadow-lg p-3">
-                <div class="col-12 col-md-6 col-lg-6 d-flex my-auto">
-                    <img class="img-fluid p-1 d-block my-auto" src="{{asset('assets/frontend/images/bookMagazine/bCover1.png')}}" alt="image">
+                <div class="col-12 col-md-6 col-lg-6">
+                    <div class="sy" style="
+                    position: sticky;
+                    top: 100px;">
+                        <img src="{{asset('assets/frontend/images/bookMagazine/bCover1.png')}}" alt="image">
+                    </div>
                 </div>
                 <div class="col-12 col-md-6 col-lg-6 text-white my-auto pt-3 pt-lg-0">
                     <div class="d-flex justify-content-end pb-3">
@@ -57,7 +61,67 @@
                         quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
                         aspernatur aut odit aut
                         fugit? Billions upon billions quis nostrum exercitationem ullam corporis suscipit laboriosam
-                        ship of the imagination!</p>
+                        ship of the imagination!Cosmic fugue billions upon billions rogue the carbon in our apple pies laws of
+                        physics bits of
+                        moving fluff consectetur
+                        adipisicing elit the carbon in our apple pies consectetur adipisicing elit how far away qui
+                        dolorem ipsum quia dolor sit
+                        amet inconspicuous motes of rock and gas? Venture Cambrian explosion eaque ipsa quae ab illo
+                        inventore veritatis et
+                        quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+                        aspernatur aut odit aut
+                        fugit? Billions upon billions quis nostrum exercitationem ullam corporis suscipit laboriosam
+                        ship of the imaginationCosmic fugue billions upon billions rogue the carbon in our apple pies laws of
+                        physics bits of
+                        moving fluff consectetur
+                        adipisicing elit the carbon in our apple pies consectetur adipisicing elit how far away qui
+                        dolorem ipsum quia dolor sit
+                        amet inconspicuous motes of rock and gas? Venture Cambrian explosion eaque ipsa quae ab illo
+                        inventore veritatis et
+                        quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+                        aspernatur aut odit aut
+                        fugit? Billions upon billions quis nostrum exercitationem ullam corporis suscipit laboriosam
+                        ship of the imaginationCosmic fugue billions upon billions rogue the carbon in our apple pies laws of
+                        physics bits of
+                        moving fluff consectetur
+                        adipisicing elit the carbon in our apple pies consectetur adipisicing elit how far away qui
+                        dolorem ipsum quia dolor sit
+                        amet inconspicuous motes of rock and gas? Venture Cambrian explosion eaque ipsa quae ab illo
+                        inventore veritatis et
+                        quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+                        aspernatur aut odit aut
+                        fugit? Billions upon billions quis nostrum exercitationem ullam corporis suscipit laboriosam
+                        ship of the imaginationCosmic fugue billions upon billions rogue the carbon in our apple pies laws of
+                        physics bits of
+                        moving fluff consectetur
+                        adipisicing elit the carbon in our apple pies consectetur adipisicing elit how far away qui
+                        dolorem ipsum quia dolor sit
+                        amet inconspicuous motes of rock and gas? Venture Cambrian explosion eaque ipsa quae ab illo
+                        inventore veritatis et
+                        quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+                        aspernatur aut odit aut
+                        fugit? Billions upon billions quis nostrum exercitationem ullam corporis suscipit laboriosam
+                        ship of the imaginationCosmic fugue billions upon billions rogue the carbon in our apple pies laws of
+                        physics bits of
+                        moving fluff consectetur
+                        adipisicing elit the carbon in our apple pies consectetur adipisicing elit how far away qui
+                        dolorem ipsum quia dolor sit
+                        amet inconspicuous motes of rock and gas? Venture Cambrian explosion eaque ipsa quae ab illo
+                        inventore veritatis et
+                        quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+                        aspernatur aut odit aut
+                        fugit? Billions upon billions quis nostrum exercitationem ullam corporis suscipit laboriosam
+                        ship of the imaginationCosmic fugue billions upon billions rogue the carbon in our apple pies laws of
+                        physics bits of
+                        moving fluff consectetur
+                        adipisicing elit the carbon in our apple pies consectetur adipisicing elit how far away qui
+                        dolorem ipsum quia dolor sit
+                        amet inconspicuous motes of rock and gas? Venture Cambrian explosion eaque ipsa quae ab illo
+                        inventore veritatis et
+                        quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit
+                        aspernatur aut odit aut
+                        fugit? Billions upon billions quis nostrum exercitationem ullam corporis suscipit laboriosam
+                        ship of the imagination</p>
                     <div class="d-flex">
                         <div class="d-flex">
                             <p class="fw-light fs-4 text-white pe-3">Price</p>

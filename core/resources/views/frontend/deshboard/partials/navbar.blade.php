@@ -20,7 +20,7 @@
                     </button>
                     <div
                         class="dropdown-menu dropdown-menu--sm p-0 border-0 box--shadow1 dropdown-menu-right">
-                        <a href="user-profile.html"
+                        <a href="{{ route('user.profile') }}"
                             class="dropdown-menu__item d-flex align-items-center ps-3 pe-3 pt-2 pb-2">
                             <i class="dropdown-menu__icon las la-user-circle"></i>
                             <span class="dropdown-menu__caption">Profile</span>
