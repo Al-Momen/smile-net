@@ -18,7 +18,6 @@ class NewsController extends Controller
         $request->validate([
             'title' => 'required|min:2|max:255',
             'description' => 'required',
-            'date' => 'required',
             'image' => 'required',
         ]);
        
@@ -31,7 +30,6 @@ class NewsController extends Controller
             $news = News::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'date' => $request->date,
                 'user_id' => Auth::guard('general')->id(),
                 'image' => $news['image']
             ]);

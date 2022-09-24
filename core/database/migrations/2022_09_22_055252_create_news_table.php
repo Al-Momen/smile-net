@@ -16,13 +16,15 @@ return new class extends Migration
         Schema::create('news', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
+            $table->string("category_id");
             $table->string("title");
             $table->longText("description");
             $table->string("image");
             $table->string("tag")->nullable();
             $table->tinyInteger("status")->nullable();
             $table->string("slug")->nullable();
-            $table->date("date");
+            $table->dateTime("start_date");
+            $table->dateTime("end_date");
             $table->timestamps();
         });
     }

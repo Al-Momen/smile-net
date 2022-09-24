@@ -59,7 +59,6 @@
                                             <option value="2">Germany</option>
                                             <option value="3">Switzerland</option>
                                         </select>
-
                                     </div>
                                 </div>
 

@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ticket extends Model
+class Event extends Model
 {
     use HasFactory;
-    protected $table = 'tickets';
+    protected $table = 'events';
 
     /**
      * The attributes that are mass assignable.
@@ -18,12 +18,18 @@ class Ticket extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'category_id',
         'title',
         'description',
         'image',
         'tag',
         'status',
         'slug',
-        'date',
+        "start_date",
+        "end_date",
+    ];
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+        'email_verified_at' => 'datetime',
     ];
 }

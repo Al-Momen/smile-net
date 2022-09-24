@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{{URL::asset('assets/frontend/css/style.css')}}">
     <!-- animate.css link cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    @stack('css')
 </head>
 
 <body>
@@ -118,8 +119,8 @@
     <script src="{{URL::asset('assets/frontend/js/wow.min.js')}}"></script>
     <!-- main -->
     <script src="{{URL::asset('assets/frontend/js/script.js')}}"></script>
-
     <script src="{{URL::asset('assets/frontend/js/popper.js')}}"></script>
+    @stack('js')
 
 </body>
 

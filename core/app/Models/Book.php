@@ -26,7 +26,11 @@ class Book extends Model
         'status',
         'slug',
         'price',
-        'date',
+       
         
+    ];
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+        'email_verified_at' => 'datetime',
     ];
 }

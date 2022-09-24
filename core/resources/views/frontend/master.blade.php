@@ -21,15 +21,14 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/swiper.min.css') }}">
     <!-- favicon -->
     <link rel="icon" href="{{asset('images/logoIcon/favicon.png') }}" type="image/x-icon">
+    @stack('css')
 </head>
 
 <body>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Start Scroll-To-Top Section
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    <button type="button" class="btn btn-outline-danger btn-floating btn-lg rounded-circle" id="btn-to-top">
-        <i class="fas fa-arrow-up scroll-top"></i>
-    </button>
+   
 
 
     
@@ -186,6 +185,7 @@
             },
         });
     </script>
+    @stack('js')
 </body>
 
 </html>

@@ -25,10 +25,12 @@ class GeneralUser extends Authenticatable implements MustVerifyEmail
         'last_name',
         'phone',
         'verified_code',
-        'var_code_send_at',
         'country',
         'email',
         'password',
+        'photo',
+        'user_name',
+        'follower',
     ];
 
     /**

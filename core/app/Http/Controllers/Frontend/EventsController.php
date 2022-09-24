@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use Carbon\Carbon;
-use App\Models\Ticket;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -14,24 +14,21 @@ class TicketController extends Controller
 {
     public function storeTickets(Request $request)
     {
-        
+
+        //  dd($request->created_at);
         $request->validate([
             'title' => 'required|min:2|max:255',
             'description' => 'required',
-            'date' => 'required',
             'image' => 'required',
         ]);
-       
         try {
             if ($request->hasFile('image')) {
                 // unlink("images/" . $news->image);
-                $ticket['image'] = $this->uploadImage($request->image, $request->title);
-                      
+                $ticket['image'] = $this->uploadImage($request->image, $request->title); 
             }
-            $ticket = Ticket::create([
+            $ticket = Event::create([
                 'title' => $request->title,
                 'description' => $request->description,
-                'date' => $request->date,
                 'user_id' => Auth::guard('general')->id(),
                 'image' => $ticket['image']
             ]);
@@ -50,7 +47,6 @@ class TicketController extends Controller
     }
     private function uploadImage($file, $title)
     {
-        
         $timestamp = str_replace([' ', ':'], '-', Carbon::now()->toDateTimeString());
         $file_name = $timestamp . '-' . $title . '.' . $file->getClientOriginalExtension();
         $pathToUpload = storage_path() . '\app\public\tickets/';  // image  upload application save korbo
@@ -59,7 +55,6 @@ class TicketController extends Controller
         }
         Image::make($file->getPathname())->resize(800, 400)->save($pathToUpload . $file_name);
         return $file_name;
-
     }
     private function unlink($file)
     {

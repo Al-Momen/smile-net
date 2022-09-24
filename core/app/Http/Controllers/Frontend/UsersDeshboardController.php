@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\GeneralUser;
 use App\Models\News;
-use App\Models\Ticket;
+use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
@@ -22,7 +22,7 @@ class UsersDeshboardController extends Controller
     }
     public function ticket()
     {
-        $general_tickets =Ticket::where('user_id',Auth::guard('general')->id())->get();
+        $general_tickets =Event::where('user_id',Auth::guard('general')->id())->get();
         return view('frontend.deshboard.pages.ticket',compact('general_tickets'));
     }
     public function book()

@@ -18,7 +18,6 @@ class BookController extends Controller
         $request->validate([
             'title' => 'required|min:2|max:255',
             'description' => 'required',
-            'date' => 'required',
             'image' => 'required',
             'price' => 'required',
         ]);
@@ -33,7 +32,6 @@ class BookController extends Controller
                 'category_id' => $request->category_id,
                 'title' => $request->title,
                 'description' => $request->description,
-                'date' => $request->date,
                 'price' => $request->price,
                 'image' => $books['image']
             ]);

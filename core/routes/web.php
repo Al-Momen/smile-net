@@ -78,6 +78,7 @@ Route::namespace('Frontend')->group(function () {
     Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'general_user'], function () {
         Route::get('deshboard', [UsersDeshboardController::class, 'index'])->name('deshboard');
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
+        Route::post('profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
         Route::get('ticket', [UsersDeshboardController::class, 'ticket'])->name('ticket');
         Route::get('book', [UsersDeshboardController::class, 'book'])->name('book');
         Route::get('news', [UsersDeshboardController::class, 'news'])->name('news');
