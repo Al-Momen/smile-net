@@ -30,14 +30,14 @@
     <link rel="stylesheet" href="{{URL::asset('assets/frontend/css/animate.css')}}">
     <!-- main style css link -->
     <link rel="stylesheet" href="{{URL::asset('assets/frontend/css/style.css')}}">
+    
     <!-- animate.css link cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     @stack('css')
+    @stack('meta')
 </head>
 
 <body>
-
-
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Start Page-wrapper
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -52,8 +52,6 @@
                     <div class="dashboard-area">
                         <div class="dashboard-item-area">
                             <div class="row mb-20-none overflow-hidden">
-
-
                             </div>
                         </div>
                     </div>
@@ -100,6 +98,7 @@
 
 
     <!-- jquery -->
+    
     <script src="{{URL::asset('assets/frontend/js/jquery-3.3.1.min.js')}}"></script>
     <!-- bootstrap js -->
     <script src="{{URL::asset('assets/frontend/js/bootstrap.bundle.min.js')}}"></script>

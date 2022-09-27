@@ -1,17 +1,16 @@
 <?php
 
 namespace App\Http\Controllers\Frontend;
-
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use App\Models\Book;
-use App\Models\GeneralUser;
 use App\Models\News;
 use App\Models\Event;
-use Carbon\Carbon;
+use App\Models\GeneralUser;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\QueryException;
 use Intervention\Image\Facades\Image;
+use Illuminate\Database\QueryException;
 
 class UsersDeshboardController extends Controller
 {
@@ -20,11 +19,7 @@ class UsersDeshboardController extends Controller
 
         return view('frontend.deshboard.pages.index');
     }
-    public function ticket()
-    {
-        $general_tickets =Event::where('user_id',Auth::guard('general')->id())->get();
-        return view('frontend.deshboard.pages.ticket',compact('general_tickets'));
-    }
+    
     public function book()
     {
         $general_books =Book::where('user_id',Auth::guard('general')->id())->get();

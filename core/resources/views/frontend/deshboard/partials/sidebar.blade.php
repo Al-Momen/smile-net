@@ -23,9 +23,9 @@
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="{{route('user.ticket')}}">
+                        <a href="{{route('user.events')}}">
                             <i class="menu-icon las la-credit-card"></i>
-                            <span class="menu-title">Ticket</span>
+                            <span class="menu-title">Events</span>
                         </a>
                     </li>
                     <li class="sidebar-menu-item">

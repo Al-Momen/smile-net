@@ -2,14 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Frontend\BookController;
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\NewsController;
+use App\Http\Controllers\Frontend\EventController;
+use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Frontend\ProfileController;
-use App\Http\Controllers\Frontend\TicketController;
 use App\Http\Controllers\Frontend\UsersAuthController;
 use App\Http\Controllers\Frontend\UsersDeshboardController;
+
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -79,13 +83,13 @@ Route::namespace('Frontend')->group(function () {
         Route::get('deshboard', [UsersDeshboardController::class, 'index'])->name('deshboard');
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::post('profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
-        Route::get('ticket', [UsersDeshboardController::class, 'ticket'])->name('ticket');
+        Route::get('events', [EventController::class, 'events'])->name('events');
         Route::get('book', [UsersDeshboardController::class, 'book'])->name('book');
         Route::get('news', [UsersDeshboardController::class, 'news'])->name('news');
         Route::post('store/news', [NewsController::class, 'storeNews'])->name('store.news');
         Route::get('destroy/news/{id}', [NewsController::class, 'destroy'])->name('destroy.news');
-        Route::post('store/tickets', [TicketController::class, 'storeTickets'])->name('store.tickets');
-        Route::get('destroy/tickets/{id}', [TicketController::class, 'destroy'])->name('destroy.tickets');
+        Route::post('store/events', [EventController::class, 'storeEvents'])->name('store.events');
+        Route::get('destroy/events/{id}', [EventController::class, 'destroy'])->name('destroy.events');
         Route::post('store/books', [BookController::class, 'storeBooks'])->name('store.books');
         Route::get('destroy/books/{id}', [BookController::class, 'destroy'])->name('destroy.books');
     });
