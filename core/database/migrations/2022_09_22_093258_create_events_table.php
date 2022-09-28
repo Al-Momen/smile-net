@@ -22,6 +22,10 @@ return new class extends Migration
             $table->string("image");
             $table->string("tag")->nullable();
             $table->tinyInteger("status")->nullable();
+            $table->integer("total_seat")->nullable();
+            $table->integer("available_seat")->nullable();
+            $table->integer("remain_seat")->nullable();
+            $table->tinyInteger("sold")->nullable()->default(0);
             $table->string("slug")->nullable();
             $table->dateTime("start_date");
             $table->dateTime("end_date");

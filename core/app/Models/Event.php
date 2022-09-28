@@ -26,6 +26,9 @@ class Event extends Model
         'status',
         'slug',
         "start_date",
+        "total_seat",
+        "available_seat",
+        "remain_seat",
         "end_date",
     ];
     protected $casts = [

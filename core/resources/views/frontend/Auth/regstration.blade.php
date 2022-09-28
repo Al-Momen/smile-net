@@ -54,10 +54,10 @@
                                         <label class="text-white">Country<span class="text-danger">*</span></label>
                                         <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
                                             aria-label=".form-select-lg example" name="country">
-                                            <option selected>Canada</option>
-                                            <option value="1">Japan</option>
-                                            <option value="2">Germany</option>
-                                            <option value="3">Switzerland</option>
+                                            <option selected value="1">Canada</option>
+                                            <option value="2">Japan</option>
+                                            <option value="3">Germany</option>
+                                            <option value="4">Switzerland</option>
                                         </select>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                             </form>
                         </div>
                     </div>
-                    <a href="#" class="d-flex justify-content-center">
+                    <a href="{{route('login')}}" class="d-flex justify-content-center">
                         <h3 class="text-capitalize text-center text-danger fs-6 pb-3">already have an account?</h3>
                     </a>
                 </div>
