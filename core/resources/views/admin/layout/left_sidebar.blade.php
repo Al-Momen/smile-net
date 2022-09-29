@@ -12,6 +12,15 @@
                 <span class="menu-title">Currency</span>
             </a>
         </li>
+
+        <li class="sidebar-menu-item ">
+            <a href="{{ route('admin.category.index') }}" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">Category</span>
+            </a>
+        </li>
+       
+
         <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
             <a href="#">
                 <i class="menu-icon las la-user-edit"></i>
@@ -33,6 +42,8 @@
                 </li>
             </ul>
         </li>
+
+
         <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('role')) active @endif">
             <a href="#">
                 <i class="menu-icon las la-user-edit"></i>

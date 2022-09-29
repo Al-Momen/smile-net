@@ -39,9 +39,10 @@ class Generals
         return $imageName;
     }
     // Image delete
-    public static function unlink($file)
+    public static function unlink(string $dir,$file)
     {
-        $pathToUpload = storage_path() . '\app\public\events/';
+        $pathToUpload = storage_path() . '\app\public'. '\\'.$dir;
+       
         if ($file != '' && file_exists($pathToUpload . $file)) {
             @unlink($pathToUpload . $file);
         }

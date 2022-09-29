@@ -7,64 +7,97 @@ use App\Models\News;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Helpers\Generals;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 
 class NewsController extends Controller
 {
+
+    public function news()
+    {
+        $data['general_news'] = News::where('user_id', Auth::guard('general')->id())->get();
+        $data['general_count'] = News::where('user_id', Auth::guard('general')->id())->count();
+        return view('frontend.deshboard.pages.news',$data);
+    }
     public function storeNews(Request $request)
     {
-        //  dd($request->all());
-        $request->validate([
+          // dd($request->all());
+          $request->validate([
             'title' => 'required|min:2|max:255',
             'description' => 'required',
-            'image' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg',
+            'category' => 'required',
+            'tag' => 'required',
         ]);
-       
         try {
-            if ($request->hasFile('image')) {
-                // unlink("images/" . $news->image);
-                $news['image'] = $this->uploadImage($request->image, $request->title);
-                      
-            }
-            $news = News::create([
-                'title' => $request->title,
-                'description' => $request->description,
-                'user_id' => Auth::guard('general')->id(),
-                'image' => $news['image']
-            ]);
+            $news = new News();
+            $news->user_id = Auth::guard('general')->user()->id;
+            $news->title = $request->title;
+            $news->description = $request->description;
+            $news->tag = $request->tag;
+            $news->category_id = $request->category;
+            $news->image = Generals::upload('news/', 'png', $request->image);
+            $news->save();
             return redirect()->back()->with('success', "News create Successfully");
+            // return response()->json([
+            //     'status'=> 'success',
+            //     "message"=>"Event is Created Successfully"
+            // ]);
         } catch (QueryException $e) {
+            // return response()->json([
+            //     'errorMessage' => $event->errors()->all(),
+            //     'data' => $event
+            // ]);
             dd($e->getMessage());
         }
     }
+    public function editNews($id)
+    {
+        $news = News::find($id);
+        return view('frontend.deshboard.pages.edit_news', compact('news'));
+    }
 
+    public function updateNews(Request $request, $id)
+    {   
+         // dd($request->all());
+         $request->validate([
+            'title' => 'required|min:2|max:255',
+            'description' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg',
+            'category' => 'required',
+            'tag' => 'required',
+        ]);
+        try {
+            $news = News::where('id',$id)->first();
+            $oldImage= $news->image;     
+            $news->user_id = Auth::guard('general')->user()->id;
+            $news->title = $request->title;
+            $news->description = $request->description;
+            $news->tag = $request->tag;
+            $news->category_id = $request->category;
+            $news->image = Generals::update('newss/', $oldImage,'png', $request->image);
+            $news->update();
+            return redirect()->route('user.news')->with('success', "News Update Successfully");
+            // return response()->json([
+            //     'status'=> 'success',
+            //     "message"=>"Event is Created Successfully"
+            // ]);
+        } catch (QueryException $e) {
+            // return response()->json([
+            //     'errorMessage' => $event->errors()->all(),
+            //     'data' => $event
+            // ]);
+            dd($e->getMessage());
+        }
+    }
     public function destroy($id)
     {
         $news = News::find($id);
-        $this->unlink($news->image);
+        Generals::unlink('news/',$news->image);
         $news->delete();
         return redirect()->back()->with('success', "News delete Successfully");;
     }
 
-    private function uploadImage($file, $title)
-    {
-        
-        $timestamp = str_replace([' ', ':'], '-', Carbon::now()->toDateTimeString());
-        $file_name = $timestamp . '-' . $title . '.' . $file->getClientOriginalExtension();
-        $pathToUpload = storage_path() . '\app\public\news/';  // image  upload application save korbo
-        if (!is_dir($pathToUpload)) {
-            mkdir($pathToUpload, 0755, true);
-        }
-        Image::make($file->getPathname())->resize(800, 400)->save($pathToUpload . $file_name);
-        return $file_name;
 
-    }
-    private function unlink($file)
-    {
-        $pathToUpload = storage_path() . '\app\public\news/';
-        if ($file != '' && file_exists($pathToUpload . $file)) {
-            @unlink($pathToUpload . $file);
-        }
-    }
 }

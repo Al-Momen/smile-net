@@ -29,7 +29,7 @@
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="{{route('user.book')}}">
+                        <a href="{{route('user.books')}}">
                             <i class="menu-icon las fa-solid fa-book"></i>
                             <span class="menu-title">Book</span>
                         </a>

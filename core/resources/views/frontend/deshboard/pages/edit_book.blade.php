@@ -15,7 +15,7 @@
                 aria-label="Close"></button>
         </div>
     @endif
-    <form class="form-dashboard" action="{{ route('user.update.events', $event->id) }}"method="POST"
+    <form class="form-dashboard" action="{{ route('user.update.books', $book->id) }}"method="POST"
         enctype="multipart/form-data" id="addEventForm">
         @csrf
         <div class="errMsgContainer" style="padding: 20px;">
@@ -23,28 +23,17 @@
         </div>
 
         <div class="row g-4k" style="padding: 20px;">
-            <h5 class="modal-title mb-4" id="addModalLabel">Events Update</h5>
+            <h5 class="modal-title mb-4" id="addModalLabel">Books Update</h5>
             <div class=" col-lg-6 col-md-6 col-12 pe-4">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" placeholder="Title" name="title" id="title"
-                    value="{{ $event->title }}">
+                    value="{{ $book->title }}">
             </div>
             <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="total_seat" class="form-label">Total Seat</label>
-                <input type="number" class="form-control" placeholder="Total Sit" name="total_seat" id="total_seat"
-                    value="{{ $event->total_seat }}" required>
+                <label for="price" class="form-label">Price</label>
+                <input type="number" class="form-control" placeholder="Price" name="price" id="price"
+                    value="{{ $book->price }}" required>
             </div>
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="start_date" class="form-label">Start Date</label>
-                <input type="datetime-local" class="form-control" placeholder="Start Date" name="start_date" id="start_date"
-                    value="{{ $event->start_date }}" required>
-            </div>
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="end_date" class="form-label">End Date</label>
-                <input type="datetime-local" class="form-control" placeholder="End Date" name="end_date" id="end_date"
-                    value="{{ $event->end_date }}" required>
-            </div>
-
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="categoty" class="form-label">Category</label>
                 <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
@@ -63,7 +52,7 @@
             </div>
             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                 <label for="editor" class="form-label">Description</label>
-                <textarea id="editor" name="description" rows="5" class="form-control">{{ $event->description }}</textarea>
+                <textarea id="editor" name="description" rows="5" class="form-control">{{ $book->description }}</textarea>
 
             </div>
             <div class="text-center" style="margin: auto;">

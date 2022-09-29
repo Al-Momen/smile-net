@@ -26,6 +26,7 @@ class Book extends Model
         'status',
         'slug',
         'price',
+        'coupon',
        
         
     ];
@@ -33,4 +34,7 @@ class Book extends Model
         'created_at' => 'datetime:d-m-Y',
         'email_verified_at' => 'datetime',
     ];
+    public function category(){
+        return $this->belongsTo(AdminCategory::class);
+    }
 }

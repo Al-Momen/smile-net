@@ -87,7 +87,6 @@
                                 <th scope="col">Total Seat</th>
                                 <th scope="col">Available Seat</th>
                                 <th scope="col">Remain Seat</th>
-
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -96,8 +95,19 @@
                                 @foreach ($general_events as $event)
                             <tr>
                                 <td>{{ $event->title }}</td>
-                                <td>{{ $event->start_date }}</td>
-                                <td>{{ $event->end_date }}</td>
+                                <td>
+                                    @php
+                                        $date = $event->start_date;
+                                        echo date('d/m/Y , h:i a ', strtotime($date));
+                                    @endphp
+                                </td>
+                                <td>
+                                    @php
+                                        $date = $event->end_date;
+                                        echo date('d/m/Y , h:i a ', strtotime($date));
+                                        
+                                    @endphp
+                                </td>
                                 <td>{{ $event->total_seat }}</td>
                                 <td>{{ $event->title }}</td>
                                 <td>{{ $event->title }}</td>
@@ -122,7 +132,8 @@
     <!-- Modal -->
     <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="addModalLabel" aria-hidden="true">
-        <form class="form-dashboard" action="{{ route('user.store.events') }}" method="POST" enctype="multipart/form-data" id="addEventForm">
+        <form class="form-dashboard" action="{{ route('user.store.events') }}" method="POST" enctype="multipart/form-data"
+            id="addEventForm">
             @csrf
             <div class="modal-dialog">
                 <div class="modal-content" style="background-color: white!important;">
@@ -142,9 +153,9 @@
                                     value="">
                             </div>
                             <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="total_sit" class="form-label">Total Seat</label>
-                                <input type="number" class="form-control" placeholder="Total Sit" name="total_sit"
-                                    id="total_sit" required>
+                                <label for="total_seat" class="form-label">Tags</label>
+                                <input type="number" class="form-control" placeholder="Total Sit" name="total_seat"
+                                    id="total_seat" required>
                             </div>
 
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
@@ -196,7 +207,6 @@
 @push('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    
 @endpush
 @push('css')
     <style>

@@ -15,7 +15,7 @@
                 aria-label="Close"></button>
         </div>
     @endif
-    <form class="form-dashboard" action="{{ route('user.update.events', $event->id) }}"method="POST"
+    <form class="form-dashboard" action="{{ route('user.update.news', $news->id) }}"method="POST"
         enctype="multipart/form-data" id="addEventForm">
         @csrf
         <div class="errMsgContainer" style="padding: 20px;">
@@ -27,22 +27,12 @@
             <div class=" col-lg-6 col-md-6 col-12 pe-4">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" placeholder="Title" name="title" id="title"
-                    value="{{ $event->title }}">
+                    value="{{ $news->title }}">
             </div>
             <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="total_seat" class="form-label">Total Seat</label>
-                <input type="number" class="form-control" placeholder="Total Sit" name="total_seat" id="total_seat"
-                    value="{{ $event->total_seat }}" required>
-            </div>
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="start_date" class="form-label">Start Date</label>
-                <input type="datetime-local" class="form-control" placeholder="Start Date" name="start_date" id="start_date"
-                    value="{{ $event->start_date }}" required>
-            </div>
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="end_date" class="form-label">End Date</label>
-                <input type="datetime-local" class="form-control" placeholder="End Date" name="end_date" id="end_date"
-                    value="{{ $event->end_date }}" required>
+                <label for="tag" class="form-label">Tags</label>
+                <input type="text" class="form-control" placeholder="Tags" name="tag" id="tag"
+                    value="{{ $news->tag }}" required>
             </div>
 
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
@@ -63,7 +53,7 @@
             </div>
             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                 <label for="editor" class="form-label">Description</label>
-                <textarea id="editor" name="description" rows="5" class="form-control">{{ $event->description }}</textarea>
+                <textarea id="editor" name="description" rows="5" class="form-control">{{ $news->description }}</textarea>
 
             </div>
             <div class="text-center" style="margin: auto;">

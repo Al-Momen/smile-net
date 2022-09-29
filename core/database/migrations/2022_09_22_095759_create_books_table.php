@@ -18,15 +18,15 @@ return new class extends Migration
             $table->unsignedBigInteger("user_id");
             $table->string("category_id");
             $table->string("title");
-            $table->string("pdf");
+            $table->string("pdf")->nullable();
             $table->longText("description");
             $table->string("image");
             $table->string("tag")->nullable();
-            $table->tinyInteger("status")->nullable();
+            $table->tinyInteger("status")->nullable()->default(0);
             $table->string("slug")->nullable();
             $table->string("price");
-            $table->dateTime("start_date");
-            $table->dateTime("end_date");
+            $table->string("coupon")->nullable();
+            $table->decimal("discount")->nullable();
             $table->timestamps();
         });
     }

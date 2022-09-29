@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontend\EventController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\UsersAuthController;
+use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Frontend\UsersDeshboardController;
 
 
@@ -83,22 +84,40 @@ Route::namespace('Frontend')->group(function () {
         Route::get('deshboard', [UsersDeshboardController::class, 'index'])->name('deshboard');
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::post('profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
-        Route::get('book', [UsersDeshboardController::class, 'book'])->name('book');
-        Route::get('news', [UsersDeshboardController::class, 'news'])->name('news');
-        Route::post('store/news', [NewsController::class, 'storeNews'])->name('store.news');
-        Route::get('destroy/news/{id}', [NewsController::class, 'destroy'])->name('destroy.news');
+        // event all route
         Route::get('events', [EventController::class, 'events'])->name('events');
         Route::post('store/events', [EventController::class, 'storeEvents'])->name('store.events');
         Route::get('edit/events/{id}', [EventController::class, 'editEvents'])->name('edit.events');
         Route::post('update/events/{id}', [EventController::class, 'updateEvents'])->name('update.events');
         Route::get('destroy/events/{id}', [EventController::class, 'destroy'])->name('destroy.events');
+        // book all route
+        Route::get('book', [BookController::class, 'books'])->name('books');
         Route::post('store/books', [BookController::class, 'storeBooks'])->name('store.books');
+        Route::get('edit/books/{id}', [BookController::class, 'editBooks'])->name('edit.books');
+        Route::post('update/books/{id}', [BookController::class, 'updateBooks'])->name('update.books');
         Route::get('destroy/books/{id}', [BookController::class, 'destroy'])->name('destroy.books');
+        // news all route
+        Route::get('news', [NewsController::class, 'news'])->name('news');
+        Route::post('store/news', [NewsController::class, 'storeNews'])->name('store.news');
+        Route::get('edit/news/{id}', [NewsController::class, 'editNews'])->name('edit.news');
+        Route::post('update/news/{id}', [NewsController::class, 'updateNews'])->name('update.news');
+        Route::get('destroy/news/{id}', [NewsController::class, 'destroy'])->name('destroy.news');
     });
 
     // if login then access pages
     Route::group(['middleware' => 'general_user'], function () {
         Route::get('place_order', [UsersDeshboardController::class, 'placeOrder'])->name('place_order');
         Route::get('vote-details', [UsersDeshboardController::class, 'voteDetails'])->name('vote_details');
+    });
+});
+
+
+Route::namespace('Admin')->group(function () {
+    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+        Route::get('category', [AdminCategoryController::class, 'index'])->name('category.index');
+        Route::post('category/store', [AdminCategoryController::class, 'storeCategory'])->name('category.store');
+        Route::get('category/edit/{id}', [AdminCategoryController::class, 'editCategory'])->name('category.edit');
+        Route::post('category/update/{id}', [AdminCategoryController::class, 'updateCategory'])->name('category.update');
+        Route::get('category/destroy/{id}', [AdminCategoryController::class, 'destroy'])->name('category.destroy');
     });
 });

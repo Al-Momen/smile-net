@@ -19,17 +19,6 @@ class UsersDeshboardController extends Controller
 
         return view('frontend.deshboard.pages.index');
     }
-    
-    public function book()
-    {
-        $general_books =Book::where('user_id',Auth::guard('general')->id())->get();
-        return view('frontend.deshboard.pages.book',compact('general_books'));
-    }
-    public function news()
-    {
-        $general_news =News::where('user_id',Auth::guard('general')->id())->get();
-        return view('frontend.deshboard.pages.news',compact('general_news'));
-    }
     public function placeOrder()
     {
         return view('frontend.pages.place_order');
