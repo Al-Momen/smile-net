@@ -44,17 +44,17 @@ class EventController extends Controller
             $event->category_id = $request->category;
             $event->image = Generals::update('events/', 'png', $request->image);
             $event->save();
-            // return redirect()->back()->with('success', "Events create Successfully");
-            return response()->json([
-                'status'=> 'success',
-                "message"=>"Event is Created Successfully"
-            ]);
+            return redirect()->back()->with('success', "Events create Successfully");
+            // return response()->json([
+            //     'status'=> 'success',
+            //     "message"=>"Event is Created Successfully"
+            // ]);
         } catch (QueryException $e) {
-            return response()->json([
-                'errorMessage' => $event->errors()->all(),
-                'data' => $event
-            ]);
-            // dd($e->getMessage());
+            // return response()->json([
+            //     'errorMessage' => $event->errors()->all(),
+            //     'data' => $event
+            // ]);
+            dd($e->getMessage());
         }
     }
     public function editEvents($id)

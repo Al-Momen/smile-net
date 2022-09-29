@@ -122,7 +122,7 @@
     <!-- Modal -->
     <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="addModalLabel" aria-hidden="true">
-        <form class="form-dashboard" method="POST" enctype="multipart/form-data" id="addEventForm">
+        <form class="form-dashboard" action="{{ route('user.store.events') }}" method="POST" enctype="multipart/form-data" id="addEventForm">
             @csrf
             <div class="modal-dialog">
                 <div class="modal-content" style="background-color: white!important;">
@@ -196,7 +196,7 @@
 @push('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    
 @endpush
 @push('css')
     <style>
@@ -290,10 +290,7 @@
 @push('js')
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-
-    <script>
+    {{-- <script>
         $("#btn_close").click(function(e) {
             var descriptionData = editor.getData();
             editor.setData("");
@@ -343,7 +340,7 @@
 
             });
         });
-    </script>
+    </script> --}}
     <script>
         let editor;
         ClassicEditor
