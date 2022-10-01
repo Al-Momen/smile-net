@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Frontend;
 use Carbon\Carbon;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Models\AdminCategory;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
 use App\Http\Helpers\Generals;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
@@ -17,8 +18,9 @@ class EventController extends Controller
 
     public function events()
     { 
-        $data['general_events'] = Event::where('user_id', Auth::guard('general')->id())->get();
+        $data['general_events'] = Event::with(['category'])->where('user_id', Auth::guard('general')->id())->get();
         $data['general_count'] = Event::where('user_id', Auth::guard('general')->id())->count();
+        $data['categories'] = AdminCategory::all();
         return view('frontend.deshboard.pages.event',$data);
     }
     public function storeEvents(Request $request)
@@ -59,9 +61,9 @@ class EventController extends Controller
     }
     public function editEvents($id)
     {
-        $event = Event::find($id);
-        
-        return view('frontend.deshboard.pages.edit_event', compact('event'));
+        $event = Event::where('id',$id)->first();
+        $categories = AdminCategory::all();
+        return view('frontend.deshboard.pages.edit_event', compact('event','categories'));
     }
 
     public function updateEvents(Request $request, $id)

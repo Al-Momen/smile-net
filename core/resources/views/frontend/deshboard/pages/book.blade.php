@@ -93,12 +93,12 @@
                                 @foreach ($general_books as $book)
                             <tr>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ (optional($book->category)->name) }}</td>
+                                <td>{{ optional($book->category)->name ?? 'N/A'}}</td>
                                 <td>
                                     @php
-                                       $date= $book->created_at ;
-                                       echo date('d/m/Y , h:i a ', strtotime($date))
-                                    
+                                        $date = $book->created_at;
+                                        echo date('d/m/Y , h:i a ', strtotime($date));
+                                        
                                     @endphp
                                 </td>
                                 <td>{{ $book->status }}</td>
@@ -123,7 +123,8 @@
     <!-- Modal -->
     <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="addModalLabel" aria-hidden="true">
-        <form class="form-dashboard" action="{{ route('user.store.books') }}" method="POST" enctype="multipart/form-data" id="addEventForm">
+        <form class="form-dashboard" action="{{ route('user.store.books') }}" method="POST" enctype="multipart/form-data"
+            id="addEventForm">
             @csrf
             <div class="modal-dialog">
                 <div class="modal-content" style="background-color: white!important;">
@@ -149,8 +150,8 @@
                             </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="discount" class="form-label">Discount</label>
-                                <input type="text" class="form-control" placeholder="Discount" name="discount" id="discount"
-                                    value="">
+                                <input type="text" class="form-control" placeholder="Discount" name="discount"
+                                    id="discount" value="">
                             </div>
                             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="image" class="form-label">Image</label>
@@ -161,14 +162,15 @@
                                 <label for="categoty" class="form-label">Category</label>
                                 <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
                                     aria-label=".form-select-lg example" name="category">
+                                    <option value=""> -- </option>
                                     @foreach ($categories as $category)
-                                    <option @if ($category->id) @endif value="{{ $category->id }}">
-                                        {{ $category->name }}</option>
-                                @endforeach
-    
+                                        <option @if ($category->id)  @endif value="{{ $category->id }}">
+                                            {{ $category->name }}</option>
+                                    @endforeach
+
                                 </select>
                             </div>
-                            
+
                             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                                 <label for="editor" class="form-label">Description</label>
                                 <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
@@ -191,7 +193,6 @@
 @push('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    
 @endpush
 @push('css')
     <style>

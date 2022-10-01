@@ -60,8 +60,10 @@ class BookController extends Controller
 
     public function editBooks($id)
     {
-        $book = Book::find($id);
-        return view('frontend.deshboard.pages.edit_book', compact('book'));
+        $book = Book::where('id',$id)->first();
+        $categories = AdminCategory::all();
+        // dd($categories);
+        return view('frontend.deshboard.pages.edit_book', compact('book','categories'));
     }
 
     public function updateBooks(Request $request, $id)

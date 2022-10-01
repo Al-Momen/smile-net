@@ -39,10 +39,12 @@
                 <label for="categoty" class="form-label">Category</label>
                 <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
                     aria-label=".form-select-lg example" name="category">
-                    <option value="1" selected>Japan</option>
-                    <option value="2">Germany</option>
-                    <option value="3">Switzerland</option>
-                    <option value="4">Canada</option>
+                    <option value=""> -- </option>
+                    @foreach ($categories as $category)
+                        <option @if ($news->category_id == $category->id) selected @endif value="{{ $category->id }}">
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 

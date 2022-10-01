@@ -84,6 +84,7 @@
                                 <th scope="col">Title</th>
                                 <th scope="col">Start Date</th>
                                 <th scope="col">End Date</th>
+                                <th scope="col">Category</th>
                                 <th scope="col">Total Seat</th>
                                 <th scope="col">Available Seat</th>
                                 <th scope="col">Remain Seat</th>
@@ -108,6 +109,7 @@
                                         
                                     @endphp
                                 </td>
+                                <td>{{ optional($event->category)->name ?? 'N/A'}}</td>
                                 <td>{{ $event->total_seat }}</td>
                                 <td>{{ $event->title }}</td>
                                 <td>{{ $event->title }}</td>
@@ -173,10 +175,11 @@
                                 <label for="categoty" class="form-label">Category</label>
                                 <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
                                     aria-label=".form-select-lg example" name="category">
-                                    <option value="1" selected>Japan</option>
-                                    <option value="2">Germany</option>
-                                    <option value="3">Switzerland</option>
-                                    <option value="4">Canada</option>
+                                    <option value=""> -- </option>
+                                    @foreach ($categories as $category)
+                                        <option @if ($category->id)  @endif value="{{ $category->id }}">
+                                            {{ $category->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 

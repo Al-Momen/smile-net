@@ -94,7 +94,7 @@
                                 @foreach ($general_news as $news)
                             <tr>
                                 <td>{{ $news->title }}</td>
-                                <td>{{ $news->category_id }}</td>
+                                <td>{{  optional($news->category)->name ?? 'N/A' }}</td>
                                 <td>
                                     @php
                                        $date= $news->created_at ;
@@ -153,10 +153,11 @@
                                 <label for="categoty" class="form-label">Category</label>
                                 <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
                                     aria-label=".form-select-lg example" name="category">
-                                    <option value="1" selected>Japan</option>
-                                    <option value="2">Germany</option>
-                                    <option value="3">Switzerland</option>
-                                    <option value="4">Canada</option>
+                                    <option value=""> -- </option>
+                                    @foreach ($categories as $category)
+                                        <option @if ($category->id)  @endif value="{{ $category->id }}">
+                                            {{ $category->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">

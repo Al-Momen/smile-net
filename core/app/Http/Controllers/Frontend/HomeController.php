@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminCategory;
+use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('frontend.pages.index');
+        $category_events = AdminCategory::all();
+        return view('frontend.pages.index',compact('category_events'));
     }
     
     public function pricing()
@@ -57,6 +61,10 @@ class HomeController extends Controller
     }
     public function magazineDetails(){
         return view('frontend.pages.magazine_details');
+    }
+    public function event(){
+        $events=Event::where('status',1)->get();
+        return view('frontend.pages.event',compact('events'));
     }
 
 }

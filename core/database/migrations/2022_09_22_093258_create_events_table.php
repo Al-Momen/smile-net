@@ -21,7 +21,7 @@ return new class extends Migration
             $table->longText("description");
             $table->string("image");
             $table->string("tag")->nullable();
-            $table->tinyInteger("status")->nullable();
+            $table->tinyInteger("status")->nullable()->default(0);
             $table->integer("total_seat")->nullable();
             $table->integer("available_seat")->nullable();
             $table->integer("remain_seat")->nullable();

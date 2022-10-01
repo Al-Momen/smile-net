@@ -19,6 +19,13 @@
                 <span class="menu-title">Category</span>
             </a>
         </li>
+
+        <li class="sidebar-menu-item ">
+            <a href="{{ route('admin.event.index') }}" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">Events</span>
+            </a>
+        </li>
        
 
         <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">

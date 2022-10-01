@@ -35,4 +35,10 @@ class Event extends Model
         'created_at' => 'datetime:d-m-Y',
         'email_verified_at' => 'datetime',
     ];
+    public function category(){
+        return $this->belongsTo(AdminCategory::class);
+    }
+    public function user(){
+        return $this->belongsTo(GeneralUser::class);
+    }
 }

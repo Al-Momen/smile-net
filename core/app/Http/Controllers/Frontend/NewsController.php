@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Frontend;
 use Carbon\Carbon;
 use App\Models\News;
 use Illuminate\Http\Request;
+use App\Models\AdminCategory;
+use App\Http\Helpers\Generals;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Helpers\Generals;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 
@@ -16,8 +17,9 @@ class NewsController extends Controller
 
     public function news()
     {
-        $data['general_news'] = News::where('user_id', Auth::guard('general')->id())->get();
+        $data['general_news'] = News::with(['category'])->where('user_id', Auth::guard('general')->id())->get();
         $data['general_count'] = News::where('user_id', Auth::guard('general')->id())->count();
+        $data['categories'] = AdminCategory::all();
         return view('frontend.deshboard.pages.news',$data);
     }
     public function storeNews(Request $request)
@@ -53,9 +55,10 @@ class NewsController extends Controller
         }
     }
     public function editNews($id)
-    {
-        $news = News::find($id);
-        return view('frontend.deshboard.pages.edit_news', compact('news'));
+    {     
+        $news = News::where('id',$id)->first();
+        $categories = AdminCategory::all();
+        return view('frontend.deshboard.pages.edit_news', compact('news','categories'));
     }
 
     public function updateNews(Request $request, $id)
@@ -76,7 +79,7 @@ class NewsController extends Controller
             $news->description = $request->description;
             $news->tag = $request->tag;
             $news->category_id = $request->category;
-            $news->image = Generals::update('newss/', $oldImage,'png', $request->image);
+            $news->image = Generals::update('news/', $oldImage,'png', $request->image);
             $news->update();
             return redirect()->route('user.news')->with('success', "News Update Successfully");
             // return response()->json([

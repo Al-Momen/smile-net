@@ -19,9 +19,7 @@
         enctype="multipart/form-data" id="addEventForm">
         @csrf
         <div class="errMsgContainer" style="padding: 20px;">
-
         </div>
-
         <div class="row g-4k" style="padding: 20px;">
             <h5 class="modal-title mb-4" id="addModalLabel">Books Update</h5>
             <div class=" col-lg-6 col-md-6 col-12 pe-4">
@@ -34,14 +32,17 @@
                 <input type="number" class="form-control" placeholder="Price" name="price" id="price"
                     value="{{ $book->price }}" required>
             </div>
+
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="categoty" class="form-label">Category</label>
                 <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
                     aria-label=".form-select-lg example" name="category">
-                    <option value="1" selected>Japan</option>
-                    <option value="2">Germany</option>
-                    <option value="3">Switzerland</option>
-                    <option value="4">Canada</option>
+                    <option value=""> -- </option>
+                    @foreach ($categories as $category)
+                        <option @if ($book->category_id == $category->id) selected @endif value="{{ $category->id }}">
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 

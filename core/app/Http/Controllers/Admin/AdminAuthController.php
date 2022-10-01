@@ -11,6 +11,7 @@ use App\Http\Requests\Admin\LoginRequest;
 
 class AdminAuthController extends Controller
 {
+    protected $redirectTo = '/admin';
     /**
      * the model instance
      * @var User
@@ -69,7 +70,6 @@ class AdminAuthController extends Controller
 
         Session::flush();
         $this->auth->logout();
-
         return redirect()->route('admin.login');
     }
 

@@ -14,6 +14,7 @@
         rel="stylesheet">
     <input type="hidden" name="base_url" id="base_url" value="{{ url('/') }}">
     @include('admin.layout.includes.css')
+    @yield('css')
 </head>
 <!-- END: Head-->
 <body>
@@ -64,6 +65,7 @@
     @include('admin.layout.includes.js')
     {{-- @include('admin.layout.includes.home_js') --}}
     @yield('scripts')
+    @stack('js')
 </body>
 <!-- END: Body-->
 

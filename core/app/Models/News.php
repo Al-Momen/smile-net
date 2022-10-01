@@ -26,5 +26,12 @@ class News extends Model
         'slug',
         'date',
     ];
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+        'email_verified_at' => 'datetime',
+    ];
+    public function category(){
+        return $this->belongsTo(AdminCategory::class);
+    }
 
 }

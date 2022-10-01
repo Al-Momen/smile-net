@@ -10,11 +10,9 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\UsersAuthController;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminEventController;
 use App\Http\Controllers\Frontend\UsersDeshboardController;
-
-
-
-
+use Doctrine\DBAL\Driver\Middleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +66,7 @@ Route::namespace('Frontend')->group(function () {
     Route::get('news-details', [HomeController::class, 'newsDetails'])->name('news_details');
     Route::get('smile-tv', [HomeController::class, 'smileTv'])->name('smile_tv');
     Route::get('magazine-details', [HomeController::class, 'magazineDetails'])->name('magazine_details');
+    Route::get('events', [HomeController::class, 'event'])->name('event');
 
     // Email verify by OTP
     Route::get('otp', [UsersAuthController::class, 'userOtpForm'])->name('otp.form');
@@ -113,11 +112,19 @@ Route::namespace('Frontend')->group(function () {
 
 
 Route::namespace('Admin')->group(function () {
-    Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware'=>'auth'], function () {
+        // admin category controller
         Route::get('category', [AdminCategoryController::class, 'index'])->name('category.index');
         Route::post('category/store', [AdminCategoryController::class, 'storeCategory'])->name('category.store');
         Route::get('category/edit/{id}', [AdminCategoryController::class, 'editCategory'])->name('category.edit');
         Route::post('category/update/{id}', [AdminCategoryController::class, 'updateCategory'])->name('category.update');
         Route::get('category/destroy/{id}', [AdminCategoryController::class, 'destroy'])->name('category.destroy');
+
+
+        // admin access events
+        Route::get('event', [AdminEventController::class, 'index'])->name('event.index');
+        Route::get('event/view/{id}', [AdminEventController::class, 'editEvent'])->name('event.view');
+        Route::post('event/edit/{id}', [AdminEventController::class, 'editStatusEvent'])->name('status.edit');
+        Route::get('event/destroy/{id}', [AdminEventController::class, 'destroy'])->name('event.destroy');
     });
 });
