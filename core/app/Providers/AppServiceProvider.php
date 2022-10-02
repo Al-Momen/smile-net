@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use App\Models\AdminCategory;
 use App\Models\SupportTicket;
 use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         $checkSeed = DB::table('general_settings')->get()->count();
         if($checkSeed == 0) {
             Artisan::call('db:seed', [
@@ -42,6 +44,8 @@ class AppServiceProvider extends ServiceProvider
         $viewShare['general'] = $general;
         $viewShare['activeTemplate'] = $activeTemplate;
         $viewShare['activeTemplateTrue'] = activeTemplate(true);
+        //nabvar use this variable 
+        $viewShare['category_events'] = AdminCategory::all();
         view()->share($viewShare);
         view()->composer('admin.layout.left_sidebar', function ($view) {
             $view->with([
@@ -57,7 +61,7 @@ class AppServiceProvider extends ServiceProvider
                 'support_tickets'         => SupportTicket::all()->count(),
                 'support_ticket_answerd_count'         => SupportTicket::where('status', 1)->count(),
                 'pending_ticket_count'         => SupportTicket::whereIN('status', [0,2])->count(),
-                'support_ticket_closed_count'         => SupportTicket::where('status', 3)->count()
+                'support_ticket_closed_count'         => SupportTicket::where('status', 3)->count(),
             ]);
         });
 

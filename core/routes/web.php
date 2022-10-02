@@ -67,6 +67,8 @@ Route::namespace('Frontend')->group(function () {
     Route::get('smile-tv', [HomeController::class, 'smileTv'])->name('smile_tv');
     Route::get('magazine-details', [HomeController::class, 'magazineDetails'])->name('magazine_details');
     Route::get('events', [HomeController::class, 'event'])->name('event');
+    // navbar events list 
+    Route::get('user/event/{name}', [HomeController::class, 'eventList'])->name('user.event');
 
     // Email verify by OTP
     Route::get('otp', [UsersAuthController::class, 'userOtpForm'])->name('otp.form');

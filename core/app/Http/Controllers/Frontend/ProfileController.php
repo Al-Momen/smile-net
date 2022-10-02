@@ -23,28 +23,24 @@ class ProfileController extends Controller
     public function update(Request $request ,$id)
     {
         //  dd($request->all());
-        $profile =  GeneralUser::where('id', Auth::guard('general')->id())->first();
         $request->validate([
             'name' => 'required|min:2|max:255',
-            'email' => 'required|unique:general_users',
+            'email' => 'required',
             'user_name' => 'required',
             'country' => 'required',
             'phone' => 'required',
+            'image' => 'required',
         ]);
 
         try {
-            if ($request->hasFile('image')) {
-                $this->unlink($profile->photo);
-                $profile['image'] = $this->uploadImage($request->image, $request->user_name);
-            }
-            $profile = GeneralUser::where('id', $id)->update([
-                'full_name' =>  $request->name,
-                'email' =>  $request->email,
-                'country_id' => $request->country,
-                'user_name' => $request->user_name,
-                'phone' => $request->phone,
-                'photo' => $profile['image']
-            ]);
+            $profile = GeneralUser::where('id',$id)->first();
+            $profile->full_name = $request->name;
+            $profile->email= $request->email;
+            $profile->country_id = $request->country;
+            $profile->user_name = $request->user_name;
+            $profile->phone= $request->phone;
+            $profile->photo = GeneralUser::upload('profiles/', 'png', $request->image);
+            $profile->update();
             return redirect()->back()->with('success', "Profile Update Successfully");
         } catch (QueryException $e) {
             dd($e->getMessage());

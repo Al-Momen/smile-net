@@ -32,7 +32,7 @@
 
                             @foreach ($category_events as $category_event)
                                 <li><a class="dropdown-item text-white text-capitalize fs-6"
-                                        href="ticket.html">{{ $category_event->name }}</a>
+                                        href="{{route('user.event',$category_event->name)}}">{{ $category_event->name }}</a>
                                 </li>
                             @endforeach
                             {{-- <li><a class="dropdown-item text-white text-capitalize fs-6" href="{{route('event')}}">

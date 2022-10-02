@@ -7,7 +7,7 @@
             <div class="col-lg-4 col-md-12 col-12">
                 <img class="img-fluid rounded d-block mx-auto"
                     {{-- src="{{storage_path().'/app/public/profile/'.$profile->photo}}" alt="" height="200" width="200"> --}}
-                    src="{{ asset('/storage/app/public/profile/'.$profile->photo) }}" alt="Image" height="200" width="200">  
+                    src="{{ asset('core\storage\app\public\profile\\'.$profile->photo) }}" alt="Image" height="200" width="200">  
                 <div>
                     <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
                         <p class="text-white m-0 fw-bold">Name:</p>

@@ -17,4 +17,7 @@ class AdminCategory extends Model
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
     ];
+    public function events(){
+        return $this->hasMany(Event::class,"category_id","id");
+    }
 }

@@ -12,8 +12,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $category_events = AdminCategory::all();
-        return view('frontend.pages.index',compact('category_events'));
+        
+        return view('frontend.pages.index');
     }
     
     public function pricing()
@@ -47,7 +47,7 @@ class HomeController extends Controller
     }
 
     public function news()
-    {
+    {   
         return view('frontend.pages.news');
     }
     public function placeOrder(){
@@ -66,5 +66,13 @@ class HomeController extends Controller
         $events=Event::where('status',1)->get();
         return view('frontend.pages.event',compact('events'));
     }
+    public function eventList($name){
+        $categoryData=AdminCategory::where('name', $name)->first();
+        $events =AdminCategory::with('events')->where('id',$categoryData->id)->get();
+        return view('frontend.pages.event',compact('events','categoryData'));
+
+    }
+
+    
 
 }
