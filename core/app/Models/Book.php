@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\PriceCurrency;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
 {
@@ -19,14 +20,17 @@ class Book extends Model
         'id',
         'user_id',
         'category_id',
+        'price_id',
+        'price',
         'title',
         'description',
         'image',
         'tag',
         'status',
         'slug',
-        'price',
         'coupon',
+        'discount',
+        'file',
        
         
     ];
@@ -36,5 +40,8 @@ class Book extends Model
     ];
     public function category(){
         return $this->belongsTo(AdminCategory::class);
+    }
+    public function price(){
+        return $this->belongsTo(PriceCurrency::class);
     }
 }

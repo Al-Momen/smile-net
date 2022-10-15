@@ -51,6 +51,9 @@ class GeneralUser extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function votes(){
+        return $this->belongsToMany(AdminVote::class,'user_vote','user_id','vote_id');
+    }
 
 
 }

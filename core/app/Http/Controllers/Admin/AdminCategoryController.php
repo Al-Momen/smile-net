@@ -10,7 +10,7 @@ class AdminCategoryController extends Controller
 {
     public function index()
     {
-        $categories=AdminCategory::all();
+        $categories=AdminCategory::paginate(10);
         return view('admin.category.index',compact('categories'));
     }
     public function storeCategory(Request $request)
@@ -23,7 +23,8 @@ class AdminCategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->save();
-        return redirect()->back()->with('success', "Category create Successfully");
+        $notify[] = ['success', 'Category Create Successfully'];
+        return redirect()->back()->withNotify($notify);
     }
 
     public function editCategory($id)
@@ -43,13 +44,15 @@ class AdminCategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
         $category->update();
-        return redirect()->route('admin.category.index')->with('success', "Category Update Successfully");
+        $notify[] = ['success', 'Category Update Successfully'];
+        return redirect()->route('admin.category.index')->withNotify($notify);
+        
     }
 
     public function destroy($id){
         $Category = AdminCategory::find($id);
         $Category->delete();
-        return redirect()->back()->with('success', "Category delete Successfully");
-
+        $notify[] = ['success', 'Category delete Successfully'];
+        return redirect()->back()->withNotify($notify);  
     }
 }

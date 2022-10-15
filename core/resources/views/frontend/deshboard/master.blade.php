@@ -33,8 +33,8 @@
     <!-- animate.css link cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     {{-- tosar css --}}
-    <link rel="stylesheet" href="{{ asset('assets/frontend/css/toastr.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+    
     @stack('css')
     @stack('meta')
 </head>
@@ -121,8 +121,8 @@
     <script src="{{URL::asset('assets/frontend/js/script.js')}}"></script>
     <script src="{{URL::asset('assets/frontend/js/popper.js')}}"></script>
     {{-- tosat js --}}
-    <script src="{{ asset('assets/frontend/js/toastr.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    
     @stack('js')
 
 </body>

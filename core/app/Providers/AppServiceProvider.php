@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
     {
 
         $checkSeed = DB::table('general_settings')->get()->count();
-        if($checkSeed == 0) {
+        if ($checkSeed == 0) {
             Artisan::call('db:seed', [
                 '--class' => 'DatabaseSeeder',
                 '--force' => true // <--- add this line
@@ -60,11 +61,13 @@ class AppServiceProvider extends ServiceProvider
                 'kyc_unverified_users_count'   => User::kycUnVerified()->count(),
                 'support_tickets'         => SupportTicket::all()->count(),
                 'support_ticket_answerd_count'         => SupportTicket::where('status', 1)->count(),
-                'pending_ticket_count'         => SupportTicket::whereIN('status', [0,2])->count(),
+                'pending_ticket_count'         => SupportTicket::whereIN('status', [0, 2])->count(),
                 'support_ticket_closed_count'         => SupportTicket::where('status', 3)->count(),
             ]);
         });
 
+        Paginator::useBootstrapFive();
+        Paginator::useBootstrapFour();
         Schema::defaultStringLength(191);
     }
 }

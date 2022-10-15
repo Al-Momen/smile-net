@@ -10,11 +10,8 @@ class Generals
     public static function upload(string $dir, string $format, $image = null)
     {
         if ($image != null) {
-            
             $imageName = \Carbon\Carbon::now()->toDateString() . "-" . time() . "." . $format;
-            
             if (!Storage::disk('public')->exists($dir)) {
-
                 Storage::disk('public')->makeDirectory($dir);
             }
             Storage::disk('public')->put($dir . $imageName, file_get_contents($image));
@@ -42,9 +39,50 @@ class Generals
     public static function unlink(string $dir,$file)
     {
         $pathToUpload = storage_path() . '\app\public'. '\\'.$dir;
-       
         if ($file != '' && file_exists($pathToUpload . $file)) {
             @unlink($pathToUpload . $file);
         }
     }
+
+
+    //File upload
+    public static function fileUpload(string $dir, $file = null)
+    {
+        if ($file != null) {
+            $fileName = \Carbon\Carbon::now()->toDateString() . "-" . time() . "." . $file->getClientOriginalExtension();
+            if (!Storage::disk('public')->exists($dir)) {
+                Storage::disk('public')->makeDirectory($dir);
+            }
+            Storage::disk('public')->put($dir . $fileName, file_get_contents($file));
+            // dd(file_get_contents($image));
+            // dd($imageName);
+           
+            return $fileName;
+        } else {
+            $fileName = 'def.text';
+        }
+        return $fileName;
+    }
+
+     // File update
+     public static function FileUpdate(string $dir, $old_file, $file = null)
+     {
+        
+         if ($file == null) {
+             return $old_file;
+         }
+         if (Storage::disk('public')->exists($dir . $old_file)) {
+             Storage::disk('public')->delete($dir . $old_file);
+         }
+         $fileName = Generals::fileUpload($dir, $file);
+         return $fileName;
+     }
+     // File delete
+     public static function fileUnlink(string $dir,$file)
+     {
+         $pathToUpload = storage_path() . '\app\public'. '\\'.$dir;
+         if ($file != '' && file_exists($pathToUpload . $file)) {
+             @unlink($pathToUpload . $file);
+         }
+     }
 }

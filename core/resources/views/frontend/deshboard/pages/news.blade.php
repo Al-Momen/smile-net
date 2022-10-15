@@ -63,12 +63,7 @@
                     </ul>
                 </div>
             @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+
             <!-- Button trigger modal -->
             <div class="text-end">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -77,7 +72,7 @@
             </div>
             <div>
                 <h3 class="text-white text-capitalize fw-bold pt-5 pb-3">News</h3>
-                <div>
+                <div class="table-responsive">
                     <table class="table text-white rounded">
                         <thead>
                             <tr>
@@ -94,12 +89,12 @@
                                 @foreach ($general_news as $news)
                             <tr>
                                 <td>{{ $news->title }}</td>
-                                <td>{{  optional($news->category)->name ?? 'N/A' }}</td>
+                                <td>{{ optional($news->category)->name ?? 'N/A' }}</td>
                                 <td>
                                     @php
-                                       $date= $news->created_at ;
-                                       echo date('d/m/Y , h:i a ', strtotime($date))
-                                    
+                                        $date = $news->created_at;
+                                        echo date('d/m/Y , h:i a ', strtotime($date));
+                                        
                                     @endphp
                                 </td>
                                 <td>{{ $news->tag }}</td>
@@ -125,7 +120,8 @@
     <!-- Modal -->
     <div class="modal fade" id="addModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="addModalLabel" aria-hidden="true">
-        <form class="form-dashboard" action="{{ route('user.store.news') }}" method="POST" enctype="multipart/form-data" id="addEventForm">
+        <form class="form-dashboard" action="{{ route('user.store.news') }}" method="POST" enctype="multipart/form-data"
+            id="addEventForm">
             @csrf
             <div class="modal-dialog">
                 <div class="modal-content" style="background-color: white!important;">
@@ -148,7 +144,7 @@
                                 <label for="tag" class="form-label">Tags</label>
                                 <input type="text" class="form-control" placeholder="Tags" name="tag" id="tag"
                                     value="">
-                            </div> 
+                            </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="categoty" class="form-label">Category</label>
                                 <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
@@ -165,8 +161,8 @@
                                 <input type="file" src="" class="form-control px-3 pt-2" name="image"
                                     accept="image/*" id="image">
                             </div>
-                           
-                            
+
+
                             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                                 <label for="editor" class="form-label">Description</label>
                                 <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
@@ -189,7 +185,6 @@
 @push('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    
 @endpush
 @push('css')
     <style>
@@ -281,6 +276,12 @@
     </style>
 @endpush
 @push('js')
+    {{-- toastr --}}
+    <script>
+        @if (Session::has('success'))
+            toastr.success("{{ session('success') }}")
+        @endif
+    </script>
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
     {{-- <script>

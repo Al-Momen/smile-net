@@ -16,17 +16,19 @@ return new class extends Migration
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id");
-            $table->string("category_id");
+            $table->unsignedBigInteger("category_id");
+            $table->unsignedBigInteger("price_id");
             $table->string("title");
+            $table->string("price");
             $table->string("pdf")->nullable();
             $table->longText("description");
             $table->string("image");
             $table->string("tag")->nullable();
             $table->tinyInteger("status")->nullable()->default(0);
             $table->string("slug")->nullable();
-            $table->string("price");
             $table->string("coupon")->nullable();
             $table->decimal("discount")->nullable();
+            $table->string("file");
             $table->timestamps();
         });
     }

@@ -23,10 +23,7 @@ $roles = userRolePermissionArray();
         </div>
         <div class="view-prodact">
 
-            <a data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="las la-plus"></i>
-                <span>Add Events</span>
-            </a>
+
         </div>
     </div>
     <div class="table-content">
@@ -59,27 +56,34 @@ $roles = userRolePermissionArray();
                     <table class="table text-white rounded mt-5">
                         <thead class="text-center">
                             <tr>
-                                <th scope="col">ID</th>
+                                <th scope="col">User Name</th>
+                                <th scope="col">Image</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Category Name</th>
-                                <th scope="col">User Name</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody class="text-center">
+                            @if ($events->count() == 0)
+                                <tr>
+                                    <td colspan="99">No data found</td>
+                                </tr>
+                            @endif
                             @foreach ($events as $event)
-                                <tr> 
-                                    <td>{{ $event->id }}</td>
+                                <tr>
+                                    <td>{{ $event->user->full_name }}</td>
+                                    <td><img class="table-user-img img-fluid d-block mx-auto"
+                                            src="{{ asset('core\storage\app\public\profile\\' . $event->user->photo) }}"
+                                            alt="Image"></td>
                                     <td>{{ $event->title }}</td>
                                     <td>{{ $event->category->name }}</td>
-                                    <td>{{ $event->user->user_name }}</td>
                                     <td>
                                         <form action="{{ route('admin.status.edit', $event->id) }}" method="POST">
                                             @csrf
                                             <label class="switch" id="switch">
-                                                <input type="checkbox" name="status" @if ($event->status==1) checked
-                                                @endif id="switchInput">
+                                                <input type="checkbox" name="status"
+                                                    @if ($event->status == 1) checked @endif id="switchInput">
                                                 <span class="slider round"></span>
                                             </label>
                                         </form>
@@ -90,7 +94,7 @@ $roles = userRolePermissionArray();
                                                 class="fas fa-trash"></i></a>
                                         <a href="{{ route('admin.event.view', $event->id) }}"
                                             class="btn btn-primary rounded"> <i class="fas fa-edit" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal"></i></a>
+                                                data-bs-target="#exampleModal"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -101,45 +105,16 @@ $roles = userRolePermissionArray();
         </div>
     </div>
     <!-- Modal -->
-    {{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="{{ route('admin.category.store') }}" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="modal-content">
-
-                            <div class="modal-header bg--primary">
-                                <h5 class="modal-title text-white">@lang('Add category')</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label>@lang('Category Name')</label>
-                                    <input class="form-control form--control" type="text" name="name"
-                                        placeholder="@lang('Category Name')" required value="{{ old('category_name') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label>@lang('Category Description')</label>
-                                    <textarea class="form-control form--control" type="text" name="description" rows="4" cols="50" required
-                                        value="{{ old('category_description') }}" style="height: 140px;" placeholder="@lang('Category Description')"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> --}}
 @endsection
-
 @section('css')
     <style>
+        .table-user-img {
+            height: 60px;
+            width: 60px;
+            border-radius: 70px;
+        }
+
+        /* ----------switch css---------- */
         .switch {
             position: relative;
             display: inline-block;
@@ -204,9 +179,8 @@ $roles = userRolePermissionArray();
 
 @section('scripts')
     <script>
-        $('.switch').click(function(){
+        $('.switch').click(function() {
             $(this).parents('form').submit();
         })
     </script>
 @endsection
-

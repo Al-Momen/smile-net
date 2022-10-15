@@ -33,12 +33,7 @@
                     </ul>
                 </div>
             @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+          
                 <form class="form-dashboard" action="{{ route('user.profile.update' , $profile->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row g-4k">
@@ -82,8 +77,20 @@
                                     class="text-danger">*</span></label>
                             <input type="file" class="form-control px-3 pt-2" name="image" required accept="image/*">
                         </div>
+                        <div class="mb-4 col-lg-6 col-md-6 col-12 pe-4">
+                            <label for="date1" class="form-label text-white">Facebook</label>
+                            <input type="text" class="form-control px-3 pt-2" name="image"  placeholder="Your facebook link" >
+                        </div>
+                        <div class="mb-4 col-lg-6 col-md-6 col-12 pe-4">
+                            <label for="date1" class="form-label text-white">Instagram</label>
+                            <input type="text" class="form-control px-3 pt-2" name="instagram" placeholder="Your instagram link" >
+                        </div>
+                        <div class="mb-4 col-lg-6 col-md-6 col-12 pe-4">
+                            <label for="date1" class="form-label text-white">Twitter</label>
+                            <input type="text" class="form-control px-3 pt-2" name="twitter" placeholder="Your twitter link">
+                        </div>
                         <div class="my-3 col-12">
-                            <button class="btn btn-primary rounded btn w-25">Save</button>
+                            <button class="btn btn-primary rounded btn w-100">Save</button>
                         </div>
                     </div>
                 </form>
@@ -92,3 +99,12 @@
     </div>
 </div>
 @endsection
+@push('js')
+{{-- toastr --}}
+<script>
+    @if (Session::has('success'))
+        toastr.success("{{ session('success') }}")
+    @endif
+</script>
+    
+@endpush

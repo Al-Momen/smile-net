@@ -21,12 +21,60 @@
         </li>
 
         <li class="sidebar-menu-item ">
+            <a href="{{ route('admin.ticket.type.index') }}" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title"> Ticket Types</span>
+            </a>
+        </li>
+
+        <li class="sidebar-menu-item ">
             <a href="{{ route('admin.event.index') }}" class="nav-link">
                 <i class="menu-icon las la-dot-circle"></i>
                 <span class="menu-title">Events</span>
             </a>
         </li>
-       
+        <li class="sidebar-menu-item ">
+            <a href="{{ route('admin.price.index') }}" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">Price</span>
+            </a>
+        </li>
+        <li class="sidebar-menu-item ">
+            <a href="{{ route('admin.vote.index') }}" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">Vote</span>
+            </a>
+        </li>
+        <li class="sidebar-menu-item ">
+            <a href="{{ route('admin.book.index') }}" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">Magazine</span>
+            </a>
+        </li>
+        <li class="sidebar-menu-item ">
+            <a href="" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">Live Now</span>
+            </a>
+        </li>
+        <li class="sidebar-menu-item ">
+            <a href="" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">Music</span>
+            </a>
+        </li>
+        <li class="sidebar-menu-item ">
+            <a href="" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">Smile Tv</span>
+            </a>
+        </li>
+        <li class="sidebar-menu-item ">
+            <a href="" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">News</span>
+            </a>
+        </li>
 
         <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
             <a href="#">

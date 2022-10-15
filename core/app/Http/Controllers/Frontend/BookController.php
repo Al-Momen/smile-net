@@ -11,28 +11,31 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 use App\Http\Helpers\Generals;
 use App\Models\AdminCategory;
+use App\Models\PriceCurrency;
 
 class BookController extends Controller
 {
-
     public function books()
     { 
-        
-        $data['general_books'] = Book::with(['category'])->where('user_id', Auth::guard('general')->id())->get();
+        $data['general_books'] = Book::with(['category','price'])->where('user_id', Auth::guard('general')->id())->paginate(8);
         $data['general_count'] = Book::where('user_id', Auth::guard('general')->id())->count();
         $data['categories'] = AdminCategory::all();
+        $data['prices'] = PriceCurrency::all();
         return view('frontend.deshboard.pages.book',$data);
     }
     public function storeBooks(Request $request)
     {
-        //  dd($request->all());
+        //   dd($request->all());
         $request->validate([
             'title' => 'required|min:2|max:255',
             'description' => 'required',
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
+            'price_id' => 'required',
             'price' => 'required',
+            'file' => 'required',
             'discount' => 'numeric',
+            'coupon' => 'min:6|max:8',
         ]);
         try {
             $book = new Book();
@@ -40,94 +43,69 @@ class BookController extends Controller
             $book->title = $request->title;
             $book->description = $request->description;
             $book->category_id = $request->category;
+            $book->price_id = $request->price_id;
             $book->price = $request->price;
             $book->discount = $request->discount;
+            $book->coupon = $request->coupon;
+            $book->tag = $request->tag;
             $book->image = Generals::upload('books/', 'png', $request->image);
+            $book->file = Generals::fileUpload('books/', $request->file);
             $book->save();
             return redirect()->back()->with('success', "Events create Successfully");
-            // return response()->json([
-            //     'status'=> 'success',
-            //     "message"=>"Event is Created Successfully"
-            // ]);
         } catch (QueryException $e) {
-            // return response()->json([
-            //     'errorMessage' => $event->errors()->all(),
-            //     'data' => $event
-            // ]);
             dd($e->getMessage());
         }
     }
-
     public function editBooks($id)
     {
         $book = Book::where('id',$id)->first();
         $categories = AdminCategory::all();
+        $prices = PriceCurrency::all();
         // dd($categories);
-        return view('frontend.deshboard.pages.edit_book', compact('book','categories'));
+        return view('frontend.deshboard.pages.edit_book', compact('book','categories','prices'));
     }
-
     public function updateBooks(Request $request, $id)
     {   
+        //   dd($request->all());
         $request->validate([
             'title' => 'required|min:2|max:255',
             'description' => 'required',
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
+            'price_id' => 'required',
             'price' => 'required',
+            'file' => 'required',
             'discount' => 'numeric',
+            'coupon' => 'min:6|max:8',
         ]);
         try {
             $book = Book::where('id',$id)->first();
             $oldImage= $book->image;     
-            $book->user_id = Auth::guard('general')->user()->id;
+            $oldFile= $book->file;     
             $book->title = $request->title;
-            $book->description = $request->description;
+            $book->user_id = Auth::guard('general')->user()->id;
             $book->category_id = $request->category;
+            $book->price_id = $request->price_id;
             $book->price = $request->price;
             $book->discount = $request->discount;
+            $book->coupon = $request->coupon;
+            $book->tag = $request->tag;
+            $book->description = $request->description;
             $book->image = Generals::update('books/', $oldImage,'png', $request->image);
+            $book->file = Generals::FileUpdate('books/',$oldFile, $request->file);
             $book->update();
              return redirect()->route("user.books")->with('success', "Books update Successfully");
-            // return response()->json([
-            //     'status'=> 'success',
-            //     "message"=>"event is successfully"
-            // ]);
         } catch (QueryException $e) {
-            // return response()->json([
-            //     'errorMessage' => $event->errors()->all(),
-            //     'data' => $event
-            // ]);
-            dd($e->getMessage());
+          dd($e->getMessage());
         }
     }
-
     public function destroy($id)
     {
         $book = Book::find($id);
         Generals::unlink("books/", $book->image);
+        Generals::fileUnlink("books/", $book->file);
         $book->delete();
         return redirect()->back()->with('success', "Book delete Successfully");;
     }
-
-
-
-    // private function uploadImage($file, $title)
-    // {
-
-    //     $timestamp = str_replace([' ', ':'], '-', Carbon::now()->toDateTimeString());
-    //     $file_name = $timestamp . '-' . $title . '.' . $file->getClientOriginalExtension();
-    //     $pathToUpload = storage_path() . '\app\public\books/';  // image  upload application save korbo
-    //     if (!is_dir($pathToUpload)) {
-    //         mkdir($pathToUpload, 0755, true);
-    //     }
-    //     Image::make($file->getPathname())->resize(800, 400)->save($pathToUpload . $file_name);
-    //     return $file_name;
-    // }
-    // private function unlink($file)
-    // {
-    //     $pathToUpload = storage_path() . '\app\public\books/';
-    //     if ($file != '' && file_exists($pathToUpload . $file)) {
-    //         @unlink($pathToUpload . $file);
-    //     }
-    // }
+    
 }

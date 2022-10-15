@@ -24,6 +24,9 @@ class CreateGeneralUsersTable extends Migration
             $table->string('photo')->nullable();
             $table->string('user_name')->nullable();
             $table->string('follower')->nullable();
+            $table->text('facebook')->nullable();
+            $table->text('instagram')->nullable();
+            $table->text('twitter')->nullable();
             $table->string('password');
             $table->timestamps();
         });

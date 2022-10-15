@@ -29,12 +29,7 @@
                 <input type="text" class="form-control" placeholder="Title" name="title" id="title"
                     value="{{ $event->title }}">
             </div>
-            <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="total_seat" class="form-label">Total Seat</label>
-                <input type="number" class="form-control" placeholder="Total Sit" name="total_seat" id="total_seat"
-                    value="{{ $event->total_seat }}" required>
-            </div>
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
+            <div class="mb-3  col-lg-6 col-md-6 col-12 pe-4">
                 <label for="start_date" class="form-label">Start Date</label>
                 <input type="datetime-local" class="form-control" placeholder="Start Date" name="start_date" id="start_date"
                     value="{{ $event->start_date }}" required>
@@ -58,6 +53,25 @@
                 </select>
             </div>
 
+            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4 checkbox-block bg-white">
+                @foreach ($event->plans as $item)
+                    <div class="single-checkbox">
+                        <input class="checkboxInput" type="checkbox" id="{{ $item->ticket_type->name }}"
+                            name="ticket_type_id[]" value="{{ $item->ticket_type_id }}" data-bs-toggle="collapse"
+                            data-bs-target="#{{ $item->ticket_type->name }}" aria-expanded="true" aria-controls="collapse"
+                            @if ($item->ticket_type_id) checked @endif>
+                        <label for="{{ $item->ticket_type->name }}"
+                            class="text-capitalize">{{ $item->ticket_type->name }}</label>
+                        <div class="collapse show" id="{{ $item->ticket_type->name }}">
+                            <label for="basic">Seat</label>
+                            <input type="number" name="seat[]" placeholder="Enter your Seat" value="{{ $item->seat }}">
+                            <label for="basic">Price</label>
+                            <input type="number" name="price[]" placeholder="Enter your Price"
+                                value="{{ $item->price }}">
+                        </div>
+                    </div>
+                @endforeach
+            </div>
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="image" class="form-label">Image</label>
                 <input type="file" src="" class="form-control px-3 pt-2" name="image" accept="image/*"
@@ -111,7 +125,56 @@
             height: 350px;
         }
 
-        /* switch button css */
+
+        /* --------------------style checkbox-------------------- */
+        input[type=checkbox]+label {
+            display: block;
+            margin: 0.2em;
+            cursor: pointer;
+            padding: 0.2em;
+        }
+
+        input[type=checkbox] {
+            display: none;
+        }
+
+        input[type=checkbox]+label:before {
+            content: "\2714";
+            border: 0.1em solid #000;
+            border-radius: 0.2em;
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            padding-left: 5px;
+            padding-bottom: 0.3em;
+            margin-right: 1.2em;
+            vertical-align: bottom;
+            color: transparent;
+            transition: .2s;
+        }
+
+        input[type=checkbox]+label:active:before {
+            transform: scale(0);
+        }
+
+        input[type=checkbox]:checked+label:before {
+            background-color: MediumSeaGreen;
+            border-color: MediumSeaGreen;
+            color: #fff;
+        }
+
+        input[type=checkbox]:disabled+label:before {
+            transform: scale(1);
+            border-color: #aaa;
+        }
+
+        input[type=checkbox]:checked:disabled+label:before {
+            transform: scale(1);
+            background-color: #bfb;
+            border-color: #bfb;
+        }
+
+        /*------------------ switch button css------------------ */
         .switch {
             position: relative;
             display: inline-block;
@@ -191,5 +254,30 @@
         $('#btn_add').click(function() {
             var descriptionData = editor.getData();
         })
+    </script>
+
+    <script>
+        $('.checkboxInput').on('change',function() {
+            if($(this).is(':checked') === false) {
+                $(this).parents('.single-checkbox').find('input').val("");
+                
+                $(this).parents('.single-checkbox').find('input').attr('required',false);
+            }else {
+                $(this).parents('.single-checkbox').find('input').attr('required',true);
+            }
+        });
+        $(document).ready(function() {
+            var allCheckbox = $('.checkboxInput');
+            $.each(allCheckbox,function(index,item){
+                // var inputItems = $(item).find('input');
+                if($(item).is(":checked") === false) {
+                   console.log($(item));
+                    $(item).parents('.single-checkbox').find('input').val("");
+                    $(item).parents('.single-checkbox').find('input').attr('required',false);
+                }else {
+                    $(item).parents('.single-checkbox').find('input').attr('required',true);
+                }
+            });
+        });
     </script>
 @endpush

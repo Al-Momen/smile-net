@@ -63,12 +63,6 @@
                     </ul>
                 </div>
             @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
             <!-- Button trigger modal -->
             <div class="text-end">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -77,13 +71,13 @@
             </div>
             <div>
                 <h3 class="text-white text-capitalize fw-bold pt-5 pb-3">Books</h3>
-                <div>
+                <div class="table-responsive">
                     <table class="table text-white rounded">
                         <thead>
                             <tr>
                                 <th scope="col">Title</th>
                                 <th scope="col">Category</th>
-                                <th scope="col">Date</th>
+                                <th scope="col">Price</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -93,13 +87,9 @@
                                 @foreach ($general_books as $book)
                             <tr>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ optional($book->category)->name ?? 'N/A'}}</td>
+                                <td>{{ optional($book->category)->name ?? 'N/A' }}</td>
                                 <td>
-                                    @php
-                                        $date = $book->created_at;
-                                        echo date('d/m/Y , h:i a ', strtotime($date));
-                                        
-                                    @endphp
+                                    {{ $book->price  }}
                                 </td>
                                 <td>{{ $book->status }}</td>
                                 <td class="">
@@ -143,10 +133,23 @@
                                 <input type="text" class="form-control" placeholder="Title" name="title" id="title"
                                     value="">
                             </div>
-                            <div class=" col-lg-6 col-md-6 col-12 pe-4">
+                            <div class=" col-lg-2 col-md-2 col-12">
                                 <label for="price" class="form-label">Price</label>
-                                <input type="number" class="form-control" placeholder="Price" name="price" id="price"
-                                    value="">
+                                <div class="input-group mb-3">
+                                    <select class="form-select form-select-md mb-3"
+                                        style="margin-top: -3px;"
+                                        aria-label=".form-select-lg example" name="price_id">
+                                        <option value=""> </option>
+                                        @foreach ($prices as $price)
+                                            <option @if ($price->id)  @endif value="{{ $price->id }}">
+                                                {{ $price->symbol }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class=" col-lg-4 col-md-4 col-12 mt-4">
+                                <input type="number" class="form-control" placeholder="Price" name="price"
+                                    id="price" value="" style="margin-top:4px">
                             </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="discount" class="form-label">Discount</label>
@@ -154,21 +157,36 @@
                                     id="discount" value="">
                             </div>
                             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="image" class="form-label">Image</label>
-                                <input type="file" src="" class="form-control px-3 pt-2" name="image"
-                                    accept="image/*" id="image">
+                                <label for="coupon" class="form-label">Coupon</label>
+                                <input type="text" class="form-control px-3 pt-2" name="coupon" id="coupon" placeholder="Coupon Code">
                             </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="categoty" class="form-label">Category</label>
-                                <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
+                                <select class="form-select form-select-md mb-3 text-capitalize" style="padding: 12px 10px;"
                                     aria-label=".form-select-lg example" name="category">
                                     <option value=""> -- </option>
                                     @foreach ($categories as $category)
                                         <option @if ($category->id)  @endif value="{{ $category->id }}">
                                             {{ $category->name }}</option>
                                     @endforeach
-
                                 </select>
+                            </div>
+
+                            <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                <label for="image" class="form-label"> Cover Image</label>
+                                <input type="file" src="" class="form-control px-3 pt-2" name="image"
+                                    accept="image/*" id="image">
+                            </div>
+
+                            <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                <label for="file" class="form-label">File</label>
+                                <input type="file" src="" class="form-control px-3 pt-2" name="file"
+                                    accept="" id="file">
+                            </div>
+
+                            <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                <label for="tag" class="form-label">Tag</label>
+                                <input type="text" src="" class="form-control px-3 pt-2" name="tag" id="tag" placeholder="Tag">
                             </div>
 
                             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
@@ -258,22 +276,17 @@
             -webkit-transition: .4s;
             transition: .4s;
         }
-
         input:checked+.slider {
             background-color: #2196F3;
         }
-
         input:focus+.slider {
             box-shadow: 0 0 1px #2196F3;
         }
-
         input:checked+.slider:before {
             -webkit-transform: translateX(26px);
             -ms-transform: translateX(26px);
             transform: translateX(26px);
         }
-
-
         .slider.round {
             border-radius: 34px;
         }
@@ -284,6 +297,12 @@
     </style>
 @endpush
 @push('js')
+    {{-- toastr --}}
+    <script>
+        @if (Session::has('success'))
+            toastr.success("{{ session('success') }}")
+        @endif
+    </script>
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
     {{-- <script>

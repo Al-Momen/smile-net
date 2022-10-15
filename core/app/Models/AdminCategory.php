@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\AdminVote;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AdminCategory extends Model
 {
@@ -19,5 +20,8 @@ class AdminCategory extends Model
     ];
     public function events(){
         return $this->hasMany(Event::class,"category_id","id");
+    }
+    public function votes(){
+        return $this->hasMany(AdminVote::class,"category_id","id");
     }
 }

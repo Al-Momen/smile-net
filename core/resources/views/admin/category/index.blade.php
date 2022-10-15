@@ -60,6 +60,11 @@ $roles = userRolePermissionArray();
                             </tr>
                         </thead>
                         <tbody class="text-center">
+                            @if ($categories->count() == 0)
+                                <tr>
+                                    <td colspan="99">No data found</td>
+                                </tr>
+                            @endif
                             @foreach ($categories as $category)
                                 <tr>
                                     <td>{{ $category->id}}</td>
@@ -75,6 +80,7 @@ $roles = userRolePermissionArray();
 
                         </tbody>
                     </table>
+                    {{$categories->links()}}
                 </div>
             </div>
         </div>

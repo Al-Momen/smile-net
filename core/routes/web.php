@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\DBAL\Driver\Middleware;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Frontend\BookController;
@@ -7,12 +8,18 @@ use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\EventController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\AdminBookController;
+use App\Http\Controllers\Admin\AdminEventController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\UsersAuthController;
 use App\Http\Controllers\Admin\AdminCategoryController;
-use App\Http\Controllers\Admin\AdminEventController;
+use App\Http\Controllers\Admin\AdminTicketTypeController;
 use App\Http\Controllers\Frontend\UsersDeshboardController;
-use Doctrine\DBAL\Driver\Middleware;
+use App\Http\Controllers\Admin\AdminPriceCurrencyController;
+use App\Http\Controllers\Admin\AdminPriceCurrencieController;
+use App\Http\Controllers\Admin\AdminVoteController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -52,9 +59,9 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'mi
 
 
 
-// Users all route
+// --------------------Users all route--------------------
 Route::namespace('Frontend')->group(function () {
-    // user page route
+    // --------------------user page route--------------------
     Route::get('/', [HomeController::class, 'index'])->name('index');
     Route::get('pricing', [HomeController::class, 'pricing'])->name('pricing');
     Route::get('voting', [HomeController::class, 'voting'])->name('voting');
@@ -67,37 +74,38 @@ Route::namespace('Frontend')->group(function () {
     Route::get('smile-tv', [HomeController::class, 'smileTv'])->name('smile_tv');
     Route::get('magazine-details', [HomeController::class, 'magazineDetails'])->name('magazine_details');
     Route::get('events', [HomeController::class, 'event'])->name('event');
-    // navbar events list 
+    Route::get('all/plans/{id}', [HomeController::class, 'eventAllPlans'])->name('event.all.plan');
+    // --------------------navbar events list-------------------- 
     Route::get('user/event/{name}', [HomeController::class, 'eventList'])->name('user.event');
 
-    // Email verify by OTP
+    // -------------------- User Email verify by OTP--------------------
     Route::get('otp', [UsersAuthController::class, 'userOtpForm'])->name('otp.form');
     Route::post('otp', [UsersAuthController::class, 'userOtp'])->name('otp');
 
-    // user login route
+    // --------------------user login route--------------------
     Route::match(['get', 'post'], 'registration', [UsersAuthController::class, 'userRegistrationForm'])->name('registration');
     Route::get('login', [UsersAuthController::class, 'userLoginForm'])->name('login');
     Route::post('login/action', [UsersAuthController::class, 'loginAction'])->name('login.action');
     Route::get('logout', [UsersAuthController::class, 'logout'])->name('logout');
 
-    //user deshboard route
+    //--------------------user deshboard route--------------------
     Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'general_user'], function () {
         Route::get('deshboard', [UsersDeshboardController::class, 'index'])->name('deshboard');
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::post('profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
-        // event all route
+        // --------------------event all route--------------------
         Route::get('events', [EventController::class, 'events'])->name('events');
         Route::post('store/events', [EventController::class, 'storeEvents'])->name('store.events');
         Route::get('edit/events/{id}', [EventController::class, 'editEvents'])->name('edit.events');
         Route::post('update/events/{id}', [EventController::class, 'updateEvents'])->name('update.events');
         Route::get('destroy/events/{id}', [EventController::class, 'destroy'])->name('destroy.events');
-        // book all route
+        // --------------------book all route--------------------
         Route::get('book', [BookController::class, 'books'])->name('books');
         Route::post('store/books', [BookController::class, 'storeBooks'])->name('store.books');
         Route::get('edit/books/{id}', [BookController::class, 'editBooks'])->name('edit.books');
         Route::post('update/books/{id}', [BookController::class, 'updateBooks'])->name('update.books');
         Route::get('destroy/books/{id}', [BookController::class, 'destroy'])->name('destroy.books');
-        // news all route
+        // --------------------news all route--------------------
         Route::get('news', [NewsController::class, 'news'])->name('news');
         Route::post('store/news', [NewsController::class, 'storeNews'])->name('store.news');
         Route::get('edit/news/{id}', [NewsController::class, 'editNews'])->name('edit.news');
@@ -105,28 +113,61 @@ Route::namespace('Frontend')->group(function () {
         Route::get('destroy/news/{id}', [NewsController::class, 'destroy'])->name('destroy.news');
     });
 
-    // if login then access pages
+    // --------------------if login then access pages--------------------
     Route::group(['middleware' => 'general_user'], function () {
         Route::get('place_order', [UsersDeshboardController::class, 'placeOrder'])->name('place_order');
-        Route::get('vote-details', [UsersDeshboardController::class, 'voteDetails'])->name('vote_details');
+        Route::get('vote-details/{id}', [UsersDeshboardController::class, 'voteDetails'])->name('vote_details');
+        // ---------------User Voted---------------
+        Route::post('voted/store', [UsersDeshboardController::class, 'UserStoreVoted'])->name('store.voted');
     });
 });
 
 
 Route::namespace('Admin')->group(function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware'=>'auth'], function () {
-        // admin category controller
+        // ---------------admin category controller---------------
         Route::get('category', [AdminCategoryController::class, 'index'])->name('category.index');
         Route::post('category/store', [AdminCategoryController::class, 'storeCategory'])->name('category.store');
         Route::get('category/edit/{id}', [AdminCategoryController::class, 'editCategory'])->name('category.edit');
         Route::post('category/update/{id}', [AdminCategoryController::class, 'updateCategory'])->name('category.update');
         Route::get('category/destroy/{id}', [AdminCategoryController::class, 'destroy'])->name('category.destroy');
 
+        // ---------------admin Ticket Type controller---------------
+        Route::get('ticket-type', [AdminTicketTypeController::class, 'index'])->name('ticket.type.index');
+        Route::post('ticket-type/store', [AdminTicketTypeController::class, 'storeTicketType'])->name('ticket.type.store');
+        Route::get('ticket-type/edit/{id}', [AdminTicketTypeController::class, 'editTicketType'])->name('ticket.type.edit');
+        Route::post('ticket-type/update/{id}', [AdminTicketTypeController::class, 'updateTicketType'])->name('ticket.type.update');
+        Route::get('ticket-type/destroy/{id}', [AdminTicketTypeController::class, 'destroy'])->name('ticket.type.destroy');
 
-        // admin access events
+        // ---------------admin access events---------------
         Route::get('event', [AdminEventController::class, 'index'])->name('event.index');
         Route::get('event/view/{id}', [AdminEventController::class, 'editEvent'])->name('event.view');
-        Route::post('event/edit/{id}', [AdminEventController::class, 'editStatusEvent'])->name('status.edit');
+        Route::post('event/status/edit/{id}', [AdminEventController::class, 'editStatusEvent'])->name('status.edit');
         Route::get('event/destroy/{id}', [AdminEventController::class, 'destroy'])->name('event.destroy');
+
+        // ---------------admin access price---------------
+        Route::get('price', [AdminPriceCurrencyController::class, 'index'])->name('price.index');
+        Route::post('price/store', [AdminPriceCurrencyController::class, 'storeCurrency'])->name('price.currency.store');
+        Route::get('price/edit/{id}', [AdminPriceCurrencyController::class, 'editCurrency'])->name('price.currency.edit');
+        Route::post('price/update/{id}', [AdminPriceCurrencyController::class, 'updateCurrency'])->name('price.currency.update');
+        Route::get('price/destroy/{id}', [AdminPriceCurrencyController::class, 'destroy'])->name('price.currency.destroy');
+
+        // ---------------admin Vote---------------
+        Route::get('vote', [AdminVoteController::class, 'index'])->name('vote.index');
+        Route::post('vote/store', [AdminVoteController::class, 'storeVote'])->name('vote.store');
+        Route::get('vote/edit/{id}', [AdminVoteController::class, 'editVote'])->name('vote.edit');
+        Route::post('vote/update/{id}', [AdminVoteController::class, 'updateVote'])->name('vote.update');
+        Route::post('vote/status/edit/{id}', [AdminVoteController::class, 'editStatusVote'])->name('status.edit');
+        Route::get('vote/destroy/{id}', [AdminVoteController::class, 'destroy'])->name('vote.destroy');
+
+        // ---------------admin access Books---------------
+        Route::get('book', [AdminBookController::class, 'index'])->name('book.index');
+        Route::post('store/book', [AdminBookController::class, 'storeBook'])->name('store.book');
+        Route::get('edit/book/{id}', [AdminBookController::class, 'editBook'])->name('edit.book');
+        Route::post('update/book/{id}', [AdminBookController::class, 'updateBook'])->name('update.book');
+        // Route::post('event/status/edit/{id}', [AdminEventController::class, 'editStatusEvent'])->name('status.edit');
+        // Route::get('event/destroy/{id}', [AdminEventController::class, 'destroy'])->name('event.destroy');
+
+
     });
 });

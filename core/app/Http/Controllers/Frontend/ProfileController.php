@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\GeneralUser;
+use App\Http\Helpers\Generals;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
@@ -31,7 +32,6 @@ class ProfileController extends Controller
             'phone' => 'required',
             'image' => 'required',
         ]);
-
         try {
             $profile = GeneralUser::where('id',$id)->first();
             $profile->full_name = $request->name;
@@ -39,7 +39,10 @@ class ProfileController extends Controller
             $profile->country_id = $request->country;
             $profile->user_name = $request->user_name;
             $profile->phone= $request->phone;
-            $profile->photo = GeneralUser::upload('profiles/', 'png', $request->image);
+            $profile->facebook= $request->facebook;
+            $profile->instagram= $request->instagram;
+            $profile->twitter= $request->twitter;
+            $profile->photo = Generals::upload('profile/', 'png', $request->image);
             $profile->update();
             return redirect()->back()->with('success', "Profile Update Successfully");
         } catch (QueryException $e) {
@@ -47,23 +50,4 @@ class ProfileController extends Controller
         }
     }
 
-    private function uploadImage($file, $title)
-    {
-
-        $timestamp = str_replace([' ', ':'], '-', Carbon::now()->toDateTimeString());
-        $file_name = $timestamp . '-' . $title . '.' . $file->getClientOriginalExtension();
-        $pathToUpload = storage_path() . '\app\public\profile/';  // image  upload application save korbo
-        if (!is_dir($pathToUpload)) {
-            mkdir($pathToUpload, 0755, true);
-        }
-        Image::make($file->getPathname())->resize(800, 400)->save($pathToUpload . $file_name);
-        return $file_name;
-    }
-    private function unlink($file)
-    {
-        $pathToUpload = storage_path() . '\app\public\profile/';
-        if ($file != '' && file_exists($pathToUpload . $file)) {
-            @unlink($pathToUpload . $file);
-        }
-    }
 }

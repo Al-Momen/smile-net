@@ -63,12 +63,6 @@
                     </ul>
                 </div>
             @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
             <!-- Button trigger modal -->
             <div class="text-end">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -77,21 +71,19 @@
             </div>
             <div>
                 <h3 class="text-white text-capitalize fw-bold pt-5 pb-3">Events</h3>
-                <div>
-                    <table class="table text-white rounded">
+                <div class="table-responsive">
+                    <table class="table text-white rounded text-nowrap">
                         <thead>
                             <tr>
                                 <th scope="col">Title</th>
                                 <th scope="col">Start Date</th>
                                 <th scope="col">End Date</th>
                                 <th scope="col">Category</th>
-                                <th scope="col">Total Seat</th>
                                 <th scope="col">Available Seat</th>
-                                <th scope="col">Remain Seat</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-capitalize" style="font-size: 14px;">
                             <tr>
                                 @foreach ($general_events as $event)
                             <tr>
@@ -106,20 +98,18 @@
                                     @php
                                         $date = $event->end_date;
                                         echo date('d/m/Y , h:i a ', strtotime($date));
-                                        
                                     @endphp
                                 </td>
-                                <td>{{ optional($event->category)->name ?? 'N/A'}}</td>
-                                <td>{{ $event->total_seat }}</td>
-                                <td>{{ $event->title }}</td>
+                                <td>{{ optional($event->category)->name ?? 'N/A' }}</td>
+                                
                                 <td>{{ $event->title }}</td>
                                 <td class="">
                                     <a href="{{ route('user.destroy.events', $event->id) }}"><i
-                                            class="fa-solid fa-trash-can btn btn-danger rounded">
+                                            class="fa-solid fa-trash-can btn btn-danger rounded font-icon">
                                         </i></a>
                                     <a href="{{ route('user.edit.events', $event->id) }}"> <i
-                                            class="fa-solid fa-edit btn btn-primary rounded" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
+                                            class="fa-solid fa-edit btn btn-primary rounded font-icon"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         </i></a>
                                 </td>
                             </tr>
@@ -127,6 +117,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    {{$general_events->links()}}
                 </div>
             </div>
         </div>
@@ -146,7 +137,6 @@
                     </div>
                     <div class="modal-body">
                         <div class="errMsgContainer" style="padding: 20px;">
-
                         </div>
                         <div class="row g-4k" style="padding: 20px;">
                             <div class=" col-lg-6 col-md-6 col-12 pe-4">
@@ -154,13 +144,7 @@
                                 <input type="text" class="form-control" placeholder="Title" name="title" id="title"
                                     value="">
                             </div>
-                            <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="total_seat" class="form-label">Tags</label>
-                                <input type="number" class="form-control" placeholder="Total Sit" name="total_seat"
-                                    id="total_seat" required>
-                            </div>
-
-                            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                            <div class="mb-3  col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="start_date" class="form-label">Start Date</label>
                                 <input type="datetime-local" class="form-control" placeholder="Start Date"
                                     name="start_date" id="start_date" required>
@@ -171,10 +155,10 @@
                                     id="end_date" required>
                             </div>
 
-                            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                            <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="categoty" class="form-label">Category</label>
-                                <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
-                                    aria-label=".form-select-lg example" name="category">
+                                <select class="form-select form-select-md mb-3 text-capitalize"
+                                    style="padding: 12px 10px;" aria-label=".form-select-lg example" name="category">
                                     <option value=""> -- </option>
                                     @foreach ($categories as $category)
                                         <option @if ($category->id)  @endif value="{{ $category->id }}">
@@ -183,12 +167,33 @@
                                 </select>
                             </div>
 
-                            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                            <div class="mb-4 mt-4 col-lg-6 col-md-6 col-12 pe-4 checkbox-block">
+                                @foreach ($ticketType as $item)
+                                    <div class="single-checkbox">
+                                        <input class="checkboxInput" type="checkbox" id="{{ $item->name }}"
+                                            name="ticket_type_id[]" value="{{ $item->id }}" data-bs-toggle="collapse"
+                                            data-bs-target="#{{ $item->name }}" aria-expanded="false"
+                                            aria-controls="collapse">
+                                        <label for="{{ $item->name }}" class="text-capitalize">{{ $item->name }}</label>
+                                        <div class="collapse" id="{{ $item->name }}">
+                                            <label for="basic">Seat</label>
+                                            <input type="number" name="seat[]"
+                                                placeholder="Enter your {{ $item->name }} Seat">
+                                            <label for="basic">Price</label>
+                                            <input type="number" name="price[]"
+                                                placeholder="Enter your {{ $item->name }} Price">
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="mb-4 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="image" class="form-label">Image</label>
                                 <input type="file" src="" class="form-control px-3 pt-2" name="image"
                                     accept="image/*" id="image">
                             </div>
-                            <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
+
+                            <div class="mb-3 mt-2 col-lg-12 col-md-12 col-12 pe-4">
                                 <label for="editor" class="form-label">Description</label>
                                 <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
 
@@ -210,9 +215,11 @@
 @push('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
 @endpush
 @push('css')
     <style>
+        /* -----------------Modal css----------------- */
         .modal-header .btn-close {
             padding: 0.5rem 0.5rem;
             margin: 0.5rem 2.5rem -29.5rem auto;
@@ -228,7 +235,14 @@
             font-size: 15px;
         }
 
-        /* Ck-editor css */
+        /* ------------------font icon------------------ */
+        .font-icon {
+            font-size: 13px !important;
+            height: 30px;
+            padding: 6px !important;
+        }
+
+        /* -----------------Ck-editor css----------------- */
         .ck-blurred {
             height: 200px !important;
         }
@@ -238,7 +252,58 @@
             height: 200px;
         }
 
-        /* switch button css */
+
+        /* --------------------style checkbox-------------------- */
+        input[type=checkbox]+label {
+            display: block;
+            margin: 0.2em;
+            cursor: pointer;
+            padding: 0.2em;
+        }
+
+        input[type=checkbox] {
+            display: none;
+        }
+
+        input[type=checkbox]+label:before {
+            content: "\2714";
+            border: 0.1em solid #000;
+            border-radius: 0.2em;
+            display: inline-block;
+            width: 22px;
+            height: 22px;
+            padding-left: 5px;
+            padding-bottom: 0.3em;
+            margin-right: 1.2em;
+            vertical-align: bottom;
+            color: transparent;
+            transition: .2s;
+        }
+
+        input[type=checkbox]+label:active:before {
+            transform: scale(0);
+        }
+
+        input[type=checkbox]:checked+label:before {
+            background-color: MediumSeaGreen;
+            border-color: MediumSeaGreen;
+            color: #fff;
+        }
+
+        input[type=checkbox]:disabled+label:before {
+            transform: scale(1);
+            border-color: #aaa;
+        }
+
+        input[type=checkbox]:checked:disabled+label:before {
+            transform: scale(1);
+            background-color: #bfb;
+            border-color: #bfb;
+        }
+
+
+
+        /* -----------------------switch button css------------------------- */
         .switch {
             position: relative;
             display: inline-block;
@@ -301,8 +366,15 @@
     </style>
 @endpush
 @push('js')
+    {{-- toastr --}}
+    <script>
+        @if (Session::has('success'))
+            toastr.success("{{ session('success') }}")
+        @endif
+    </script>
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+
     {{-- <script>
         $("#btn_close").click(function(e) {
             var descriptionData = editor.getData();
@@ -367,5 +439,13 @@
         $('#btn_add').click(function() {
             var descriptionData = editor.getData();
         })
+    </script>
+
+    <script>
+        $('.checkboxInput').change(function(){
+            if($(this).is(':checked') == false) {
+                $(this).parents('.single-checkbox').find('input').val("");
+            }
+        });
     </script>
 @endpush

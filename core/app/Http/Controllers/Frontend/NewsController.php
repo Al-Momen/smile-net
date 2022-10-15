@@ -17,7 +17,7 @@ class NewsController extends Controller
 
     public function news()
     {
-        $data['general_news'] = News::with(['category'])->where('user_id', Auth::guard('general')->id())->get();
+        $data['general_news'] = News::with(['category'])->where('user_id', Auth::guard('general')->id())->paginate(8);
         $data['general_count'] = News::where('user_id', Auth::guard('general')->id())->count();
         $data['categories'] = AdminCategory::all();
         return view('frontend.deshboard.pages.news',$data);
