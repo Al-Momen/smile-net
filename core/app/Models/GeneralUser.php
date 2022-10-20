@@ -54,6 +54,10 @@ class GeneralUser extends Authenticatable implements MustVerifyEmail
     public function votes(){
         return $this->belongsToMany(AdminVote::class,'user_vote','user_id','vote_id');
     }
+    public function book()
+    {
+        return $this->morphOne(Book::class, 'bookable');
+    }
 
 
 }

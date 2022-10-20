@@ -32,8 +32,6 @@
     <link rel="stylesheet" href="{{URL::asset('assets/frontend/css/style.css')}}">
     <!-- animate.css link cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    {{-- tosar css --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
     
     @stack('css')
     @stack('meta')
@@ -121,8 +119,7 @@
     <script src="{{URL::asset('assets/frontend/js/script.js')}}"></script>
     <script src="{{URL::asset('assets/frontend/js/popper.js')}}"></script>
     {{-- tosat js --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    
+    @include('partials.notify')
     @stack('js')
 
 </body>

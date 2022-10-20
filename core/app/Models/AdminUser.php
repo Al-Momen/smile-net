@@ -21,4 +21,8 @@ class AdminUser extends Model
         $user_name = AdminUser::select("first_name","last_name", DB::raw("CONCAT(first_name,' ',last_name) AS full_name"))->first();
         return $user_name;
     }
+    public function book()
+    {
+        return $this->morphOne(Book::class, 'bookable');
+    }
 }

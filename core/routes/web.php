@@ -13,11 +13,14 @@ use App\Http\Controllers\Admin\AdminEventController;
 use App\Http\Controllers\Frontend\ProfileController;
 use App\Http\Controllers\Frontend\UsersAuthController;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminCouponController;
 use App\Http\Controllers\Admin\AdminTicketTypeController;
 use App\Http\Controllers\Frontend\UsersDeshboardController;
 use App\Http\Controllers\Admin\AdminPriceCurrencyController;
 use App\Http\Controllers\Admin\AdminPriceCurrencieController;
 use App\Http\Controllers\Admin\AdminVoteController;
+use App\Http\Controllers\Payments\PaypalController;
+use App\Http\Controllers\Payments\StripePaymentController;
 
 
 
@@ -72,7 +75,7 @@ Route::namespace('Frontend')->group(function () {
     Route::get('news', [HomeController::class, 'news'])->name('news');
     Route::get('news-details', [HomeController::class, 'newsDetails'])->name('news_details');
     Route::get('smile-tv', [HomeController::class, 'smileTv'])->name('smile_tv');
-    Route::get('magazine-details', [HomeController::class, 'magazineDetails'])->name('magazine_details');
+    Route::get('magazine-details/{id}', [HomeController::class, 'magazineDetails'])->name('magazine_details');
     Route::get('events', [HomeController::class, 'event'])->name('event');
     Route::get('all/plans/{id}', [HomeController::class, 'eventAllPlans'])->name('event.all.plan');
     // --------------------navbar events list-------------------- 
@@ -104,7 +107,10 @@ Route::namespace('Frontend')->group(function () {
         Route::post('store/books', [BookController::class, 'storeBooks'])->name('store.books');
         Route::get('edit/books/{id}', [BookController::class, 'editBooks'])->name('edit.books');
         Route::post('update/books/{id}', [BookController::class, 'updateBooks'])->name('update.books');
+        Route::post('book/status/edit/{id}', [BookController::class, 'editStatusBook'])->name('status.edit');
         Route::get('destroy/books/{id}', [BookController::class, 'destroy'])->name('destroy.books');
+
+
         // --------------------news all route--------------------
         Route::get('news', [NewsController::class, 'news'])->name('news');
         Route::post('store/news', [NewsController::class, 'storeNews'])->name('store.news');
@@ -115,16 +121,22 @@ Route::namespace('Frontend')->group(function () {
 
     // --------------------if login then access pages--------------------
     Route::group(['middleware' => 'general_user'], function () {
-        Route::get('place_order', [UsersDeshboardController::class, 'placeOrder'])->name('place_order');
+        Route::get('place_order/{id}', [UsersDeshboardController::class, 'placeOrder'])->name('place_order');
         Route::get('vote-details/{id}', [UsersDeshboardController::class, 'voteDetails'])->name('vote_details');
+
         // ---------------User Voted---------------
         Route::post('voted/store', [UsersDeshboardController::class, 'UserStoreVoted'])->name('store.voted');
+
+        // ---------------User coupon---------------
+        Route::post('coupon/check', [UsersDeshboardController::class, 'UserCouponCheck'])->name('user.coupon.check');
+        // ---------------User Payment---------------
+        Route::post('user/payment', [UsersDeshboardController::class, 'userPayment'])->name('user.payment');
     });
 });
 
-
+//  --------------------Admin all route--------------------
 Route::namespace('Admin')->group(function () {
-    Route::group(['prefix' => 'admin', 'as' => 'admin.','middleware'=>'auth'], function () {
+    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], function () {
         // ---------------admin category controller---------------
         Route::get('category', [AdminCategoryController::class, 'index'])->name('category.index');
         Route::post('category/store', [AdminCategoryController::class, 'storeCategory'])->name('category.store');
@@ -150,7 +162,7 @@ Route::namespace('Admin')->group(function () {
         Route::post('price/store', [AdminPriceCurrencyController::class, 'storeCurrency'])->name('price.currency.store');
         Route::get('price/edit/{id}', [AdminPriceCurrencyController::class, 'editCurrency'])->name('price.currency.edit');
         Route::post('price/update/{id}', [AdminPriceCurrencyController::class, 'updateCurrency'])->name('price.currency.update');
-        Route::get('price/destroy/{id}', [AdminPriceCurrencyController::class, 'destroy'])->name('price.currency.destroy');
+
 
         // ---------------admin Vote---------------
         Route::get('vote', [AdminVoteController::class, 'index'])->name('vote.index');
@@ -162,12 +174,33 @@ Route::namespace('Admin')->group(function () {
 
         // ---------------admin access Books---------------
         Route::get('book', [AdminBookController::class, 'index'])->name('book.index');
+        Route::get('all/books', [AdminBookController::class, 'allMagazine'])->name('book.all.magazine');
         Route::post('store/book', [AdminBookController::class, 'storeBook'])->name('store.book');
         Route::get('edit/book/{id}', [AdminBookController::class, 'editBook'])->name('edit.book');
+        Route::get('view/book/{id}', [AdminBookController::class, 'viewBook'])->name('view.book');
         Route::post('update/book/{id}', [AdminBookController::class, 'updateBook'])->name('update.book');
-        // Route::post('event/status/edit/{id}', [AdminEventController::class, 'editStatusEvent'])->name('status.edit');
-        // Route::get('event/destroy/{id}', [AdminEventController::class, 'destroy'])->name('event.destroy');
+        Route::post('book/status/edit/{id}', [AdminBookController::class, 'editStatusBook'])->name('status.edit');
+        Route::get('book/destroy/{id}', [AdminBookController::class, 'destroy'])->name('book.destroy');
 
-
+        // ---------------admin access Coupon code---------------
+        Route::get('coupon', [AdminCouponController::class, 'index'])->name('coupon.index');
+        Route::post('coupon/store', [AdminCouponController::class, 'storeCoupon'])->name('coupon.store');
+        Route::post('coupon/status/edit/{id}', [AdminCouponController::class, 'editStatusCoupon'])->name('coupon.status.edit');
+        Route::get('coupon/destroy/{id}', [AdminCouponController::class, 'destroy'])->name('coupon.destroy');
     });
+});
+
+//  --------------------payments all route--------------------
+Route::namespace('paypal')->group(function () {
+
+    // --------------Paypal gateway route--------------
+    route::get('createpaypal', [PaypalController::class, 'createpaypal'])->name('createpaypal');
+    route::post('processPaypal', [PaypalController::class, 'processPaypal'])->name('processPaypal');
+    route::get('Process/paypal/success/{id}', [PaypalController::class, 'processPaypalSuccess'])->name('processPaypalSuccess');
+    route::get('process/paypal/cancel/{id}', [PaypalController::class, 'processPaypalCancel'])->name('processPaypalCancel');
+
+
+    // --------------------Stripe getway route--------------------
+    Route::post('stripe/page', [StripePaymentController::class, 'stripe'])->name('stripe.view');
+    Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
 });

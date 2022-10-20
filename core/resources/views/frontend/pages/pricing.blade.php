@@ -29,7 +29,7 @@
                                 <li>1 Devices Access</li>
 
                             </ul> -->
-                            <a href="{{route('place_order')}}" class="text-decoration-none w-100">
+                            <a href="" class="text-decoration-none w-100">
                                 <div class="d-grid my-3">
                                     <button class="btn btn-outline-primary btn-block">Proceed</button>
                                 </div>
@@ -48,7 +48,7 @@
                                 <li>Video quality Best</li>
                                 <li>2 Devices Access</li>
                             </ul> -->
-                            <a href="{{route('place_order')}}" class="text-decoration-none w-100">
+                            <a href="" class="text-decoration-none w-100">
                                 <div class="d-grid my-3">
                                     <button class="btn btn-outline-primary btn-block">Proceed
                                     </button>
@@ -70,7 +70,7 @@
                                 <li>Video quality Best</li>
                                 <li>4 Devices Access</li>
                             </ul> -->
-                            <a href="{{route('place_order')}}" class="text-decoration-none w-100">
+                            <a href="" class="text-decoration-none w-100">
                                 <div class="d-grid my-3">
                                     <button class="btn btn-outline-primary btn-block">Proceed</button>
                                 </div>

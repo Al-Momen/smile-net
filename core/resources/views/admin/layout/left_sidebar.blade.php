@@ -6,12 +6,12 @@
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
-        <li class="sidebar-menu-item {{ Request::is('currency/list') ? 'active' : '' }}">
+        {{-- <li class="sidebar-menu-item {{ Request::is('currency/list') ? 'active' : '' }}">
             <a href="{{ route('admin.currency.index') }}" class="nav-link">
                 <i class="menu-icon las la-dot-circle"></i>
                 <span class="menu-title">Currency</span>
             </a>
-        </li>
+        </li> --}}
 
         <li class="sidebar-menu-item ">
             <a href="{{ route('admin.category.index') }}" class="nav-link">
@@ -36,7 +36,7 @@
         <li class="sidebar-menu-item ">
             <a href="{{ route('admin.price.index') }}" class="nav-link">
                 <i class="menu-icon las la-dot-circle"></i>
-                <span class="menu-title">Price</span>
+                <span class="menu-title">Currency</span>
             </a>
         </li>
         <li class="sidebar-menu-item ">
@@ -45,16 +45,40 @@
                 <span class="menu-title">Vote</span>
             </a>
         </li>
-        <li class="sidebar-menu-item ">
-            <a href="{{ route('admin.book.index') }}" class="nav-link">
-                <i class="menu-icon las la-dot-circle"></i>
-                <span class="menu-title">Magazine</span>
+     
+
+        <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
+            <a href="#">
+                <i class="menu-icon las la-user-edit"></i>
+                <span class="menu-title">@lang('Magazine Manager')</span>
             </a>
+            <ul class="sidebar-submenu"
+                @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) style="display:block"
+            @else
+                style="display:none" @endif>
+                <li class="sidebar-menu-item">
+                    <a href="{{ route('admin.book.index') }}" class="nav-link">
+                        <i class="menu-icon las la-dot-circle"></i>
+                        <span class="menu-title">@lang('Magazine')</span>
+                    </a>
+                    <a href="{{ route('admin.book.all.magazine') }}" class="nav-link">
+                        <i class="menu-icon las la-dot-circle"></i>
+                        <span class="menu-title">@lang('All Magazine')</span>
+                    </a>
+                </li>
+            </ul>
         </li>
+
         <li class="sidebar-menu-item ">
             <a href="" class="nav-link">
                 <i class="menu-icon las la-dot-circle"></i>
                 <span class="menu-title">Live Now</span>
+            </a>
+        </li>
+        <li class="sidebar-menu-item ">
+            <a href="{{route('admin.coupon.index')}}" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">Coupons</span>
             </a>
         </li>
         <li class="sidebar-menu-item ">

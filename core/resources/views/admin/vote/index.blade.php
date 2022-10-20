@@ -77,8 +77,7 @@ $roles = userRolePermissionArray();
                                     </td>
 
                                     <td>
-                                        <a
-                                            href="{{ route('admin.vote.destroy', $vote->id) }}"class="btn btn-danger rounded"><i
+                                        <a href="{{ route('admin.vote.destroy', $vote->id) }}"class="btn btn-danger rounded"><i
                                                 class="fas fa-trash"></i></a>
                                         <a href="{{ route('admin.vote.edit', $vote->id) }}" class="btn btn-primary rounded">
                                             <i class="fas fa-edit" data-bs-toggle="modal"
@@ -88,7 +87,7 @@ $roles = userRolePermissionArray();
                             @endforeach
                         </tbody>
                     </table>
-                    {{$adminVotes->links()}}
+                    {{ $adminVotes->links() }}
                 </div>
             </div>
         </div>

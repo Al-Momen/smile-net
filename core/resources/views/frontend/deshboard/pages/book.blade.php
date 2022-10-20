@@ -83,27 +83,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                @foreach ($general_books as $book)
-                            <tr>
-                                <td>{{ $book->title }}</td>
-                                <td>{{ optional($book->category)->name ?? 'N/A' }}</td>
-                                <td>
-                                    {{ $book->price  }}
-                                </td>
-                                <td>{{ $book->status }}</td>
-                                <td class="">
-                                    <a href="{{ route('user.destroy.books', $book->id) }}"><i
-                                            class="fa-solid fa-trash-can btn btn-danger rounded">
-                                        </i></a>
-                                    <a href="{{ route('user.edit.books', $book->id) }}"> <i
-                                            class="fa-solid fa-edit btn btn-primary rounded" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal">
-                                        </i></a>
-                                </td>
-                            </tr>
+
+                            @foreach ($general_books as $book)
+                                @if ($book->bookable_type == 'App\Models\GeneralUser')
+                                    <tr>
+                                        <td>{{ $book->title }}</td>
+                                        <td>{{ optional($book->category)->name ?? 'N/A' }}</td>
+                                        <td>
+                                            {{ $book->price }} {{ $price->symbol }}
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('user.status.edit', $book->id) }}" method="POST">
+                                                @csrf
+                                                <label class="switch" id="switch">
+                                                    <input type="checkbox" name="status"
+                                                        @if ($book->status == 1) checked @endif id="switchInput">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </form>
+                                        </td>
+                                        <td class="">
+                                            <a href="{{ route('user.destroy.books', $book->id) }}"><i
+                                                    class="fa-solid fa-trash-can btn btn-danger rounded">
+                                                </i></a>
+                                            <a href="{{ route('user.edit.books', $book->id) }}"> <i
+                                                    class="fa-solid fa-edit btn btn-primary rounded" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal">
+                                                </i></a>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -133,37 +144,25 @@
                                 <input type="text" class="form-control" placeholder="Title" name="title" id="title"
                                     value="">
                             </div>
-                            <div class=" col-lg-2 col-md-2 col-12">
-                                <label for="price" class="form-label">Price</label>
-                                <div class="input-group mb-3">
-                                    <select class="form-select form-select-md mb-3"
-                                        style="margin-top: -3px;"
-                                        aria-label=".form-select-lg example" name="price_id">
-                                        <option value=""> </option>
-                                        @foreach ($prices as $price)
-                                            <option @if ($price->id)  @endif value="{{ $price->id }}">
-                                                {{ $price->symbol }}</option>
-                                        @endforeach
-                                    </select>
+                            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4" style="display:none">
+                                <label for="tag" class="form-label">price_id</label>
+                                <input type="text" src="" class="form-control px-3 pt-2" name="price_id"
+                                    id="tag" placeholder="Tag" value="{{ $price->id }}">
+                            </div>
+                            <div class=" col-lg-6 col-md-6 col-12 ">
+                                <label for="doller-input" class="form-label"> Price</label>
+                                <div class="input-group ">
+                                    <span class="input-group-text"
+                                        style="
+                                        border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $price->symbol }}</span>
+                                    <input type="number" class="form-control" min="0" id="doller-input"
+                                        placeholder="Price" name="price">
                                 </div>
-                            </div>
-                            <div class=" col-lg-4 col-md-4 col-12 mt-4">
-                                <input type="number" class="form-control" placeholder="Price" name="price"
-                                    id="price" value="" style="margin-top:4px">
-                            </div>
-                            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="discount" class="form-label">Discount</label>
-                                <input type="text" class="form-control" placeholder="Discount" name="discount"
-                                    id="discount" value="">
-                            </div>
-                            <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="coupon" class="form-label">Coupon</label>
-                                <input type="text" class="form-control px-3 pt-2" name="coupon" id="coupon" placeholder="Coupon Code">
                             </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="categoty" class="form-label">Category</label>
-                                <select class="form-select form-select-md mb-3 text-capitalize" style="padding: 12px 10px;"
-                                    aria-label=".form-select-lg example" name="category">
+                                <select class="form-select form-select-md mb-3 text-capitalize"
+                                    style="padding: 12px 10px;" aria-label=".form-select-lg example" name="category">
                                     <option value=""> -- </option>
                                     @foreach ($categories as $category)
                                         <option @if ($category->id)  @endif value="{{ $category->id }}">
@@ -183,16 +182,25 @@
                                 <input type="file" src="" class="form-control px-3 pt-2" name="file"
                                     accept="" id="file">
                             </div>
-
                             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="tag" class="form-label">Tag</label>
-                                <input type="text" src="" class="form-control px-3 pt-2" name="tag" id="tag" placeholder="Tag">
+                                <input type="text" src="" class="form-control px-3 pt-2" name="tag"
+                                    id="tag" placeholder="Tag">
+                            </div>
+                            <div class=" col-lg-6 col-md-6 col-12 mt-4">
+                                <label for="status" class="form-label">Status</label>
+                                <div class="input-group mb-3" style="margin-top: -2px; height: 67px;">
+                                    <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example"
+                                        name="status">
+                                        <option value="1" selected> Active</option>
+                                        <option value="0">Deactive</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                                 <label for="editor" class="form-label">Description</label>
                                 <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
-
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -276,17 +284,21 @@
             -webkit-transition: .4s;
             transition: .4s;
         }
+
         input:checked+.slider {
             background-color: #2196F3;
         }
+
         input:focus+.slider {
             box-shadow: 0 0 1px #2196F3;
         }
+
         input:checked+.slider:before {
             -webkit-transform: translateX(26px);
             -ms-transform: translateX(26px);
             transform: translateX(26px);
         }
+
         .slider.round {
             border-radius: 34px;
         }
@@ -303,59 +315,17 @@
             toastr.success("{{ session('success') }}")
         @endif
     </script>
+
+    {{-- status edit js --}}
+    <script>
+        $('.switch').click(function() {
+            $(this).parents('form').submit();
+        })
+    </script>
+
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
-    {{-- <script>
-        $("#btn_close").click(function(e) {
-            var descriptionData = editor.getData();
-            editor.setData("");
-            $('#addEventForm')[0].reset();
-        });
-        $("#cross_close").click(function(e) {
-            var descriptionData = editor.getData();
-            editor.setData("");
-            $('#addEventForm')[0].reset();
-        });
-        $(document).ready(function() {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $(document).on("submit", "form#addEventForm", function(event) {
-                event.preventDefault();
-                $.ajax({
-                    url: "{{ route('user.store.events') }}",
-                    method: "POST",
-                    data: new FormData(this),
-                    dataType: 'JSON',
-                    processData: false,
-                    contentType: false,
-                    success: function(res) {
-                        console.log(res);
-                        if (res.status == "success") {
-                            $('#addModal').modal('hide');
-                            $('#addEventForm').trigger("reset");
-                            editor.setData("");
-                            $('.table').load(location.href + ' .table');
-                            "use strict";
-                            toastr.success(res.message);
-                            
-                        }
-                    },
-                    error: function(err) {
-                        let error = err.responseJSON;
-                        $.each(error.errors, function(index, value) {
-                            $('.errMsgContainer').append('<span class="text-danger">' +
-                                value +
-                                '</span>' + '</br>');
-                        });
-                    }
-                });
 
-            });
-        });
-    </script> --}}
     <script>
         let editor;
         ClassicEditor

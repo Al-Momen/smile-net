@@ -8,7 +8,6 @@
 @php
 $roles = userRolePermissionArray();
 @endphp
-
 @section('content')
     <div class="dashboard-title-part">
         <h5 class="title">Dashboard</h5>
@@ -22,11 +21,6 @@ $roles = userRolePermissionArray();
             </a>
         </div>
         <div class="view-prodact">
-
-            <a data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="las la-plus"></i>
-                <span>Add Currency</span>
-            </a>
         </div>
     </div>
     <div class="table-content">
@@ -50,14 +44,11 @@ $roles = userRolePermissionArray();
                         <tbody class="text-center">
                             @foreach ($priceCurrencies as $priceCurrency)
                                 <tr>
-                                    <td>{{$i++}}</td>
+                                    <td>{{ $i++ }}</td>
                                     <td class="text-capitalize">{{ $priceCurrency->name }}</td>
                                     <td>{{ $priceCurrency->code }}</td>
                                     <td>{{ $priceCurrency->symbol }}</td>
                                     <td>
-                                        <a
-                                            href="{{ route('admin.price.currency.destroy', $priceCurrency->id) }}"class="btn btn-danger rounded"><i
-                                                class="fas fa-trash"></i></a>
                                         <a href="{{ route('admin.price.currency.edit', $priceCurrency->id) }}"
                                             class="btn btn-primary rounded"> <i class="fas fa-edit" data-bs-toggle="modal"
                                                 data-bs-target="#exampleModal"></i></a>
@@ -66,30 +57,30 @@ $roles = userRolePermissionArray();
                             @endforeach
                         </tbody>
                     </table>
-                    {{$priceCurrencies->links()}}
+                    {{ $priceCurrencies->links() }}
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
+                            data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
                 <form action="{{ route('admin.price.currency.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
@@ -116,7 +107,7 @@ $roles = userRolePermissionArray();
                                     <label>@lang('Currency Symbol')</label>
                                     <input class="form-control form--control" type="text" name="symbol"
                                         placeholder="@lang('e.g: $')" required value="{{ old('symbol') }}">
-                                </div>         
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -127,14 +118,14 @@ $roles = userRolePermissionArray();
                 </form>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @section('scripts')
- {{-- toastr --}}
- <script>
-    @if (Session::has('success'))
-        toastr.success("{{ session('success') }}")
-    @endif
-</script>
+    {{-- toastr --}}
+    <script>
+        @if (Session::has('success'))
+            toastr.success("{{ session('success') }}")
+        @endif
+    </script>
 @endsection

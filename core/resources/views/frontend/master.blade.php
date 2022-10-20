@@ -79,6 +79,7 @@
 
     <!-- bootstrap js -->
     <script src="{{ asset('assets/frontend/js/jquery-3.3.1.min.js')}}"></script>
+    
     <script src="{{ asset('assets/frontend/js/bootstrap.min.js')}}"></script>
     <!-- swipper js -->
     <script src="{{asset('assets/frontend/js/swiper.min.js')}}"></script>
@@ -86,7 +87,6 @@
     <script src="{{asset('assets/frontend/js/lightcase.js')}}"></script>
     <!-- script -->
     <script src="{{asset('assets/frontend/js/script.js')}}"></script>
-
 
     <!-- Initialize Swiper -->
     <script>

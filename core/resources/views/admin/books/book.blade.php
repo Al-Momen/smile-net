@@ -58,10 +58,11 @@ $roles = userRolePermissionArray();
                     <table class="table text-white rounded mt-5">
                         <thead class="text-center">
                             <tr>
-                              
+
                                 <th scope="col">Title</th>
                                 <th scope="col">Image</th>
                                 <th scope="col">Category Name</th>
+                                <th scope="col">Price</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -73,31 +74,35 @@ $roles = userRolePermissionArray();
                                 </tr>
                             @endif
                             @foreach ($general_books as $book)
-                                <tr>
-                                    <td>{{ $book->title }}</td>
-                                    <td><img class="table-user-img img-fluid d-block mx-auto"
-                                            src="{{ asset('core\storage\app\public\books\\' . $book->image) }}"
-                                            alt="Image"></td>
+                                
+                                    <tr>
+                                        <td>{{ $book->title }}</td>
+                                        <td><img class="table-user-img img-fluid d-block mx-auto"
+                                                src="{{ asset('core\storage\app\public\books\\' . $book->image) }}"
+                                                alt="Image"></td>
                                         <td>{{ $book->category->name }}</td>
-                                    <td>
-                                        <form action="{{ route('admin.status.edit', $book->id) }}" method="POST">
-                                            @csrf
-                                            <label class="switch" id="switch">
-                                                <input type="checkbox" name="status"
-                                                    @if ($book->status == 1) checked @endif id="switchInput">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        {{-- <a
-                                            href="{{ route('admin.book.destroy', $book->id) }}"class="btn btn-danger rounded"><i
-                                                class="fas fa-trash"></i></a>
-                                        <a href="{{ route('admin.book.view', $book->id) }}"
-                                            class="btn btn-primary rounded"> <i class="fas fa-edit" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"></i></a> --}}
-                                    </td>
-                                </tr>
+                                        <td>{{ $book->price }} {{ $price->symbol }}</td>
+                                        <td>
+                                            <form action="{{ route('admin.status.edit', $book->id) }}" method="POST">
+                                                @csrf
+                                                <label class="switch" id="switch">
+                                                    <input type="checkbox" name="status"
+                                                        @if ($book->admin_status == 1) checked @endif id="switchInput">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <a
+                                                href="{{ route('admin.book.destroy', $book->id) }}"class="btn btn-danger rounded"><i
+                                                    class="fas fa-trash"></i></a>
+                                            <a href="{{ route('admin.edit.book', $book->id) }}"
+                                                class="btn btn-primary rounded">
+                                                <i class="fas fa-edit" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal"></i></a>
+                                        </td>
+                                    </tr>
+                                
                             @endforeach
                         </tbody>
                     </table>
@@ -125,34 +130,19 @@ $roles = userRolePermissionArray();
                                         <input type="text" class="form-control" placeholder="Title" name="title"
                                             id="title" value="">
                                     </div>
-                                    <div class=" col-lg-2 col-md-2 col-12">
-                                        <label for="price" class="form-label">Price</label>
-                                        <div class="input-group mb-3" style="margin-top: -2px; height: 67px;">
-                                            <select class="form-select form-select-md mb-3"
-                                                aria-label=".form-select-lg example" name="price_id">
-                                                <option value=""> </option>
-                                                @foreach ($prices as $price)
-                                                    <option @if ($price->id)  @endif
-                                                        value="{{ $price->id }}">
-                                                        {{ $price->symbol }}</option>
-                                                @endforeach
-                                            </select>
+                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4" style="display:none">
+                                        <label for="price_symbol" class="form-label">price_id</label>
+                                        <input type="text" src="" class="form-control px-3 pt-2" name="price_id"
+                                            id="price_symbol" value="{{ $price->id }}">
+                                    </div>
+                                    <div class=" col-lg-6 col-md-6 col-12 mt-3">
+                                        <div class="input-group mb-3 mt-3">
+                                            <span class="input-group-text"
+                                                style="
+                                                border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $price->symbol }}</span>
+                                            <input type="number" class="form-control" min="0" id="doller-input"
+                                                placeholder="Price" name="price">
                                         </div>
-                                    </div>
-                                    <div class=" col-lg-4 col-md-4 col-12 mt-4">
-                                        <input type="number" class="form-control" placeholder="Price" name="price"
-                                            id="price" value="" style="margin-top:4px">
-                                    </div>
-
-                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="discount" class="form-label">@lang('Discount')</label>
-                                        <input type="text" class="form-control" placeholder="@lang('Discount')"
-                                            name="discount" id="discount" value="">
-                                    </div>
-                                    <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="coupon" class="form-label">@lang('Coupon')</label>
-                                        <input type="text" class="form-control px-3 pt-2" name="coupon"
-                                            id="coupon" placeholder="@lang('Coupon')">
                                     </div>
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="categoty" class="form-label">@lang('Category')</label>
@@ -167,25 +157,33 @@ $roles = userRolePermissionArray();
                                             @endforeach
                                         </select>
                                     </div>
-
-                                    <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="image" class="form-label">@lang('Cover Image') </label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
                                             name="image" accept="image/*" id="image">
                                     </div>
 
-                                    <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="file" class="form-label">@lang('File')</label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
                                             name="file" accept="" id="file">
                                     </div>
 
-                                    <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="tag" class="form-label">@lang('Tag')</label>
                                         <input type="text" src="" class="form-control px-3 pt-2"
                                             name="tag" id="tag" placeholder="@lang('Tag')">
                                     </div>
-
+                                    <div class=" col-lg-6 col-md-6 col-12 mt-4">
+                                        <label for="status" class="form-label">Status</label>
+                                        <div class="input-group mb-3" style="margin-top: -2px; height: 67px;">
+                                            <select class="form-select form-select-md mb-3"
+                                                aria-label=".form-select-lg example" name="admin_status">
+                                                <option value="1" selected> Active</option>
+                                                <option value="0">Deactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                                         <label for="editor" class="form-label">@lang('Description')</label>
                                         <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
@@ -210,6 +208,7 @@ $roles = userRolePermissionArray();
             width: 60px;
             border-radius: 70px;
         }
+
         .modal-header .btn-close {
             padding: 0.5rem 0.5rem;
             opacity: 1;
@@ -300,6 +299,7 @@ $roles = userRolePermissionArray();
         $('.switch').click(function() {
             $(this).parents('form').submit();
         })
+        $('#doller-input')
     </script>
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>

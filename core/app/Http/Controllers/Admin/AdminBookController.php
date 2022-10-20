@@ -14,13 +14,14 @@ use Illuminate\Database\QueryException;
 class AdminBookController extends Controller
 {
     public function index()
-    { 
-        
-        $data['general_books'] = Book::with(['category','price'])->where('user_id', Auth::user()->id)->paginate(8);
-        $data['general_count'] = Book::where('user_id', Auth::guard('general')->id())->count();
+    {
+        $modalList =get_class(Auth::user());
+        // dd($modalList);
+        $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('bookable_type',$modalList)->paginate(8);
+        $data['general_count'] = Book::where('bookable_id', Auth::guard('general')->id())->count();
         $data['categories'] = AdminCategory::all();
-        $data['prices'] = PriceCurrency::all();
-        return view('admin.books.book',$data);
+        $data['price'] = PriceCurrency::first();
+        return view('admin.books.book', $data);
     }
     public function storeBook(Request $request)
     {
@@ -30,22 +31,19 @@ class AdminBookController extends Controller
             'description' => 'required',
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
-            'price_id' => 'required',
             'price' => 'required',
             'file' => 'required',
-            'discount' => 'numeric',
-            'coupon' => 'min:6|max:8',
         ]);
         try {
             $book = new Book();
-            $book->user_id = Auth::user()->id;
+            $book->bookable_id = Auth::user()->id;
+            $book->bookable_type = get_class(Auth::user());
             $book->title = $request->title;
             $book->description = $request->description;
             $book->category_id = $request->category;
             $book->price_id = $request->price_id;
+            $book->admin_status = $request->admin_status;
             $book->price = $request->price;
-            $book->discount = $request->discount;
-            $book->coupon = $request->coupon;
             $book->tag = $request->tag;
             $book->image = Generals::upload('books/', 'png', $request->image);
             $book->file = Generals::fileUpload('books/', $request->file);
@@ -55,4 +53,86 @@ class AdminBookController extends Controller
             dd($e->getMessage());
         }
     }
+    public function editBook($id)
+    {
+        $book = Book::with(['category', 'priceCurrency'])->findOrFail($id); // relation from events table->then plans table-> then ticket_type get data
+        $categories = AdminCategory::all();
+        $price = PriceCurrency::first();
+        return view('admin.books.edit_book', compact('book', 'categories', 'price'));
+    }
+
+    public function editStatusBook(Request $request, $id)
+    {
+        $books = Book::where('id', $id)->first();
+        if ($request->status == 'on') {
+            $books-> admin_status = 1;
+            $books->update();
+            $notify[] = ['success', 'Admin Status is Active'];
+            return redirect()->back()->withNotify($notify);
+        } else {
+            $books->admin_status = 0;
+            $books->update();
+            $notify[] = ['success', 'Admin Status is Inactive'];
+            return redirect()->back()->withNotify($notify);
+        }
+    }
+    public function updateBook(Request $request, $id)
+    {
+        //   dd($request->all());
+        $request->validate([
+            'title' => 'required|min:2|max:255',
+            'description' => 'required',
+            'category' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg',
+            'price' => 'required',
+            'file' => 'required',
+        ]);
+        try {
+            $book = Book::where('id', $id)->first();
+            $oldImage = $book->image;
+            $oldFile = $book->file;
+            $book->bookable_id = Auth::user()->id;
+            $book->bookable_type = get_class(Auth::user());
+            $book->title = $request->title;
+            $book->category_id = $request->category;
+            $book->price_id = $request->price_id;
+            $book->price = $request->price;
+            $book->admin_status = $request->admin_status;
+            $book->tag = $request->tag;
+            $book->description = $request->description;
+            $book->image = Generals::update('books/', $oldImage, 'png', $request->image);
+            $book->file = Generals::FileUpdate('books/', $oldFile, $request->file);
+            $book->update();
+            return redirect()->route("user.books")->with('success', "Books update Successfully");
+        } catch (QueryException $e) {
+            dd($e->getMessage());
+        }
+    }
+    public function destroy($id)
+    {
+        $book = Book::find($id);
+        Generals::unlink("books/", $book->image);
+        Generals::fileUnlink("books/", $book->file);
+        $book->delete();
+        return redirect()->back()->with('success', "Book delete Successfully");;
+    }
+
+    public function allMagazine()
+    {
+        $data['general_books'] = Book::with(['category', 'priceCurrency'])->paginate(8);
+        $data['general_count'] = Book::where('bookable_id', Auth::guard('general')->id())->count();
+        $data['categories'] = AdminCategory::all();
+        $data['price'] = PriceCurrency::first();
+        return view('admin.books.all_books', $data);
+    }
+
+    public function viewBook($id)
+    {
+        // dd('ok');
+        $book = Book::with(['category', 'priceCurrency'])->findOrFail($id); // relation from events table->then plans table-> then ticket_type get data
+        $categories = AdminCategory::all();
+        $price = PriceCurrency::first();
+        return view('admin.books.view_book', compact('book', 'categories', 'price'));
+    }
+
 }

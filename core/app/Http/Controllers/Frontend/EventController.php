@@ -32,7 +32,7 @@ class EventController extends Controller
        
         // $ticketId = $request->ticket_type_id;
         //     dd($ticketId);
-        dd($request->all());
+        // dd($request->all());
         $request->validate([
             'title' => 'required|min:2|max:255',
             'description' => 'required',

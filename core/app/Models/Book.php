@@ -18,30 +18,46 @@ class Book extends Model
      */
     protected $fillable = [
         'id',
-        'user_id',
+        'bookable_id',
+        'bookable_type',
         'category_id',
         'price_id',
         'price',
+        'paid_price', 
         'title',
+        'tag',
         'description',
         'image',
-        'tag',
         'status',
-        'slug',
+        'admin_status',
+        'file', 
         'coupon',
         'discount',
-        'file',
-       
+        'sold', 
+        'slug',
         
     ];
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
         'email_verified_at' => 'datetime',
     ];
+    public function admin(){
+        return $this->belongsTo(Auth::class,'bookable_id','id');
+    }
+    public function user(){
+        return $this->belongsTo(GeneralUser::class,'bookable_id','id');
+    }
     public function category(){
         return $this->belongsTo(AdminCategory::class);
     }
-    public function price(){
-        return $this->belongsTo(PriceCurrency::class);
+    public function priceCurrency(){
+        return $this->belongsTo(PriceCurrency::class,'price_id','id');
+    }
+    public function bookDetails(){
+        return $this->hasMany(BookDetails::class,'id','book_id');
+    }
+    public function bookable()
+    {
+        return $this->morphTo();
     }
 }

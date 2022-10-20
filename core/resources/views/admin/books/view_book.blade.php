@@ -1,5 +1,30 @@
-@extends('frontend.deshboard.master')
+@extends('admin.layout.master')
+@section('title')
+    All-Events
+@endsection
+@section('page-name')
+    All-Events
+@endsection
+@php
+$roles = userRolePermissionArray();
+@endphp
+
 @section('content')
+    <div class="dashboard-title-part">
+        <h5 class="title">Dashboard</h5>
+        <div href="" class="dashboard-path">
+            <a href={{ route('admin.dashboard') }}>
+                <span class="main-path">Dashboards</span>
+            </a>
+            <i class="las la-angle-right"></i>
+            <a href="#">
+                <span class="active-path g-color">All-Books</span>
+            </a>
+        </div>
+        <div class="view-prodact">
+
+        </div>
+    </div>
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -14,101 +39,84 @@
             <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close" data-bs-dismiss="alert"
                 aria-label="Close"></button>
         </div>
-    @endif
+    @endif                  
+
     <form class="form-dashboard" action="{{ route('user.update.books', $book->id) }}"method="POST"
         enctype="multipart/form-data" id="addEventForm">
         @csrf
         <div class="errMsgContainer" style="padding: 20px;">
         </div>
-        <div class="row g-4k" style="padding: 20px;">
+        <div class="row g-4k" style="padding: 20px; background-color:white;">
             <h5 class="modal-title mb-4" id="addModalLabel">Books Update</h5>
             <div class=" col-lg-6 col-md-6 col-12 pe-4">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" placeholder="Title" name="title" id="title"
-                    value="{{ $book->title }}">
+                <p>{!! $book->title !!}</p>
             </div>
             <div class=" col-lg-6 col-md-6 col-12 ">
                 <label for="doller-input" class="form-label"> Price</label>
                 <div class="input-group ">
-                    <span class="input-group-text" style="
-                        border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $price->symbol }}</span>
-                    <input type="number" class="form-control" min ="0" id="doller-input" placeholder="Price" name="price" value="{{ $book->price }}" required>
-                  </div>
+                    <p>{!! $book->price !!}{!! $price->symbol !!}</p>
+                </div>
             </div>
+
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="categoty" class="form-label">Category</label>
-                <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
-                    aria-label=".form-select-lg example" name="category">
-                    <option value=""> -- </option>
-                    @foreach ($categories as $category)
-                        <option @if ($book->category_id == $category->id) selected @endif value="{{ $category->id }}">
-                            {{ $category->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4" style="display:none">
-                <label for="tag" class="form-label">price_id</label>
-                <input type="text" src="" class="form-control px-3 pt-2" name="price_id"
-                    id="tag" placeholder="Tag" value="{{ $price->id }}" >
-            </div>
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="image" class="form-label">Image</label>
-                <input type="file" src="" class="form-control px-3 pt-2" name="image" accept="image/*"
-                    id="image">
-            </div>
-            <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="file" class="form-label">File</label>
-                <input type="file" src="" class="form-control px-3 pt-2" name="file"
-                    accept="" id="file">
+                <p>{!! $book->category->name !!}</p>
+
             </div>
             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="tag" class="form-label">Tag</label>
-                <input type="text" src="" class="form-control px-3 pt-2" name="tag" id="tag" placeholder="Tag" value="{{$book->tag}}">
+                <p>{!! $book->tag !!}</p>
             </div>
+            <div class="mb-3 mt-4 col-lg-12 col-md-12 col-12 pe-4">
+                <label for="image" class="form-label"> Cover Image</label>
+                <img src="{{ asset('core\storage\app\public\books\\' . $book->image) }}" alt="" style=" height: 230px;
+                width: 300px; padding-left: 20px;">
+            </div>
+
             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
-                <label for="editor" class="form-label">Description</label>
-                <textarea id="editor" name="description" rows="5" class="form-control" >{{$book->description}}</textarea>
+                <label for="doller-input" class="form-label">Description</label>
+                <p>{!! $book->description !!}</p>
             </div>
-            <div class="text-center" style="margin: auto;">
-                <button type="submit" style="width: 440px;" class="btn btn-primary " id="btn_add">Update</button>
-            </div>
+
         </div>
     </form>
+
 @endsection
-
-@push('meta')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="alternate" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
-        type="application/atom+xml" title="Atom">
-@endpush
-@push('css')
+@section('css')
     <style>
-        .form-control {
-
-            height: calc(2.3em + .75rem + 2px) !important;
-
+        .table-user-img {
+            height: 60px;
+            width: 60px;
+            border-radius: 70px;
+        }
+        p{
+            padding-left: 28px;
+        }
+        .modal-header .btn-close {
+            padding: 0.5rem 0.5rem;
+            opacity: 1;
         }
 
         .modal-title {
-            font-size: 25px;
-            color: white;
+            font-size: 20px;
         }
 
         .form-label {
-            font-size: 15px;
-            color: aliceblue;
+            color: black !important;
+            background-color: #2196F3;
+            font-size: 17px;
+            padding-left: 20px;   
         }
 
         /* Ck-editor css */
         .ck-blurred {
-            height: 350px !important;
+            height: 300px !important;
         }
 
         .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
         .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
-            height: 350px;
+            height: 300px;
         }
 
         /* switch button css */
@@ -163,7 +171,6 @@
             transform: translateX(26px);
         }
 
-
         .slider.round {
             border-radius: 34px;
         }
@@ -172,12 +179,17 @@
             border-radius: 50%;
         }
     </style>
-@endpush
-@push('js')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+@endsection
+
+@section('scripts')
+    <script>
+        $('.switch').click(function() {
+            $(this).parents('form').submit();
+        })
+        $('#doller-input')
+    </script>
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
     <script>
         let editor;
         ClassicEditor
@@ -192,4 +204,4 @@
             var descriptionData = editor.getData();
         })
     </script>
-@endpush
+@endsection

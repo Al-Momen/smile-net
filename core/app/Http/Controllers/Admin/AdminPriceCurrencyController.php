@@ -56,11 +56,4 @@ class AdminPriceCurrencyController extends Controller
         
     }
 
-    public function destroy($id)
-    {
-        $currency = PriceCurrency::find($id);
-        $currency->delete();
-        $notify[] = ['success', 'Currency delete Successfully'];
-        return redirect()->back()->withNotify($notify);
-    }
 }

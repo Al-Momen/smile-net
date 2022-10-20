@@ -166,7 +166,6 @@
                                     @endforeach
                                 </select>
                             </div>
-
                             <div class="mb-4 mt-4 col-lg-6 col-md-6 col-12 pe-4 checkbox-block">
                                 @foreach ($ticketType as $item)
                                     <div class="single-checkbox">
@@ -215,7 +214,7 @@
 @push('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
+    
 @endpush
 @push('css')
     <style>
@@ -301,8 +300,6 @@
             border-color: #bfb;
         }
 
-
-
         /* -----------------------switch button css------------------------- */
         .switch {
             position: relative;
@@ -366,12 +363,7 @@
     </style>
 @endpush
 @push('js')
-    {{-- toastr --}}
-    <script>
-        @if (Session::has('success'))
-            toastr.success("{{ session('success') }}")
-        @endif
-    </script>
+    
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
 
@@ -440,7 +432,6 @@
             var descriptionData = editor.getData();
         })
     </script>
-
     <script>
         $('.checkboxInput').change(function(){
             if($(this).is(':checked') == false) {

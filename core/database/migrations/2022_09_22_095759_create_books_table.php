@@ -15,20 +15,20 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("bookable_id");
+            $table->string("bookable_type");
             $table->unsignedBigInteger("category_id");
             $table->unsignedBigInteger("price_id");
-            $table->string("title");
             $table->string("price");
-            $table->string("pdf")->nullable();
-            $table->longText("description");
+            $table->string("paid_price")->nullable()->default(0);
+            $table->string("title");
             $table->string("image");
-            $table->string("tag")->nullable();
-            $table->tinyInteger("status")->nullable()->default(0);
-            $table->string("slug")->nullable();
-            $table->string("coupon")->nullable();
-            $table->decimal("discount")->nullable();
             $table->string("file");
+            $table->string("tag")->nullable();
+            $table->longText("description");
+            $table->tinyInteger("status")->nullable()->default(0);
+            $table->tinyInteger("admin_status")->nullable()->default(0);
+            $table->string("slug")->nullable();
             $table->timestamps();
         });
     }

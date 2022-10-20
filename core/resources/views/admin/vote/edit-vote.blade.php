@@ -25,10 +25,7 @@ $roles = userRolePermissionArray();
             </a>
         </div>
         <div class="view-prodact">
-            <a data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="las la-plus"></i>
-                <span>Update Vote</span>
-            </a>
+            
         </div>
     </div>
     <div class="table-content">
@@ -128,14 +125,13 @@ $roles = userRolePermissionArray();
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><a
                                         href="{{ route('admin.vote.index') }}">Close</a></button>
-                                <button type="submit" class="btn btn-primary">update</button>
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
 @section('scripts')
 @endsection

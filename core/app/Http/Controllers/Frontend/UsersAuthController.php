@@ -25,11 +25,14 @@ class UsersAuthController extends Controller
     public function userRegistrationForm(Request $request)
     {
         if ($request->isMethod('post')) {
-
+            $data = $request->validate([
+                'fullname' => 'required',
+                'email' => 'required|unique:general_users',
+                'phone' => 'required',
+                'password' => 'required',
+            ]);
             $data = $request->all();
-            // dd($data['fullname']);
             $general_user = GeneralUser::create([
-
                 'full_name' => $data['fullname'],
                 'email' => $data['email'],
                 'phone' => $data['phone'],
