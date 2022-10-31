@@ -19,10 +19,10 @@ return new class extends Migration
             $table->unsignedBigInteger('ticket_type_id');
             $table->integer('seat')->nullable();
             $table->double('price')->nullable();
+            $table->string('sold')->nullable();
             $table->timestamps();
         });
     }
-
     /**
      * Reverse the migrations.
      *

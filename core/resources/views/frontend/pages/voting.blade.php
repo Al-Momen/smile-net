@@ -3,10 +3,12 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
            Start Banner Section
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    <section class="ticket-banner  bg-overlay-base">
-        <img class="img-fluid" src="{{ URL::asset('assets/frontend/images/voting/vote1.jpg') }}" alt="banner image">
-    </section>
 
+    <section class="ticket-banner  bg-overlay-base">
+        @if($site_image->image ?? "")
+            <img class="img-fluid" src="{{ asset('core\storage\app\public\manage-site\\'. $site_image->image) }} "alt="banner image">
+        @endif
+    </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Start Movie Awads Section
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -16,7 +18,7 @@
                 <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold">{{ $category->name }}</h1>
                 <hr class="text-danger p-1 rounded" style="width: 75px;">
                 <!-- Swiper -->
-                <div class="swiper mySwiper pt-3">
+                <div class="swiper mySwiper2 pt-3">
                     <div class="swiper-wrapper" data-swiper-autoplay="4000">
                         @foreach ($category->votes as $items)
                             @if ($items->status === 1)

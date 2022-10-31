@@ -17,7 +17,7 @@ class AdminBookController extends Controller
     {
         $modalList =get_class(Auth::user());
         // dd($modalList);
-        $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('bookable_type',$modalList)->paginate(8);
+        $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('bookable_type',$modalList)->paginate(10);
         $data['general_count'] = Book::where('bookable_id', Auth::guard('general')->id())->count();
         $data['categories'] = AdminCategory::all();
         $data['price'] = PriceCurrency::first();
@@ -63,6 +63,7 @@ class AdminBookController extends Controller
 
     public function editStatusBook(Request $request, $id)
     {
+        
         $books = Book::where('id', $id)->first();
         if ($request->status == 'on') {
             $books-> admin_status = 1;

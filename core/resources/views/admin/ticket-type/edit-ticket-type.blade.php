@@ -6,7 +6,7 @@
     Category
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
 
 @section('content')
@@ -17,7 +17,7 @@ $roles = userRolePermissionArray();
                 <span class="main-path">Dashboards</span>
             </a>
             <i class="las la-angle-right"></i>
-            <a href="{{route('admin.ticket.type.index')}}">
+            <a href="{{ route('admin.ticket.type.index') }}">
                 <span class="active-path g-color">Category</span>
             </a>
             <i class="las la-angle-right"></i>
@@ -52,23 +52,31 @@ $roles = userRolePermissionArray();
             @endif
             <!-- Button trigger modal -->
             <div>
-
                 <div>
-                    <form action="{{ route('admin.ticket.type.update',$ticketTypes->id) }}" method="POST">
+                    <form action="{{ route('admin.ticket.type.update', $ticketTypes->id) }}" method="POST">
                         @csrf
                         <div class="modal-body">
                             <div class="modal-content">
-    
                                 <div class="modal-header bg--primary">
-                                    <h5 class="modal-title text-white">@lang('Add Ticket Types')</h5>
-                                    
-    
+                                    <h5 class="modal-title text-white">@lang('Edit Ticket Types')</h5>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label>@lang('Ticket Types Name')</label>
                                         <input class="form-control form--control" type="text" name="name"
                                             placeholder="@lang('Ticket Types Name')" required value="{{ $ticketTypes->name }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="input-group mb-3 mt-3">
+                                            <span class="input-group-text"
+                                                style="
+                                                    border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $priceCurriency->symbol }}</span>
+                                            <input type="number" class="form-control d-none" min="0"
+                                                id="doller-input" placeholder="Price" name="priceCurriency_id"
+                                                value="{{ $priceCurriency->id }}">
+                                            <input type="number" class="form-control" min="0" id="doller-input"
+                                                placeholder="Price" name="price" value={{$ticketTypes->price}}>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label>@lang('Ticket Types Description')</label>
@@ -79,7 +87,8 @@ $roles = userRolePermissionArray();
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><a href="{{route('admin.ticket.type.index')}}">Close</a></button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><a
+                                    href="{{ route('admin.ticket.type.index') }}">Close</a></button>
                             <button type="submit" class="btn btn-primary">update</button>
                         </div>
                     </form>
@@ -87,7 +96,7 @@ $roles = userRolePermissionArray();
             </div>
         </div>
     </div>
-    
+
 @endsection
 @section('scripts')
 @endsection

@@ -12,19 +12,20 @@ use Illuminate\Http\Response;
 use App\Http\Helpers\Generals;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\PriceCurrency;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 
 class EventController extends Controller
 {
-
     public function events()
     {
         $data['general_events'] = Event::with(['category'])->where('user_id', Auth::guard('general')->id())->paginate(8);
         $data['general_count'] = Event::where('user_id', Auth::guard('general')->id())->count();
         $data['categories'] = AdminCategory::all();
         $data['ticketType'] = TicketType::all();
+        $data['priceCurrency'] = PriceCurrency::first();
         return view('frontend.deshboard.pages.event', $data);
     }
     public function storeEvents(Request $request)
@@ -45,6 +46,7 @@ class EventController extends Controller
         try {
             $event = new Event();
             $event->user_id = Auth::guard('general')->user()->id;
+            $event->price_currency_id = $request->price_currency_id;
             $event->title = $request->title;
             $event->description = $request->description;
             $event->start_date = $request->start_date;
@@ -73,10 +75,11 @@ class EventController extends Controller
     }
     public function editEvents($id)
     {
-        $event = Event::with(['plans',"plans.ticket_type"])->findOrFail($id); // relation from events table->then plans table-> then ticket_type get data
+        $event = Event::with(['plans',"plans.ticketType"])->findOrFail($id); // relation from events table->then plans table-> then ticket_type get data
         $categories = AdminCategory::all();
         $ticketType= TicketType::all();
-        return view('frontend.deshboard.pages.edit_event', compact('event', 'categories','ticketType'));
+        $priceCurrency = PriceCurrency::first();
+        return view('frontend.deshboard.pages.edit_event', compact('event', 'categories','ticketType','priceCurrency'));
     }
     public function updateEvents(Request $request, $id)
     { 
@@ -94,6 +97,7 @@ class EventController extends Controller
             $event = Event::findOrFail($id);
             $oldImage = $event->image;
             $event->user_id = Auth::guard('general')->user()->id;
+            $event->price_currency_id = $request->price_currency_id;
             $event->title = $request->title;
             $event->description = $request->description;
             $event->start_date = $request->start_date;

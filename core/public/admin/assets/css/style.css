@@ -661,6 +661,17 @@ blockquote .quote-icon {
 *:hover::-webkit-scrollbar-thumb {
   background: #eaf7e4;
 }
+.table-responsive::-webkit-scrollbar {
+  width: 8px;
+  height: 10px;
+  background: green;
+}
+.table-responsive::-webkit-scrollbar-thumb {
+  background: red !important;
+}
+.table-responsive::-webkit-scrollbar-button {
+  display: block !important;
+}
 
 /*-------------------------------------------------
     [ ## Table ]
@@ -728,7 +739,9 @@ blockquote .quote-icon {
   border-radius: 5px;
   color: #fff;
 }
-
+table{
+  white-space: nowrap;
+}
 .custom-table {
   width: 100%;
 }

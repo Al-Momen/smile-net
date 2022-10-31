@@ -32,9 +32,9 @@ class Plan extends Model
     {
         return $this->belongsTo(Event::class);
     }
-    public function ticket_type()
+    public function ticketType()
     {
-        return $this->belongsTo(TicketType::class);
+        return $this->belongsTo(TicketType::class,'ticket_type_id','id');
     }
 
 }

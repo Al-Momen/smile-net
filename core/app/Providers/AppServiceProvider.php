@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\AdminSocialLink;
 use App\Models\User;
 use App\Models\AdminCategory;
 use App\Models\SupportTicket;
@@ -47,6 +48,7 @@ class AppServiceProvider extends ServiceProvider
         $viewShare['activeTemplateTrue'] = activeTemplate(true);
         //nabvar use this variable 
         $viewShare['category_events'] = AdminCategory::all();
+        $viewShare['social_link'] = AdminSocialLink::first();
         view()->share($viewShare);
         view()->composer('admin.layout.left_sidebar', function ($view) {
             $view->with([

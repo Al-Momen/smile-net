@@ -77,7 +77,7 @@
                                                 alt="Image"></td>
                                         <td>{{ $book->category->name }}</td>
                                         <td>
-                                            <form action="{{ route('admin.status.edit', $book->id) }}" method="POST">
+                                            <form action="{{ route('admin.admin_status.edit', $book->id) }}" method="POST">
                                                 @csrf
                                                 <label class="switch" id="switch">
                                                     <input type="checkbox" name="status"
@@ -102,7 +102,7 @@
                                                 alt="Image"></td>
                                         <td>{{ $book->category->name }}</td>
                                         <td>
-                                            <form action="{{ route('admin.status.edit', $book->id) }}" method="POST">
+                                            <form action="{{ route('admin.admin_status.edit', $book->id) }}" method="POST">
                                                 @csrf
                                                 <label class="switch" id="switch">
                                                     <input type="checkbox" name="status"
@@ -122,6 +122,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{$general_books->links()}}
                 </div>
             </div>
         </div>

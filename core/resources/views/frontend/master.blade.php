@@ -8,7 +8,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Smile Net</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
 
     <link rel="stylesheet" href="{{asset('assets/frontend/css/style.css') }}">
     <!-- fontawesome css link -->
@@ -68,7 +70,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <video id="player" class="video-player" playsinline controls data-poster="">
-                        <source src="{{asset('assets/frontend/video/video.mp4')}}" type="video/mp4" />
+                        <source src="http://localhost/smile-net/core/storage/app/public/top-movies/movies/2022-10-31-1667203379.mkv" type="video/mp4" />
                     </video>
                 </div>
             </div>
@@ -77,21 +79,27 @@
 
 
 
+    <!-- jquery js -->
+    <script src="{{asset('assets/frontend/js/jquery-3.3.1.min.js')}}"></script>
     <!-- bootstrap js -->
-    <script src="{{ asset('assets/frontend/js/jquery-3.3.1.min.js')}}"></script>
-    
-    <script src="{{ asset('assets/frontend/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets/frontend/js/bootstrap.min.js')}}"></script>
     <!-- swipper js -->
     <script src="{{asset('assets/frontend/js/swiper.min.js')}}"></script>
-    <!-- lightcase js-->
+    <!-- Music -->
+    <script src="{{asset('assets/frontend/js/music.js')}}"></script>
+    <!-- chosen -->
     <script src="{{asset('assets/frontend/js/lightcase.js')}}"></script>
+    <!-- chosen -->
+    <script src="{{asset('assets/frontend/js/chosen.jquery.js')}}"></script>
+    <!-- moment -->
+    <script src="{{asset('assets/frontend/js/moment.min.js')}}"></script>
     <!-- script -->
     <script src="{{asset('assets/frontend/js/script.js')}}"></script>
 
     <!-- Initialize Swiper -->
     <script>
         var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 4,
+            slidesPerView: 1,
             spaceBetween: 30,
             loop: false,
             direction: 'horizontal',
@@ -121,7 +129,7 @@
         });
 
         var swiper2 = new Swiper(".mySwiper2", {
-            slidesPerView: 3,
+            slidesPerView: 4,
             spaceBetween: 20,
             freeMode: true,
             autoplay: {
@@ -159,7 +167,35 @@
 
         var swiper = new Swiper(".mySwiper4", {
             slidesPerView: 3,
-            spaceBetween: 40,
+            spaceBetween: 30,
+            freeMode: true,
+            autoplay: {
+                delay: 6000,
+                disableOnInteraction: false
+            },
+            breakpoints: {
+                '480': {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                },
+                '768': {
+                    slidesPerView: 2,
+                    spaceBetween: 20,
+                },
+                '820': {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                },
+                '912': {
+                    slidesPerView: 3,
+                    spaceBetween: 20,
+                },
+            },
+        });
+
+        var swiper = new Swiper(".mySwiper5", {
+            slidesPerView: 4,
+            spaceBetween: 30,
             freeMode: true,
             autoplay: {
                 delay: 6000,

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Book;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class BookDetails extends Model
 {
@@ -23,6 +24,6 @@ class BookDetails extends Model
     ];
 
     public function book(){
-        return $this->belongsTo(BookDetails::class,'book_id','id');
+        return $this->belongsTo(Book::class,'book_id','id');
     }
 }

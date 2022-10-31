@@ -56,18 +56,24 @@
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4 checkbox-block bg-white">
                 @foreach ($event->plans as $item)
                     <div class="single-checkbox">
-                        <input class="checkboxInput" type="checkbox" id="{{ $item->ticket_type->name }}"
+                        <input class="checkboxInput" type="checkbox" id="{{ $item->ticketType->name }}"
                             name="ticket_type_id[]" value="{{ $item->ticket_type_id }}" data-bs-toggle="collapse"
-                            data-bs-target="#{{ $item->ticket_type->name }}" aria-expanded="true" aria-controls="collapse"
+                            data-bs-target="#{{ $item->ticketType->name }}" aria-expanded="true" aria-controls="collapse"
                             @if ($item->ticket_type_id) checked @endif>
-                        <label for="{{ $item->ticket_type->name }}"
-                            class="text-capitalize">{{ $item->ticket_type->name }}</label>
-                        <div class="collapse show" id="{{ $item->ticket_type->name }}">
+                        <label for="{{ $item->ticketType->name }}"
+                            class="text-capitalize">{{ $item->ticketType->name }}</label>
+                        <div class="collapse show" id="{{ $item->ticketType->name }}">
                             <label for="basic">Seat</label>
                             <input type="number" name="seat[]" placeholder="Enter your Seat" value="{{ $item->seat }}">
                             <label for="basic">Price</label>
-                            <input type="number" name="price[]" placeholder="Enter your Price"
-                                value="{{ $item->price }}">
+                            <div class="input-group mb-3 mt-3">
+                                <span class="input-group-text"
+                                    style="
+                                        border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $priceCurrency->symbol }}</span>
+                                        <input class="d-none" type="text" name="price_currency_id" value="{{ $priceCurrency->id }}">
+                                <input type="number" class="form-control" min="0"
+                                    id="doller-input" placeholder="Enter your {{ $item->name }} Price" name="price[]" value="{{$item->price}}">
+                            </div>
                         </div>
                     </div>
                 @endforeach

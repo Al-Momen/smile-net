@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Frontend;
 use Carbon\Carbon;
 use App\Models\Book;
 use App\Models\News;
+use App\Models\Plan;
 use App\Models\Event;
 use App\Models\Coupon;
 use App\Models\UserVote;
 use App\Models\AdminVote;
 use App\Models\GeneralUser;
+use App\Models\AdminPricing;
 use Illuminate\Http\Request;
 use App\Models\AdminVoteImage;
+use App\Models\PricingDetails;
 use App\Models\GeneralUserVote;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -32,7 +35,21 @@ class UsersDeshboardController extends Controller
         return view('frontend.pages.place_order', compact('book'));
     }
 
-    // ---------------User coupon check---------------
+    // ----------------------------------------Pricing Place Order----------------------------------------
+    public function pricingPlaceOrder($id)
+    {
+        $pricing = AdminPricing::with(['priceCurrency'])->findOrFail($id);
+        return view('frontend.pages.pricing_place_order', compact('pricing'));
+    }
+
+    // --------------------------------------- plan Pricing place order page---------------------------------------
+    public function planPricingPlaceOrder($id)
+    {
+        $plan = Plan::where('id',$id)->with(['ticketType','event.priceCurrency'])->first();
+        return view('frontend.pages.plan_pricing_place_order',compact('plan'));
+    }
+
+    // ---------------User coupon check by ajax---------------
     public function UserCouponCheck(Request $request)
     {
         if ($request->coupon_check) {
@@ -55,6 +72,7 @@ class UsersDeshboardController extends Controller
             };   
         }
     }
+
     public function voteDetails($id)
     {
         $adminVote = AdminVote::with(['adminVoteImages', 'adminVoteImages.userVotes'])->findOrFail($id);
@@ -80,6 +98,10 @@ class UsersDeshboardController extends Controller
         return redirect()->back()->with('success', 'You Vote successfully');
     }
     public function userPayment(Request $request)
+    {
+        dd($request->all());
+    }
+    public function likeComment(Request $request)
     {
         dd($request->all());
     }

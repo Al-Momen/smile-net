@@ -13,6 +13,7 @@ class TicketType extends Model
 
     protected $fillable = [
         'id',
+        'price_currency_id',
         'name',
         'description',
        
@@ -24,5 +25,9 @@ class TicketType extends Model
     public function plans()
     {
         return $this->hasMany(plan::class);
+    }
+    public function priceCurrency()
+    {
+        return $this->belongsTo(PriceCurrency::class, 'price_currency_id', 'id');
     }
 }

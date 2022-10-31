@@ -17,6 +17,7 @@
     <input type="hidden" name="base_url" id="base_url" value="{{ url('/') }}">
     @include('admin.layout.includes.css')
     @yield('css')
+    @stack('css')
 </head>
 <!-- END: Head-->
 <body>

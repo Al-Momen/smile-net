@@ -20,6 +20,7 @@ class Event extends Model
         'id',
         'user_id',
         'category_id',
+        'price_currency_id',
         'title',
         'description',
         'image',
@@ -46,6 +47,11 @@ class Event extends Model
     {
         return $this->belongsTo(GeneralUser::class);
     }   
+   
+    public function priceCurrency()
+    {
+        return $this->belongsTo(PriceCurrency::class, 'price_currency_id', 'id');
+    }
      // --------------relation plan one to many--------------
     public function plans()
     {

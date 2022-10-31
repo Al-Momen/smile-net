@@ -14,7 +14,7 @@ class AdminEventController extends Controller
 {
    public function index()
    {
-      $events = Event::with('user')->get();
+      $events = Event::with('user')->paginate(10);
       $general_user = GeneralUser::all();
       return view('admin.all-events.index', compact('events', 'general_user'));
    }

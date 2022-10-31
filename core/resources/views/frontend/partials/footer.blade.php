@@ -15,16 +15,13 @@
                         Resources
                     </h6>
                     <p>
-                        <a href="#0" class="text-reset">Home</a>
+                        <a href="{{route('index')}}" class="text-reset">Home</a>
                     </p>
                     <p>
-                        <a href="#0" class="text-reset">Movies</a>
+                        <a href="" class="text-reset">Movies</a>
                     </p>
                     <p>
-                        <a href="#0" class="text-reset">Tickets</a>
-                    </p>
-                    <p>
-                        <a href="#0" class="text-reset">News</a>
+                        <a href="{{route('news')}}" class="text-reset">News</a>
                     </p>
                 </div>
 
@@ -49,9 +46,9 @@
                     <h6 class="text-uppercase fw-bold mb-4">
                         Contact
                     </h6>
-                    <p><i class="fas fa-home me-3"></i>Medino, Kitaniya Road , USA</p>
-                    <p><i class="fas fa-envelope me-3"></i>info@example.com</p>
-                    <p><i class="fas fa-phone me-3"></i> + 1-234-567-890</p>
+                    <p><i class="fas fa-home me-3"></i>{{$social_link->address}}</p>
+                    <p><i class="fas fa-envelope me-3"></i>{{$social_link->email}}</p>
+                    <p><i class="fas fa-phone me-3"></i> {{$social_link->phone}}</p>
                 </div>
             </div>
         </div>
@@ -62,21 +59,21 @@
         <div class="me-5 d-none d-lg-block">
             <p>
                 © 2022 Copyright:
-                <a class="text-reset fw-bold" href="#0">smile net</a>
+                <a class="text-reset fw-bold" href="{{route('index')}}">smile net</a>
             </p>
         </div>
 
         <div>
-            <a href="#0" class="me-4 text-reset text-decoration-none">
+            <a href="{{URL($social_link->fb_link)}}" class="me-4 text-reset text-decoration-none">
                 <i class="fab fa-facebook-f"></i>
             </a>
-            <a href="#0" class="me-4 text-reset text-decoration-none">
+            <a href="{{URL($social_link->twitter_link)}}" class="me-4 text-reset text-decoration-none">
                 <i class="fab fa-twitter"></i>
             </a>
-            <a href="#0" class="me-4 text-reset text-decoration-none">
+            <a href="{{URL($social_link->instragram_link)}}" class="me-4 text-reset text-decoration-none">
                 <i class="fab fa-instagram"></i>
             </a>
-            <a href="#0" class="me-4 text-reset text-decoration-none">
+            <a href="{{URL($social_link->linkedin_link)}}" class="me-4 text-reset text-decoration-none">
                 <i class="fab fa-linkedin"></i>
             </a>
         </div>

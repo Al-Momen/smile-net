@@ -1,12 +1,12 @@
 @extends('admin.layout.master')
 @section('title')
-    Category
+    Ticket Type
 @endsection
 @section('page-name')
-    Category
+    Ticket Type
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
 
 @section('content')
@@ -41,6 +41,8 @@ $roles = userRolePermissionArray();
                             <tr>
                                 <th scope="col">SI</th>
                                 <th scope="col">Ticket Type Name</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Price symbol</th>
                                 <th scope="col">Ticket Type Description</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -53,22 +55,23 @@ $roles = userRolePermissionArray();
                             @endif
                             @foreach ($ticketTypes as $ticketType)
                                 <tr>
-                                    <td>{{$i++}}</td>
+                                    <td>{{ $i++ }}</td>
                                     <td class="text-capitalize">{{ $ticketType->name }}</td>
+                                    <td class="text-capitalize">{{ $ticketType->priceCurrency->symbol }}</td>
+                                    <td class="text-capitalize">{{ $ticketType->price }}</td>
                                     <td>{{ $ticketType->description }}</td>
                                     <td>
                                         <a
                                             href="{{ route('admin.ticket.type.destroy', $ticketType->id) }}"class="btn btn-danger rounded"><i
                                                 class="fas fa-trash"></i></a>
                                         <a href="{{ route('admin.ticket.type.edit', $ticketType->id) }}"
-                                            class="btn btn-primary rounded"> <i class="fas fa-edit" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"></i></a>
+                                            class="btn btn-primary rounded"> <i class="fas fa-edit"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    {{$ticketTypes->links()}}
+                    {{ $ticketTypes->links() }}
                 </div>
             </div>
         </div>
@@ -95,6 +98,17 @@ $roles = userRolePermissionArray();
                                         placeholder="@lang('Ticket Type Name')" required value="{{ old('name') }}">
                                 </div>
                                 <div class="form-group">
+                                    <div class="input-group mb-3 mt-3">
+                                        <span class="input-group-text"
+                                            style="
+                                                border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $priceCurriency->symbol }}</span>
+                                        <input type="number" class="form-control d-none" min="0" id="doller-input"
+                                            placeholder="Price" name="priceCurriency_id" value="{{$priceCurriency->id}}">
+                                        <input type="number" class="form-control" min="0" id="doller-input"
+                                            placeholder="Price" name="price">
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label>@lang('Ticket Type Description')</label>
                                     <textarea class="form-control form--control" type="text" name="description" rows="4" cols="50" required
                                         value="{{ old('ticket_description') }}" style="height: 140px;" placeholder="@lang('Ticket Type Description')"></textarea>
@@ -113,10 +127,10 @@ $roles = userRolePermissionArray();
 @endsection
 
 @section('scripts')
- {{-- toastr --}}
- <script>
-    @if (Session::has('success'))
-        toastr.success("{{ session('success') }}")
-    @endif
-</script>
+    {{-- toastr --}}
+    <script>
+        @if (Session::has('success'))
+            toastr.success("{{ session('success') }}")
+        @endif
+    </script>
 @endsection

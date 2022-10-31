@@ -54,7 +54,7 @@ class Book extends Model
         return $this->belongsTo(PriceCurrency::class,'price_id','id');
     }
     public function bookDetails(){
-        return $this->hasMany(BookDetails::class,'id','book_id');
+        return $this->hasMany(BookDetails::class,'book_id','id');
     }
     public function bookable()
     {

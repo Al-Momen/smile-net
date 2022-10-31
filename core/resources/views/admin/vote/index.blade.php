@@ -66,7 +66,7 @@ $roles = userRolePermissionArray();
                                             src="{{ asset('core\storage\app\public\votes\\' . $vote->image_two) }}"
                                             alt="Image"></td>
                                     <td>
-                                        <form action="{{ route('admin.status.edit', $vote->id) }}" method="POST">
+                                        <form action="{{ route('admin.vote.status.edit', $vote->id) }}" method="POST">
                                             @csrf
                                             <label class="switch" id="switch">
                                                 <input type="checkbox" name="status"

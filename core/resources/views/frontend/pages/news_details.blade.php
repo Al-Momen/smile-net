@@ -1,140 +1,171 @@
 @extends('frontend.master')
 @section('content')
-
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            Start Banner Section
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-  
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            End Banner Section
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                Start Banner Section
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            Start News Card Section
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                End Banner Section
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                Start News Card Section
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="news-details">
         <div class="container mx-auto py-5">
-            <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold text-center pt-3">15 movie blogs fans should
+            <h1 class="text-white fw-bold fs-2 text-capitalize fw-bold text-center pt-3">{{ $news->title }}
             </h1>
             <hr class="text-danger p-1 rounded mx-auto" style="width: 100px;">
-            <img class="w-75 py-3 mx-auto d-block" src="{{asset('assets/frontend/images/news/n-details1.jpg')}}" />
-    
-            <div style="max-width: 700px; top: -80px;" class="mx-auto text-white">
-                <p class="my-2" style="line-height: 2;">Lorem Ipsum is simply dummy text of the printing and
-                    typesetting
-                    industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                    unknown
-                    printer took a galley of type and scrambled it to make a type specimen book. It has survived not
-                    only five
-                    centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It
-                    was
-                    popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                    and
-                    more
-                    recently with desktop publishing software like Aldus PageMaker including versions of Lorem
-                    Ipsum.
-                </p>
-                <br>
-                <br>
-    
-                <h3 class="font-weight-bold text-white">#1. What is Lorem Ipsum?</h3>
-                <p class="my-2" style="line-height: 2;">Lorem Ipsum is simply dummy text of the printing and
-                    typesetting
-                    industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                    unknown
-                    printer took a galley of type and scrambled it to make a type specimen book. It has survived not
-                    only five
-                    centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It
-                    was
-                    popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                    and
-                    more
-                    recently with desktop publishing software like Aldus PageMaker including versions of Lorem
-                    Ipsum.
-                </p>
-    
-                <br>
-    
-                <blockquote class=p-3 font-italic" style="border-left: 4px solid black; line-height: 2;">
-                    Lorem
-                    Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-                    industry's
-                    standard dummy text ever since the 1500s</blockquote>
-    
-                <br>
-    
-                <p class="my-2" style="line-height: 2;">Lorem Ipsum is simply dummy text of the printing and
-                    typesetting
-                    industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                    unknown
-                    printer took a galley of type and scrambled it to make a type specimen book. It has survived not
-                    only five
-                    centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It
-                    was
-                    popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                    and
-                    more
-                    recently with desktop publishing software like Aldus PageMaker including versions of Lorem
-                    Ipsum.
-                </p>
-    
+            <img class="w-75 py-3 mx-auto d-block" src="{{ asset('core\storage\app\public\news\\' . $news->image) }}" />
+            <div style="max-width: 830px; top: -80px;" class="mx-auto text-white">
+                <p class="my-2" style="line-height: 40px;">{!! $news->description !!}</p>
                 <div class="my-3">
+                    <h3 style="color: blue">#Tag</h3>
                     <small>
-                        <a href="#" class="text-primary">#bestmovie</a>, <a href="#" class="text-primary">#politics</a>,
-                        <a href="#" class="text-primary">#topmovies</a>, <a href="#" class="text-primary">#15movies</a>,
-                        <a href="#" class="text-primary">#2022</a>
+                        {{ preg_replace('/ /i', ', ', $news->title) }}
                     </small>
                 </div>
-    
+
                 <div class="pt-5">
                     <div>
-                        <div class="pb-5 d-flex">
-                            <h3 class="text-white pe-3 my-auto">10k</h3>
-                            <button class="btn btn-primary text-white"><i class="fas fa-thumbs-up"></i></button>
-                        </div>
-                        <h3 class="text-uppercase text-white">comments</h3>
+                        <form action="" method="" class="pt-3" id="addNewsLikeForm">
+                            <div class="d-none">
+                                <div class="pb-5 d-flex">
+                                    <input type="text" id="newsLikeId" name="news_id" value="{{ $news->id }}">
+                                </div>
+                            </div>
+                            <div class="pb-5 d-flex">
+                                <h3 class="text-white pe-3 my-auto" id="totalLike">{{ $totalLike }}</h3>
+                                <button class="btn btn-primary text-white " id="newsLikeButton" type="submit"><i
+                                        class="fas fa-thumbs-up"></i></button>
+                            </div>
+                        </form>
                     </div>
-                    <form action="" class="pt-3">
-                        <div class="mb-3">
-                            <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2"
-                                    style="height: 100px"></textarea>
-                                <label for="floatingTextarea2">Comments</label>
+
+                    <form action="" method="" class="pt-3" id="addNewsCommentForm">
+                        @csrf
+                        <div class="d-none">
+                            <div class="pb-5 d-flex">
+                                <input type="text" name="news_id" value="{{ $news->id }}">
                             </div>
                         </div>
-                        <button class="btn btn-primary w-25">Post</button>
-                    </form>
-    
-                    <div class="d-flex cmnt-details mt-5 p-2 bg-primary rounded-3">
-                        <img src="{{asset('assets/frontend/images/bookMagazine/user.jpg')}}" class="rounded-circle me-3" alt="">
-                        <div>
-                            <h6 class="text-white">Jhon Danels</h6>
-                            <p class="fs-6 text-white pe-3">Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                                Qui,
-                                consequuntur repudiandae
-                                libero repellat provident quo dolor aliquid </p>
+                        <div class="mb-3">
+                            <h3 class="text-uppercase text-white mb-3">comments</h3>
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="newsComment" style="height: 100px" name="comment"></textarea>
+                                <label for="newsComment">Comments</label>
+                            </div>
                         </div>
+                        <button class="btn btn-primary w-25" type="submit">Post</button>
+                    </form>
+                    <div id="commentShow">
+                        @foreach ($newsComments as $comment)
+                            <div class="d-flex cmnt-details mt-5 p-2 bg-primary rounded-3">
+                                <img src="{{ asset('core\storage\app\public\profile\\' . $comment->user?->photo) }}"
+                                    class="rounded-circle me-3" alt="">
+                                <div>
+                                    <h6 class="text-white">{{ $comment->user?->full_name }}</h6>
+                                    <p class="fs-6 text-white pe-3">{{ $comment->comment }} </p>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
+                    <br>
+                    <span style="width: max-content; margin-left: auto;">{{$newsComments->links()}}</span>
+                    
                 </div>
             </div>
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            End News Card Section
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                     End News Card Section
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    @push('js')
+        <script>
+            $(document).ready(function() {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
 
+                // ---------------------------News details like ajax----------------------
+                $(document).on("submit", "form#addNewsLikeForm", function(event) {
+                    event.preventDefault();
+                    $.ajax({
+                        url: "{{ route('news.like') }}",
+                        method: "POST",
+                        data: {
+                            "like": true,
+                            'news_id': $('#newsLikeId').val(),
+                        },
+                        success: function(res) {
+                            if (res.status) {
+                                // console.log(res.data);
+                                $('#totalLike').html(res.data);
+                            } else {
+                                alert(res.message)
+                            }
+                        },
+                        error: function(err) {
+                            let error = err.responseJSON;
+                            $.each(error.errors, function(index, value) {
+                                console.log(value);
+                                $('#commentShow').append(
+                                    '<span class="text-danger">' +
+                                    value +
+                                    '</span>' + '</br>');
+                            });
+                        }
+                    });
+                });
+
+                // ---------------------------News details comment ajax----------------------
+                $(document).on("submit", "form#addNewsCommentForm", function(event) {
+                    event.preventDefault();
+                    $.ajax({
+                        url: "{{ route('news.comment') }}",
+                        method: "POST",
+                        data: new FormData(this),
+                        dataType: 'JSON',
+                        processData: false,
+                        contentType: false,
+                        success: function(res) {
+                            console.log(res);
+                            if (res.status) {
+                                $('#addNewsCommentForm').trigger("reset");
+                                let photo =
+                                    "{{ asset('core/storage/app/public/profile/' . ':photo') }}";
+                                photo = photo.replace(':photo', res.data.user.photo);
+                                $('#commentShow').append(
+                                    `
+                                        <div class="d-flex cmnt-details mt-5 p-2 bg-primary rounded-3">
+                                            <img src="${photo}" class="rounded-circle me-3" alt="${res.data.user.full_name}">
+                                            <div>
+                                                <h6 class="text-white">${res.data.user.full_name}</h6>
+                                                <p class="fs-6 text-white pe-3">${res.data.comment}</p>
+                                            </div> 
+                                        </div> 
+                                    `
+                                )
+                                toastr.success(res.message);
+                            } else {
+                                alert(res.message)
+                                window.location.href = '{{ route('login') }}';
+                            }
+                        },
+                        error: function(err) {
+                            let error = err.responseJSON;
+                            $.each(error.errors, function(index, value) {
+                                console.log(value);
+                                $('#commentShow').append(
+                                    '<span class="text-danger">' + value + '</span>' +
+                                    '</br>');
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
+    @endpush
 @endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -79,7 +79,7 @@ $roles = userRolePermissionArray();
                                     <td>{{ $event->title }}</td>
                                     <td>{{ $event->category->name }}</td>
                                     <td>
-                                        <form action="{{ route('admin.status.edit', $event->id) }}" method="POST">
+                                        <form action="{{ route('admin.event.status.edit', $event->id) }}" method="POST">
                                             @csrf
                                             <label class="switch" id="switch">
                                                 <input type="checkbox" name="status"
@@ -100,6 +100,7 @@ $roles = userRolePermissionArray();
                             @endforeach
                         </tbody>
                     </table>
+                    {{$events->links()}}
                 </div>
             </div>
         </div>

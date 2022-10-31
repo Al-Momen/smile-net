@@ -67,7 +67,6 @@ class Generals
      // File update
      public static function FileUpdate(string $dir, $old_file, $file = null)
      {
-        
          if ($file == null) {
              return $old_file;
          }

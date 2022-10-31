@@ -17,7 +17,7 @@ class BookController extends Controller
 {
     public function books()
     {
-         $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('bookable_id', Auth::guard('general')->id())->paginate(8);
+        $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('bookable_id', Auth::guard('general')->id())->paginate(8);
         $data['general_count'] = Book::where('bookable_id', Auth::guard('general')->id())->count();
         $data['categories'] = AdminCategory::all();
         $data['price'] = PriceCurrency::first();
@@ -28,8 +28,7 @@ class BookController extends Controller
         //   dd($request->all());
         $request->validate([
             'title' => 'required|min:2|max:255',
-            'description' => 'required',
-            'category' => 'required',
+            'name' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
             'price' => 'required',
             'file' => 'required',

@@ -245,8 +245,8 @@ class UserSeeder extends Seeder
         //Make super admin user
         $auth_id = DB::table('auths')->insertGetId(
             [
-                'email'         => 'admin@admin.com',
-                'password'      => bcrypt('admin123'),
+                'email'         => 'admin@.com',
+                'password'      => bcrypt('admin'),
                 'mobile_no'     => '01016000000',
                 'model_id'      => 1,
                 'user_type'     => 0,

@@ -83,7 +83,7 @@ $roles = userRolePermissionArray();
                                         <td>{{ $book->category->name }}</td>
                                         <td>{{ $book->price }} {{ $price->symbol }}</td>
                                         <td>
-                                            <form action="{{ route('admin.status.edit', $book->id) }}" method="POST">
+                                            <form action="{{ route('admin.admin_status.edit', $book->id) }}" method="POST">
                                                 @csrf
                                                 <label class="switch" id="switch">
                                                     <input type="checkbox" name="status"
@@ -106,6 +106,7 @@ $roles = userRolePermissionArray();
                             @endforeach
                         </tbody>
                     </table>
+                    {{$general_books->links()}}
                 </div>
             </div>
         </div>
@@ -119,7 +120,7 @@ $roles = userRolePermissionArray();
                     <div class="modal-body">
                         <div class="modal-content">
                             <div class="modal-header bg--primary">
-                                <h5 class="modal-title text-white">@lang('Add Title')</h5>
+                                <h5 class="modal-title text-white">@lang('Add Books')</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>

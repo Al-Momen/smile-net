@@ -101,7 +101,7 @@
                                     @endphp
                                 </td>
                                 <td>{{ optional($event->category)->name ?? 'N/A' }}</td>
-                                
+
                                 <td>{{ $event->title }}</td>
                                 <td class="">
                                     <a href="{{ route('user.destroy.events', $event->id) }}"><i
@@ -117,7 +117,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    {{$general_events->links()}}
+                    {{ $general_events->links() }}
                 </div>
             </div>
         </div>
@@ -146,8 +146,8 @@
                             </div>
                             <div class="mb-3  col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="start_date" class="form-label">Start Date</label>
-                                <input type="datetime-local" class="form-control" placeholder="Start Date"
-                                    name="start_date" id="start_date" required>
+                                <input type="datetime-local" class="form-control" placeholder="Start Date" name="start_date"
+                                    id="start_date" required>
                             </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="end_date" class="form-label">End Date</label>
@@ -170,17 +170,24 @@
                                 @foreach ($ticketType as $item)
                                     <div class="single-checkbox">
                                         <input class="checkboxInput" type="checkbox" id="{{ $item->name }}"
-                                            name="ticket_type_id[]" value="{{ $item->id }}" data-bs-toggle="collapse"
-                                            data-bs-target="#{{ $item->name }}" aria-expanded="false"
-                                            aria-controls="collapse">
-                                        <label for="{{ $item->name }}" class="text-capitalize">{{ $item->name }}</label>
+                                            name="ticket_type_id[]" value="{{ $item->id }}"
+                                            data-bs-toggle="collapse" data-bs-target="#{{ $item->name }}"
+                                            aria-expanded="false" aria-controls="collapse">
+                                        <label for="{{ $item->name }}"
+                                            class="text-capitalize">{{ $item->name }}</label>
                                         <div class="collapse" id="{{ $item->name }}">
                                             <label for="basic">Seat</label>
                                             <input type="number" name="seat[]"
                                                 placeholder="Enter your {{ $item->name }} Seat">
                                             <label for="basic">Price</label>
-                                            <input type="number" name="price[]"
-                                                placeholder="Enter your {{ $item->name }} Price">
+                                            <div class="input-group mb-3 mt-3">
+                                                <span class="input-group-text"
+                                                    style="
+                                                        border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $priceCurrency->symbol }}</span>
+                                                        <input class="d-none" type="text" name="price_currency_id" value="{{ $priceCurrency->id }}">
+                                                <input type="number" class="form-control" min="0"
+                                                    id="doller-input" placeholder="Enter your {{ $item->name }} Price" name="price[]">
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -195,7 +202,6 @@
                             <div class="mb-3 mt-2 col-lg-12 col-md-12 col-12 pe-4">
                                 <label for="editor" class="form-label">Description</label>
                                 <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
-
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -214,7 +220,6 @@
 @push('meta')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    
 @endpush
 @push('css')
     <style>
@@ -363,7 +368,6 @@
     </style>
 @endpush
 @push('js')
-    
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
 
@@ -433,8 +437,8 @@
         })
     </script>
     <script>
-        $('.checkboxInput').change(function(){
-            if($(this).is(':checked') == false) {
+        $('.checkboxInput').change(function() {
+            if ($(this).is(':checked') == false) {
                 $(this).parents('.single-checkbox').find('input').val("");
             }
         });
