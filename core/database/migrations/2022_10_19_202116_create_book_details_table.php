@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('book_details', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("book_id");
+            $table->unsignedBigInteger("user_id");
             $table->string("paid_price");
             $table->string("coupon")->nullable();
             $table->string("payment_getway");

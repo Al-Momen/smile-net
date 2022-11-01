@@ -17,7 +17,7 @@ class PlanPricingDetails extends Model
      */
     protected $fillable = [
         'id',
-        'plan_pricing_id',
+        'plan_id',
         'user_id',
         'paid_price',
         'coupon',
@@ -32,7 +32,7 @@ class PlanPricingDetails extends Model
     ];
 
     public function planPricing(){
-        return $this->belongsTo(Plan::class,'plan_pricing_id','id');
+        return $this->belongsTo(Plan::class,'plan_id','id');
     }
     public function user(){
         return $this->belongsTo(GeneralUser::class,'user_id','id');

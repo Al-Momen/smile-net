@@ -28,7 +28,7 @@ class UserRegstrationRequest extends FormRequest
             'phone'=>'required|max:15',
             'country'=>'required|max:255',
             'email'=>'required|unique:general_users',
-            'password'=>'required|max:20|min:6',
+            'password'=>'required|max:20|min:5',
             'confirm_password'=>'required|same:password',
         ];
     }

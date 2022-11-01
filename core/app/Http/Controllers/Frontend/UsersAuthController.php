@@ -36,7 +36,7 @@ class UsersAuthController extends Controller
                 'full_name' => $data['fullname'],
                 'email' => $data['email'],
                 'phone' => $data['phone'],
-                'verified_code' => rand(123456, 654321),
+                'verified_code' => rand(123456789, 987654321),
                 'country_id' => $data['country'],
                 'password' => Hash::make($data['password'])
             ]);

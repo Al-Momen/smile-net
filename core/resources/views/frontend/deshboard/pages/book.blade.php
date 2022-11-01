@@ -10,7 +10,7 @@
                                 <span class="text-uppercase">Active</span>
                             </div>
                             <div class="title pt-3">
-                                <span> books</span>
+                                <span> {{$general_active_count}} Order</span>
                             </div>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                                 <span class="text-uppercase">Pending</span>
                             </div>
                             <div class="title pt-3">
-                                <span>1 Order</span>
+                                <span>{{$general_pending_count}} Order</span>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                                 <span class="text-uppercase">Sold Out</span>
                             </div>
                             <div class="title pt-3">
-                                <span>3 Order</span>
+                                <span>{{$general_sold_count}} Order</span>
                             </div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                                 <span class="text-uppercase">total</span>
                             </div>
                             <div class="title pt-3">
-                                <span> books</span>
+                                <span> {{$general_count}} Books</span>
                             </div>
                         </div>
                     </div>

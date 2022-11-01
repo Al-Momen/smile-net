@@ -25,4 +25,8 @@ class AdminUser extends Model
     {
         return $this->morphOne(Book::class, 'bookable');
     }
+    public function adminUser()
+    {
+        return $this->belongsTo(Auth::class, 'auth_id','id');
+    }
 }

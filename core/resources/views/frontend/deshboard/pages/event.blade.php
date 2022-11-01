@@ -10,7 +10,7 @@
                                 <span class="text-uppercase">Active</span>
                             </div>
                             <div class="title pt-3">
-                                <span>{{ $general_count }} events</span>
+                                <span>{{ $general_active_count }} Events</span>
                             </div>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                                 <span class="text-uppercase">Pending</span>
                             </div>
                             <div class="title pt-3">
-                                <span>1 Order</span>
+                                <span>{{$general_pending_count}} Events</span>
                             </div>
                         </div>
                     </div>

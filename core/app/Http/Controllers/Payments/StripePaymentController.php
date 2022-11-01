@@ -184,7 +184,7 @@ class StripePaymentController extends Controller
             "description" => "Test payment from itsolutionstuff.com."
         ]);
         $planPricingDetails = new PlanPricingDetails();
-        $planPricingDetails->plan_pricing_id = $planPricing->id;
+        $planPricingDetails->plan_id = $planPricing->id;
         $planPricingDetails->user_id = Auth::guard('general')->user()->id;
         $planPricingDetails->paid_price = $request->paid_price;
         $planPricingDetails->coupon = $request->coupon_code;

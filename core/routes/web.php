@@ -149,6 +149,16 @@ Route::namespace('Frontend')->group(function () {
         Route::get('profile', [ProfileController::class, 'index'])->name('profile');
         Route::post('profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
 
+
+        // ------------------- user password reset-------------------
+        Route::get('password/reset/email/view', [ProfileController::class, 'passwordResetEmailView'])->name('password.reset.email.view');
+        Route::post('password/reset/email', [ProfileController::class, 'passwordResetEmail'])->name('password.reset.email');
+        Route::get('password-reset/otp', [ProfileController::class, 'userPasswordResetOtpForm'])->name('password.reset.otp.form');
+
+        Route::post('password/otp/check', [ProfileController::class, 'passwordResetOTPCheck'])->name('password.reset.OTP.check');
+        Route::get('password/reset', [ProfileController::class, 'passwordResetView'])->name('password.reset.view');
+        Route::post('password/reset', [ProfileController::class, 'passwordReset'])->name('password.reset');
+
         // --------------------event all route--------------------
         Route::get('events', [EventController::class, 'events'])->name('events');
         Route::post('store/events', [EventController::class, 'storeEvents'])->name('store.events');
@@ -345,14 +355,14 @@ Route::namespace('payments')->group(function () {
 
     // --------------Paypal gateway route for pricing--------------
     route::post('pricing/processPaypal', [PaypalController::class, 'processPaypalPricing'])->name('processPaypal.pricing');
-    route::get('Process/paypal/success/{id}', [PaypalController::class, 'processPaypalSuccessPricing'])->name('processPaypalSuccess.pricing');
-    route::get('process/paypal/cancel/{id}', [PaypalController::class, 'processPaypalCancelPricing'])->name('processPaypalCancel.pricing');
+    route::get('pricing/Process/paypal/success/{id}', [PaypalController::class, 'processPaypalSuccessPricing'])->name('processPaypalSuccess.pricing');
+    route::get('pricing/process/paypal/cancel/{id}', [PaypalController::class, 'processPaypalCancelPricing'])->name('processPaypalCancel.pricing');
 
 
     // --------------Paypal gateway route for  plan pricing--------------
     route::post('plan/pricing/processPaypal', [PaypalController::class, 'processPaypalPlanPricing'])->name('processPaypal.plan.pricing');
-    route::get('Process/paypal/success/{id}', [PaypalController::class, 'processPaypalSuccessPlanPricing'])->name('processPaypalSuccess.plan.pricing');
-    route::get('process/paypal/cancel/{id}', [PaypalController::class, 'processPaypalCancelPlanPricing'])->name('processPaypalCancel.plan.pricing');
+    route::get('plan/Process/paypal/success/{id}', [PaypalController::class, 'processPaypalSuccessPlanPricing'])->name('processPaypalSuccess.plan.pricing');
+    route::get('plan/process/paypal/cancel/{id}', [PaypalController::class, 'processPaypalCancelPlanPricing'])->name('processPaypalCancel.plan.pricing');
 
 
     // --------------------Stripe getway route--------------------

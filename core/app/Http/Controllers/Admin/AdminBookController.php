@@ -120,8 +120,8 @@ class AdminBookController extends Controller
 
     public function allMagazine()
     {
-        $data['general_books'] = Book::with(['category', 'priceCurrency'])->paginate(8);
-        $data['general_count'] = Book::where('bookable_id', Auth::guard('general')->id())->count();
+        $data['general_books'] = Book::with(['category', 'priceCurrency','user','admin.adminuser'])->paginate(8);
+        $data['general_count'] = Book::count();
         $data['categories'] = AdminCategory::all();
         $data['price'] = PriceCurrency::first();
         return view('admin.books.all_books', $data);

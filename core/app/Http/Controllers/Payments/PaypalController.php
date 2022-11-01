@@ -23,6 +23,7 @@ class PaypalController extends Controller
 
     public function processPaypal(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'payment_getway' => 'required',
         ]);
@@ -79,7 +80,6 @@ class PaypalController extends Controller
             . $characters[rand(0, strlen($characters) - 1)];
         // String shuffle the result
         $rand_string = str_shuffle($pin);
-
         $book = Book::with('priceCurrency')->where('id', $data)->first();
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
@@ -89,6 +89,7 @@ class PaypalController extends Controller
             if ($request->coupon_code) {
                 $book =new BookDetails();
                 $book->book_id = $data;
+                $book->user_id = Auth::guard('general')->user()->id;
                 $book->paid_price = $request->paid_price;
                 $book->coupon = $request->coupon_code;
                 $book->discount = $request->discount;
@@ -99,6 +100,7 @@ class PaypalController extends Controller
             } else {
                 $book =new BookDetails ();
                 $book->book_id = $data;
+                $book->user_id = Auth::guard('general')->user()->id;
                 $book->paid_price = $request->paid_price;
                 $book->coupon = $request->coupon_code;
                 $book->discount = $request->discount;
@@ -316,7 +318,7 @@ class PaypalController extends Controller
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
             if ($request->coupon_code) {
                 $planPricingDetails =new PlanPricingDetails();
-                $planPricingDetails->plan_pricing_id = $data;
+                $planPricingDetails->plan_id = $data;
                 $planPricingDetails->user_id = Auth::guard('general')->user()->id;
                 $planPricingDetails->paid_price = $request->paid_price;
                 $planPricingDetails->coupon = $request->coupon_code;
@@ -327,7 +329,7 @@ class PaypalController extends Controller
                 $planPricingDetails->save();
             } else {
                 $planPricingDetails =new PlanPricingDetails();
-                $planPricingDetails->plan_pricing_id = $data;
+                $planPricingDetails->plan_id = $data;
                 $planPricingDetails->paid_price = $request->paid_price;
                 $planPricingDetails->user_id = Auth::guard('general')->user()->id;
                 $planPricingDetails->coupon = $request->coupon_code;

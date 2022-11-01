@@ -55,6 +55,7 @@
                     <table class="table text-white rounded mt-5">
                         <thead class="text-center">
                             <tr>
+                                <th scope="col">Name</th>
                                 <th scope="col">Title</th>
                                 <th scope="col">Image</th>
                                 <th scope="col">Category Name</th>
@@ -71,6 +72,7 @@
                             @foreach ($general_books as $book)
                                 @if ($book->bookable_type == 'App\Models\User' && $book->admin_status == 1)
                                     <tr>
+                                        <td>{{ $book->admin->adminUser->first_name }} {{ $book->admin->adminUser->last_name }}</td>
                                         <td>{{ $book->title }}</td>
                                         <td><img class="table-user-img img-fluid d-block mx-auto"
                                                 src="{{ asset('core\storage\app\public\books\\' . $book->image) }}"
@@ -95,7 +97,8 @@
                                     </tr>
                                 @endif
                                 @if ($book->bookable_type == 'App\Models\GeneralUser' && $book->status == 1)
-                                    <tr>
+                                    <tr>                                    
+                                        <td>{{ $book->user->full_name }}</td>
                                         <td>{{ $book->title }}</td>
                                         <td><img class="table-user-img img-fluid d-block mx-auto"
                                                 src="{{ asset('core\storage\app\public\books\\' . $book->image) }}"

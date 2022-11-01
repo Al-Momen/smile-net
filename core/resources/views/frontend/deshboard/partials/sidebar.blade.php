@@ -17,7 +17,7 @@
             <div class="sidebar__menu-wrapper">
                 <ul class="sidebar__menu p-0">
                     <li class="sidebar-menu-item active">
-                        <a href="dashboard.html">
+                        <a href="{{route("user.deshboard")}}">
                             <i class="menu-icon las la-home"></i>
                             <span class="menu-title">Dashboard</span>
                         </a>

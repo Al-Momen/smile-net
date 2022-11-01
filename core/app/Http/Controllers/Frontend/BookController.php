@@ -11,26 +11,41 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 use App\Http\Helpers\Generals;
 use App\Models\AdminCategory;
+use App\Models\BookDetails;
 use App\Models\PriceCurrency;
+use Illuminate\Database\Eloquent\Builder;
 
 class BookController extends Controller
 {
     public function books()
     {
         $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('bookable_id', Auth::guard('general')->id())->paginate(8);
-        $data['general_count'] = Book::where('bookable_id', Auth::guard('general')->id())->count();
+        // --------------total book count--------------
+        $data['general_count'] = Book::where('bookable_id', Auth::guard('general')->id())->where('bookable_type', get_class(Auth::guard('general')->user()))->count();
+
+        // ----------active book count----------
+        $data['general_active_count'] = Book::where('bookable_id', Auth::guard('general')->id())->where('bookable_type', get_class(Auth::guard('general')->user()))->where('admin_status', 1)->where('status', 1)->count();
+
+        //    ------------pending book count------------
+        $data['general_pending_count'] = Book::where('bookable_id', Auth::guard('general')->id())->where('admin_status', 0)->count();
+
+        //    ------------sold book count------------
+         $data['general_sold_count'] = Book::whereHas('bookDetails', function (Builder $query) {
+            $query->where('sold', 1);
+        })->where('bookable_id', Auth::guard('general')->id())->where('bookable_type', get_class(Auth::guard('general')->user()))->count();
+
         $data['categories'] = AdminCategory::all();
         $data['price'] = PriceCurrency::first();
         return view('frontend.deshboard.pages.book', $data);
     }
     public function storeBooks(Request $request)
     {
-        //   dd($request->all());
+           
         $request->validate([
             'title' => 'required|min:2|max:255',
-            'name' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
             'price' => 'required',
+            'description' => 'required',
             'file' => 'required',
         ]);
         try {

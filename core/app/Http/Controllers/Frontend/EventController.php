@@ -22,7 +22,14 @@ class EventController extends Controller
     public function events()
     {
         $data['general_events'] = Event::with(['category'])->where('user_id', Auth::guard('general')->id())->paginate(8);
+        // --------------total events count--------------
         $data['general_count'] = Event::where('user_id', Auth::guard('general')->id())->count();
+        // --------------active events count--------------
+        $data['general_active_count'] = Event::where('user_id', Auth::guard('general')->id())->where('status',1)->count();
+
+        // --------------pending events count--------------
+        $data['general_pending_count'] = Event::where('user_id', Auth::guard('general')->id())->where('status',0)->count();
+
         $data['categories'] = AdminCategory::all();
         $data['ticketType'] = TicketType::all();
         $data['priceCurrency'] = PriceCurrency::first();

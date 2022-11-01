@@ -13,6 +13,7 @@ class BookDetails extends Model
     protected $fillable = [
         'id',
         'book_id', 
+        'user_id', 
         'paid_price', 
         'coupon', 
         'payment_getway', 
@@ -24,6 +25,10 @@ class BookDetails extends Model
     ];
 
     public function book(){
+        return $this->belongsTo(Book::class,'book_id','id');
+    }
+
+    public function user(){
         return $this->belongsTo(Book::class,'book_id','id');
     }
 }

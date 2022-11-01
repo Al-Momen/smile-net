@@ -25,7 +25,7 @@
                             <i class="dropdown-menu__icon las la-user-circle"></i>
                             <span class="dropdown-menu__caption">Profile</span>
                         </a>
-                        <a href="dashboard-password-reset.html"
+                        <a href="{{route('user.password.reset.email.view')}}"
                             class="dropdown-menu__item d-flex align-items-center ps-3 pe-3 pt-2 pb-2">
                             <i class="dropdown-menu__icon las la-key"></i>
                             <span class="dropdown-menu__caption">Password</span>
