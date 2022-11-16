@@ -19,14 +19,19 @@ class Music extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'song_title',
+        'title',
         'singer_name',
-        'song_image',
-        'song_file'
+        'image',
+        'mp3',
+        'status'
+    ];
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+        'email_verified_at' => 'datetime',
     ];
     
     // admin User relationship
     public function admin(){
-        return $this->belongsTo(AdminUser::class,'user_id','id');
+        return $this->belongsTo(Auth::class,'user_id','id');
     }
 }

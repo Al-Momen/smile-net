@@ -13,19 +13,20 @@ class AdminMusicController extends Controller
 {
     public function index()
     {
-        $allMusic = Music::paginate(10);
+         $allMusic = Music::paginate(10);
+        
         return view('admin.music.music', compact('allMusic'));
     }
     public function storeMusic(Request $request)
     {
-        //   dd($request->all());
+        //    dd($request->created_at);
         $request->validate([
             'title' => 'required|min:2|max:255',
             'artist' => 'required',
             'singer_name' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
             'mp3' => 'required',
-            'date' => 'required',
+
         ]);
         try {
             $music = new Music();
@@ -33,7 +34,6 @@ class AdminMusicController extends Controller
             $music->title = $request->title;
             $music->artist = $request->artist;
             $music->singer_name = $request->singer_name;
-            $music->date = $request->date;
             $music->status = $request->status;
             $music->image = Generals::upload('music/photo/', 'png', $request->image);
             $music->mp3 = Generals::fileUpload('music/', $request->mp3);
@@ -74,17 +74,16 @@ class AdminMusicController extends Controller
             'singer_name' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
             'mp3' => 'required',
-            'date' => 'required',
+
         ]);
         try {
             $music = Music::where('id', $id)->first();
-            $oldImage = $music->song_image;
-            $oldFile = $music->song_file;
+            $oldImage = $music->image;
+            $oldFile = $music->mp3;
             $music->user_id = Auth::user()->id;
             $music->title = $request->title;
             $music->artist = $request->artist;
             $music->singer_name = $request->singer_name;
-            $music->date = $request->date;
             $music->status = $request->status;
             $music->image = Generals::update('music/photo/', $oldImage, 'png', $request->image);
             $music->mp3 = Generals::FileUpdate('music/', $oldFile, $request->mp3);
@@ -98,8 +97,8 @@ class AdminMusicController extends Controller
     public function destroy($id)
     {
         $music = Music::find($id);
-        Generals::unlink("music/photo/", $music->song_image);
-        Generals::fileUnlink("music/", $music->song_file);
+        Generals::unlink("music/photo/", $music->image);
+        Generals::fileUnlink("music/", $music->mp3);
         $music->delete();
         $notify[] = ['success', 'Music delete Successfully'];
         return redirect()->back()->withNotify($notify);

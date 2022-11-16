@@ -63,9 +63,10 @@
                         
                         <form role="form" action="{{ route('stripe.plan.pricing.post') }}" method="post"
                             class="require-validation" data-cc-on-file="false"
-                            data-stripe-publishable-key="{{ env('STRIPE_KEY') }}" id="payment-form">
+                            data-stripe-publishable-key="{{ $adminStripe->stripe_key }}" id="payment-form">
                             @csrf
                             <input type="text" class="d-none" name="coupon_code" value="{{$requestValue->coupon_code}}">
+                            <input type="text" class="d-none" name="stripe_secret" value="{{$adminStripe->stripe_secret}}">
                             <input type="text" class="d-none" name="discount" value="{{$requestValue->discount}}">
                             <input type="text" class="d-none" name="plan_pricing_id" value="{{$planPricing->id}}">
                             <input type="text" class="d-none" name="paid_price" value="{{$requestValue->paid_price}}">

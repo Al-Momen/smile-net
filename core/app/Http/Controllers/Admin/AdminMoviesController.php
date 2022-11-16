@@ -26,6 +26,7 @@ class AdminMoviesController extends Controller
         $request->validate([
             'name' => 'required|min:2|max:255',
             'ticket_type_id' => 'required',
+            'description' => 'required',
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:4000',
             'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
@@ -35,6 +36,7 @@ class AdminMoviesController extends Controller
         $newItemMovies->category = $request->category;
         $newItemMovies->admin_id = Auth::user()->id;
         $newItemMovies->ticket_type_id = $request->ticket_type_id;
+        $newItemMovies->description = $request->description;
         $newItemMovies->image = Generals::upload('new-item-movies/photo/', 'png', $request->image);
         $newItemMovies->mp4 = Generals::upload('new-item-movies/movies/', $request->mp4->getClientOriginalExtension(), $request->mp4);
         $newItemMovies->slug = url('/'). "/core/storage/app/public/new-item-movies/movies/". $newItemMovies->mp4;
@@ -70,6 +72,7 @@ class AdminMoviesController extends Controller
         $request->validate([
             'name' => 'required|min:2|max:255',
             'ticket_type_id' => 'required',
+            'description' => 'required',
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:4000',
             'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
@@ -81,6 +84,7 @@ class AdminMoviesController extends Controller
         $newItemMovies->category = $request->category;
         $newItemMovies->admin_id = Auth::user()->id;
         $newItemMovies->ticket_type_id = $request->ticket_type_id;
+        $newItemMovies->description = $request->description;
         $newItemMovies->image = Generals::update('new-item-movies/photo/', $oldNewItemMoviesImage,'png', $request->image);
         $newItemMovies->mp4 = Generals::update('new-item-movies/movies/', $oldNewItemMoviesMp4, $request->mp4->getClientOriginalExtension(), $request->mp4);
         $newItemMovies->slug = url('/'). "/core/storage/app/public/new-item-movies/movies/". $newItemMovies->mp4;
@@ -113,6 +117,7 @@ class AdminMoviesController extends Controller
         $request->validate([
             'name' => 'required|min:2|max:255',
             'ticket_type_id' => 'required',
+            'description' => 'required',
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:4000',
             'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
@@ -122,6 +127,7 @@ class AdminMoviesController extends Controller
         $topMovies->category = $request->category;
         $topMovies->admin_id = Auth::user()->id;
         $topMovies->ticket_type_id = $request->ticket_type_id;
+        $topMovies->description = $request->description;
         $topMovies->image = Generals::upload('top-movies/photo/', 'png', $request->image);
         $topMovies->mp4 = Generals::upload('top-movies/movies/', $request->mp4->getClientOriginalExtension(), $request->mp4);
         $topMovies->slug = url('/'). "/core/storage/app/public/top-movies/movies/". $topMovies->mp4;
@@ -157,6 +163,7 @@ class AdminMoviesController extends Controller
         $request->validate([
             'name' => 'required|min:2|max:255',
             'ticket_type_id' => 'required',
+            'description' => 'required',
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:4000',
             'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
@@ -168,6 +175,7 @@ class AdminMoviesController extends Controller
         $topMovies->category = $request->category;
         $topMovies->admin_id = Auth::user()->id;
         $topMovies->ticket_type_id = $request->ticket_type_id;
+        $topMovies->description = $request->description;
         $topMovies->image = Generals::update('top-movies/photo/', $oldTopMoviesImage,'png', $request->image);
         $topMovies->mp4 = Generals::update('top-movies/movies/', $oldTopMoviesMp4, $request->mp4->getClientOriginalExtension(), $request->mp4);
         $topMovies->slug = url('/'). "/core/storage/app/public/top-movies/movies/". $topMovies->mp4;
@@ -184,8 +192,6 @@ class AdminMoviesController extends Controller
         $notify[] = ['success', 'Top Movies delete Successfully'];
         return redirect()->back()->withNotify($notify); 
     }
-
-
      // ------------------------admin Comming Soon Movies------------------------
      public function commingSoonMovies()
      {

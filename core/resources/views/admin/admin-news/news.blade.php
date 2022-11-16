@@ -71,8 +71,7 @@ $roles = userRolePermissionArray();
                                     <td colspan="99">No data found</td>
                                 </tr>
                             @endif
-                            @foreach ($allNews as $news)
-                                
+                            @foreach ($allNews as $news)       
                                     <tr>
                                         <td>{{ $news->title }}</td>
                                         <td>{{ $news->category->name }}</td>
@@ -151,16 +150,7 @@ $roles = userRolePermissionArray();
                                         <input type="text" src="" class="form-control px-3 pt-2"
                                             name="tag" id="tag" placeholder="@lang('Tag')">
                                     </div>
-                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="status" class="form-label">Status</label>
-                                        <div class="input-group mb-3" style="margin-top: -2px; height: 67px;">
-                                            <select class="form-select form-select-md mb-3"
-                                                aria-label=".form-select-lg example" name="admin_status">
-                                                <option value="1" selected> Active</option>
-                                                <option value="0">Deactive</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                                         <label for="editor" class="form-label">@lang('Description')</label>
                                         <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>

@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger("user_id");
             $table->string("title");
-            $table->dateTime("date");
             $table->string("artist");
             $table->string("singer_name");
             $table->string("image");

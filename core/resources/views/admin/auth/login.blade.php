@@ -93,23 +93,7 @@
                 <input type="submit" value="Login">
                 <span class="new">Admin Login to <b>Appdevs</b> dashboard</span>
             </form>
-            <div class="col-md-12">
-                @if (env('APP_MODE') == 'demo')
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-10">
-                                <span>Email: admin@admin.com </span><br>
-                                <span> Password : admin123</span>
-                            </div>
-                            <div class="col-2">
-                                <button class="btn btn-primary btn-block" onclick="copy_cred()">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            </div>
+           
         </div>
     </div>
     <!--~~~~~~~~~~~~~~End Login~~~~~~~~~~~~~~~-->

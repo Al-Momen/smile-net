@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('admin_news', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("admin_id");
+            $table->unsignedBigInteger("user_id");
+            $table->string("news_type");
             $table->unsignedBigInteger("category_id");
             $table->string("title");
             $table->string("image");

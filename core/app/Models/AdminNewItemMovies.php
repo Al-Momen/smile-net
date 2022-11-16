@@ -13,6 +13,7 @@ class AdminNewItemMovies extends Model
         'id',
         'admin_id',
         'ticket_type_id',
+        'description',
         'name',
         'category',
         'image',

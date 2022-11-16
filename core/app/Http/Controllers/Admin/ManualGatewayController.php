@@ -49,8 +49,7 @@ class ManualGatewayController extends Controller
         }
 
         $filename = '';
-        $path = imagePath()['gateway']['path'];
-        $size = imagePath()['gateway']['size'];
+        
         if ($request->hasFile('image')) {
             try {
                 $filename = uploadImage($request->image, $path, $size);

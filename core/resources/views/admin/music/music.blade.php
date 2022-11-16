@@ -53,16 +53,14 @@
             @endif
             <!-- Button trigger modal -->
             <div>
-
                 <div>
                     <table class="table text-white rounded mt-5">
                         <thead class="text-center">
                             <tr>
-
-                                <th scope="col">Title</th>
-                                <th scope="col">Name</th>
+                                <th scope="col">Song Title</th>
+                                <th scope="col">Artist Name</th>
                                 <th scope="col">Date</th>
-                                <th scope="col">Image</th>
+                                <th scope="col">Thumbnail</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -79,7 +77,7 @@
                                     <td>{{ $music->artist }}</td>
                                     <td>
                                         @php
-                                            $date = $music->date;
+                                            $date = $music->created_at;
                                             echo date('d/m/Y , h:i a ', strtotime($date));
                                         @endphp
                                     </td>
@@ -101,11 +99,11 @@
                                     <td>
                                         <a
                                             href="{{ route('admin.music.destroy', $music->id) }}"class="btn btn-danger rounded"><i
-                                                class="fas fa-trash"></i></a>
+                                            class="fas fa-trash"></i></a>
                                         <a href="{{ route('admin.edit.music', $music->id) }}"
                                             class="btn btn-primary rounded">
                                             <i class="fas fa-edit" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"></i></a>
+                                            data-bs-target="#exampleModal"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -116,7 +114,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Modal audio music-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -132,13 +130,13 @@
                             <div class="modal-body">
                                 <div class="row g-4k" style="padding: 20px;">
                                     <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="title" class="form-label">@lang('Song Title')</label>
-                                        <input type="text" class="form-control" placeholder="Title" name="title"
+                                        <label for="title" class="form-label">@lang('Song Name')</label>
+                                        <input type="text" class="form-control" placeholder="Song Name" name="title"
                                             id="title" value="" required>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="artist" class="form-label">@lang('Artist')</label>
-                                        <input type="text" class="form-control" placeholder="Song Name Artist" name="artist"
+                                        <label for="artist" class="form-label">@lang('Artist Name')</label>
+                                        <input type="text" class="form-control" placeholder="Song Artist Name " name="artist"
                                             id="artist" value="" required>
                                     </div>
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
@@ -146,11 +144,11 @@
                                         <input type="text" class="form-control" placeholder="Singer Name" name="singer_name"
                                             id="singer_name" value="" required>
                                     </div>
-                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                    {{-- <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="date" class="form-label">Date</label>
                                         <input type="datetime-local" class="form-control" placeholder="Date"
                                             name="date" id="date" required>
-                                    </div>
+                                    </div> --}}
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="thumbnail" class="form-label">@lang('Thumbnail') </label>
                                         <input type="file" src="" class="form-control px-3 pt-2" name="image"
@@ -160,20 +158,22 @@
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="audio" class="form-label">@lang('Audio File')</label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="mp3" accept="audio/*" id="audio" required>
+                                            name="mp3" accept="audio/*" id="audio">
                                     </div>
+                                  
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Save</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    
 @endsection
 @section('css')
     <style>

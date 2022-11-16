@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\PricingDetails;
 use App\Models\PlanPricingDetails;
 use App\Http\Controllers\Controller;
+use App\Models\AdminStripeGetway;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -32,8 +33,9 @@ class StripePaymentController extends Controller
         $requestArray = $request->all();
         $requestValue = (object)$requestArray;
         $book = Book::with('priceCurrency')->where('id', $request->book_id)->first();
+        $adminStripe = AdminStripeGetway::first();
         if ($request->payment_getway == 'stripe') {
-            return view('payments.stripe', compact('book', 'requestValue'));
+            return view('payments.stripe', compact('book', 'requestValue','adminStripe'));
         }
     }
     /**
@@ -56,7 +58,9 @@ class StripePaymentController extends Controller
         // String shuffle the result
         $rand_string = str_shuffle($pin);
         $book = Book::with('priceCurrency')->where('id', $request->book_id)->first();
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+           Stripe\Stripe::setApiKey($request->stripe_secret);
+         
+
         Stripe\Charge::create([
             "amount" => $request->paid_price * 100,
             "currency" => $book->priceCurrency->code,
@@ -93,8 +97,9 @@ class StripePaymentController extends Controller
         $requestArray = $request->all();
         $requestValue = (object)$requestArray;
         $pricing = AdminPricing::with('priceCurrency')->where('id', $request->pricing_id)->first();
+        $adminStripe = AdminStripeGetway::first();
         if ($request->payment_getway == 'stripe') {
-            return view('payments.stripe_pricing', compact('pricing', 'requestValue'));
+            return view('payments.stripe_pricing', compact('pricing', 'requestValue','adminStripe'));
         }
     }
 
@@ -114,7 +119,7 @@ class StripePaymentController extends Controller
         // String shuffle the result
         $rand_string = str_shuffle($pin);
         $pricing = AdminPricing::with('priceCurrency')->where('id', $request->pricing_id)->first();
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        Stripe\Stripe::setApiKey($request->stripe_secret);
         Stripe\Charge::create([
             "amount" => $request->paid_price * 100,
             "currency" => $pricing->priceCurrency->code,
@@ -152,9 +157,11 @@ class StripePaymentController extends Controller
         $requestArray = $request->all();
         $requestValue = (object)$requestArray;
         $planPricing = Plan::with('event.priceCurrency')->where('id', $request->plan_id)->first();
+        $adminStripe = AdminStripeGetway::first();
+        
 
         if ($request->payment_getway == 'stripe') {
-            return view('payments.stripe_plan_pricing', compact('planPricing', 'requestValue'));
+            return view('payments.stripe_plan_pricing', compact('planPricing', 'requestValue','adminStripe'));
         }
     }
 
@@ -175,8 +182,9 @@ class StripePaymentController extends Controller
         // String shuffle the result
         $rand_string = str_shuffle($pin);
         $planPricing = plan::with('event.priceCurrency')->where('id', $request->plan_pricing_id)->first();
+        
 
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+        $stripe = Stripe\Stripe::setApiKey($request->stripe_secret);
         Stripe\Charge::create([
             "amount" => $request->paid_price * 100,
             "currency" => $planPricing->event->priceCurrency->code,

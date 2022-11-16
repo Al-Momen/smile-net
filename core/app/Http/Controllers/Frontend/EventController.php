@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Frontend;
 
 use Carbon\Carbon;
-use App\Models\Plan;
 use App\Models\Event;
+use App\Models\EventPlan;
 use App\Models\TicketType;
 use Illuminate\Http\Request;
 use App\Models\AdminCategory;
+use App\Models\PriceCurrency;
 use Illuminate\Http\Response;
 use App\Http\Helpers\Generals;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\PriceCurrency;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
@@ -21,14 +21,14 @@ class EventController extends Controller
 {
     public function events()
     {
-        $data['general_events'] = Event::with(['category'])->where('user_id', Auth::guard('general')->id())->paginate(8);
+         $data['general_events'] = Event::with(['category','eventPlans.eventPlanTransaction','eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->id())->paginate(8);
         // --------------total events count--------------
-        $data['general_count'] = Event::where('user_id', Auth::guard('general')->id())->count();
+        $data['general_count'] = Event::where('author_event_id', Auth::guard('general')->id())->count();
         // --------------active events count--------------
-        $data['general_active_count'] = Event::where('user_id', Auth::guard('general')->id())->where('status',1)->count();
+        $data['general_active_count'] = Event::where('author_event_id', Auth::guard('general')->id())->where('status',1)->count();
 
         // --------------pending events count--------------
-        $data['general_pending_count'] = Event::where('user_id', Auth::guard('general')->id())->where('status',0)->count();
+        $data['general_pending_count'] = Event::where('author_event_id', Auth::guard('general')->id())->where('status',0)->count();
 
         $data['categories'] = AdminCategory::all();
         $data['ticketType'] = TicketType::all();
@@ -52,7 +52,7 @@ class EventController extends Controller
         ]);
         try {
             $event = new Event();
-            $event->user_id = Auth::guard('general')->user()->id;
+            $event->author_event_id = Auth::guard('general')->user()->id;
             $event->price_currency_id = $request->price_currency_id;
             $event->title = $request->title;
             $event->description = $request->description;
@@ -66,12 +66,13 @@ class EventController extends Controller
             $ticketPrices = $request->price;
             foreach ($ticketTypeIds as $index => $ticketTypeId) {
                 if (!is_null($ticketTypeId)) {
-                    $plan = new Plan();
-                    $plan->event_id = $event->id;
-                    $plan->ticket_type_id = $ticketTypeId;
-                    $plan->seat = $ticketSeats[$index];
-                    $plan->price = $ticketPrices[$index];
-                    $plan->save();
+                    $eventPlan = new EventPlan();
+                    $eventPlan->event_id = $event->id;
+                    $eventPlan->author_event_id = $event->author_event_id;
+                    $eventPlan->ticket_type_id = $ticketTypeId;
+                    $eventPlan->seat = $ticketSeats[$index];
+                    $eventPlan->price = $ticketPrices[$index];
+                    $eventPlan->save();
                 }
             }
             $notify[] = ['success', 'Events create Successfully'];
@@ -82,7 +83,7 @@ class EventController extends Controller
     }
     public function editEvents($id)
     {
-        $event = Event::with(['plans',"plans.ticketType"])->findOrFail($id); // relation from events table->then plans table-> then ticket_type get data
+        $event = Event::with(['eventPlans',"eventPlans.ticketType"])->findOrFail($id); // relation from events table->then plans table-> then ticket_type get data
         $categories = AdminCategory::all();
         $ticketType= TicketType::all();
         $priceCurrency = PriceCurrency::first();
@@ -103,7 +104,7 @@ class EventController extends Controller
         try {
             $event = Event::findOrFail($id);
             $oldImage = $event->image;
-            $event->user_id = Auth::guard('general')->user()->id;
+            $event->author_event_id = Auth::guard('general')->user()->id;
             $event->price_currency_id = $request->price_currency_id;
             $event->title = $request->title;
             $event->description = $request->description;
@@ -116,16 +117,16 @@ class EventController extends Controller
             $ticketTypeIds = $request->ticket_type_id;
             $ticketSeats = $request->seat;
             $ticketPrices = $request->price;
-            $oldTicketTypeIds = $event->plans->pluck('ticket_type_id')->toArray();
+            $oldTicketTypeIds = $event->eventPlans->pluck('ticket_type_id')->toArray();
             // first delete the which not exist in request
             foreach ($oldTicketTypeIds as $oldTicketTypeId) {
                 if (!in_array($oldTicketTypeId, $ticketTypeIds)) {
-                    Plan::where('event_id', $event->id)->where('ticket_type_id',$oldTicketTypeId)->first()->delete();
+                    EventPlan::where('event_id', $event->id)->where('ticket_type_id',$oldTicketTypeId)->first()->delete();
                 }
             }
             foreach ($ticketSeats as $index => $seat) {          
                 if (!is_null($seat)) {
-                    $plan = Plan::updateOrCreate(
+                    $eventPlan = EventPlan::updateOrCreate(
                         [
                             'event_id'=>$event->id,
                             'ticket_type_id' => $ticketTypeIds[$index],
@@ -143,13 +144,10 @@ class EventController extends Controller
             dd($e->getMessage());
         }
     }
-    public function destroy($id)
+    public function viewEvents($id)
     {
-        $event = Event::find($id);
-        Generals::unlink('events/', $event->image);
-        $event->plans()->delete();
-        $event->delete();
-        $notify[] = ['success', 'Events delete Successfully'];
+        return $event = Event::where('id',4)->with('eventPlans.eventPlanTransaction')->get();
+        $notify[] = ['success', 'Events view Successfully'];
         return redirect()->back()->withNotify($notify);
     }
 }

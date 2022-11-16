@@ -23,7 +23,6 @@
                                         data-movie-description="{{ $item->description }}" id="more_details_description">
                                         More Details
                                     </button>
-
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">
@@ -56,6 +55,17 @@
         </div>
     </div>
 </div>
+@push("css")
+<style>
+    .sm-btn-wrapper{
+        display: flex;
+        justify-content: space-between
+    }
+    .sm-btn{
+        font-size: 12px;
+    }
+</style>
+@endpush
 @push('js')
     <script>
         $(document).on('click', '#more_details_description', function(e) {

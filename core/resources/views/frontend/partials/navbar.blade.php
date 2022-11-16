@@ -18,7 +18,7 @@
                             href="{{ route('index') }}">Home</a>
                     </li>
                     <li class="nav-item pe-1">
-                        <a class="nav-link text-white fs-6" href="{{ route('pricing') }}">Pricing</a>
+                        <a class="nav-link text-white fs-6" href="{{ route('ticketTypePricing') }}">Pricing</a>
 
 
                     </li>
@@ -59,7 +59,7 @@
                         <a class="nav-link text-white fs-6" href="{{ route('voting') }}">Voting</a>
                     </li>
                     <li class="nav-item pe-1">
-                        <a class="nav-link text-white fs-6" href="{{ route('magazine') }}">Magazine</a>
+                        <a class="nav-link text-white fs-6" href="{{ route('books') }}">Books</a>
                     </li>
                     <li class="nav-item pe-1">
                         <a class="nav-link text-white fs-6" href="{{ route('live_now') }}">Live Now</a>
@@ -71,7 +71,7 @@
                         <a class="nav-link text-white fs-6" href="{{ route('smile_tv') }}">Smile TV</a>
                     </li>
                     <li class="nav-item pe-1">
-                        <a class="nav-link text-white fs-6" href="{{ route('news') }}">News</a>
+                        <a class="nav-link text-white fs-6" href="{{ route('news') }}">Author Wall</a>
                     </li>
                 </ul>
                 <select class="my-select selectpicker me-3" data-container="body">

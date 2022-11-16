@@ -6,7 +6,7 @@
     Vote
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
 
 @section('content')
@@ -42,8 +42,7 @@ $roles = userRolePermissionArray();
                                 <th scope="col">SI</th>
                                 <th scope="col">Vote Name</th>
                                 <th scope="col">Category</th>
-                                <th scope="col">Image-one</th>
-                                <th scope="col">Image-two</th>
+                                <th scope="col">Vote Image</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -59,12 +58,11 @@ $roles = userRolePermissionArray();
                                     <td>{{ $i++ }}</td>
                                     <td class="text-capitalize">{{ $vote->vote_name }}</td>
                                     <td class="text-capitalize">{{ $vote->category->name }}</td>
-                                    <td><img class="table-admin-img img-fluid d-block mx-auto"
-                                            src="{{ asset('core\storage\app\public\votes\\' . $vote->image_one) }}"
-                                            alt="Image"></td>
-                                    <td><img class="table-admin-img img-fluid d-block mx-auto"
-                                            src="{{ asset('core\storage\app\public\votes\\' . $vote->image_two) }}"
-                                            alt="Image"></td>
+                                    <td>
+                                        <img class="table-admin-img img-fluid d-block mx-auto"
+                                            src="{{ asset('core\storage\app\public\votes\\' . $vote->vote_image) }}"
+                                            alt="Image">
+                                    </td>
                                     <td>
                                         <form action="{{ route('admin.vote.status.edit', $vote->id) }}" method="POST">
                                             @csrf
@@ -75,13 +73,13 @@ $roles = userRolePermissionArray();
                                             </label>
                                         </form>
                                     </td>
-
                                     <td>
-                                        <a href="{{ route('admin.vote.destroy', $vote->id) }}"class="btn btn-danger rounded"><i
+                                        <a
+                                            href="{{ route('admin.vote.destroy', $vote->id) }}"class="btn btn-danger rounded"><i
                                                 class="fas fa-trash"></i></a>
-                                        <a href="{{ route('admin.vote.edit', $vote->id) }}" class="btn btn-primary rounded">
+                                        {{-- <a href="{{ route('admin.vote.edit', $vote->id) }}" class="btn btn-primary rounded">
                                             <i class="fas fa-edit" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"></i></a>
+                                                data-bs-target="#exampleModal"></i></a> --}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -96,7 +94,6 @@ $roles = userRolePermissionArray();
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-
                 <form action="{{ route('admin.vote.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -112,7 +109,7 @@ $roles = userRolePermissionArray();
                                 <div class="form-group">
                                     <label>@lang('Vote Name')</label>
                                     <input class="form-control form--control" type="text" name="vote_name"
-                                        placeholder="@lang('Vote Name')" required value="{{ old('name') }}">
+                                        placeholder="@lang('Vote Name')" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="image" class="form-label">@lang('voting Image')</label>
@@ -144,41 +141,46 @@ $roles = userRolePermissionArray();
                                         @endforeach
                                     </select>
                                 </div>
-                                <h5 class="modal-title text-white mb-4">@lang('#Item One')</h5>
-                                <div class="form-group">
-                                    <label>@lang('Item Name')</label>
-                                    <input class="form-control form--control" type="text" name="name_one"
-                                        placeholder="@lang('Item One Name')" required value="{{ old('name') }}">
-                                </div>
+                                <div>
+                                    <div class="form-group">
+                                        <h5 class="modal-title text-white mb-4 item-title">@lang('#Item One')</h5>
+                                        <label>@lang('Item Name')</label>
+                                        <input class="form-control form--control" type="text" name="names[]"
+                                            placeholder="@lang('Item One Name')" required>
+                                    </div>
 
-                                <div class="form-group">
-                                    <label for="image" class="form-label">@lang('Image One')</label>
-                                    <input type="file" src="" class="form-control px-3 pt-2" name="image_one"
-                                        accept="image/*" id="image"
-                                        style="
-                                    padding-top: 14px !important;
-                                ">
+                                    <div class="form-group">
+                                        <label for="image" class="form-label image-title">@lang('Image One')</label>
+                                        <input type="file" src="" class="form-control px-3 pt-2"
+                                            name="images[]" accept="image/*" id="image"
+                                            style="padding-top: 14px !important;">
+                                    </div>
                                 </div>
+                                <div>
+                                    <div class="form-group">
+                                        <h5 class="modal-title text-white mb-4 item-title">@lang('#Item Two')</h5>
+                                        <label>@lang('Item Two Name')</label>
+                                        <input class="form-control form--control" type="text" name="names[]"
+                                            placeholder="@lang('Item Two Name')">
+                                    </div>
 
-                                <h5 class="modal-title text-white mb-4">@lang('#Item Two')</h5>
-                                <div class="form-group">
-                                    <label>@lang('Item Two Name')</label>
-                                    <input class="form-control form--control" type="text" name="name_two"
-                                        placeholder="@lang('Item Two Name')" required value="{{ old('name') }}">
+                                    <div class="form-group">
+                                        <label for="image" class="form-label image-title">@lang('Image Two')</label>
+                                        <input type="file" src="" class="form-control px-3 pt-2"
+                                            name="images[]" accept="image/*"
+                                            id="image"style="padding-top: 14px !important;">
+                                    </div>
                                 </div>
+                                <div id="newVoteAppend">
 
-                                <div class="form-group">
-                                    <label for="image" class="form-label">@lang('Image Two')</label>
-                                    <input type="file" src="" class="form-control px-3 pt-2" name="image_two"
-                                        accept="image/*" id="image"
-                                        style="
-                                    padding-top: 14px !important;
-                                ">
+                                </div>
+                                <div class="form-group text-center">
+                                    <button class="btn btn-success" id="addNewVote">Add Vote</button>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
@@ -262,5 +264,62 @@ $roles = userRolePermissionArray();
         $('.switch').click(function() {
             $(this).parents('form').submit();
         })
+    </script>
+    <script>
+        $(document).on('click', '#addNewVote', function(e) {
+            e.preventDefault();
+            let item = $(".item-title");
+            itemLength = item.length + 1;
+            var list = {
+                1: "One",
+                2: "Two",
+                3: "Three",
+                4: "Four",
+                5: "Five",
+                6: "Six",
+                7: "Seven",
+                8: "Eight",
+                9: "Nine",
+                10: "Ten",
+            };
+
+            let check = true;
+            Object.keys(list).forEach((index, element) => {
+                console.log(index);
+                if (check === true) {
+                    if (index == itemLength) {
+                        item = list[itemLength];
+                        check = false;
+                    } else {
+                        item = itemLength;
+                    }
+                }
+            });
+
+            $("#newVoteAppend").append(`
+                <div class="item-wrp"> 
+                    <div class="form-group ">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="modal-title text-white mb-4 item-title">@lang('#Item ${item}')</h5>
+                            <button type="button" class="btn-close bg-danger p-2" aria-label="Close"></button>
+                        </div>
+                        <label>@lang('Item Two Name')</label>
+                        <input class="form-control form--control" type="text" name="names[]"
+                        placeholder="@lang('Item Two Name')" required >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="image" class="form-label image-title">@lang('Image ${item}')</label>
+                        <input type="file" src="" class="form-control px-3 pt-2"
+                            name="images[]" accept="image/*"  "id="image"style="padding-top: 14px !important;">
+                    </div>
+                
+                </div>
+            `);
+        });
+        $(document).on('click', '.btn-close', function(e) {
+            e.preventDefault();
+            $(this).parent().parent().parent().remove();
+        });
     </script>
 @endsection

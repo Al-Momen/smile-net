@@ -50,7 +50,7 @@
         <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
             <a href="#">
                 <i class="menu-icon las la-user-edit"></i>
-                <span class="menu-title">@lang('Magazine Manager')</span>
+                <span class="menu-title">@lang('Books Manager')</span>
             </a>
             <ul class="sidebar-submenu"
                 @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) style="display:block"
@@ -59,18 +59,39 @@
                 <li class="sidebar-menu-item">
                     <a href="{{ route('admin.book.index') }}" class="nav-link">
                         <i class="menu-icon las la-dot-circle"></i>
-                        <span class="menu-title">@lang('Magazine')</span>
+                        <span class="menu-title">@lang('Books')</span>
                     </a>
-                    <a href="{{ route('admin.book.all.magazine') }}" class="nav-link">
+                    <a href="{{ route('admin.book.all.books') }}" class="nav-link">
                         <i class="menu-icon las la-dot-circle"></i>
-                        <span class="menu-title">@lang('All Magazine')</span>
+                        <span class="menu-title">@lang('All Books')</span>
                     </a>
                 </li>
             </ul>
         </li>
 
-        
+        <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
+            <a href="#">
+                <i class="menu-icon las la-user-edit"></i>
+                <span class="menu-title">@lang('News Manager')</span>
+            </a>
+            <ul class="sidebar-submenu"
+                @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) style="display:block"
+            @else
+                style="display:none" @endif>
+                <li class="sidebar-menu-item">
+                    <a href="{{ route('admin.news.index') }}" class="nav-link">
+                        <i class="menu-icon las la-dot-circle"></i>
+                        <span class="menu-title">@lang('News')</span>
+                    </a>
+                    <a href="{{ route('admin.all.news') }}" class="nav-link">
+                        <i class="menu-icon las la-dot-circle"></i>
+                        <span class="menu-title">@lang('All News')</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
 
+    
         <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
             <a href="#">
                 <i class="menu-icon las la-user-edit"></i>
@@ -96,6 +117,28 @@
                 </li>
             </ul>
         </li>
+        <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
+            <a href="#">
+                <i class="menu-icon las la-wallet"></i>
+                <span class="menu-title">@lang('Music')</span>
+            </a>
+            <ul class="sidebar-submenu"
+                @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) style="display:block"
+            @else
+                style="display:none" @endif>
+                <li class="sidebar-menu-item">
+                    <a href="{{ route('admin.music.index') }}" class="nav-link">
+                        <i class="menu-icon las la-dot-circle"></i>
+                        <span class="menu-title">@lang('Audio Music')</span>
+                    </a>
+                    <a href="{{route('admin.video.music.index')}}" class="nav-link">
+                        <i class="menu-icon las la-dot-circle"></i>
+                        <span class="menu-title">@lang('Video Music')</span>
+                    </a>
+                   
+                </li>
+            </ul>
+        </li>
 
         <li class="sidebar-menu-item ">
             <a href="{{ route('admin.manage.site') }}" class="nav-link">
@@ -109,12 +152,8 @@
                 <span class="menu-title">Coupons</span>
             </a>
         </li>
-        <li class="sidebar-menu-item ">
-            <a href="{{ route('admin.music.index') }}" class="nav-link">
-                <i class="menu-icon las la-dot-circle"></i>
-                <span class="menu-title">Music</span>
-            </a>
-        </li>
+        
+
         <li class="sidebar-menu-item ">
             <a href="{{route('admin.smile.tv.index')}}" class="nav-link">
                 <i class="menu-icon las la-dot-circle"></i>
@@ -145,12 +184,55 @@
                 <span class="menu-title">Movies Category</span>
             </a>
         </li>
-        <li class="sidebar-menu-item ">
-            <a href="{{ route('admin.pricing.index') }}" class="nav-link">
-                <i class="menu-icon las la-dot-circle"></i>
-                <span class="menu-title">Pricing</span>
+        
+
+        <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
+            <a href="#">
+                <i class="menu-icon las la-wallet"></i>
+                <span class="menu-title">@lang('Automatic Getway')</span>
             </a>
+            <ul class="sidebar-submenu"
+                @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) style="display:block"
+            @else
+                style="display:none" @endif>
+                <li class="sidebar-menu-item">
+                    <a href="{{route('admin.paypal.paymentgetway.view')}}" class="nav-link">
+                        <i class="menu-icon las la-dot-circle"></i>
+                        <span class="menu-title">@lang('Paypal')</span>
+                    </a>
+                    <a href="{{route('admin.stripe.paymentgetway.view')}}" class="nav-link">
+                        <i class="menu-icon las la-dot-circle"></i>
+                        <span class="menu-title">@lang('Stripe')</span>
+                    </a>
+                   
+                </li>
+            </ul>
         </li>
+
+        <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
+            <a href="#">
+                <i class="menu-icon las la-wallet"></i>
+                <span class="menu-title">@lang('Manual Getway')</span>
+            </a>
+            <ul class="sidebar-submenu"
+                @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) style="display:block"
+            @else
+                style="display:none" @endif>
+                <li class="sidebar-menu-item">
+                    <a href="{{ route('admin.manual.paymentgetway.view') }}" class="nav-link">
+                        <i class="menu-icon las la-wallet"></i>
+                        <span class="menu-title">Getway System</span>
+                    </a>
+                    <a href="{{route('admin.user.manual.getway.request')}}" class="nav-link">
+                        <i class="menu-icon las la-dot-circle"></i>
+                        <span class="menu-title">@lang('User WithDraw')</span>
+                    </a>
+                   
+                </li>
+            </ul>
+        </li>
+
+
 
         {{-- <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
             <a href="#">
@@ -343,32 +425,13 @@
             </a>
         </li> --}}
         <li class="sidebar__menu-header">NOTIFY SETTINGS</li>
-        <li class="sidebar-menu-item sidebar-dropdown {{ Request::is('email-template*') ? 'active' : '' }}">
-            <a href="#" class="">
+        <li class="sidebar-menu-item ">
+            <a href="{{ route('admin.mail.view') }}" class="nav-link">
                 <i class="menu-icon las la-envelope-open-text"></i>
-                <span class="menu-title">Email Manager</span>
+                <span class="menu-title">Mail Setting</span>
             </a>
-            <ul class="sidebar-submenu" @if (Request::is('email-template*')) style="display:block" @endif>
-
-                <li class="sidebar-menu-item">
-                    <a href="{{ route('admin.email.template.global') }}" class="nav-link">
-                        <i class="menu-icon las la-dot-circle"></i>
-                        <span class="menu-title {{ Request::is('email-template/global') ? 'text-white' : '' }}">Global
-                            Template</span>
-                    </a>
-                    <a href="{{ route('admin.email.template.index') }}" class="nav-link active">
-                        <i class="menu-icon las la-dot-circle"></i>
-                        <span class="menu-title {{ Request::is('email-template/index') ? 'text-white' : '' }}">Default
-                            Template</span>
-                    </a>
-                    <a href="{{ route('admin.email.template.setting') }}" class="nav-link ">
-                        <i class="menu-icon las la-dot-circle"></i>
-                        <span class="menu-title {{ Request::is('email-template/setting') ? 'text-white' : '' }}">Email
-                            Configuration</span>
-                    </a>
-                </li>
-            </ul>
         </li>
+        
 
 
         <li class="sidebar__menu-header">Settings</li>
@@ -400,33 +463,9 @@
                 </li>
             </ul>
         </li>
-        <li class="sidebar-menu-item sidebar-dropdown {{ Request::is('payment/gateway*') ? 'active' : ' ' }}">
-            <a href="#">
-                <i class="menu-icon las la-cog"></i>
-                <span class="menu-title">Payment Gateways</span>
-            </a>
-            <ul class="sidebar-submenu {{ Request::is('payment/gateway*') ? 'd-block' : ' ' }}">
-                <li class="sidebar-menu-item">
-                    <a href="{{ route('admin.gateway.automatic.index') }}" class="nav-link">
-                        <i class="menu-icon las la-dot-circle"></i>
-                        <span
-                            class="menu-title {{ Request::is('payment/gateway/automatic/index') ? 'text-white' : ' ' }}">Automatic</span>
-                    </a>
-                    <a href="{{ route('admin.gateway.manual.index') }}" class="nav-link">
-                        <i class="menu-icon las la-dot-circle"></i>
-                        <span
-                            class="menu-title {{ Request::is('payment/gateway/manual/index') ? 'text-white' : ' ' }}">Manual</span>
-                    </a>
-                </li>
-            </ul>
-
-        </li>
-        <li class="sidebar-menu-item">
-            <a href="{{ route('admin.setting.seo.page') }}">
-                <i class="menu-icon las la-globe"></i>
-                <span class="menu-title">SEO Manager</span>
-            </a>
-        </li>
+      
+        
+        
         <li class="sidebar-menu-item sidebar-dropdown {{ Request::is('extra*') ? 'active' : ' ' }}">
             <a href="#">
                 <i class="menu-icon las la-cog"></i>
@@ -447,9 +486,7 @@
                     </a>
                 </li>
             </ul>
-
         </li>
-
     </ul>
     </li>
     </ul>

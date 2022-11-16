@@ -16,6 +16,8 @@ class CreateAdminUsersTable extends Migration
         Schema::create('admin_users', function (Blueprint $table) {
             $table->bigIncrements('id');$table->string('first_name');
             $table->string('last_name');
+            $table->string('address');
+            $table->string('country');
             $table->string('designation')->nullable();
             $table->bigInteger('auth_id')->unsigned();
             $table->foreign('auth_id')->references('id')->on('auths');

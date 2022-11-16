@@ -20,7 +20,7 @@ class CreateGeneralUsersTable extends Migration
             $table->string('phone');
             $table->integer('verified_code')->nullable()->unique();
             $table->tinyInteger('status')->default(0)->comment("0==unverified, 1==verified"); 
-            $table->integer('country_id')->nullable();
+            $table->string('country')->nullable();
             $table->string('photo')->nullable();
             $table->string('user_name')->nullable();
             $table->string('follower')->nullable();

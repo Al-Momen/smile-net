@@ -3,6 +3,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -246,7 +247,7 @@ class UserSeeder extends Seeder
         $auth_id = DB::table('auths')->insertGetId(
             [
                 'email'         => 'admin@gmail.com',
-                'password'      => bcrypt('admin'),
+                'password'      => Hash::make('admin'),
                 'mobile_no'     => '01016000000',
                 'model_id'      => 1,
                 'user_type'     => 0,
@@ -261,6 +262,8 @@ class UserSeeder extends Seeder
                 'first_name'    => 'Super',
                 'last_name'     => 'Admin',
                 'designation'   => 'Super Admin',
+                'address'       => 'united states',
+                'country'       => 'united states',
                 'auth_id'       => $auth_id,
                 'status'        => 1
             ]

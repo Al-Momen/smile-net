@@ -1,10 +1,10 @@
 @extends('frontend.deshboard.master')
 @section('content')
     <!-- body-wrapper-start -->
-    <div class="body-wrapper">
+
         <div class="table-content">
             <div class="shadow-lg p-4 card-1">
-                <form action="{{route('user.password.reset')}}"  method="post" class="form-dashboard">
+                <form action="{{route('user.password.reset', $profileId)}}"  method="post" class="form-dashboard">
                     @csrf
                     <div class="row justify-content-center mb-20-none">
                         <div class="col-xl-12 form-group mb-20">
@@ -26,8 +26,7 @@
                     </div>
                 </form>
             </div>
-        </div>
-    </div>
+
 @endsection
 @push('js')
     {{-- toastr --}}

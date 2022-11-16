@@ -23,7 +23,6 @@
             @foreach ($events as $event)
                 @foreach ($event->events as $item)
                     <a href="{{ route('event.all.plan', $item->id) }}" class="d-inline-block" style=" text-decoration: none;">
-                        <hr class="text-danger p-1 rounded" style="width: 100px;">
                         <div class="row px-4 d-flex justify-content-center justify-content-md-start"
                             style="margin-left: -20px;">
                             {{-- {{dd($item->id)}} --}}

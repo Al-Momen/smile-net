@@ -3,50 +3,39 @@
     <div class="table-content">
         <div class="header-title">
             <div class="row g-5 pt-3">
-                <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-20">
                     <div class="dashbord-user">
                         <div class="dashboard-content">
                             <div class="user-count">
-                                <span class="text-uppercase">Active</span>
+                                <span class="text-uppercase"> Active</span>
                             </div>
                             <div class="title pt-3">
-                                <span> News</span>
+                                <span>{{$general_active_count}} News</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-20">
                     <div class="dashbord-user">
                         <div class="dashboard-content">
                             <div class="user-count">
                                 <span class="text-uppercase">Pending</span>
                             </div>
                             <div class="title pt-3">
-                                <span>1 Order</span>
+                                <span>{{$general_pending_count}} News</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
-                    <div class="dashbord-user">
-                        <div class="dashboard-content">
-                            <div class="user-count">
-                                <span class="text-uppercase">Sold Out</span>
-                            </div>
-                            <div class="title pt-3">
-                                <span>3 Order</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 mb-20">
+
+                <div class="col-xl-4 col-lg-4 col-md-6 mb-20">
                     <div class="dashbord-user">
                         <div class="dashboard-content">
                             <div class="user-count">
                                 <span class="text-uppercase">total</span>
                             </div>
                             <div class="title pt-3">
-                                <span> News</span>
+                                <span>{{$general_count}} News</span>
                             </div>
                         </div>
                     </div>
@@ -74,7 +63,7 @@
                 <h3 class="text-white text-capitalize fw-bold pt-5 pb-3">News</h3>
                 <div class="table-responsive">
                     <table class="table text-white rounded">
-                        <thead>
+                        <thead class="text-center">
                             <tr>
                                 <th scope="col">Title</th>
                                 <th scope="col">Category</th>
@@ -84,7 +73,12 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="text-center">
+                            @if ($general_news->count() == 0)
+                                <tr>
+                                    <td colspan="99">No data found</td>
+                                </tr>
+                            @endif
                             <tr>
                                 @foreach ($general_news as $news)
                             <tr>
@@ -98,7 +92,15 @@
                                     @endphp
                                 </td>
                                 <td>{{ $news->tag }}</td>
-                                <td>{{ $news->status }}</td>
+                                <td>
+                                    @php
+                                    if ($news->status == 1) {
+                                        echo '<span class="badge bg-success">Active</span>';
+                                    } else {
+                                        echo '<span class="badge bg-danger">Pending</span>';
+                                    }
+                                @endphp
+                                </td>
                                 <td class="">
                                     <a href="{{ route('user.destroy.news', $news->id) }}"><i
                                             class="fa-solid fa-trash-can btn btn-danger rounded">
@@ -347,6 +349,11 @@
             });
         $('#btn_add').click(function() {
             var descriptionData = editor.getData();
+        })
+    </script>
+    <script>
+        $('.switch').click(function() {
+            $(this).parents('form').submit();
         })
     </script>
 @endpush

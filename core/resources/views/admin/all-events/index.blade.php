@@ -93,8 +93,7 @@ $roles = userRolePermissionArray();
                                             href="{{ route('admin.event.destroy', $event->id) }}"class="btn btn-danger rounded"><i
                                                 class="fas fa-trash"></i></a>
                                         <a href="{{ route('admin.event.view', $event->id) }}"
-                                            class="btn btn-primary rounded"> <i class="fas fa-edit" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"></i></a>
+                                            class="btn btn-primary rounded"> <i class="fas fa-edit"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

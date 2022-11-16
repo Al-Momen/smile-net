@@ -1,168 +1,209 @@
 @extends('frontend.master')
 @section('content')
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-          Start Banner Section
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-      <section class="ticket-banner  bg-overlay-base">
-        @if($site_image->image ?? "")
-            <img class="img-fluid" src="{{ asset('core\storage\app\public\manage-site\\'. $site_image->image) }} "alt="banner image">
+                  Start Banner Section
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <section class="ticket-banner  bg-overlay-base">
+        @if ($site_image->image ?? '')
+            <img class="img-fluid"
+                src="{{ asset('core\storage\app\public\manage-site\\' . $site_image->image) }} "alt="banner image">
         @endif
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            End Banner Section
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    End Banner Section
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            Start Music Section
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    Start Music Section
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="music-card">
         <div class="container py-5 mx-auto">
             <h1 class="text-white fw-bold fs-1 text-uppercase fw-bold">Music </h1>
             <hr class="text-danger p-1 rounded" style="width: 80px;">
             <div class="row g-5 pt-5">
                 @foreach ($allMusic as $key => $val)
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4 season-play-btn" id="mp3Play_{{ $val->id }}">
-                        <div class="card text-white card-has-bg click-col"
-                            style="background-image:url({{ asset('core/storage/app/public/music/photo/' . $val->image) }});">
-                            <img class="card-img d-none"
-                                src="{{ asset('core\storage\app\public\music\photo\\' . $val->image) }}"
-                                alt="Goverment Lorem Ipsum Sit Amet Consectetur dipisi?">
-                            <div class="card-img-overlay d-flex flex-column">
-                                <div class="card-body">
-                                    <small class="card-meta mb-2">{{ $val->admin->first_name }}
-                                        {{ $val->admin->last_name }}</small>
-                                    <h4 class="card-title mt-0 "><a class="text-white"
-                                            herf="#">{{ $val->song_title }}</a>
-                                    </h4>
-                                    <small><i class="far fa-clock"></i> @php
-                                        $date = $val->date;
-                                        echo date('M d, Y ', strtotime($date));
-                                    @endphp</small>
-                                </div>
-                                <div class="card-footer d-flex justify-content-between">
-                                    <div class="media">
-                                        <img class="mr-3 rounded-circle"
-                                            src="{{ asset('core\storage\app\public\music\photo\\' . $val->admin->profile_pic) }}"
-                                            alt="Generic placeholder image" style="max-width:50px">
-                                        <div class="media-body">
-                                            <h6 class="my-0 text-white d-block">{{ $val->song_name }}</h6>
-                                            <small>Singer: {{ $val->singer_name }}</small>
+                    @if ($val->mp3 !== null)
+                        <div class="col-sm-12 col-md-6 col-lg-4 mb-4 season-play-btn" id="mp3Play_{{ $val->id }}">
+                            <div class="card text-white card-has-bg click-col"
+                                style="background-image:url({{ asset('core/storage/app/public/music/photo/' . $val->image) }});">
+                                <img class="card-img d-none"
+                                    src="{{ asset('core\storage\app\public\music\photo\\' . $val->image) }}"
+                                    alt="Goverment Lorem Ipsum Sit Amet Consectetur dipisi?">
+                                <div class="card-img-overlay d-flex flex-column">
+                                    <div class="card-body">
+                                        <small class="card-meta mb-2">
+                                            Smile net
+                                            {{-- {{ $val->admin->adminUser->first_name }}
+                                        {{ $val->admin->adminUser->last_name }} --}}
+                                        </small>
+                                        <h4 class="card-title mt-0 "><a class="text-white"
+                                                herf="#">{{ $val->title }}</a>
+                                        </h4>
+                                        <small><i class="far fa-clock"></i> @php
+                                            $date = $val->created_at;
+                                            echo date('M d, Y ', strtotime($date));
+                                        @endphp</small>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between">
+                                        <div class="media">
+                                            <img class="mr-3 rounded-circle"
+                                                src="{{ asset('core\storage\app\public\admin-profile\\' . $val->admin->adminUser->profile_pic) }}"
+                                                alt="Generic placeholder image" style="max-width:50px">
+                                            <div class="media-body">
+                                                <h6 class="my-0 text-white d-block">{{ $val->song_name }}</h6>
+                                                <small>Singer: {{ $val->singer_name }}</small> <br>
+                                                <small>Artist: {{ $val->artist }}</small>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex mt-auto">
+                                            <button class="btn btn-outline-primary rounded-circle season-play-btn"
+                                                data-label="MP3" id="mp3Play_{{ $val->id }}"><i
+                                                    class="fas fa-play"></i></a></button>
                                         </div>
                                     </div>
-                                    <div class="d-flex mt-auto">
-                                        <button class="btn btn-outline-primary rounded-circle season-play-btn"
-                                            data-label="MP3" id="mp3Play_{{ $val->id }}"><i
-                                                    class="fas fa-play"></i></a></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                Start Music Player
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                        {{-- music player  --}}
+                        <div id="music-player_{{ $val->id }}" class="music music__player  animate__slideInDown">
+                            <audio style="display: none" id="music-audio_{{ $val->id }}"
+                                src="{{ url('/core/storage/app/public/music') . '/' . $val->mp3 }}" preload="metadata"
+                                volume="0.2"></audio>
+                            <input type="file" multiple class="music__uploader" name="file-audio"
+                                id="file-audio_{{ $val->id }}" accept="audio/*" />
+                            <div class="music__cover_{{ $val->id }}">
+                                <img id="music-cover_{{ $val->id }}" class="music__image"
+                                    src="{{ url('/') . '/core/storage/app/public/music/photo/' . $val->image }}"
+                                    alt="mini music player - miko-github" />
+                                <div class="music__name">
+                                    <h4 id="music-title_{{ $val->id }}" class="music__title">
+                                        {{ $val->title }}</h4>
+                                    <span id="music-desc_{{ $val->id }}" class="music__description">
+                                        Artist:- {{ $val->artist }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="music__controller-wrapper">
+                                <div class="music__controller">
+                                    <button id="music-backward_{{ $val->id }}" title="backward"
+                                        class="music__btn music__btn--back">
+                                        <!-- ALT : fa-[step, fast, ]-backward -->
+                                        <i class="fa fa-fast-backward"></i>
+                                    </button>
+                                    <button id="music-play_{{ $val->id }}" title="play"
+                                        class="music__btn music__btn--play">
+                                        <i class="fa fa-play"></i>
+                                    </button>
+                                    <button id="music-forward_{{ $val->id }}" title="forward"
+                                        class="music__btn music__btn--next">
+                                        <!-- ALT : fa-[step, fast, ]-forward -->
+                                        <i class="fa fa-fast-forward"></i>
+                                    </button>
+                                </div>
+                                <div class="music__times">
+                                    <span id="music-current-time_{{ $val->id }}" class="music__current_time">
+                                        00:00:00
+                                    </span>
+                                    <div id="music-seek_{{ $val->id }}" class="music__seek">
+                                        <span class="music__seek_handle"></span>
+                                    </div>
+                                    <span id="music-duration_{{ $val->id }}" class="music__duration">02:33</span>
+                                </div>
+                            </div>
+                            <div class="music__main">
+                                <div id="music-playlist_{{ $val->id }}" class="music__playlist">
+                                    <button type="button" id="playlist-close-btn_{{ $val->id }}"
+                                        class="playlist__close_btn">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                    <ul class="playlist__track_list" id="playlist-tracks_{{ $val->id }}"
+                                        tabindex="0">
+                                    </ul>
+                                </div>
+                                <div class="music__meta">
+
+                                    <div class="music__mixin">
+                                        <!-- STATE : --[off | on: [once | all]] -->
+                                        <button id="music-repeat_{{ $val->id }}"
+                                            class="music__repeat music__repeat--on music__repeat--all">
+                                            <!-- ALT : fa-[repeat, sync, sync-alt, retweet, retweet-alt, redo, redo-alt] -->
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                        <!-- STATE : --[off | on] -->
+                                        <button id="music-shuffle_{{ $val->id }}" class="music__shuffle">
+                                            <i class="fa fa-heart"></i>
+                                        </button>
+                                        <!-- STATE : --[off | on] -->
+                                        <button id="music-playlist-open_{{ $val->id }}" class="music__playlist_open">
+                                            <i class="fas fa-music"></i>
+                                        </button>
+                                    </div>
+                                    <div class="music__volume" title="50%">
+                                        <button id="music-volume-btn_{{ $val->id }}" class="music__volume_btn">
+                                            <i class="fas fa-volume-up"></i>
+                                        </button>
+                                        <div id="music-volume_{{ $val->id }}" class="music__volume_range">
+                                            <span class="music__volume_handle"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                        Start Music Player
-                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-                    {{-- music player  --}}
-                    <div id="music-player_{{ $val->id }}" class="music music__player  animate__slideInDown">
-                        <audio style="display: none" id="music-audio_{{ $val->id }}"
-                            src="{{ url('/core/storage/app/public/music') . '/' . $val->mp3 }}" preload="metadata" volume="0.2"></audio>
-                        <input type="file" multiple class="music__uploader" name="file-audio"
-                            id="file-audio_{{ $val->id }}" accept="audio/*" />
-                        <div class="music__cover_{{ $val->id }}">
-                            <img id="music-cover_{{ $val->id }}" class="music__image"
-                                src="{{ url('/') .'/core/storage/app/public/music/photo/' . $val->image }}" alt="mini music player - miko-github" />
-                            <div class="music__name">
-                                <h3 id="music-title_{{ $val->id }}" class="music__title">
-                                    {{ $val->title }}</h3>
-
-
-                                <span id="music-desc_{{ $val->id }}" class="music__description">
-                                    {{ $val->artist }}
-                                </span>
-                            </div>
-                        </div>
-                        <div class="music__controller-wrapper">
-                            <div class="music__controller">
-                                <button id="music-backward_{{ $val->id }}" title="backward"
-                                    class="music__btn music__btn--back">
-                                    <!-- ALT : fa-[step, fast, ]-backward -->
-                                    <i class="fa fa-fast-backward"></i>
-                                </button>
-                                <button id="music-play_{{ $val->id }}" title="play"
-                                    class="music__btn music__btn--play">
-                                    <i class="fa fa-play"></i>
-                                </button>
-                                <button id="music-forward_{{ $val->id }}" title="forward"
-                                    class="music__btn music__btn--next">
-                                    <!-- ALT : fa-[step, fast, ]-forward -->
-                                    <i class="fa fa-fast-forward"></i>
-                                </button>
-                            </div>
-                            <div class="music__times">
-                                <span id="music-current-time_{{ $val->id }}" class="music__current_time">
-                                    00:00:00
-                                </span>
-                                <div id="music-seek_{{ $val->id }}" class="music__seek">
-                                    <span class="music__seek_handle"></span>
-                                </div>
-                                <span id="music-duration_{{ $val->id }}" class="music__duration">02:33</span>
-                            </div>
-                        </div>
-                        <div class="music__main">
-                            <div id="music-playlist_{{ $val->id }}" class="music__playlist">
-                                <button type="button" id="playlist-close-btn_{{ $val->id }}"
-                                    class="playlist__close_btn">
-                                    <i class="fa fa-times"></i>
-                                </button>
-                                <ul class="playlist__track_list" id="playlist-tracks_{{ $val->id }}" tabindex="0">
-                                </ul>
-                            </div>
-                            <div class="music__meta">
-
-                                <div class="music__mixin">
-                                    <!-- STATE : --[off | on: [once | all]] -->
-                                    <button id="music-repeat_{{ $val->id }}"
-                                        class="music__repeat music__repeat--on music__repeat--all">
-                                        <!-- ALT : fa-[repeat, sync, sync-alt, retweet, retweet-alt, redo, redo-alt] -->
-                                        <i class="fas fa-download"></i>
-                                    </button>
-                                    <!-- STATE : --[off | on] -->
-                                    <button id="music-shuffle_{{ $val->id }}" class="music__shuffle">
-                                        <i class="fa fa-heart"></i>
-                                    </button>
-                                    <!-- STATE : --[off | on] -->
-                                    <button id="music-playlist-open_{{ $val->id }}" class="music__playlist_open">
-                                        <i class="fas fa-music"></i>
-                                    </button>
-                                </div>
-                                <div class="music__volume" title="50%">
-                                    <button id="music-volume-btn_{{ $val->id }}" class="music__volume_btn">
-                                        <i class="fas fa-volume-up"></i>
-                                    </button>
-                                    <div id="music-volume_{{ $val->id }}" class="music__volume_range">
-                                        <span class="music__volume_handle"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                         End Music Player
-                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                        <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                                 End Music Player
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    @endif
                 @endforeach
 
             </div>
         </div>
+        {{-- --------------- music video--------------- --}}
+        <div class="container py-5 mx-auto">
+            <h1 class="text-white fw-bold fs-1 text-uppercase fw-bold">Music video</h1>
+            <hr class="text-danger p-1 rounded" style="width: 70px;">
+            <div class="row g-5 pt-5">
+                <div class="swiper2 mySwiper4 pt-3">
+                    <div class="swiper-wrapper text-white" data-swiper-autoplay="6000">
+                        @foreach ($allMusicVideo as $key => $val)
+                            @if ($val->mp4 !== null)
+                                <div class="swiper-slide">
+                                    <div class="card" style="width: 18rem;">
+                                        <div class="subscription">
+                                        </div>
+                                        <img src="{{ asset('core/storage/app/public/music/photo/' . $val->image) }}"
+                                            alt="Image" class="card-img-top" alt="image"
+                                            style="width: 100%; height: 350px">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ $val->title }}</h5>
+                                            <p class="primary-color">{{ $val->artist }}</p>
+                                            <a target="_blank" href="{{ route('video.music.play', $val->id) }}"
+                                                class="btn btn-outline-secondary video-btn">
+                                                Watch Now
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            End Music Section
-                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                    End Music Section
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 @endsection
 
 @push('js')
     <script type="text/javascript">
-        $(document).ready(function() {  
+        $(document).ready(function() {
             $.ajax({
                 type: "GET",
                 url: "{{ route('latest.songs') }}",
@@ -233,7 +274,8 @@
                             // $audio.pause();
                             let goSe = selectedTrack.mp3;
                             console.log(goSe);
-                            let gose2 = "{{ url('/') }}" + '/core/storage/app/public/music/' + goSe;
+                            let gose2 = "{{ url('/') }}" +
+                                '/core/storage/app/public/music/' + goSe;
                             updateMetaData(gose2);
                             $audio.play();
                             return selectedTrack;
@@ -250,8 +292,9 @@
                                 -(trackList.length - 1) :
                                 1;
                             let goSe = trackList[state.currentTrackIndex].mp3;
-                          
-                            let gose2 = "{{ url('/') }}" + '/core/storage/app/public/music/' + goSe;
+
+                            let gose2 = "{{ url('/') }}" +
+                                '/core/storage/app/public/music/' + goSe;
                             updateMetaData(gose2);
                             $audio.play();
                         }
@@ -265,7 +308,8 @@
                             state.currentTrackIndex -=
                                 state.currentTrackIndex - 1 < 0 ? -(trackList.length - 1) : 1;
                             let goSe = trackList[state.currentTrackIndex].mp3;
-                            let gose2 = "{{ url('/') }}" + '/core/storage/app/public/music/' + goSe;
+                            let gose2 = "{{ url('/') }}" +
+                                '/core/storage/app/public/music/' + goSe;
                             updateMetaData(gose2);
                             $audio.play();
                         }
@@ -277,7 +321,8 @@
                             $_artist.textContent = fixArtist(currentTrack.artist) ||
                                 defaultTrack.artist;
                             let goSe = currentTrack.image;
-                            let gose2 = "{{ url('/') }}" + '/core/storage/app/public/music/photo/' + goSe;
+                            let gose2 = "{{ url('/') }}" +
+                                '/core/storage/app/public/music/photo/' + goSe;
 
                             console.log(gose2);
                             $_cover.setAttribute("src", gose2 || defaultTrack.image);
@@ -668,6 +713,7 @@
                             xhr.onerror = () => console.log(`[fixBase64] : network error!`);
                             xhr.send();
                         }
+
                         function fixRandom(min, max) {
                             let _min = max ? min : 0;
                             let _max = max || min;

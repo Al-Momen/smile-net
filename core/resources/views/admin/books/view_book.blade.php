@@ -1,12 +1,12 @@
 @extends('admin.layout.master')
 @section('title')
-    All-Events
+    All-News
 @endsection
 @section('page-name')
-    All-Events
+    All-News
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
 
 @section('content')
@@ -18,69 +18,86 @@ $roles = userRolePermissionArray();
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">All-Books</span>
+                <span class="active-path g-color">All-News</span>
             </a>
         </div>
         <div class="view-prodact">
-
+           
         </div>
     </div>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <div class="table-content">
+        <div class="shadow-lg p-4 card-1 my-3">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
+                        data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            @if (session('danger'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{ session('danger') }}!</strong> <button type="button" class="btn-close"
+                        data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
         </div>
-    @endif
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close" data-bs-dismiss="alert"
-                aria-label="Close"></button>
-        </div>
-    @endif                  
+    </div>
+    <!-- Modal -->
 
-    <form class="form-dashboard" action="{{ route('user.update.books', $book->id) }}"method="POST"
-        enctype="multipart/form-data" id="addEventForm">
-        @csrf
-        <div class="errMsgContainer" style="padding: 20px;">
-        </div>
-        <div class="row g-4k" style="padding: 20px; background-color:white;">
-            <h5 class="modal-title mb-4" id="addModalLabel">Books Update</h5>
-            <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                <label for="title" class="form-label">Title</label>
-                <p>{!! $book->title !!}</p>
-            </div>
-            <div class=" col-lg-6 col-md-6 col-12 ">
-                <label for="doller-input" class="form-label"> Price</label>
-                <div class="input-group ">
-                    <p>{!! $book->price !!}{!! $price->symbol !!}</p>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    Start ES Section
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <div class="details-card">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-12">
+                <div>
+                    <div>
+                        <img class=" img-fluid d-block mx-auto"
+                            src="{{ asset('core\storage\app\public\books\\' . $book->image) }}" alt="Image">
+                    </div>
                 </div>
             </div>
 
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="categoty" class="form-label">Category</label>
-                <p>{!! $book->category->name !!}</p>
+            
+            <div class="col-lg-6 col-md-6 col-12">
+                <div>
+                    <h3 style="color:#7b8191">{{ $book->title }}</h3>
+                    <div class="d-flex category">
+                        <div class="me-5">
+                            <p>Category: {{ $book->category->name }}</p>
+                        </div>
+                        <div class="me-5">
+                            <p>Tag: {{ $book->tag }}</p>
+                        </div>
+                        <div>
+                            <p>Price: {{ $book->price }} {{ $book->priceCurrency->symbol }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="me-5">
+                        <p clas="mt-5"style="color:#7b8191;font-size:20px;font-weight: 800;">Description: </p>
+                    </div>
+                    <p>{!!$book->description !!}</p>
+                </div>
+            </div>
 
+            <div> 
+                <a href="{{route('admin.book.all.books')}}" type="button" class="btn btn-info" style="float: right;">Back</a>
             </div>
-            <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="tag" class="form-label">Tag</label>
-                <p>{!! $book->tag !!}</p>
-            </div>
-            <div class="mb-3 mt-4 col-lg-12 col-md-12 col-12 pe-4">
-                <label for="image" class="form-label"> Cover Image</label>
-                <img src="{{ asset('core\storage\app\public\books\\' . $book->image) }}" alt="" style=" height: 230px;
-                width: 300px; padding-left: 20px;">
-            </div>
-
-            <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
-                <label for="doller-input" class="form-label">Description</label>
-                <p>{!! $book->description !!}</p>
-            </div>
-
+            
         </div>
-    </form>
+    </div>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    End ES Section
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 @endsection
 @section('css')
@@ -90,9 +107,7 @@ $roles = userRolePermissionArray();
             width: 60px;
             border-radius: 70px;
         }
-        p{
-            padding-left: 28px;
-        }
+
         .modal-header .btn-close {
             padding: 0.5rem 0.5rem;
             opacity: 1;
@@ -103,10 +118,7 @@ $roles = userRolePermissionArray();
         }
 
         .form-label {
-            color: black !important;
-            background-color: #2196F3;
-            font-size: 17px;
-            padding-left: 20px;   
+            font-size: 15px;
         }
 
         /* Ck-editor css */
@@ -177,6 +189,28 @@ $roles = userRolePermissionArray();
 
         .slider.round:before {
             border-radius: 50%;
+        }
+
+        .details-card {
+            background-color: #fff;
+            margin: 40px;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        .details-card .right-img {
+            width: 40rem;
+        }
+
+        .details-card .category p {
+            font-weight: 600;
+            padding: 15px 0;
+        }
+
+        .details-card .price {
+            padding-bottom: 15px;
+            font-size: 30px;
+            color: #198754;
         }
     </style>
 @endsection

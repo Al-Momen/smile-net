@@ -18,45 +18,43 @@ class AdminVoteController extends Controller
     public function index()
     {
         $categories = AdminCategory::all();
-        $adminVotes = AdminVote::with(['category', "ticket"])->paginate(10);
+        $adminVotes = AdminVote::with(['category', "ticket",'adminVoteImages'])->paginate(10);
         $tickets = TicketType::all();
-        return view('admin.vote.index', compact('categories', 'adminVotes',  'tickets'));
+        return view('admin.vote.index', compact('categories','adminVotes', 'tickets'));
     }
     public function storeVote(Request $request)
     {
-        // dd($request->all());
         $request->validate([
             'vote_name' => 'required|min:2|max:255',
             'vote_image' => 'required|image|mimes:jpeg,png,jpg',
-            'name_one' => 'required|min:2|max:255',
-            'image_one' => 'required|image|mimes:jpeg,png,jpg',
-            'name_two' => 'required|min:2|max:255',
-            'image_two' => 'required|image|mimes:jpeg,png,jpg',
+            'names' => 'required',
+            'names.*' => 'required|min:2|max:255',
+            'images' => 'required',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg',
             'category' => 'required',
             'ticket' => 'required',
         ]);
+
         $vote = new AdminVote();
         $vote->category_id = $request->category;
         $vote->ticket_id = $request->ticket;
         $vote->vote_name = $request->vote_name;
         $vote->vote_image =Generals::upload('votes/', 'png', $request->vote_image);
         $vote->save();
+        $images= $request->images;
+        $names= $request->names;
+        if($images){
+            foreach ($images as $index => $image) {
+                $voteImage = new AdminVoteImage();
+                $voteImage->admin_vote_id = $vote->id;
+                $voteImage->name = $names[$index];
+                $voteImage->image = $this->uploadOne('votes/', $names[$index],'png', $image);
+                $voteImage->save();
+            } 
+        }
+        $notify[] = ['success', 'Votes create Successfully'];
+        return redirect()->back()->withNotify($notify);
 
-        // first save image one in Admin_vote_images table
-        $voteImageOne = new AdminVoteImage();
-        $voteImageOne->admin_vote_id = $vote->id;
-        $voteImageOne->name = $request->name_one;
-        $voteImageOne->image = $this->uploadOne('votes/', $request->name_one,'png', $request->image_one);
-        $voteImageOne->save();
-
-        // second save image two in Admin_vote_images table
-        $voteImageTwo = new AdminVoteImage();
-        $voteImageTwo->admin_vote_id = $vote->id;
-        $voteImageTwo->name = $request->name_two;
-        $voteImageTwo->image = $this->uploadTwo('votes/', $request->name_two, 'png', $request->image_two);
-        $voteImageTwo->save();
-        $notify[] = ['success', 'Vote create Successfully'];
-        return back()->withNotify($notify);
     }
     public function editVote($id)
     {
@@ -115,9 +113,12 @@ class AdminVoteController extends Controller
    }
     public function destroy($id)
     {
-        $vote = AdminVote::find($id);
+        $vote = AdminVote::with('adminVoteImages')->find($id);
+        foreach ($vote->adminVoteImages as $item) {
+            Generals::unlink('votes/', $item->image);
+            $item->delete();
+        }
         Generals::unlink('votes/', $vote->vote_image);
-        // Generals::unlink('votes/', $vote->image_two);
         $vote->delete();
         $notify[] = ['success', 'Vote Delete Successfully'];
         return redirect()->back()->withNotify($notify);

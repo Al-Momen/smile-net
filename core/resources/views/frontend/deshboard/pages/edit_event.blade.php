@@ -54,7 +54,7 @@
             </div>
 
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4 checkbox-block bg-white">
-                @foreach ($event->plans as $item)
+                @foreach ($event->eventPlans as $item)
                     <div class="single-checkbox">
                         <input class="checkboxInput" type="checkbox" id="{{ $item->ticketType->name }}"
                             name="ticket_type_id[]" value="{{ $item->ticket_type_id }}" data-bs-toggle="collapse"

@@ -42,7 +42,7 @@
                                 <th scope="col">SI</th>
                                 <th scope="col">Ticket Type Name</th>
                                 <th scope="col">Price</th>
-                                <th scope="col">Price symbol</th>
+
                                 <th scope="col">Ticket Type Description</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -57,8 +57,8 @@
                                 <tr>
                                     <td>{{ $i++ }}</td>
                                     <td class="text-capitalize">{{ $ticketType->name }}</td>
-                                    <td class="text-capitalize">{{ $ticketType->priceCurrency->symbol }}</td>
-                                    <td class="text-capitalize">{{ $ticketType->price }}</td>
+                                    <td class="text-capitalize">{{ $ticketType->price }} {{ $ticketType->priceCurrency->symbol }}</td>
+                         
                                     <td>{{ $ticketType->description }}</td>
                                     <td>
                                         <a

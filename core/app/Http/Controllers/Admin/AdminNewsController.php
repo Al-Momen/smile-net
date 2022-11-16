@@ -15,13 +15,12 @@ class AdminNewsController extends Controller
 {
     public function index()
     {
-        $allNews = AdminNews::with(['category','admin'])->paginate(10);
+        $allNews = AdminNews::with(['category','admin'])->where('news_type','App\Models\User')->where('user_id',Auth::user()->id)->paginate(10);
         $categories = AdminCategory::all();
         return view('admin.admin-news.news',compact('categories','allNews'));
     }
     public function storeNews(Request $request)
     {
-        //    dd($request->all());
           $request->validate([
             'title' => 'required|min:2|max:255',
             'category' => 'required',
@@ -31,7 +30,8 @@ class AdminNewsController extends Controller
         ]);
         try {
             $news = new AdminNews();
-            $news->admin_id = Auth::user()->id;
+            $news->user_id = Auth::user()->id;
+            $news->news_type = get_class(Auth::user());
             $news->title = $request->title;
             $news->category_id = $request->category;
             $news->tag = $request->tag;
@@ -52,15 +52,15 @@ class AdminNewsController extends Controller
     }
     public function editStatusNews(Request $request, $id)
     {
-        $books = AdminNews::where('id', $id)->first();
+        $news = AdminNews::where('id', $id)->first();
         if ($request->status == 'on') {
-            $books-> status = 1;
-            $books->update();
+            $news-> status = 1;
+            $news->update();
             $notify[] = ['success', 'Admin Status is Active'];
             return redirect()->back()->withNotify($notify);
         } else {
-            $books->status = 0;
-            $books->update();
+            $news->status = 0;
+            $news->update();
             $notify[] = ['success', 'Admin Status is Inactive'];
             return redirect()->back()->withNotify($notify);
         }
@@ -78,7 +78,8 @@ class AdminNewsController extends Controller
         try {
             $news = AdminNews::where('id',$id)->first();
             $oldImage= $news->image;     
-            $news->admin_id = Auth::guard('general')->user()->id;
+            $news->user_id = Auth::user()->id;
+            $news->news_type = get_class(Auth::user());
             $news->title = $request->title;
             $news->category_id = $request->category;
             $news->tag = $request->tag;
@@ -94,10 +95,26 @@ class AdminNewsController extends Controller
     }
     public function destroy($id)
     {
-         $news = AdminNews::find($id);
+        $news = AdminNews::find($id);
         Generals::unlink('news/',$news->image);
         $news->delete();
         $notify[] = ['success', 'News delete Successfully'];
         return redirect()->back()->withNotify($notify); 
+    }
+
+    public function allNews()
+    {
+        $allNews = AdminNews::with(['category','admin.adminUser','user'])->paginate(10);
+        $categories = AdminCategory::all();
+        return view('admin.admin-news.all_news', compact('allNews','categories'));
+    }
+
+    public function viewNews($id)
+    {
+        // dd('ok');
+        $news = AdminNews::with(['category', 'admin'])->findOrFail($id); // relation from events table->then 
+        $categories = AdminCategory::all();
+        return view('admin.admin-news.view_news',compact('categories','news'));
+        
     }
 }

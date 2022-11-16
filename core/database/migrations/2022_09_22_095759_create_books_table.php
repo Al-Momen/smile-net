@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("bookable_id");
-            $table->string("bookable_type");
+            $table->unsignedBigInteger("author_book_id");
+            $table->string("author_book_type");
             $table->unsignedBigInteger("category_id");
             $table->unsignedBigInteger("price_id");
             $table->string("price");
@@ -27,7 +27,6 @@ return new class extends Migration
             $table->string("tag")->nullable();
             $table->longText("description");
             $table->tinyInteger("status")->nullable()->default(0);
-            $table->tinyInteger("admin_status")->nullable()->default(0);
             $table->string("slug")->nullable();
             $table->timestamps();
         });

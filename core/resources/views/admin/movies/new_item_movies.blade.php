@@ -149,15 +149,19 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                    <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="image" class="form-label">@lang('Image') </label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
                                             name="image" accept="image/*" id="image">
                                     </div>
-                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="mp4" class="form-label">@lang('Movies') </label>
+                                    <div class="mb-3  col-lg-6 col-md-6 col-12 pe-4">
+                                        <label for="mp4" class="form-label">@lang('Movies/Music video') </label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="mp4" accept="mp4" id="mp4">
+                                            name="mp4" accept="video/*,.mkv" id="mp4">
+                                    </div>
+                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4 w-100">
+                                        <label for="editor" class="form-label">@lang('Description')</label>
+                                        <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
                                     </div>
                                 </div>
                             </div>

@@ -56,7 +56,7 @@
     </div>
     <!-- Modal -->
 
-    <form action="{{ route('admin.update.topMovies',$topMovies->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.update.top.movies',$topMovies->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
             <div class="modal-content">
@@ -95,7 +95,7 @@
                         <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                             <label for="mp4" class="form-label">@lang('Movies') </label>
                             <input type="file" src="" class="form-control px-3 pt-2" name="mp4"
-                                accept="mp4" id="mp4">
+                                accept="video/*" id="mp4">
                         </div>
                     </div>
                 </div>

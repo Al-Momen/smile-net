@@ -15,6 +15,7 @@ class TicketType extends Model
         'id',
         'price_currency_id',
         'name',
+        'price',
         'description',
        
     ];

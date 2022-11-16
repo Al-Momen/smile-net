@@ -52,12 +52,9 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-12 pe-0">
                                         <label class="text-white">Country<span class="text-danger">*</span></label>
-                                        <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
-                                            aria-label=".form-select-lg example" name="country">
-                                            <option selected value="1">Canada</option>
-                                            <option value="2">Japan</option>
-                                            <option value="3">Germany</option>
-                                            <option value="4">Switzerland</option>
+                                        <select class=" selectpicker countrypicker form-select form-select-md mb-3" style="padding: 12px 10px;"
+                                            aria-label=".form-select-lg example" name="country" data-live-search="true" data-default="United States" data-flag="true">
+
                                         </select>
                                     </div>
                                 </div>
@@ -94,6 +91,8 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         End SignIn Section
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+    
 
 
 @endsection

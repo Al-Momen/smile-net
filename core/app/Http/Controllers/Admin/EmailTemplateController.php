@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
+use App\Models\GeneralSetting;
+use App\Http\Controllers\Controller;
 
 class EmailTemplateController extends Controller
 {
@@ -48,6 +49,7 @@ class EmailTemplateController extends Controller
 
     public function emailSettingUpdate(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'email_method' => 'required|in:php,smtp,sendgrid,mailjet',
             'host' => 'required_if:email_method,smtp',
@@ -86,7 +88,6 @@ class EmailTemplateController extends Controller
         $notify[] = ['success', 'Email configuration has been updated.'];
         return back()->withNotify($notify);
     }
-
 
     public function emailTemplate()
     {

@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
             GeneralSettingSeeder::class,
             SocialSeeder::class,
             PageSeeder::class,
+            MailsettingSeeder::class,
+            PaypalgetwaySeeder::class,
+            StripegetwaySeeder::class
         ]);
     }
 }

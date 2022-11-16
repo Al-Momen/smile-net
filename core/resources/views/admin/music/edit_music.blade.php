@@ -37,11 +37,11 @@
                             <input type="text" class="form-control" placeholder="Singer Name" name="singer_name" id="singer_name"
                                 value="{{ $music->singer_name }}" required>
                         </div>
-                        <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                        {{-- <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                             <label for="date" class="form-label">Date</label>
                             <input type="datetime-local" class="form-control" placeholder="Date" name="date" value="{{ $music->date }}"
                                 id="date" required>
-                        </div>
+                        </div> --}}
                         <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                             <label for="thumbnail" class="form-label">@lang('Thumbnail') </label>
                             <input type="file" src="" class="form-control px-3 pt-2" name="image"

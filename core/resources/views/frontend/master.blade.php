@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/lightcase.css') }}">
     <!-- swipper css link -->
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/swiper.min.css') }}">
+
     <!-- favicon -->
     <link rel="icon" href="{{asset('images/logoIcon/favicon.png') }}" type="image/x-icon">
     @stack('css')
@@ -95,6 +96,9 @@
     <script src="{{asset('assets/frontend/js/moment.min.js')}}"></script>
     <!-- script -->
     <script src="{{asset('assets/frontend/js/script.js')}}"></script>
+    <!-- country js -->
+    <script src="{{URL::asset('assets/frontend/js/countrypicker.min.js')}}"></script>
+
 
     <!-- Initialize Swiper -->
     <script>

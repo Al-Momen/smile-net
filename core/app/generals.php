@@ -59,7 +59,7 @@ class Generals
            
             return $fileName;
         } else {
-            $fileName = 'def.text';
+            $fileName = null;
         }
         return $fileName;
     }

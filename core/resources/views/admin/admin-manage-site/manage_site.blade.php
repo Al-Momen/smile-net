@@ -1,3 +1,4 @@
+
 @extends('admin.layout.master')
 @section('title')
     Home Manage Site

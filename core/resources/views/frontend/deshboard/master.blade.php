@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="{{URL::asset('assets/frontend/css/style.css')}}">
     <!-- animate.css link cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+      
     
     @stack('css')
     @stack('meta')
@@ -103,6 +104,8 @@
     <script src="{{URL::asset('assets/frontend/js/bootstrap.bundle.min.js')}}"></script>
     <!-- swipper js -->
     <script src="{{URL::asset('assets/frontend/js/swiper.min.js')}}"></script>
+    <!-- country js -->
+    <script src="{{URL::asset('assets/frontend/js/countrypicker.min.js')}}"></script>
     <!-- viewport js -->
     <script src="{{URL::asset('assets/frontend/js/viewport.jquery.js')}}"></script>
     <!-- odometer js -->
@@ -119,6 +122,9 @@
     <script src="{{URL::asset('assets/frontend/js/script.js')}}"></script>
     <script src="{{URL::asset('assets/frontend/js/popper.js')}}"></script>
     {{-- tosat js --}}
+    <!-- country js -->
+    <script src="{{URL::asset('assets/frontend/js/countrypicker.min.js')}}"></script>
+    
     @include('partials.notify')
     @stack('js')
 

@@ -83,11 +83,11 @@ $roles = userRolePermissionArray();
                                         <td>{{ $book->category->name }}</td>
                                         <td>{{ $book->price }} {{ $price->symbol }}</td>
                                         <td>
-                                            <form action="{{ route('admin.admin_status.edit', $book->id) }}" method="POST">
+                                            <form action="{{ route('admin.book.status.edit', $book->id) }}" method="POST">
                                                 @csrf
                                                 <label class="switch" id="switch">
                                                     <input type="checkbox" name="status"
-                                                        @if ($book->admin_status == 1) checked @endif id="switchInput">
+                                                        @if ($book->status == 1) checked @endif id="switchInput">
                                                     <span class="slider round"></span>
                                                 </label>
                                             </form>
@@ -167,7 +167,7 @@ $roles = userRolePermissionArray();
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="file" class="form-label">@lang('File')</label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="file" accept="" id="file">
+                                            name="file" accept="application/pdf" id="file">
                                     </div>
 
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">

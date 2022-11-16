@@ -15,10 +15,10 @@ class AdminBookController extends Controller
 {
     public function index()
     {
-        $modalList =get_class(Auth::user());
+        
         // dd($modalList);
-        $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('bookable_type',$modalList)->paginate(10);
-        $data['general_count'] = Book::where('bookable_id', Auth::guard('general')->id())->count();
+        $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('author_book_type','App\Models\User')->paginate(10);
+        $data['general_count'] = Book::where('author_book_id', Auth::guard('general')->id())->count();
         $data['categories'] = AdminCategory::all();
         $data['price'] = PriceCurrency::first();
         return view('admin.books.book', $data);
@@ -32,23 +32,24 @@ class AdminBookController extends Controller
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
             'price' => 'required',
-            'file' => 'required',
+            'file' => 'required|mimes:pdf|max:100000',
         ]);
         try {
             $book = new Book();
-            $book->bookable_id = Auth::user()->id;
-            $book->bookable_type = get_class(Auth::user());
+            $book->author_book_id = Auth::user()->id;
+            $book->author_book_type = get_class(Auth::user());
             $book->title = $request->title;
             $book->description = $request->description;
             $book->category_id = $request->category;
             $book->price_id = $request->price_id;
-            $book->admin_status = $request->admin_status;
+            $book->status = $request->status;
             $book->price = $request->price;
             $book->tag = $request->tag;
             $book->image = Generals::upload('books/', 'png', $request->image);
             $book->file = Generals::fileUpload('books/', $request->file);
             $book->save();
-            return redirect()->back()->with('success', "Events create Successfully");
+            $notify[] = ['success', 'Book create Successfully'];
+            return redirect()->back()->withNotify($notify);
         } catch (QueryException $e) {
             dd($e->getMessage());
         }
@@ -66,12 +67,12 @@ class AdminBookController extends Controller
         
         $books = Book::where('id', $id)->first();
         if ($request->status == 'on') {
-            $books-> admin_status = 1;
+            $books-> status = 1;
             $books->update();
             $notify[] = ['success', 'Admin Status is Active'];
             return redirect()->back()->withNotify($notify);
         } else {
-            $books->admin_status = 0;
+            $books->status = 0;
             $books->update();
             $notify[] = ['success', 'Admin Status is Inactive'];
             return redirect()->back()->withNotify($notify);
@@ -86,25 +87,27 @@ class AdminBookController extends Controller
             'category' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
             'price' => 'required',
-            'file' => 'required',
+            'file' => 'required|mimes:pdf|max:100000',
         ]);
         try {
             $book = Book::where('id', $id)->first();
             $oldImage = $book->image;
             $oldFile = $book->file;
-            $book->bookable_id = Auth::user()->id;
-            $book->bookable_type = get_class(Auth::user());
+            $book->author_book_id = Auth::user()->id;
+            $book->author_book_type = get_class(Auth::user());
             $book->title = $request->title;
             $book->category_id = $request->category;
             $book->price_id = $request->price_id;
             $book->price = $request->price;
-            $book->admin_status = $request->admin_status;
+            $book->status = $request->status;
             $book->tag = $request->tag;
             $book->description = $request->description;
             $book->image = Generals::update('books/', $oldImage, 'png', $request->image);
             $book->file = Generals::FileUpdate('books/', $oldFile, $request->file);
             $book->update();
-            return redirect()->route("user.books")->with('success', "Books update Successfully");
+            $notify[] = ['success', 'Book update Successfully'];
+            return redirect()->route("user.books")->withNotify($notify);
+            
         } catch (QueryException $e) {
             dd($e->getMessage());
         }
@@ -115,10 +118,11 @@ class AdminBookController extends Controller
         Generals::unlink("books/", $book->image);
         Generals::fileUnlink("books/", $book->file);
         $book->delete();
-        return redirect()->back()->with('success', "Book delete Successfully");;
+        $notify[] = ['success', 'Book create Successfully'];
+        return redirect()->back()->withNotify($notify);
     }
 
-    public function allMagazine()
+    public function allBooks()
     {
         $data['general_books'] = Book::with(['category', 'priceCurrency','user','admin.adminuser'])->paginate(8);
         $data['general_count'] = Book::count();

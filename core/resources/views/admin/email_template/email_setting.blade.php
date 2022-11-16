@@ -13,7 +13,7 @@
                             </div>
                         </div>
                         <div class="dashboard-form-area two mt-10">
-                            <form class="dashboard-form" action="{{ route('admin.email.template.setting') }}" method="POST">
+                            <form class="dashboard-form" action="{{ route('admin.email.template.setting.update') }}" method="POST">
                                 @csrf
                                 <div class="row justify-content-center mb-10-none">
                                     <div class="col-lg-12 form-group">

@@ -8,6 +8,7 @@ use App\Models\GeneralUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\UserWallet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -24,22 +25,25 @@ class UsersAuthController extends Controller
     // user Regstration form function
     public function userRegistrationForm(Request $request)
     {
+        // dd($request->all());
         if ($request->isMethod('post')) {
             $data = $request->validate([
                 'fullname' => 'required',
                 'email' => 'required|unique:general_users',
                 'phone' => 'required',
                 'password' => 'required',
+                'country' => 'required',
             ]);
             $data = $request->all();
-            $general_user = GeneralUser::create([
-                'full_name' => $data['fullname'],
-                'email' => $data['email'],
-                'phone' => $data['phone'],
-                'verified_code' => rand(123456789, 987654321),
-                'country_id' => $data['country'],
-                'password' => Hash::make($data['password'])
-            ]);
+            $general_user = new GeneralUser();
+            $general_user->full_name = $data['fullname'];
+            $general_user->email = $data['email'];
+            $general_user->phone = $data['phone'];
+            $general_user->verified_code = rand(123456789, 987654321);
+            $general_user->country = $data['country'];
+            $general_user->password = Hash::make($data['password']);
+            $general_user->save();
+            
             Mail::to($general_user->email)->send(new VerifyEmail($general_user->verified_code));
             if ($general_user->verified_code) {
                 return redirect()->route('otp.form')->with('success', "User Create Successfully");
@@ -59,6 +63,18 @@ class UsersAuthController extends Controller
             $data = $request->all();
             if (Auth::guard('general')->attempt(['email' => $request->email, 'password' => $request->password,])) {
                 if (Auth::guard('general')->attempt(['email' => $request->email, 'password' => $request->password, "status" => 1], $request->has('remember'))) {
+
+
+                    // ---------------------user wallet create---------------------
+                    $user_wallet = UserWallet::where('user_id', Auth::guard('general')->user()->id)->first();
+                    if($user_wallet){
+                        return redirect()->route('user.deshboard');
+                    }
+                    else{
+                        $user_wallet = new UserWallet();
+                        $user_wallet->user_id = Auth::guard('general')->user()->id;
+                        $user_wallet->save();
+                    }
                     return redirect()->route('user.deshboard');
                 } else {
                     $general_users = DB::table('general_users')->where('email', $data['email'])->first();

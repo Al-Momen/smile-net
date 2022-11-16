@@ -11,7 +11,7 @@ class AdminNews extends Model
     protected $table = 'admin_news';
     protected $fillable = [
         'id',
-        'admin_id',
+        'user_id',
         'category_id',
         'title',
         'description',
@@ -27,7 +27,10 @@ class AdminNews extends Model
     ];
 
     public function admin(){
-        return $this->belongsTo(Auth::class,'admin_id','id');
+        return $this->belongsTo(Auth::class,'user_id','id');
+    }
+    public function user(){
+        return $this->belongsTo(GeneralUser::class,'user_id','id');
     }
     public function category(){
         return $this->belongsTo(AdminCategory::class);

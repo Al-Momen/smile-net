@@ -3,13 +3,22 @@
 namespace App\Http\Controllers\Payments;
 
 use App\Models\Book;
-use App\Models\BookDetails;
+
+use App\Models\Plan;
+use App\Models\Currency;
+use App\Models\EventPlan;
+use App\Models\TicketType;
+use App\Models\UserWallet;
 use App\Models\AdminPricing;
 use Illuminate\Http\Request;
+use App\Models\PriceCurrency;
 use App\Models\PricingDetails;
-use App\Http\Controllers\Controller;
-use App\Models\Plan;
+use App\Models\BookTransaction;
+use App\Models\AdminPaypalGetway;
+use App\Models\TicketTypeDetails;
 use App\Models\PlanPricingDetails;
+use App\Http\Controllers\Controller;
+use App\Models\EventPlanTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
@@ -30,13 +39,14 @@ class PaypalController extends Controller
         $book = Book::with('priceCurrency')->where('id', $request->book_id)->first();
         if ($request->payment_getway == 'paypal') {
             $provider = new PayPalClient;
-            $provider->setApiCredentials(config('paypal'));
+            $provider->setApiCredentials($this->paypalConfig());
             $paypalToken = $provider->getAccessToken();
             $response = $provider->createOrder([
                 "intent" => "CAPTURE",
                 "application_context" => [
                     "return_url" => route('processPaypalSuccess', [
-                        'id' => $book->id, 'paid_price' => $request->paid_price, 'payment_getway' => $request->payment_getway, 'coupon_code' => $request->coupon_code,'discount'=>$request->discount
+                        'id' => $book->id, 'paid_price' => $request->paid_price, 'payment_getway' => $request->payment_getway, 'coupon_code' => $request->coupon_code, 'discount' => $request->discount,
+                        'author_book_id' => $book->author_book_id, 'author_book_type' => $book->author_book_type
                     ]),
                     "cancel_url" => route('processPaypalCancel', $book->id),
                 ],
@@ -67,7 +77,7 @@ class PaypalController extends Controller
         }
     }
     public function processPaypalSuccess(Request $request, $data)
-    {  
+    {
         // Generate random key 
         // Available alpha caracters
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*(){}';
@@ -80,41 +90,37 @@ class PaypalController extends Controller
             . $characters[rand(0, strlen($characters) - 1)];
         // String shuffle the result
         $rand_string = str_shuffle($pin);
+        // dd($request->all());
         $book = Book::with('priceCurrency')->where('id', $data)->first();
         $provider = new PayPalClient;
-        $provider->setApiCredentials(config('paypal'));
+        $provider->setApiCredentials($this->paypalConfig());
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request['token']);
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
-            if ($request->coupon_code) {
-                $book =new BookDetails();
-                $book->book_id = $data;
-                $book->user_id = Auth::guard('general')->user()->id;
-                $book->paid_price = $request->paid_price;
-                $book->coupon = $request->coupon_code;
-                $book->discount = $request->discount;
-                $book->payment_getway = $request->payment_getway;
-                $book->transaction_id = $rand_string;
-                $book->sold = 1;
-                $book->save();
-            } else {
-                $book =new BookDetails ();
-                $book->book_id = $data;
-                $book->user_id = Auth::guard('general')->user()->id;
-                $book->paid_price = $request->paid_price;
-                $book->coupon = $request->coupon_code;
-                $book->discount = $request->discount;
-                $book->payment_getway = $request->payment_getway;
-                $book->transaction_id = $rand_string;
-                $book->sold = 1;
-                $book->save();
-            }
-            $book = Book::with('priceCurrency')->where('id', $data)->first();
+           
+                $bookTransaction = new BookTransaction();
+                $bookTransaction->book_id = $data;
+                $bookTransaction->author_book_id = $request->author_book_id;
+                $bookTransaction->author_book_type = $request->author_book_type;
+                $bookTransaction->buy_user_id = Auth::guard('general')->user()->id;
+                $bookTransaction->paid_price = $request->paid_price;
+                $bookTransaction->coupon = $request->coupon_code;
+                $bookTransaction->discount = $request->discount;
+                $bookTransaction->payment_getway = $request->payment_getway;
+                $bookTransaction->transaction_id = $rand_string;
+                $bookTransaction->sold = 1;
+                $bookTransaction->save();
+
+                // ----------------User Wallet balance save----------------
+                $user_wallet = UserWallet:: where('user_id', $bookTransaction->author_book_id )->first();
+                $user_wallet->balance = $user_wallet->balance + $bookTransaction->paid_price;
+                $user_wallet->update();
+               
+            
             return redirect()
                 ->route('place_order', $book->id)
                 ->with('success', 'Transaction complete.');
         } else {
-            $book = Book::with('priceCurrency')->where('id', $data)->first();
             return redirect()
                 ->route('place_order', $book->id)
                 ->with('error', $response['message'] ?? 'Something went wrong.');
@@ -131,31 +137,32 @@ class PaypalController extends Controller
 
 
 
-    // -------------------------------Pricing paypal process function-------------------------------
+    // -------------------------------Ticket type Pricing paypal process function-------------------------------
 
-    public function processPaypalPricing(Request $request)
+    public function processPaypalTicketTypePricing(Request $request)
     {
         $request->validate([
             'payment_getway' => 'required',
         ]);
-        
-        $pricing = AdminPricing::with('priceCurrency')->where('id', $request->pricing_id)->first();
+
+        $ticketTypePricing = TicketType::with('priceCurrency')->where('id', $request->ticket_type_id)->first();
         if ($request->payment_getway == 'paypal') {
             $provider = new PayPalClient;
-            $provider->setApiCredentials(config('paypal'));
+            $provider->setApiCredentials($this->paypalConfig());
             $paypalToken = $provider->getAccessToken();
+
             $response = $provider->createOrder([
                 "intent" => "CAPTURE",
                 "application_context" => [
-                    "return_url" => route('processPaypalSuccess.pricing', [
-                        'id' => $pricing->id, 'paid_price' => $request->paid_price, 'payment_getway' => $request->payment_getway, 'coupon_code' => $request->coupon_code,'discount'=>$request->discount
+                    "return_url" => route('processPaypalSuccess.ticket_type.pricing', [
+                        'id' => $ticketTypePricing->id, 'paid_price' => $request->paid_price, 'payment_getway' => $request->payment_getway, 'coupon_code' => $request->coupon_code, 'discount' => $request->discount
                     ]),
-                    "cancel_url" => route('processPaypalCancel.pricing', $pricing->id),
+                    "cancel_url" => route('processPaypalCancel.ticket_type.pricing', $ticketTypePricing->id),
                 ],
                 "purchase_units" => [
                     0 => [
                         "amount" => [
-                            "currency_code" => $pricing->priceCurrency->code,
+                            "currency_code" => $ticketTypePricing->priceCurrency->code,
                             "value" => $request->paid_price
                         ]
                     ]
@@ -169,18 +176,18 @@ class PaypalController extends Controller
                     }
                 }
                 return redirect()
-                    ->route('place_order', $pricing->id)
+                    ->route('ticketType.Pricing.place_order', $ticketTypePricing->id)
                     ->with('error', 'Something went wrong.');
             } else {
                 return redirect()
-                    ->route('place_order', $pricing->id)
+                    ->route('ticketType.Pricing.place_order', $ticketTypePricing->id)
                     ->with('error', $response['message'] ?? 'Something went wrong.');
             }
         }
     }
 
-    public function processPaypalSuccessPricing(Request $request, $data)
-    {  
+    public function processPaypalSuccessTicketTypePricing(Request $request, $data)
+    {
         // --------------------------Generate random key-------------------------- 
         // Available alpha caracters
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*(){}';
@@ -193,54 +200,41 @@ class PaypalController extends Controller
             . $characters[rand(0, strlen($characters) - 1)];
         // String shuffle the result
         $rand_string = str_shuffle($pin);
-        
-        $pricing = AdminPricing::with('priceCurrency')->where('id', $data)->first();
+
+        $ticketTypePricing = TicketType::with('priceCurrency')->where('id', $data)->first();
         $provider = new PayPalClient;
-        $provider->setApiCredentials(config('paypal'));
+        $provider->setApiCredentials($this->paypalConfig());
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request['token']);
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
-            if ($request->coupon_code) {
-                $pricingDetails =new PricingDetails();
-                $pricingDetails->pricing_id = $data;
-                $pricingDetails->user_id = Auth::guard('general')->user()->id;
-                $pricingDetails->paid_price = $request->paid_price;
-                $pricingDetails->coupon = $request->coupon_code;
-                $pricingDetails->discount = $request->discount;
-                $pricingDetails->payment_getway = $request->payment_getway;
-                $pricingDetails->transaction_id = $rand_string;
-                $pricingDetails->sold = 1;
-                $pricingDetails->save();
-            } else {
-                $pricingDetails =new PricingDetails ();
-                $pricingDetails->pricing_id = $data;
-                $pricingDetails->paid_price = $request->paid_price;
-                $pricingDetails->user_id = Auth::guard('general')->user()->id;
-                $pricingDetails->coupon = $request->coupon_code;
-                $pricingDetails->discount = $request->discount;
-                $pricingDetails->payment_getway = $request->payment_getway;
-                $pricingDetails->transaction_id = $rand_string;
-                $pricingDetails->sold = 1;
-                $pricingDetails->save();
-            }
-            $pricing = AdminPricing::with('priceCurrency')->where('id', $data)->first();
+            // dd($request->all());
+            $ticketTypeDetails = new TicketTypeDetails();
+            $ticketTypeDetails->ticket_type_id = $data;
+            $ticketTypeDetails->user_id = Auth::guard('general')->user()->id;
+            $ticketTypeDetails->paid_price = $request->paid_price;
+            $ticketTypeDetails->coupon = $request->coupon_code;
+            $ticketTypeDetails->discount = $request->discount;
+            $ticketTypeDetails->payment_getway = $request->payment_getway;
+            $ticketTypeDetails->transaction_id = $rand_string;
+            $ticketTypeDetails->sold = 1;
+            $ticketTypeDetails->save();
             return redirect()
-                ->route('pricing.place_order', $pricing->id)
+                ->route('ticketType.Pricing.place_order', $ticketTypePricing->id)
                 ->with('success', 'Transaction complete.');
         } else {
-            $pricing = AdminPricing::with('priceCurrency')->where('id', $data)->first();
+            
             return redirect()
-                ->route('pricing.place_order', $pricing->id)
+                ->route('ticketType.Pricing.place_order', $ticketTypePricing->id)
                 ->with('error', $response['message'] ?? 'Something went wrong.');
         }
     }
 
 
-    public function processPaypalCancelPricing(Request $request, $id)
+    public function processPaypalCancelTicketTypePricing(Request $request, $id)
     {
-        $pricing = AdminPricing::with('priceCurrency')->where('id', $id)->first();
+        $ticketTypePricing = TicketType::with('priceCurrency')->where('id', $id)->first();
         return redirect()
-            ->route('pricing.place_order', $pricing->id)
+            ->route('processPaypalCancel.ticket_type.pricing', $ticketTypePricing->id)
             ->with('error', $response['message'] ?? 'You have canceled the transaction.');
     }
 
@@ -252,24 +246,27 @@ class PaypalController extends Controller
         $request->validate([
             'payment_getway' => 'required',
         ]);
-        // dd($request->all());
-        $planPricing = Plan::with('event.priceCurrency')->where('id', $request->plan_id)->first();
+         
+        $eventPlanPricing = EventPlan::with('event.priceCurrency')->where('id', $request->event_plan_id)->first();
         if ($request->payment_getway == 'paypal') {
+            $paypal_config = $this->paypalConfig();
             $provider = new PayPalClient;
-            $provider->setApiCredentials(config('paypal'));
+            $provider->setApiCredentials($paypal_config);
             $paypalToken = $provider->getAccessToken();
+            
             $response = $provider->createOrder([
                 "intent" => "CAPTURE",
                 "application_context" => [
                     "return_url" => route('processPaypalSuccess.plan.pricing', [
-                        'id' => $planPricing->id, 'paid_price' => $request->paid_price, 'payment_getway' => $request->payment_getway, 'coupon_code' => $request->coupon_code,'discount'=>$request->discount
+                        'id' => $eventPlanPricing->id, 'paid_price' => $request->paid_price, 'payment_getway' => $request->payment_getway, 'coupon_code' => $request->coupon_code, 'discount' => $request->discount
+                        ,'author_event_id' => $request->author_event_id
                     ]),
-                    "cancel_url" => route('processPaypalCancel.plan.pricing', $planPricing->id),
+                    "cancel_url" => route('processPaypalCancel.plan.pricing', $eventPlanPricing->id),
                 ],
                 "purchase_units" => [
                     0 => [
                         "amount" => [
-                            "currency_code" => $planPricing->event->priceCurrency->code,
+                            "currency_code" => $eventPlanPricing->event->priceCurrency->code,
                             "value" => $request->paid_price
                         ]
                     ]
@@ -283,18 +280,18 @@ class PaypalController extends Controller
                     }
                 }
                 return redirect()
-                    ->route('plan.pricing.place.order', $planPricing->id)
+                    ->route('plan.pricing.place.order', $eventPlanPricing->id)
                     ->with('error', 'Something went wrong.');
             } else {
                 return redirect()
-                    ->route('plan.pricing.place.order', $planPricing->id)
+                    ->route('plan.pricing.place.order', $eventPlanPricing->id)
                     ->with('error', $response['message'] ?? 'Something went wrong.');
             }
         }
     }
 
     public function processPaypalSuccessPlanPricing(Request $request, $data)
-    {  
+    {
         // --------------------------Generate random key-------------------------- 
         // Available alpha caracters
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*(){}';
@@ -309,53 +306,78 @@ class PaypalController extends Controller
         $rand_string = str_shuffle($pin);
 
         // dd($data);
-        
-        $pricing = Plan::with('event.priceCurrency')->where('id', $data)->first();
+
+
         $provider = new PayPalClient;
-        $provider->setApiCredentials(config('paypal'));
+        $provider->setApiCredentials($this->paypalConfig());
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request['token']);
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
-            if ($request->coupon_code) {
-                $planPricingDetails =new PlanPricingDetails();
-                $planPricingDetails->plan_id = $data;
-                $planPricingDetails->user_id = Auth::guard('general')->user()->id;
-                $planPricingDetails->paid_price = $request->paid_price;
-                $planPricingDetails->coupon = $request->coupon_code;
-                $planPricingDetails->discount = $request->discount;
-                $planPricingDetails->payment_getway = $request->payment_getway;
-                $planPricingDetails->transaction_id = $rand_string;
-                $planPricingDetails->sold = 1;
-                $planPricingDetails->save();
-            } else {
-                $planPricingDetails =new PlanPricingDetails();
-                $planPricingDetails->plan_id = $data;
-                $planPricingDetails->paid_price = $request->paid_price;
-                $planPricingDetails->user_id = Auth::guard('general')->user()->id;
-                $planPricingDetails->coupon = $request->coupon_code;
-                $planPricingDetails->discount = $request->discount;
-                $planPricingDetails->payment_getway = $request->payment_getway;
-                $planPricingDetails->transaction_id = $rand_string;
-                $planPricingDetails->sold = 1;
-                $planPricingDetails->save();
-            }
-            $planPricing = Plan::with('event.priceCurrency')->where('id', $data)->first();
+
+            $eventPlanTransaction = new EventPlanTransaction();
+            $eventPlanTransaction->plan_id = $data;
+            $eventPlanTransaction->buy_user_id = Auth::guard('general')->user()->id;
+            $eventPlanTransaction->author_event_id = $request->author_event_id;
+            $eventPlanTransaction->paid_price = $request->paid_price;
+            $eventPlanTransaction->coupon = $request->coupon_code;
+            $eventPlanTransaction->discount = $request->discount;
+            $eventPlanTransaction->payment_getway = $request->payment_getway;
+            $eventPlanTransaction->transaction_id = $rand_string;
+            $eventPlanTransaction->sold = 1;
+            $eventPlanTransaction->save();
+
+            // ----------------User Wallet balance save----------------
+            $user_wallet = UserWallet::where('user_id', $eventPlanTransaction->author_event_id )->first();
+            $user_wallet->balance = $user_wallet->balance + $eventPlanTransaction->paid_price;
+            $user_wallet->update();
+
+            // --------------------plans seat column update--------------------
+            $planPricing = EventPlan::with('event.priceCurrency')->where('id', $data)->first();
+            $planPricing->seat = $planPricing->seat - 1;
+            $planPricing->update();
             return redirect()
-                ->route('plan.pricing.place.order', $planPricing->id)
+                ->route('event.plan.pricing.place.order', $planPricing->id)
                 ->with('success', 'Transaction complete.');
         } else {
-            $planPricing = Plan::with('event.priceCurrency')->where('id', $data)->first();
+            $planPricing = EventPlan::with('event.priceCurrency')->where('id', $data)->first();
             return redirect()
-                ->route('plan.pricing.place.order', $planPricing->id)
+                ->route('event.plan.pricing.place.order', $planPricing->id)
                 ->with('error', $response['message'] ?? 'Something went wrong.');
         }
     }
 
     public function processPaypalCancelPlanPricing(Request $request, $id)
     {
-        $planPricing = Plan::with('event.priceCurrency')->where('id', $id)->first();
+        $planPricing = EventPlan::with('event.priceCurrency')->where('id', $id)->first();
         return redirect()
             ->route('pricing.place_order', $planPricing->id)
             ->with('error', $response['message'] ?? 'You have canceled the transaction.');
+    }
+
+
+    public function paypalConfig()
+    {
+        $priceCurrency = PriceCurrency::first();
+        $paypalPaymentGetway = AdminPaypalGetway::first();
+        $config = [
+            'mode'    => $paypalPaymentGetway->mode, // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
+            'sandbox' => [
+                'client_id'         => $paypalPaymentGetway->client_id,
+                'client_secret'     => $paypalPaymentGetway->secret_key,
+                'app_id'            => $paypalPaymentGetway->app_id,
+            ],
+            'live' => [
+                'client_id'         => $paypalPaymentGetway->client_id,
+                'client_secret'     => $paypalPaymentGetway->secret_key,
+                'app_id'            => $paypalPaymentGetway->app_id,
+            ],
+            'payment_action' => 'Sale', // Can only be 'Sale', 'Authorization' or 'Order'
+            'currency'       => $priceCurrency->code,
+            'notify_url'     => "", // Change this accordingly for your application.
+            'locale'         => 'en_US', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
+            'validate_ssl'   => true, // Validate SSL when creating api client.
+        ];
+
+        return $config;
     }
 }

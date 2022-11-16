@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('admin_id');    
             $table->string('name');
             $table->string('category');
+            $table->longText('description');
             $table->tinyInteger('status')->nullable()->default(0);
             $table->string('image');
             $table->string('mp4');

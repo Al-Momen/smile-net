@@ -10,7 +10,7 @@
                                 <span class="text-uppercase">Active</span>
                             </div>
                             <div class="title pt-3">
-                                <span> {{$general_active_count}} Order</span>
+                                <span> {{ $general_active_count }} Books</span>
                             </div>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                                 <span class="text-uppercase">Pending</span>
                             </div>
                             <div class="title pt-3">
-                                <span>{{$general_pending_count}} Order</span>
+                                <span>{{ $general_pending_count }} Books</span>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                                 <span class="text-uppercase">Sold Out</span>
                             </div>
                             <div class="title pt-3">
-                                <span>{{$general_sold_count}} Order</span>
+                                <span>{{ $general_sold_count }} Books</span>
                             </div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                                 <span class="text-uppercase">total</span>
                             </div>
                             <div class="title pt-3">
-                                <span> {{$general_count}} Books</span>
+                                <span> {{ $general_count }} Books</span>
                             </div>
                         </div>
                     </div>
@@ -55,14 +55,20 @@
         </div>
         <div class="shadow-lg p-4 card-1 my-3">
             @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+            </div>
+        @endif
             <!-- Button trigger modal -->
             <div class="text-end">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -85,7 +91,7 @@
                         <tbody>
 
                             @foreach ($general_books as $book)
-                                @if ($book->bookable_type == 'App\Models\GeneralUser')
+                                @if ($book->author_book_type == 'App\Models\GeneralUser')
                                     <tr>
                                         <td>{{ $book->title }}</td>
                                         <td>{{ optional($book->category)->name ?? 'N/A' }}</td>
@@ -93,14 +99,13 @@
                                             {{ $book->price }} {{ $price->symbol }}
                                         </td>
                                         <td>
-                                            <form action="{{ route('user.status.edit', $book->id) }}" method="POST">
-                                                @csrf
-                                                <label class="switch" id="switch">
-                                                    <input type="checkbox" name="status"
-                                                        @if ($book->status == 1) checked @endif id="switchInput">
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </form>
+                                            @php
+                                                if ($book->status == 1) {
+                                                    echo '<span class="badge bg-success">Active</span>';
+                                                } else {
+                                                    echo '<span class="badge bg-danger">Pending</span>';
+                                                }
+                                            @endphp
                                         </td>
                                         <td class="">
                                             <a href="{{ route('user.destroy.books', $book->id) }}"><i
@@ -180,22 +185,12 @@
                             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="file" class="form-label">File</label>
                                 <input type="file" src="" class="form-control px-3 pt-2" name="file"
-                                    accept="" id="file">
+                                accept="application/pdf" id="file">
                             </div>
                             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="tag" class="form-label">Tag</label>
                                 <input type="text" src="" class="form-control px-3 pt-2" name="tag"
                                     id="tag" placeholder="Tag">
-                            </div>
-                            <div class=" col-lg-6 col-md-6 col-12 mt-4">
-                                <label for="status" class="form-label">Status</label>
-                                <div class="input-group mb-3" style="margin-top: -2px; height: 67px;">
-                                    <select class="form-select form-select-md mb-3" aria-label=".form-select-lg example"
-                                        name="status">
-                                        <option value="1" selected> Active</option>
-                                        <option value="0">Deactive</option>
-                                    </select>
-                                </div>
                             </div>
 
                             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">

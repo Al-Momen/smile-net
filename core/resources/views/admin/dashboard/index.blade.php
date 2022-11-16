@@ -2,7 +2,7 @@
 @section('Dashboard', 'active')
 @section('Dashboard', 'open')
 @section('title')
-    @lang('admin_action.list_page_title')
+    @lang('Deshboard')
 @endsection
 @section('page-name')
     @lang('admin_action.list_page_sub_title')

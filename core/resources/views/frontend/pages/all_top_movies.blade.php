@@ -21,6 +21,9 @@
                                 <a target="_blank" href ="{{ route('top.movies.play',$item->id,)  }}" class="btn btn-outline-secondary video-btn" >
                                 Watch Now
                                 </a>
+                                <a target="_blank" href ="{{ route('top.movies.play',$item->id,)  }}" class="btn btn-outline-secondary video-btn" >
+                                Watch Now
+                                </a>
                             </div>
                         </div>
                     </div>

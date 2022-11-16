@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\EventPlan;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Event extends Model
 {
@@ -18,7 +19,7 @@ class Event extends Model
      */
     protected $fillable = [
         'id',
-        'user_id',
+        'author_event_id',
         'category_id',
         'price_currency_id',
         'title',
@@ -45,7 +46,7 @@ class Event extends Model
      // --------------relation user one to one--------------
     public function user()
     {
-        return $this->belongsTo(GeneralUser::class);
+        return $this->belongsTo(GeneralUser::class,'author_event_id','id');
     }   
    
     public function priceCurrency()
@@ -53,8 +54,8 @@ class Event extends Model
         return $this->belongsTo(PriceCurrency::class, 'price_currency_id', 'id');
     }
      // --------------relation plan one to many--------------
-    public function plans()
+    public function eventPlans()
     {
-        return $this->hasMany(Plan::class);
+        return $this->hasMany(EventPlan::class,);
     }
 }

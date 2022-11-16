@@ -18,8 +18,8 @@ class Book extends Model
      */
     protected $fillable = [
         'id',
-        'bookable_id',
-        'bookable_type',
+        'author_book_id',
+        'author_book_type',
         'category_id',
         'price_id',
         'price',
@@ -42,10 +42,10 @@ class Book extends Model
         'email_verified_at' => 'datetime',
     ];
     public function admin(){
-        return $this->belongsTo(Auth::class,'bookable_id','id');
+        return $this->belongsTo(Auth::class,'author_book_id','id');
     }
     public function user(){
-        return $this->belongsTo(GeneralUser::class,'bookable_id','id');
+        return $this->belongsTo(GeneralUser::class,'author_book_id','id');
     }
     public function category(){
         return $this->belongsTo(AdminCategory::class);
@@ -53,8 +53,8 @@ class Book extends Model
     public function priceCurrency(){
         return $this->belongsTo(PriceCurrency::class,'price_id','id');
     }
-    public function bookDetails(){
-        return $this->hasMany(BookDetails::class,'book_id','id');
+    public function bookTransaction(){
+        return $this->hasMany(BookTransaction::class,'book_id','id');
     }
     public function bookable()
     {

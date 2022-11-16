@@ -70,20 +70,20 @@
                                 </tr>
                             @endif
                             @foreach ($general_books as $book)
-                                @if ($book->bookable_type == 'App\Models\User' && $book->admin_status == 1)
-                                    <tr>
-                                        <td>{{ $book->admin->adminUser->first_name }} {{ $book->admin->adminUser->last_name }}</td>
+                                @if ($book->author_book_type == 'App\Models\User')
+                                    <tr >
+                                        <td>{{ $book->admin->adminUser->first_name.' '.$book->admin->adminUser->last_name }} {{ $book->admin->adminUser->last_name }}</td>
                                         <td>{{ $book->title }}</td>
                                         <td><img class="table-user-img img-fluid d-block mx-auto"
                                                 src="{{ asset('core\storage\app\public\books\\' . $book->image) }}"
                                                 alt="Image"></td>
                                         <td>{{ $book->category->name }}</td>
                                         <td>
-                                            <form action="{{ route('admin.admin_status.edit', $book->id) }}" method="POST">
+                                            <form action="{{ route('admin.book.status.edit', $book->id) }}" method="POST">
                                                 @csrf
                                                 <label class="switch" id="switch">
                                                     <input type="checkbox" name="status"
-                                                        @if ($book->admin_status == 1) checked @endif id="switchInput">
+                                                        @if ($book->status == 1) checked @endif id="switchInput">
                                                     <span class="slider round"></span>
                                                 </label>
                                             </form>
@@ -96,7 +96,7 @@
                                         </td>
                                     </tr>
                                 @endif
-                                @if ($book->bookable_type == 'App\Models\GeneralUser' && $book->status == 1)
+                                @if ($book->author_book_type == 'App\Models\GeneralUser')
                                     <tr>                                    
                                         <td>{{ $book->user->full_name }}</td>
                                         <td>{{ $book->title }}</td>
@@ -105,11 +105,11 @@
                                                 alt="Image"></td>
                                         <td>{{ $book->category->name }}</td>
                                         <td>
-                                            <form action="{{ route('admin.admin_status.edit', $book->id) }}" method="POST">
+                                            <form action="{{ route('admin.book.status.edit', $book->id) }}" method="POST">
                                                 @csrf
                                                 <label class="switch" id="switch">
                                                     <input type="checkbox" name="status"
-                                                        @if ($book->admin_status == 1) checked @endif id="switchInput">
+                                                        @if ($book->status == 1) checked @endif id="switchInput">
                                                     <span class="slider round"></span>
                                                 </label>
                                             </form>

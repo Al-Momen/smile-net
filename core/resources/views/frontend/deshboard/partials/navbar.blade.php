@@ -10,8 +10,9 @@
                     <button type="button" class="" data-bs-toggle="dropdown" data-display="static"
                         aria-haspopup="true" aria-expanded="false">
                         <span class="navbar-user">
+                            <span class="d-none">{{$profileImage = app\Models\GeneralUser::where('id',Auth::guard('general')->user()->id)->first()}}</span>
                             <span class="navbar-user__thumb"><img
-                                    src="{{asset('assets/frontend/images/bookMagazine/user.jpg')}}" alt="user"></span>
+                                    src="{{ asset('core\storage\app\public\profile\\'.$profileImage->photo) }}" alt="user"></span>
                             <span class="navbar-user__info">
                                 <span class="navbar-user__name">User</span>
                             </span>

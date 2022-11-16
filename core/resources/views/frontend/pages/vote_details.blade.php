@@ -1,4 +1,11 @@
 @extends('frontend.master')
+
+<style>
+    .last-index:last-child {
+        display: none !important;
+    }
+</style>
+
 @section('content')
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                          Start Banner Section
@@ -76,12 +83,12 @@
                                 </div>
                             </div>
                         </div>
-                        @if ($index == 0)
-                            <div class="col-12 col-lg-4 col-md-12 d-grid justify-content-center">
+                       
+                            <div class="col-12 col-lg-4 col-md-12 d-grid justify-content-center last-index">
                                 <img src="{{ URL::asset('assets/frontend/images/voting/vote4.png') }}"
                                     class="img-fluid h-75 d-block mx-auto my-auto" alt="">
                             </div>
-                        @endif
+                        
                     @endforeach
                 </div>
                 <p class="d-flex justify-content-center pt-5"><button class="btn btn-primary w-25">Vote</button></p>

@@ -10,6 +10,7 @@ use App\Http\Helpers\Generals;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
@@ -27,10 +28,9 @@ class ProfileController extends Controller
 
     public function update(Request $request, $id)
     {
-        //  dd($request->all());
+        // dd($request->all());
         $request->validate([
             'name' => 'required|min:2|max:255',
-            'email' => 'required',
             'user_name' => 'required',
             'country' => 'required',
             'phone' => 'required',
@@ -39,8 +39,7 @@ class ProfileController extends Controller
         try {
             $profile = GeneralUser::where('id', $id)->first();
             $profile->full_name = $request->name;
-            $profile->email = $request->email;
-            $profile->country_id = $request->country;
+            $profile->country = $request->country;
             $profile->user_name = $request->user_name;
             $profile->phone = $request->phone;
             $profile->facebook = $request->facebook;
@@ -72,51 +71,52 @@ class ProfileController extends Controller
                 'verified_code' => rand(123456789, 987654321)
             ]);
             Mail::to($profile->first()->email)->send(new VerifyEmail($profile->first()->verified_code));
-            return redirect()->route('user.password.reset.otp.form');
+            return redirect()->route('user.password.reset.otp.form',$profile->first()->id);
         }else{
-            return redirect()->back()->with('info', 'Please Email is not verifyed');
+            return redirect()->back()->with('danger', 'Please Email is not verifyed');
         }
     }
-    public function userPasswordResetOtpForm(){
-        
-        return view('frontend.deshboard.pages.verify_otp_password_reset');
+    public function userPasswordResetOtpForm($id){
+       $profileId = $id;
+        return view('frontend.deshboard.pages.verify_otp_password_reset',compact('profileId'));
     }
     
-    public function passwordResetOTPCheck(Request $request)
+    public function passwordResetOTPCheck(Request $request, $id)
     {
-        $reset_otp = GeneralUser::where('verified_code',$request->verified_code)->first();
+        $profileId = $id;
+        $reset_otp = GeneralUser::where('verified_code',$request->verified_code)->where('id',$id)->first();
         if($reset_otp){
-            return redirect()->route('user.password.reset.view');
+            return redirect()->route('user.password.reset.view',$profileId);
         }else{
-            return redirect()->route('user.password.reset.email.view')->with('info', 'Please OTP is not verifyed');
+            return redirect()->route('user.password.reset.email.view')->with('danger', 'Please OTP is not verifyed');
         }
     }
     
-    public function passwordResetView(){
+    public function passwordResetView($id){
         
-        return view('frontend.deshboard.pages.password_reset');
+        $profileId = $id;
+        return view('frontend.deshboard.pages.password_reset',compact('profileId'));
     }
 
 
-    // public function passwordReset(Request $request, $id)
-    // {
-    //     $request->validate([
-    //         'current_pass' => 'required',
-    //         'new_pass' => 'required',
-    //         'confirm_pass' => 'required|same:new_pass',
-    //     ]);
-    //     try {
-    //         if (Auth::guard('general')->attempt(['id' => $id, 'password' => $request->current_pass,])) {
-    //             $profile = GeneralUser::where('id', $id)->first();
-    //             $profile->password = $request->new_pass;
-    //             $profile->update();
-    //             return redirect()->route('user.deshboard');
-    //             return redirect()->back()->with('success', "Profile Update Successfully");
-    //         } else {
-
-    //         }
-    //     } catch (QueryException $e) {
-    //         dd($e->getMessage());
-    //     }
-    // }
+    public function passwordReset(Request $request, $id)
+    {
+        $request->validate([
+            'current_pass' => 'required',
+            'new_pass' => 'required',
+            'confirm_pass' => 'required|same:new_pass',
+        ]);
+        try {
+            if (Auth::guard('general')->attempt(['id' => $id, 'password' => $request->current_pass])) {
+                $profile = GeneralUser::where('id', $id)->first();
+                $profile->password = Hash::make($request->new_pass);
+                $profile->update();
+                return redirect()->route('user.deshboard')->with('success', "Password Update Successfully");
+            } else {
+                return redirect()->route('user.password.reset.email.view')->with('danger', 'Your Current Password is not Valid, Try again');
+            }
+        } catch (QueryException $e) {
+            dd($e->getMessage());
+        }
+    }
 }

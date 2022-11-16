@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\AdminSocialLink;
 use App\Models\User;
 use App\Models\AdminCategory;
+use App\Models\AdminMailSetting;
 use App\Models\SupportTicket;
 use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Config;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,6 +52,7 @@ class AppServiceProvider extends ServiceProvider
         //nabvar use this variable 
         $viewShare['category_events'] = AdminCategory::all();
         $viewShare['social_link'] = AdminSocialLink::first();
+
         view()->share($viewShare);
         view()->composer('admin.layout.left_sidebar', function ($view) {
             $view->with([
@@ -71,5 +75,26 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();
         Schema::defaultStringLength(191);
+
+        // ----------------------------------admin mail set up------------------------------------------------
+        $adminMailSeeting = AdminMailSetting::first();
+        if ($adminMailSeeting) {
+            $data = [
+
+                'driver'        => $adminMailSeeting->mail_transport,
+                'host'          => $adminMailSeeting->mail_host,
+                'port'          => $adminMailSeeting->mail_port,
+                'encryption'    => $adminMailSeeting->mail_encryption,
+                'username'      => $adminMailSeeting->mail_username,
+                'password'      => $adminMailSeeting->mail_password,
+                'from'          => [
+
+                    'address'  => $adminMailSeeting->mail_from,
+                    'name'     => 'AppDevs',
+
+                ],  
+            ];
+            Config::set('mail', $data);
+        }
     }
 }
