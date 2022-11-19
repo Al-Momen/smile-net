@@ -59,7 +59,7 @@
                     </div>
 
                     <div class="row g-4k" style="padding: 20px;">
-                        <h5 class="modal-title mb-4" id="addModalLabel">Events Update</h5>
+                        <h5 class="modal-title mb-4" id="addModalLabel" style="color:#7b8191">Events Update</h5>
                         <div class=" col-lg-6 col-md-6 col-12 pe-4">
                             <label for="title" class="form-label">Title</label>
                             <input type="text" class="form-control" placeholder="Title" name="title" id="title"

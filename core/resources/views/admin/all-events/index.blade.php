@@ -26,7 +26,7 @@ $roles = userRolePermissionArray();
 
         </div>
     </div>
-    <div class="table-content">
+    <div class="table-content" >
         <div class="shadow-lg p-4 card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -54,7 +54,7 @@ $roles = userRolePermissionArray();
 
                 <div>
                     <table class="table text-white rounded mt-5">
-                        <thead class="text-center">
+                        <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">User Name</th>
                                 <th scope="col">Image</th>
@@ -64,7 +64,7 @@ $roles = userRolePermissionArray();
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" style="color:#7b8191">
                             @if ($events->count() == 0)
                                 <tr>
                                     <td colspan="99">No data found</td>

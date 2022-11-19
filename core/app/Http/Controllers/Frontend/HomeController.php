@@ -45,12 +45,11 @@ class HomeController extends Controller
     // ---------------------------------------Home page---------------------------------------
     public function index()
     {
-
+        
         $all_newItemMovies = AdminNewItemMovies::with('ticketType')->where('status', 1)->latest()->take(10)->get();
         $all_topMovies = AdminTopMovies::with('ticketType')->where('status', 1)->latest()->take(10)->get();
         $all_commingSoonMoviesLatest = AdminCommingSoonMovies::with('ticketType')->where('status', 1)->latest()->take(2)->get();
         $all_commingSoonMovies = AdminCommingSoonMovies::with('ticketType')->where('status', 1)->latest()->get();
-
 
         // --------------------site image--------------------
         $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
@@ -96,8 +95,8 @@ class HomeController extends Controller
         return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your ticket');
 
 
-        // ---------------------------------------Comming Soon movies play---------------------------------------
     }
+    // ---------------------------------------Comming Soon movies play---------------------------------------
     public function commingSoonMoviesPlay($id)
     {
         if (!Auth::guard('general')->user()) {
@@ -191,6 +190,19 @@ class HomeController extends Controller
         })->latest()->first();
         $liveTvs = AdminLiveTv::where('status', 1)->paginate(8);
         return view('frontend.pages.live_now', compact('liveTvs', 'site_image'));
+    }
+    // ---------------------------------------Item movies play---------------------------------------
+    public function liveTvPlay($id)
+    {
+        
+        $playLiveVideo = AdminLiveTv::where('id', $id)->first();
+        // $ticketTypePricing = TicketTypeDetails::where('ticket_type_id', $playMovies->ticket_type_id)->where('user_id', Auth::guard('general')->user()->id)->get();
+        // if ($ticketTypePricing->count() > 0) {
+        // }
+        return view('frontend.pages.play_video_live', compact('playLiveVideo'));
+        // return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your ticket');
+
+
     }
     // ---------------------------------------Live now details page---------------------------------------
     public function live_now_details($id)

@@ -56,7 +56,7 @@
 
                 <div class="table-responsive">
                     <table class="table text-white rounded mt-5 text-nowrap">
-                        <thead class="text-center">
+                        <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Category</th>
@@ -67,7 +67,7 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" style="color:#7b8191">
                             @if ($topMovies->count() == 0)
                                 <tr>
                                     <td colspan="99">No data found</td>
@@ -154,7 +154,7 @@
                                         <input type="file" src="" class="form-control px-3 pt-2"
                                             name="image" accept="image/*" id="image">
                                     </div>
-                                    <div class="mb-3  col-lg-6 col-md-6 col-12 pe-4">
+                                    <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="mp4" class="form-label">@lang('Movies/Music Video') </label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
                                             name="mp4" accept="video/*,.mkv" id="mp4">

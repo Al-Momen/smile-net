@@ -56,7 +56,7 @@
 
                 <div>
                     <table class="table text-white rounded mt-5">
-                        <thead class="text-center">
+                        <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">getway-name</th>
                                 <th scope="col">Image</th>
@@ -64,7 +64,7 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" style="color:#7b8191">
                             @if ($manualPayment->count() == 0)
                                 <tr>
                                     <td colspan="99">No data found</td>
@@ -90,9 +90,9 @@
                                         <a
                                             href="{{ route('admin.manual.paymentgetway.destroy', $item->id) }}"class="btn btn-danger rounded"><i
                                                 class="fas fa-trash"></i></a>
-                                        <a href="{{ route('admin.manual.paymentgetway.edit', $item->id) }}"
+                                        {{-- <a href="{{ route('admin.manual.paymentgetway.edit', $item->id) }}"
                                             class="btn btn-primary rounded">
-                                            <i class="fas fa-edit"></i></a>
+                                            <i class="fas fa-edit"></i></a> --}}
                                     </td>
                                 </tr>
                             @endforeach

@@ -22,9 +22,9 @@
             <div class="row pt-3 g-5">
                 @foreach ($allNews as $news)
                     <div class="col-12 col-lg-4 col-md-6">
-                        <div class="card shadow-lg">
+                        <div class="card shadow-lg ">
                             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                <img src="{{ asset('core\storage\app\public\news\\' . $news->image) }}" class="img-fluid" />
+                                <img src="{{ asset('core\storage\app\public\news\\' . $news->image) }}" class="img-fluid" style="height:250px"/>
                             </div>
                             <div class="card-body text-white">
                                 <a href="{{ route('news_details', $news->id) }}" class="text-decoration-none">

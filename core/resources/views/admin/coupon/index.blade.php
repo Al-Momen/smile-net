@@ -36,7 +36,7 @@ $roles = userRolePermissionArray();
                         $i = 1;
                     @endphp
                     <table class="table text-white rounded mt-5">
-                        <thead class="text-center">
+                        <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">SI</th>
                                 <th scope="col">Coupon Name</th>
@@ -46,7 +46,7 @@ $roles = userRolePermissionArray();
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" style="color:#7b8191">
                             @foreach ($coupons as $coupon)
                                 <tr>
                                     <td>{{ $i++ }}</td>

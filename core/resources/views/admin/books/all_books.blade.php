@@ -53,7 +53,7 @@
 
                 <div>
                     <table class="table text-white rounded mt-5">
-                        <thead class="text-center">
+                        <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Title</th>
@@ -63,7 +63,7 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" style="color:#7b8191">
                             @if ($general_books->count() == 0)
                                 <tr>
                                     <td colspan="99">No data found</td>

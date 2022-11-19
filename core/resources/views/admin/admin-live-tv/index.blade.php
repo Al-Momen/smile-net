@@ -37,7 +37,7 @@ Live Tv
                         $i = 1;
                     @endphp
                     <table class="table text-white rounded mt-5">
-                        <thead class="text-center">
+                        <thead class="text-center"style="color:#7b8191">
                             <tr>
                                 <th scope="col">SI</th>
                                 <th scope="col">Tv Name</th>
@@ -48,7 +48,7 @@ Live Tv
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center"style="color:#7b8191">
                             @if ($allLiveTv->count() == 0)
                                 <tr>
                                     <td colspan="99">No data found</td>
@@ -120,6 +120,11 @@ Live Tv
                                     <label>@lang('Tv Link')</label>
                                     <input class="form-control form--control" type="text" name="tv_link"
                                         placeholder="@lang('Tv Link')" required value="{{ old('Tv Link') }}">
+                                </div>
+                                <div class="form-group">
+                                    <label>@lang('video Upload')</label>
+                                    <input class="form-control form--control" type="file" name="mp4"
+                                        placeholder="@lang('Video Upload')"  accept="video/*,.mkv" id="mp4" required value="{{ old('Video Upload') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>@lang('Date')</label>

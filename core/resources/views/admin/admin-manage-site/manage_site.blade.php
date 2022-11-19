@@ -57,7 +57,7 @@ $roles = userRolePermissionArray();
 
                 <div>
                     <table class="table text-white rounded mt-5">
-                        <thead class="text-center">
+                        <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col" >Pages</th>
                                 <th scope="col">Image</th>
@@ -65,7 +65,7 @@ $roles = userRolePermissionArray();
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" style="color:#7b8191">
                             @if ($allSiteImages->count() == 0)
                                 <tr>
                                     <td colspan="99">No data found</td>

@@ -43,7 +43,7 @@
                 <h3 class="text-white text-capitalize fw-bold pt-5 pb-3">Smile-Tv</h3>
                 <div class="table-responsive">
                     <table class="table text-white rounded text-nowrap">
-                        <thead>
+                        <thead style="color:#7b8191">
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Title</th>
@@ -56,7 +56,7 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-capitalize text-center" style="font-size: 14px;">
+                        <tbody class="text-capitalize text-center" style="font-size: 14px;color:#7b8191">
                             @if ($allSmileTv->count() == 0)
                                 <tr>
                                     <td colspan="99">No data found</td>

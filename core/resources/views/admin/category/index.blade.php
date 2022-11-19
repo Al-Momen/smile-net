@@ -11,10 +11,10 @@ $roles = userRolePermissionArray();
 
 @section('content')
     <div class="dashboard-title-part">
-        <h5 class="title">Dashboard</h5>
+        <h5 class="title" style="color:#7b8191">Dashboard</h5>
         <div href="" class="dashboard-path">
             <a href={{ route('admin.dashboard') }}>
-                <span class="main-path">Dashboards</span>
+                <span class="main-path" style="color:#7b8191">Dashboards</span>
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
@@ -51,7 +51,7 @@ $roles = userRolePermissionArray();
 
                 <div>
                     <table class="table text-white rounded mt-5">
-                        <thead class="text-center">
+                        <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Category Name</th>
@@ -59,7 +59,7 @@ $roles = userRolePermissionArray();
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" style="color:#7b8191">
                             @if ($categories->count() == 0)
                                 <tr>
                                     <td colspan="99">No data found</td>

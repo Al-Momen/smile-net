@@ -68,14 +68,14 @@ class UsersAuthController extends Controller
                     // ---------------------user wallet create---------------------
                     $user_wallet = UserWallet::where('user_id', Auth::guard('general')->user()->id)->first();
                     if($user_wallet){
-                        return redirect()->route('user.deshboard');
+                        return redirect()->intended(route('user.deshboard'));
                     }
                     else{
                         $user_wallet = new UserWallet();
                         $user_wallet->user_id = Auth::guard('general')->user()->id;
                         $user_wallet->save();
                     }
-                    return redirect()->route('user.deshboard');
+                    return redirect()->intended(route('user.deshboard'));
                 } else {
                     $general_users = DB::table('general_users')->where('email', $data['email'])->first();
                     Mail::to($general_users->email)->send(new VerifyEmail($general_users->verified_code));

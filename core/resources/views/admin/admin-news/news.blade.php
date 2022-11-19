@@ -56,16 +56,16 @@ $roles = userRolePermissionArray();
 
                 <div>
                     <table class="table text-white rounded mt-5">
-                        <thead class="text-center">
+                        <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">Title</th>
                                 <th scope="col">Category Name</th>
                                 <th scope="col">Image</th>
-                                <th scope="col">Status</th>
+                                {{-- <th scope="col">Status</th> --}}
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" style="color:#7b8191">
                             @if ($allNews->count() == 0)
                                 <tr>
                                     <td colspan="99">No data found</td>
@@ -78,7 +78,7 @@ $roles = userRolePermissionArray();
                                         <td><img class="table-user-img img-fluid d-block mx-auto"
                                                 src="{{ asset('core\storage\app\public\news\\' . $news->image) }}"
                                                 alt="Image"></td>
-                                        <td>
+                                        {{-- <td>
                                             <form action="{{ route('admin.news.status.edit', $news->id) }}" method="POST">
                                                 @csrf
                                                 <label class="switch" id="switch">
@@ -87,7 +87,7 @@ $roles = userRolePermissionArray();
                                                     <span class="slider round"></span>
                                                 </label>
                                             </form>
-                                        </td>
+                                        </td> --}}
                                         <td>
                                             <a
                                                 href="{{ route('admin.news.destroy', $news->id) }}"class="btn btn-danger rounded"><i

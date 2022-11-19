@@ -72,7 +72,7 @@
         <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
             <a href="#">
                 <i class="menu-icon las la-user-edit"></i>
-                <span class="menu-title">@lang('News Manager')</span>
+                <span class="menu-title">@lang('Author walls')</span>
             </a>
             <ul class="sidebar-submenu"
                 @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) style="display:block"
@@ -81,11 +81,11 @@
                 <li class="sidebar-menu-item">
                     <a href="{{ route('admin.news.index') }}" class="nav-link">
                         <i class="menu-icon las la-dot-circle"></i>
-                        <span class="menu-title">@lang('News')</span>
+                        <span class="menu-title">@lang('My walls')</span>
                     </a>
                     <a href="{{ route('admin.all.news') }}" class="nav-link">
                         <i class="menu-icon las la-dot-circle"></i>
-                        <span class="menu-title">@lang('All News')</span>
+                        <span class="menu-title">@lang('All walls')</span>
                     </a>
                 </li>
             </ul>
@@ -166,24 +166,24 @@
                 <span class="menu-title">Live Now</span>
             </a>
         </li>
-        <li class="sidebar-menu-item ">
+        {{-- <li class="sidebar-menu-item ">
             <a href="{{ route('admin.news.index') }}" class="nav-link">
                 <i class="menu-icon las la-dot-circle"></i>
                 <span class="menu-title">News</span>
             </a>
-        </li>
+        </li> --}}
         <li class="sidebar-menu-item ">
             <a href="{{ route('admin.social.index') }}" class="nav-link">
                 <i class="menu-icon las la-dot-circle"></i>
                 <span class="menu-title">Social Link</span>
             </a>
         </li>
-        <li class="sidebar-menu-item ">
+        {{-- <li class="sidebar-menu-item ">
             <a href="{{ route('admin.social.index') }}" class="nav-link">
                 <i class="menu-icon las la-dot-circle"></i>
                 <span class="menu-title">Movies Category</span>
             </a>
-        </li>
+        </li> --}}
         
 
         <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin-users') || Request::is('user-group') || Request::is('admin-user/new')) active @endif">
@@ -424,7 +424,7 @@
                 <span class="menu-title">KYC Form</span>
             </a>
         </li> --}}
-        <li class="sidebar__menu-header">NOTIFY SETTINGS</li>
+        {{-- <li class="sidebar__menu-header">NOTIFY SETTINGS</li>
         <li class="sidebar-menu-item ">
             <a href="{{ route('admin.mail.view') }}" class="nav-link">
                 <i class="menu-icon las la-envelope-open-text"></i>
@@ -486,7 +486,7 @@
                     </a>
                 </li>
             </ul>
-        </li>
+        </li> --}}
     </ul>
     </li>
     </ul>

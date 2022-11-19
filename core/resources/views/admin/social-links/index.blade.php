@@ -32,7 +32,7 @@
                         $i = 1;
                     @endphp
                     <table class="table text-white rounded mt-5">
-                        <thead class="text-center">
+                        <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
@@ -44,7 +44,7 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" style="color:#7b8191">
                             @foreach ($socialLinks as $socialLink)
                                 <tr>
                                     <td>{{ $socialLink->email }}</td>

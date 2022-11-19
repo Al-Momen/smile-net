@@ -100,6 +100,7 @@ Route::namespace('Frontend')->group(function () {
     Route::get('books-admin/profile/{id}', [HomeController::class, 'bookAdminProfile'])->name('book.admin.profile');
     Route::get('live/now', [HomeController::class, 'live_now'])->name('live_now');
     Route::get('live/now/details/{id}', [HomeController::class, 'live_now_details'])->name('live.now.details');
+    Route::get('live/now/play/{id}', [HomeController::class, 'liveTvPlay'])->name('live.tv.movies.play');
     Route::get('music', [HomeController::class, 'music'])->name('music');
     Route::get('latest/songs',[HomeController::class,'latestSongs'])->name('latest.songs');
     Route::get('smile/tv', [HomeController::class, 'smile_tv'])->name('smile_tv');

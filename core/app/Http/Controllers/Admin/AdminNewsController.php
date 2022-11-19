@@ -36,6 +36,7 @@ class AdminNewsController extends Controller
             $news->category_id = $request->category;
             $news->tag = $request->tag;
             $news->description = $request->description;
+            $news->status = 1;
             $news->image = Generals::upload('news/', 'png', $request->image);
             $news->save();
             $notify[] = ['success', 'News create Successfully'];
@@ -84,6 +85,7 @@ class AdminNewsController extends Controller
             $news->category_id = $request->category;
             $news->tag = $request->tag;
             $news->description = $request->description;
+            $news-> status = 1;  
             $news->image = Generals::update('news/', $oldImage,'png', $request->image);
             $news->update();
             $notify[] = ['success', 'News Update Successfully'];

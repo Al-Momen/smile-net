@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('title');
             $table->string('description');
             $table->string('image');
-            $table->string('tv_link');
             $table->string('tv_name');
+            $table->string('tv_link')->nullable();
+            $table->string('mp4');
             $table->dateTime('date');
             $table->tinyInteger('status')->nullable()->default(0);
             $table->timestamps();
