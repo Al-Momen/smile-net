@@ -33,17 +33,15 @@
                             <div class="card-text mt-2">
                                 <div class="d-flex justify-content-between rec-box-text">
                                     <div class="d-flex">
-                                        <i class="fa-solid fa-circle-dot"></i>
+                                        <i class="fa-solid fa-book-open"></i>
                                         <div class="">
                                             <h4 class="text-capitalize">Books</h4>
                                             <span class="text-capitalize">{{ $books->book->title }}</span>
                                         </div>
                                     </div>
-
                                     <div class="">
                                         <span>
                                             <a class= "btn btn-primary"href="{{route('user.open.pdf',$books->book->id)}}" target="_blank" >Read</a>
-                                                
                                         </span>
                                     </div>
                                 </div>

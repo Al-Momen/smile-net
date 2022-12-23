@@ -28,6 +28,7 @@ class CreateGeneralUsersTable extends Migration
             $table->text('instagram')->nullable();
             $table->text('twitter')->nullable();
             $table->string('password');
+            $table->tinyInteger('access')->default(0)->comment("0==Active, 1==Banned"); 
             $table->timestamps();
         });
     }

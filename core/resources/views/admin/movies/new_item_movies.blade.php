@@ -62,7 +62,7 @@
                                 <th scope="col">Category</th> 
                                 <th scope="col">Ticket Type</th>
                                 <th scope="col">Image</th>
-                                <th scope="col">Slug</th>
+                               
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -81,7 +81,7 @@
                                     <td><img class="table-user-img img-fluid d-block mx-auto"
                                             src="{{ asset('core\storage\app\public\new-item-movies\photo\\' . $newItemMovie->image) }}"
                                             alt="Image"></td>
-                                    <td>{{ $newItemMovie->slug }}</td>
+                                    
                                     <td>
                                     <form action="{{ route('admin.newItemSeason.status.edit', $newItemMovie->id) }}"
                                         method="POST">
@@ -149,17 +149,17 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                    <div class="col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="image" class="form-label">@lang('Image') </label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
                                             name="image" accept="image/*" id="image">
                                     </div>
-                                    <div class="mb-3  col-lg-6 col-md-6 col-12 pe-4">
+                                    <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="mp4" class="form-label">@lang('Movies/Music video') </label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
                                             name="mp4" accept="video/*,.mkv" id="mp4">
                                     </div>
-                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4 w-100">
+                                    <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4 w-100">
                                         <label for="editor" class="form-label">@lang('Description')</label>
                                         <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
                                     </div>

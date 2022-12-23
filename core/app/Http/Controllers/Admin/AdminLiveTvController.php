@@ -24,9 +24,10 @@ class AdminLiveTvController extends Controller
             'tv_name' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
-            'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
+            'mp4' => 'mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
             'date' => 'required',
         ]);
+        
         try {
             $liveTv = new AdminLiveTv();
             $liveTv->admin_id = Auth::user()->id;
@@ -73,7 +74,7 @@ class AdminLiveTvController extends Controller
             'tv_name' => 'required',
             'description' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
-            'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
+            'mp4' => 'mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
             'date' => 'required',
         ]);
         try {

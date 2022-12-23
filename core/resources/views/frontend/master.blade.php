@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @include('partials.seo')
     <title>Smile Net</title>
 
     <link
@@ -19,11 +20,13 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/bootstrap.min.css') }}">
     <!-- lightcase css links -->
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/lightcase.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/frontend/css/nice-select.css') }}">
     <!-- swipper css link -->
     <link rel="stylesheet" href="{{ asset('assets/frontend/css/swiper.min.css') }}">
 
     <!-- favicon -->
-    <link rel="icon" href="{{asset('images/logoIcon/favicon.png') }}" type="image/x-icon">
+    {{-- <link rel="icon" href="{{asset('images/logoIcon/favicon.png') }}" type="image/x-icon"> --}}
     @stack('css')
 </head>
 
@@ -82,6 +85,8 @@
 
     <!-- jquery js -->
     <script src="{{asset('assets/frontend/js/jquery-3.3.1.min.js')}}"></script>
+
+    <script src="{{asset('assets/frontend/js/jquery.nice-select.js')}}"></script>
     <!-- bootstrap js -->
     <script src="{{asset('assets/frontend/js/bootstrap.min.js')}}"></script>
     <!-- swipper js -->
@@ -170,8 +175,8 @@
         });
 
         var swiper = new Swiper(".mySwiper4", {
-            slidesPerView: 3,
-            spaceBetween: 30,
+            slidesPerView: 4,
+            spaceBetween: 20,
             freeMode: true,
             autoplay: {
                 delay: 6000,

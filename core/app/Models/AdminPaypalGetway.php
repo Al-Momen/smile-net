@@ -13,6 +13,9 @@ class AdminPaypalGetway extends Model
         'id',
         'client_id',
         'secret_id',
+        'fixed_change',
+        'percent_change',
+        'secret_id',
         'mode',
     ];
    

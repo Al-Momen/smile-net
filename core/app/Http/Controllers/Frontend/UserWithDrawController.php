@@ -79,6 +79,7 @@ class UserWithDrawController extends Controller
     }
     public function withdraw_history()
     {
+       
        $withdrawHistory = UserManualGetwayRequest::where('user_id', Auth::guard('general')->user()->id)->paginate(8);
         return view('frontend.deshboard.pages.withdraw.withdraw_history', compact('withdrawHistory'));
     }

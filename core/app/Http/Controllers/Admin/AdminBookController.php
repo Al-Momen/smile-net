@@ -15,7 +15,6 @@ class AdminBookController extends Controller
 {
     public function index()
     {
-        
         // dd($modalList);
         $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('author_book_type','App\Models\User')->paginate(10);
         $data['general_count'] = Book::where('author_book_id', Auth::guard('general')->id())->count();
@@ -64,17 +63,16 @@ class AdminBookController extends Controller
 
     public function editStatusBook(Request $request, $id)
     {
-        
         $books = Book::where('id', $id)->first();
         if ($request->status == 'on') {
             $books-> status = 1;
             $books->update();
-            $notify[] = ['success', 'Admin Status is Active'];
+            $notify[] = ['success', 'Book Status is Active'];
             return redirect()->back()->withNotify($notify);
         } else {
             $books->status = 0;
             $books->update();
-            $notify[] = ['success', 'Admin Status is Inactive'];
+            $notify[] = ['success', 'Book Status is Inactive'];
             return redirect()->back()->withNotify($notify);
         }
     }
@@ -85,9 +83,9 @@ class AdminBookController extends Controller
             'title' => 'required|min:2|max:255',
             'description' => 'required',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg',
+            'image' => 'image|mimes:jpeg,png,jpg',
             'price' => 'required',
-            'file' => 'required|mimes:pdf|max:100000',
+            'file' => 'mimes:pdf|max:100000',
         ]);
         try {
             $book = Book::where('id', $id)->first();
@@ -102,12 +100,19 @@ class AdminBookController extends Controller
             $book->status = $request->status;
             $book->tag = $request->tag;
             $book->description = $request->description;
-            $book->image = Generals::update('books/', $oldImage, 'png', $request->image);
-            $book->file = Generals::FileUpdate('books/', $oldFile, $request->file);
             $book->update();
+
+            if ($request->hasFile('image')) {
+                $book->image = Generals::update('books/', $oldImage, 'png', $request->image);
+                $book->update();
+            }
+            if ($request->hasFile('file')) {
+                $book->file = Generals::FileUpdate('books/', $oldFile, $request->file);
+                $book->update();
+            }
+
             $notify[] = ['success', 'Book update Successfully'];
-            return redirect()->route("user.books")->withNotify($notify);
-            
+            return redirect()->route("book.index")->withNotify($notify);
         } catch (QueryException $e) {
             dd($e->getMessage());
         }

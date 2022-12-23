@@ -1,6 +1,13 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Start Header Section
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+@php
+    $standard = App\Models\TicketTypeDetails::where('ticket_slug', 'standard')->first();
+    $premium = App\Models\TicketTypeDetails::where('ticket_slug', 'premium')->first();
+@endphp
+
+
+
 <header class="header-section">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
@@ -62,30 +69,36 @@
                     <li class="nav-item pe-1">
                         <a class="nav-link text-white fs-6" href="{{ route('books') }}">Books</a>
                     </li>
+
+                    <li class="nav-item pe-1">
+                        <a class="nav-link text-white fs-6" href="{{ route('music') }}">Musics</a>
+                    </li>
+
+
                     <li class="nav-item pe-1">
                         <a class="nav-link text-white fs-6" href="{{ route('live_now') }}">Live Now</a>
                     </li>
-                    <li class="nav-item pe-1">
-                        <a class="nav-link text-white fs-6" href="{{ route('music') }}">Music</a>
-                    </li>
+
                     <li class="nav-item pe-1">
                         <a class="nav-link text-white fs-6" href="{{ route('smile_tv') }}">Smile TV</a>
                     </li>
+
                     <li class="nav-item pe-1">
-                        <a class="nav-link text-white fs-6" href="{{ route('news') }}">Author Wall</a>
+                        <a class="nav-link text-white fs-6" href="{{ route('news') }}">Author Walls</a>
                     </li>
+
                 </ul>
                 {{-- <select class="my-select selectpicker me-3" data-container="body">
                     <option>Eng</option>
                     <option>Esp</option>
                 </select> --}}
                 @if (!Auth::guard('general')->user())
-                    <a href="{{ url("login") }}">
+                    <a href="{{ url('login') }}">
                         <button class="btn btn-danger" type="submit">Sign In</button>
                     </a>
                 @else
-                <a href="{{ route('user.deshboard') }}">
-                    <button class="btn btn-danger" type="submit">Deshboard</button>
+                    <a href="{{ route('user.deshboard') }}">
+                        <button class="btn btn-danger" type="submit">Dashboard</button>
                     </a>
                 @endif
 

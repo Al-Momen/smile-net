@@ -21,6 +21,7 @@ use App\Http\Controllers\Controller;
 use App\Models\EventPlanTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaypalController extends Controller
@@ -32,12 +33,12 @@ class PaypalController extends Controller
 
     public function processPaypal(Request $request)
     {
-        // dd($request->all());
         $request->validate([
-            'payment_getway' => 'required',
+            'select_gateway' => 'required',
         ]);
+        
         $book = Book::with('priceCurrency')->where('id', $request->book_id)->first();
-        if ($request->payment_getway == 'paypal') {
+        if ($request->select_gateway == 'paypal') {
             $provider = new PayPalClient;
             $provider->setApiCredentials($this->paypalConfig());
             $paypalToken = $provider->getAccessToken();
@@ -45,7 +46,7 @@ class PaypalController extends Controller
                 "intent" => "CAPTURE",
                 "application_context" => [
                     "return_url" => route('processPaypalSuccess', [
-                        'id' => $book->id, 'paid_price' => $request->paid_price, 'payment_getway' => $request->payment_getway, 'coupon_code' => $request->coupon_code, 'discount' => $request->discount,
+                        'id' => $book->id, 'paid_price' => $request->paid_price, 'select_gateway' => $request->select_gateway, 'coupon_code' => $request->coupon_code, 'discount' => $request->discount,
                         'author_book_id' => $book->author_book_id, 'author_book_type' => $book->author_book_type
                     ]),
                     "cancel_url" => route('processPaypalCancel', $book->id),
@@ -97,26 +98,26 @@ class PaypalController extends Controller
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request['token']);
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
-           
-                $bookTransaction = new BookTransaction();
-                $bookTransaction->book_id = $data;
-                $bookTransaction->author_book_id = $request->author_book_id;
-                $bookTransaction->author_book_type = $request->author_book_type;
-                $bookTransaction->buy_user_id = Auth::guard('general')->user()->id;
-                $bookTransaction->paid_price = $request->paid_price;
-                $bookTransaction->coupon = $request->coupon_code;
-                $bookTransaction->discount = $request->discount;
-                $bookTransaction->payment_getway = $request->payment_getway;
-                $bookTransaction->transaction_id = $rand_string;
-                $bookTransaction->sold = 1;
-                $bookTransaction->save();
 
-                // ----------------User Wallet balance save----------------
-                $user_wallet = UserWallet:: where('user_id', $bookTransaction->author_book_id )->first();
-                $user_wallet->balance = $user_wallet->balance + $bookTransaction->paid_price;
-                $user_wallet->update();
-               
-            
+            $bookTransaction = new BookTransaction();
+            $bookTransaction->book_id = $data;
+            $bookTransaction->author_book_id = $request->author_book_id;
+            $bookTransaction->author_book_type = $request->author_book_type;
+            $bookTransaction->buy_user_id = Auth::guard('general')->user()->id;
+            $bookTransaction->paid_price = $request->paid_price;
+            $bookTransaction->coupon = $request->coupon_code;
+            $bookTransaction->discount = $request->discount;
+            $bookTransaction->payment_getway = $request->select_gateway;
+            $bookTransaction->transaction_id = $rand_string;
+            $bookTransaction->sold = 1;
+            $bookTransaction->save();
+
+            // ----------------User Wallet balance save----------------
+            $user_wallet = UserWallet::where('user_id', $bookTransaction->author_book_id)->first();
+            $user_wallet->balance = $user_wallet->balance + $bookTransaction->paid_price;
+            $user_wallet->update();
+
+
             return redirect()
                 ->route('place_order', $book->id)
                 ->with('success', 'Transaction complete.');
@@ -188,6 +189,7 @@ class PaypalController extends Controller
 
     public function processPaypalSuccessTicketTypePricing(Request $request, $data)
     {
+        
         // --------------------------Generate random key-------------------------- 
         // Available alpha caracters
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&*(){}';
@@ -200,8 +202,40 @@ class PaypalController extends Controller
             . $characters[rand(0, strlen($characters) - 1)];
         // String shuffle the result
         $rand_string = str_shuffle($pin);
+        
 
         $ticketTypePricing = TicketType::with('priceCurrency')->where('id', $data)->first();
+        $ticketTypeDetails =  TicketTypeDetails::where('user_id',Auth::guard('general')->user()->id)->first();
+        if($ticketTypeDetails != null){
+            
+            $provider = new PayPalClient;
+            $provider->setApiCredentials($this->paypalConfig());
+            $provider->getAccessToken();
+            $response = $provider->capturePaymentOrder($request['token']);
+            if (isset($response['status']) && $response['status'] == 'COMPLETED') {
+                // dd($request->all());
+                $ticketTypeDetails->ticket_type_id = $data;
+                $ticketTypeDetails->ticket_slug = Str::slug($ticketTypePricing->name);
+                $ticketTypeDetails->user_id = Auth::guard('general')->user()->id;
+                $ticketTypeDetails->paid_price = $request->paid_price;
+                $ticketTypeDetails->coupon = $request->coupon_code;
+                $ticketTypeDetails->discount = $request->discount;
+                $ticketTypeDetails->payment_getway = $request->payment_getway;
+                $ticketTypeDetails->transaction_id = $rand_string;
+                $ticketTypeDetails->sold = 1;
+                $ticketTypeDetails->update();
+                return redirect()
+                    ->route('ticketType.Pricing.place_order', $ticketTypePricing->id)
+                    ->with('success', 'Transaction complete.');
+            } else {
+    
+                return redirect()
+                    ->route('ticketType.Pricing.place_order', $ticketTypePricing->id)
+                    ->with('error', $response['message'] ?? 'Something went wrong.');
+            }
+        }
+
+
         $provider = new PayPalClient;
         $provider->setApiCredentials($this->paypalConfig());
         $provider->getAccessToken();
@@ -210,6 +244,7 @@ class PaypalController extends Controller
             // dd($request->all());
             $ticketTypeDetails = new TicketTypeDetails();
             $ticketTypeDetails->ticket_type_id = $data;
+            $ticketTypeDetails->ticket_slug = Str::slug($ticketTypePricing->name);
             $ticketTypeDetails->user_id = Auth::guard('general')->user()->id;
             $ticketTypeDetails->paid_price = $request->paid_price;
             $ticketTypeDetails->coupon = $request->coupon_code;
@@ -222,7 +257,7 @@ class PaypalController extends Controller
                 ->route('ticketType.Pricing.place_order', $ticketTypePricing->id)
                 ->with('success', 'Transaction complete.');
         } else {
-            
+
             return redirect()
                 ->route('ticketType.Pricing.place_order', $ticketTypePricing->id)
                 ->with('error', $response['message'] ?? 'Something went wrong.');
@@ -246,20 +281,19 @@ class PaypalController extends Controller
         $request->validate([
             'payment_getway' => 'required',
         ]);
-         
+
         $eventPlanPricing = EventPlan::with('event.priceCurrency')->where('id', $request->event_plan_id)->first();
         if ($request->payment_getway == 'paypal') {
             $paypal_config = $this->paypalConfig();
             $provider = new PayPalClient;
             $provider->setApiCredentials($paypal_config);
             $paypalToken = $provider->getAccessToken();
-            
+
             $response = $provider->createOrder([
                 "intent" => "CAPTURE",
                 "application_context" => [
                     "return_url" => route('processPaypalSuccess.plan.pricing', [
-                        'id' => $eventPlanPricing->id, 'paid_price' => $request->paid_price, 'payment_getway' => $request->payment_getway, 'coupon_code' => $request->coupon_code, 'discount' => $request->discount
-                        ,'author_event_id' => $request->author_event_id
+                        'id' => $eventPlanPricing->id, 'paid_price' => $request->paid_price, 'payment_getway' => $request->payment_getway, 'coupon_code' => $request->coupon_code, 'discount' => $request->discount, 'author_event_id' => $request->author_event_id
                     ]),
                     "cancel_url" => route('processPaypalCancel.plan.pricing', $eventPlanPricing->id),
                 ],
@@ -315,7 +349,7 @@ class PaypalController extends Controller
         if (isset($response['status']) && $response['status'] == 'COMPLETED') {
 
             $eventPlanTransaction = new EventPlanTransaction();
-            $eventPlanTransaction->plan_id = $data;
+            $eventPlanTransaction->event_plan_id = $data;
             $eventPlanTransaction->buy_user_id = Auth::guard('general')->user()->id;
             $eventPlanTransaction->author_event_id = $request->author_event_id;
             $eventPlanTransaction->paid_price = $request->paid_price;
@@ -327,7 +361,7 @@ class PaypalController extends Controller
             $eventPlanTransaction->save();
 
             // ----------------User Wallet balance save----------------
-            $user_wallet = UserWallet::where('user_id', $eventPlanTransaction->author_event_id )->first();
+            $user_wallet = UserWallet::where('user_id', $eventPlanTransaction->author_event_id)->first();
             $user_wallet->balance = $user_wallet->balance + $eventPlanTransaction->paid_price;
             $user_wallet->update();
 

@@ -1,4 +1,5 @@
 <?php
+
 use App\Models\AdminNewsLike;
 use App\Models\AdminVipPricing;
 use App\Models\AdminNewsComment;
@@ -31,8 +32,13 @@ use App\Http\Controllers\Admin\AdminProfileController;
 use App\Http\Controllers\Admin\AdminSmileTvController;
 use App\Http\Controllers\Frontend\UsersAuthController;
 use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminGetwayController;
+use App\Http\Controllers\Admin\EmailTemplateController;
+use App\Http\Controllers\Admin\GeneralSettingController;
 use App\Http\Controllers\Admin\AdminManageSiteController;
 use App\Http\Controllers\Admin\AdminTicketTypeController;
+use App\Http\Controllers\Admin\AdminUserManageController;
+use App\Http\Controllers\Admin\AdminVideoMusicController;
 use App\Http\Controllers\Admin\AdminVipPricingController;
 use App\Http\Controllers\Frontend\UserWithDrawController;
 use App\Http\Controllers\Admin\AdminMailSeetingController;
@@ -45,8 +51,9 @@ use App\Http\Controllers\Admin\ManualPaymentGetwayController;
 use App\Http\Controllers\Admin\AdminNewsLikeCommentController;
 use App\Http\Controllers\Admin\AdminLiveTvLikeCommentController;
 use App\Http\Controllers\Admin\AdminSmileTvLikeCommentController;
-use App\Http\Controllers\Admin\AdminVideoMusicController;
+use App\Http\Controllers\Frontend\UserBuyManualController;
 use App\Http\Controllers\Frontend\UserManualGetwayRequestController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -74,7 +81,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('logout', [AdminAuthController::class, 'getLogout'])->name('logout');
 });
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {
     require_once __DIR__ . '/admin/acl.php';
     require_once __DIR__ . '/admin/user.php';
     require_once __DIR__ . '/admin/email.php';
@@ -102,10 +109,8 @@ Route::namespace('Frontend')->group(function () {
     Route::get('live/now/details/{id}', [HomeController::class, 'live_now_details'])->name('live.now.details');
     Route::get('live/now/play/{id}', [HomeController::class, 'liveTvPlay'])->name('live.tv.movies.play');
     Route::get('music', [HomeController::class, 'music'])->name('music');
-    Route::get('latest/songs',[HomeController::class,'latestSongs'])->name('latest.songs');
-    Route::get('smile/tv', [HomeController::class, 'smile_tv'])->name('smile_tv');
-    Route::get('news', [HomeController::class, 'news'])->name('news');
-    Route::get('news-details/{id}', [HomeController::class, 'newsDetails'])->name('news_details');
+    Route::get('latest/songs', [HomeController::class, 'latestSongs'])->name('latest.songs');
+    Route::get('smile/tv', [HomeController::class, 'smile_tv'])->name('smile_tv_');
     Route::get('smile-tv', [HomeController::class, 'smileTv'])->name('smile_tv');
     Route::get('events', [HomeController::class, 'event'])->name('event');
     Route::get('all/event/plans/{id}', [HomeController::class, 'eventAllPlans'])->name('event.all.plan');
@@ -114,8 +119,8 @@ Route::namespace('Frontend')->group(function () {
     Route::get('item/movies/play/{id}', [HomeController::class, 'itemMoviesPlay'])->name('new.item.movies.play');
     Route::get('comming/soon/movies/play/{id}', [HomeController::class, 'commingSoonMoviesPlay'])->name('comming.soon.movies.play');
     Route::get('video/music/play/{id}', [HomeController::class, 'videoMusicPlay'])->name('video.music.play');
-    
-    
+
+
 
     // -------------------Live tv details comment -----------------
     Route::post('user/live/tv/details', [AdminLiveTvLikeCommentController::class, 'liveTvComment'])->name('live.tv.comment');
@@ -156,6 +161,19 @@ Route::namespace('Frontend')->group(function () {
     Route::post('login/action', [UsersAuthController::class, 'loginAction'])->name('login.action');
     Route::get('logout', [UsersAuthController::class, 'logout'])->name('logout');
 
+
+
+    // ------------------- user password reset-------------------
+    Route::get('password/reset/email/view', [UsersAuthController::class, 'passwordResetEmailView'])->name('password.reset.email.view');
+    Route::post('password/reset/email', [UsersAuthController::class, 'passwordResetEmail'])->name('password.reset.email');
+    Route::get('password-reset/otp/{id}', [UsersAuthController::class, 'userPasswordResetOtpForm'])->name('password.reset.otp.form');
+
+    Route::post('password/otp/check', [UsersAuthController::class, 'passwordResetOTPCheck'])->name('password.reset.OTP.check');
+    Route::get('password/reset/{id}', [UsersAuthController::class, 'passwordResetView'])->name('password.reset.view');
+    Route::post('password/reset', [UsersAuthController::class, 'passwordReset'])->name('password.reset');
+
+
+
     //--------------------user deshboard route--------------------
     Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'general_user'], function () {
         Route::get('deshboard', [UsersDeshboardController::class, 'index'])->name('deshboard');
@@ -163,14 +181,15 @@ Route::namespace('Frontend')->group(function () {
         Route::post('profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
 
 
-        // ------------------- user password reset-------------------
-        Route::get('password/reset/email/view', [ProfileController::class, 'passwordResetEmailView'])->name('password.reset.email.view');
-        Route::post('password/reset/email', [ProfileController::class, 'passwordResetEmail'])->name('password.reset.email');
-        Route::get('password-reset/otp/{id}', [ProfileController::class, 'userPasswordResetOtpForm'])->name('password.reset.otp.form');
+        // ------------------- user password Change-------------------
+        Route::get('password/change', [ProfileController::class, 'passwordChange'])->name('password.change');
+        Route::post('password/change/store', [ProfileController::class, 'passwordChangeStore'])->name('password.change.store');
+        // Route::post('password/reset/email', [ProfileController::class, 'passwordResetEmail'])->name('password.reset.email');
+        // Route::get('password-reset/otp/{id}', [ProfileController::class, 'userPasswordResetOtpForm'])->name('password.reset.otp.form');
 
-        Route::post('password/otp/check/{id}', [ProfileController::class, 'passwordResetOTPCheck'])->name('password.reset.OTP.check');
-        Route::get('password/reset/{id}', [ProfileController::class, 'passwordResetView'])->name('password.reset.view');
-        Route::post('password/reset/{id}', [ProfileController::class, 'passwordReset'])->name('password.reset');
+        // Route::post('password/otp/check', [ProfileController::class, 'passwordResetOTPCheck'])->name('password.reset.OTP.check');
+        // Route::get('password/reset/{id}', [ProfileController::class, 'passwordResetView'])->name('password.reset.view');
+        // Route::post('password/reset', [ProfileController::class, 'passwordReset'])->name('password.reset');
 
         // --------------------event all route--------------------
         Route::get('events', [EventController::class, 'events'])->name('events');
@@ -211,6 +230,14 @@ Route::namespace('Frontend')->group(function () {
         Route::get('withdraw/history', [UserWithDrawController::class, 'withdraw_history'])->name('withdraw_history');
         Route::get('user/getway/request/view/{id}', [UserWithDrawController::class, 'user_manual_getway_request_view'])->name('manual.getway.request.view');
 
+        // --------------------Buy manual getway Books all route--------------------
+        Route::get('buy-manual', [UserBuyManualController::class, 'index'])->name('buy.manual');
+        Route::post('buy-book/request', [UserBuyManualController::class, 'buyPricingRequest'])->name('buy.book.pricing.request');
+        Route::get('withdraw/history', [UserWithDrawController::class, 'withdraw_history'])->name('withdraw_history');
+        Route::get('user/getway/request/view/{id}', [UserWithDrawController::class, 'user_manual_getway_request_view'])->name('manual.getway.request.view');
+
+
+        Route::post('getway/check', [UsersDeshboardController::class, 'getwayCheck'])->name('getway.check');
     });
     // --------------------if login then access pages--------------------
     Route::group(['middleware' => 'general_user'], function () {
@@ -231,6 +258,15 @@ Route::namespace('Frontend')->group(function () {
 
         // ---------------User Payment---------------
         Route::post('user/payment', [UsersDeshboardController::class, 'userPayment'])->name('user.payment');
+
+       // --------------------- news---------------------
+       Route::get('news', [HomeController::class, 'news'])->name('news');
+       Route::get('news-details/{id}', [HomeController::class, 'newsDetails'])->name('news_details');
+
+
+       //------------------------access movies/ music------------------------
+       Route::post('user/package/access', [HomeController::class, 'userPackageAccess'])->name('user.package.access');
+
 
     });
 });
@@ -277,7 +313,7 @@ Route::namespace('Admin')->group(function () {
         Route::get('book', [AdminBookController::class, 'index'])->name('book.index');
         Route::get('all/books', [AdminBookController::class, 'allBooks'])->name('book.all.books');
         Route::post('store/book', [AdminBookController::class, 'storeBook'])->name('store.book');
-        Route::get('edit/book/{id}', [AdminBookController::class, 'editBook'])->name('edit.book');
+        Route::get('/edit/book/{id}', [AdminBookController::class, 'editBook'])->name('edit.book');
         Route::get('view/book/{id}', [AdminBookController::class, 'viewBook'])->name('view.book');
         Route::post('update/book/{id}', [AdminBookController::class, 'updateBook'])->name('update.book');
         Route::post('book/status/edit/{id}', [AdminBookController::class, 'editStatusBook'])->name('book.status.edit');
@@ -314,7 +350,7 @@ Route::namespace('Admin')->group(function () {
         Route::get('news/view/{id}', [AdminNewsController::class, 'viewNews'])->name('view.news');
         Route::post('news/status/edit/{id}', [AdminNewsController::class, 'editStatusNews'])->name('news.status.edit');
         Route::get('news/destroy/{id}', [AdminNewsController::class, 'destroy'])->name('news.destroy');
-        
+
         // ---------------admin Live Now  ---------------
         Route::get('live-tv', [AdminLiveTvController::class, 'index'])->name('live.tv.index');
         Route::post('store/live/tv', [AdminLiveTvController::class, 'storeLiveTv'])->name('store.live.tv');
@@ -381,17 +417,38 @@ Route::namespace('Admin')->group(function () {
 
         // ---------------admin Mail Setup---------------
         Route::get('mail', [AdminMailSeetingController::class, 'index'])->name('mail.view');
+        Route::get('mail/template', [AdminMailSeetingController::class, 'mailTemplate'])->name('template.mail');
         Route::post('update/mail/{id}', [AdminMailSeetingController::class, 'mailUpdate'])->name('update.mail');
 
 
 
+
+        Route::get('email-template/global', [EmailTemplateController::class, 'emailTemplate'])->name('email.template.global');
+        Route::post('email-template/global', [EmailTemplateController::class, 'emailTemplateUpdate'])->name('email.template.global.update');
+        Route::get('email-template/setting',  [EmailTemplateController::class, 'emailSetting'])->name('email.template.setting.');
+        Route::post('email-template/setting',  [EmailTemplateController::class, 'emailSettingUpdate'])->name('email.template.setting');
+        Route::get('email-template/index',  [EmailTemplateController::class, 'index'])->name('email.template.index');
+        Route::get('email-template/{id}/edit',  [EmailTemplateController::class, 'edit'])->name('email.template.edit');
+        Route::post('email-template/{id}/update', [EmailTemplateController::class, 'update'])->name('email.template.update');
+        Route::post('email-template/send-test-mail', [EmailTemplateController::class, 'sendTestMail'])->name('email.template.test.mail');
+        Route::get('email-template/send-all-mail', [EmailTemplateController::class, 'sendMailNotification'])->name('email.template.mail.noticication');
+
+
+
         // ---------------admin paypal Getway Setup---------------
-        Route::get('admin/paypal', [AdminPaypalController::class, 'index'])->name('paypal.paymentgetway.view');
-        Route::post('admin/paypal/update/{id}', [AdminPaypalController::class, 'UpdatePaypal'])->name('update.paypal.paymentgetway');
-       
+        Route::get('paypal', [AdminPaypalController::class, 'index'])->name('paypal.paymentgetway.view');
+        Route::post('paypal/update/{id}', [AdminPaypalController::class, 'UpdatePaypal'])->name('update.paypal.paymentgetway');
+
         // ---------------admin stripe Getway Setup---------------
-        Route::get('admin/stripe', [AdminStripeController::class, 'index'])->name('stripe.paymentgetway.view');
-        Route::post('admin/stripe/update/{id}', [AdminStripeController::class, 'UpdateSrtipe'])->name('update.stripe.paymentgetway');
+        Route::get('stripe', [AdminStripeController::class, 'index'])->name('stripe.paymentgetway.view');
+        Route::post('stripe/update/{id}', [AdminStripeController::class, 'UpdateSrtipe'])->name('update.stripe.paymentgetway');
+
+
+
+        // admin automatic getway 
+        Route::get("automatic/getway",[AdminGetwayController::class, 'index'])->name('automatic.getway');
+
+
 
         // admin manual payment Getway Setup---------------
         Route::get('manual-payment', [ManualPaymentGetwayController::class, 'index'])->name('manual.paymentgetway.view');
@@ -401,21 +458,59 @@ Route::namespace('Admin')->group(function () {
         Route::post('manual-payment/update/{id}', [ManualPaymentGetwayController::class, 'update'])->name('manual.paymentgetway.update');
         Route::post('manual-getway/status/edit/{id}', [ManualPaymentGetwayController::class, 'manualGetwayStatusEdit'])->name('manual.getway.status.edit');
         Route::get('manual-payment/destroy/{id}', [ManualPaymentGetwayController::class, 'destroy'])->name('manual.paymentgetway.destroy');
-       
+
+
+      
+
+        // admin buy manual payment Getway Setup---------------
+        Route::get('buy-manual-getway', [ManualPaymentGetwayController::class, 'buyManualGetway'])->name('buy.manual.getway.view');
+        Route::get('buy/manual-getway/add', [ManualPaymentGetwayController::class, 'buyManualAdd'])->name('buy.manual.paymentgetway.addpayment');
+        Route::post('buy/manual-getway/store', [ManualPaymentGetwayController::class, 'buyManualStore'])->name('manual.paymentgetway.store');
+        Route::get('manual-payment/edit/{id}', [AdminManageSiteController::class, 'edit'])->name('manual.paymentgetway.edit');
+        Route::post('manual-payment/update/{id}', [ManualPaymentGetwayController::class, 'update'])->name('manual.paymentgetway.update');
+        Route::post('buy/manual-getway/status/edit/{id}', [ManualPaymentGetwayController::class, 'buyManualGetwayStatusEdit'])->name('buy.manual.getway.status.edit');
+        Route::get('buy/manual-payment/destroy/{id}', [ManualPaymentGetwayController::class, 'buyGetwayDestroy'])->name('buy.manual.paymentgetway.destroy');
+
+
+
+
+        // Route::post('buy-manual-getway', [ManualPaymentGetwayController::class, 'buyManualGetway'])->name('buy.manual.getway.view');
+
+
         // ---------------admin Profile ---------------
         Route::get('profile', [AdminProfileController::class, 'adminProfile'])->name('profile');
         Route::post('store/profile', [AdminProfileController::class, 'storeProfile'])->name('profile.update');
         Route::get('password/change', [AdminProfileController::class, 'passwordChange'])->name('password.change.view');
         Route::post('password/update/{id}', [AdminProfileController::class, 'updatePasssword'])->name('update.password');
 
-         // ---------------admin access withdraw request ---------------
-         Route::get('user/manual-getway/request', [UserManualGetwayRequestController::class, 'index'])->name('user.manual.getway.request');
-         Route::get('user/manual-getway/request/view/{id}', [UserManualGetwayRequestController::class, 'viewRequest'])->name('user.manual.getway.request.view');
-         Route::get('user/manual-getway/request/approved/{id}', [UserManualGetwayRequestController::class, 'approved'])->name('manual.getway.request.approved');
-         Route::post('user/manual-getway/request/reject/{id}', [UserManualGetwayRequestController::class, 'reject'])->name('manual.getway.request.reject');
+
+
+        // ---------------admin access withdraw request ---------------
+        Route::get('user/manual-getway/request', [UserManualGetwayRequestController::class, 'index'])->name('withdraw.request');
+        Route::get('user/withdraw/approved', [UserManualGetwayRequestController::class, 'approvedAllReq'])->name('withdraw.approved');
+        Route::get('user/withdraw/pending', [UserManualGetwayRequestController::class, 'pendingAllReq'])->name('withdraw.pending');
+        Route::get('user/withdraw/reject', [UserManualGetwayRequestController::class, 'rejectedAllReq'])->name('withdraw.reject');
+       
+        Route::get('user/withdraw/request/view/{id}', [UserManualGetwayRequestController::class, 'viewRequest'])->name('user.manual.getway.request.view');
+        Route::get('user/manual-getway/request/approved/{id}', [UserManualGetwayRequestController::class, 'approved'])->name('manual.getway.request.approved');
+        Route::post('user/manual-getway/request/reject/{id}', [UserManualGetwayRequestController::class, 'reject'])->name('manual.getway.request.reject');
         //  Route::post('password/update/{id}', [AdminProfileController::class, 'updatePasssword'])->name('update.password');
+
+
+        // ------------------------------------- admin manage users ---------------
+        Route::get('all-users', [AdminUserManageController::class, 'allUsers'])->name('all.users');
+        Route::get('active-users', [AdminUserManageController::class, 'activeUsers'])->name('active.users');
+        Route::get('banned-users', [AdminUserManageController::class, 'bannedUsers'])->name('banned.users');
+        Route::post('user/status/edit/{id}', [AdminUserManageController::class, 'statusAccess'])->name('user.access.edit');
+        Route::get('banned-users', [AdminUserManageController::class, 'bannedUsers'])->name('banned.users');
+        Route::get('User-details/{id}', [AdminUserManageController::class, 'userDetails'])->name('view.user');
+        Route::get('plan', [AdminUserManageController::class, 'plan'])->name('plan.users');
+
+
+
+        // ------------------------------------- admin manage users ---------------
+        Route::get('seo/manage', [GeneralSettingController::class, 'seoPage'])->name('seo.page');
     });
-        
 });
 
 //  --------------------payments all route--------------------
@@ -433,21 +528,22 @@ Route::namespace('payments')->group(function () {
     route::get('ticket-type/pricing/process/paypal/cancel/{id}', [PaypalController::class, 'processPaypalCancelTicketTypePricing'])->name('processPaypalCancel.ticket_type.pricing');
 
 
-    // --------------Paypal gateway route for  plan pricing--------------
+    // --------------Paypal gateway route for event plan pricing--------------
     route::post('plan/pricing/processPaypal', [PaypalController::class, 'processPaypalPlanPricing'])->name('processPaypal.plan.pricing');
     route::get('plan/Process/paypal/success/{id}', [PaypalController::class, 'processPaypalSuccessPlanPricing'])->name('processPaypalSuccess.plan.pricing');
     route::get('plan/process/paypal/cancel/{id}', [PaypalController::class, 'processPaypalCancelPlanPricing'])->name('processPaypalCancel.plan.pricing');
 
 
-    // --------------------Stripe getway route--------------------
+    // --------------------Stripe getway route for books--------------------
     Route::post('stripe/page', [StripePaymentController::class, 'stripe'])->name('stripe.view');
+    // Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
     Route::post('stripe', [StripePaymentController::class, 'stripePost'])->name('stripe.post');
 
     // --------------------Stripe getway route for pricing-------------------
     Route::post('pricing/stripe/page', [StripePaymentController::class, 'stripePricing'])->name('stripe.pricing.view');
     Route::post('pricing/stripe', [StripePaymentController::class, 'stripePostPricing'])->name('stripe.pricing.post');
 
-    // --------------------Stripe getway route plan pricing--------------------
+    // --------------------Stripe getway route event plan pricing--------------------
     Route::post('plan/pricing/stripe/page', [StripePaymentController::class, 'stripePlanPricing'])->name('stripe.plan.pricing.view');
     Route::post('plan/pricing/stripe', [StripePaymentController::class, 'stripePostplanPricing'])->name('stripe.plan.pricing.post');
 });

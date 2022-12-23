@@ -13,7 +13,7 @@
     <!-- bootstrap css link -->
     <link rel="stylesheet" href="{{URL::asset('assets/frontend/css/bootstrap.min.css')}}">
     <!-- favicon -->
-    <link rel="icon" href="{{URL::asset('assets/frontend/images/logo/fav.ico')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ getImage(imagePath()['logoIcon']['path'] .'/favicon.png') }}" type="image/x-icon">
     <!-- odometer css -->
     <link rel="stylesheet" href="{{URL::asset('assets/frontend/css/odometer.css')}}">
     <!-- lightcase css links -->

@@ -17,6 +17,7 @@ class AdminMoviesController extends Controller
     // ------------------------admin New Items Movies------------------------
     public function newItemSeason()
     {
+        
         $ticketTypes = TicketType::get();
          $newItemMovies = AdminNewItemMovies::with('ticketType')->paginate(15);
         return view('admin.movies.new_item_movies',compact('newItemMovies','ticketTypes'));
@@ -28,7 +29,7 @@ class AdminMoviesController extends Controller
             'ticket_type_id' => 'required',
             'description' => 'required',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:4000',
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:4000',
             'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
         ]);
         $newItemMovies = new AdminNewItemMovies();
@@ -74,7 +75,7 @@ class AdminMoviesController extends Controller
             'ticket_type_id' => 'required',
             'description' => 'required',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:4000',
+            'image' => 'required|image|mimes:jpeg,png,jpg,wepd,svg|max:4000',
             'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
         ]);
         $newItemMovies = AdminNewItemMovies::where('id', $id)->first();
@@ -119,7 +120,7 @@ class AdminMoviesController extends Controller
             'ticket_type_id' => 'required',
             'description' => 'required',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:4000',
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:4000',
             'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
         ]);
         $topMovies = new AdminTopMovies();
@@ -165,7 +166,7 @@ class AdminMoviesController extends Controller
             'ticket_type_id' => 'required',
             'description' => 'required',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:4000',
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:4000',
             'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
         ]);
         $topMovies = AdminTopMovies::where('id', $id)->first();
@@ -207,7 +208,7 @@ class AdminMoviesController extends Controller
              'description' => 'required',
              'year' => 'required|numeric',
              'category' => 'required',
-             'image' => 'required|image|mimes:jpeg,png,jpg|max:4000',
+             'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:4000',
              'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
          ]);
          $commingSoonMovies = new AdminCommingSoonMovies();
@@ -255,7 +256,7 @@ class AdminMoviesController extends Controller
             'description' => 'required',
             'year' => 'required|numeric',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:4000',
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:4000',
             'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
          ]);
          $commingSoonMovies = AdminCommingSoonMovies::where('id', $id)->first();

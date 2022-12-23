@@ -1,9 +1,9 @@
 @extends('admin.layout.master')
 @section('title')
-    All-News
+    Author-walls
 @endsection
 @section('page-name')
-    All-News
+    Author-walls
 @endsection
 @php
 $roles = userRolePermissionArray();
@@ -18,13 +18,13 @@ $roles = userRolePermissionArray();
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">All-News</span>
+                <span class="active-path g-color">Author-walls</span>
             </a>
         </div>
         <div class="view-prodact">
             <a data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <i class="las la-plus"></i>
-                <span>Add News</span>
+                <span>Author-walls</span>
             </a>
         </div>
     </div>

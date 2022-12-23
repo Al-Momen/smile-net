@@ -14,13 +14,13 @@
                 <div class="col">
                     <div class="card" style="width: 250px;">
                         <div class="subscription-premium">
-                            <h3 class="text-white text-uppercase">{{ $item->ticketType->name }}</h3>
+                            <h3 class="text-white text-uppercase">{{ $item->ticketType->name ?? ''}}</h3>
                         </div>
-                        <img src="{{ asset('core\storage\app\public\top-movies\photo\\' . $item->image) }}"
-                            class="card-img-top" alt="image" style="width: 100%; height: 210px">
+                        <img src="{{ asset('core\storage\app\public\top-movies\photo\\' . $item->image ?? '') }}"
+                            class="card-img-top" alt="image" style="width: 100%; height: 310px">
                         <div class="card-body">
-                            <h5 class="card-title text-white">{{ $item->name }}</h5>
-                            <p class="primary-color">{{ $item->category }}</p>
+                            <h5 class="card-title text-white">{{ $item->name ?? ''}}</h5>
+                            <p class="primary-color">{{ $item->category ?? ''}}</p>
                             <div class="sm-btn-wrapper">
                                 <a target="_blank" href="{{ route('top.movies.play', $item->id) }}"
                                     class="btn btn-outline-secondary video-btn sm-btn">
@@ -65,6 +65,7 @@
     .sm-btn{
         font-size: 12px;
     }
+    
 </style>
 @endpush
 @push('js')

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger("buy_user_id");
             $table->string("paid_price");
             $table->string("coupon")->nullable();
+            $table->string("method_code")->nullable();
             $table->string("payment_getway");
             $table->decimal("discount")->nullable()->default(0);
             $table->string("transaction_id")->nullable()->unique();

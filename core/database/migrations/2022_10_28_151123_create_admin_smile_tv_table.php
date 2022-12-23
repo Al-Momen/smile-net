@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('admin_id');
             $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('ticket_type_id');
             $table->string('name');
             $table->string('title');
             $table->string('type');
             $table->string('image');
             $table->string('smile_tv_link');
+            $table->string('video');
             $table->dateTime('date');
             $table->tinyInteger('status')->nullable()->default(0);
             $table->timestamps();

@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('currency_id');
             $table->string('gateway_method');
             $table->double('amount');
-            $table->longText('gateway_parameters',900);
-            $table->longText('reject',900);
+            $table->longText('gateway_parameters');
+            $table->longText('reject');
             $table->string('transaction_no');
             $table->tinyInteger('status')->nullable()->default(0);
             $table->timestamps();

@@ -10,7 +10,7 @@
                                 <span class="text-uppercase"> Active</span>
                             </div>
                             <div class="title pt-3">
-                                <span>{{$general_active_count}} News</span>
+                                <span>{{$general_active_count}} Walls</span>
                             </div>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                                 <span class="text-uppercase">Pending</span>
                             </div>
                             <div class="title pt-3">
-                                <span>{{$general_pending_count}} News</span>
+                                <span>{{$general_pending_count}} Walls</span>
                             </div>
                         </div>
                     </div>
@@ -35,7 +35,7 @@
                                 <span class="text-uppercase">total</span>
                             </div>
                             <div class="title pt-3">
-                                <span>{{$general_count}} News</span>
+                                <span>{{$general_count}} Walls</span>
                             </div>
                         </div>
                     </div>
@@ -56,11 +56,11 @@
             <!-- Button trigger modal -->
             <div class="text-end">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-                    Add News
+                    Add Wall
                 </button>
             </div>
             <div>
-                <h3 class="text-white text-capitalize fw-bold pt-5 pb-3">News</h3>
+                <h3 class="text-white text-capitalize fw-bold pt-5 pb-3"> Author Walls</h3>
                 <div class="table-responsive">
                     <table class="table text-white rounded">
                         <thead class="text-center">
@@ -128,7 +128,7 @@
             <div class="modal-dialog">
                 <div class="modal-content" style="background-color: white!important;">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">News Add</h5>
+                        <h5 class="modal-title" id="addModalLabel"> Author Wall Add</h5>
                         <button type="button" class="btn-close" id="cross_close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>

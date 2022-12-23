@@ -54,6 +54,16 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
+                                        <label>@lang('Name')</label>
+                                        <input class="form-control form--control" type="text" name="name"
+                                            placeholder="@lang('name')" required value="{{ $adminStripe->name }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@lang('Image')</label>
+                                        <input class="form-control form--control" type="file" name="image"
+                                            placeholder="@lang('Image')" required value="{{ $adminStripe->image }}">
+                                    </div>
+                                    <div class="form-group">
                                         <label>@lang('Stripe-key')</label>
                                         <input class="form-control form--control" type="text" name="stripe_key"
                                             placeholder="@lang('Stripe-key')" required value="{{ $adminStripe->stripe_key }}">

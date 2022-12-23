@@ -61,6 +61,8 @@
             <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold">Watch Movies</h1>
             <hr class="text-danger p-1 rounded" style="width: 170px;">
             <div class="row px-4 d-flex justify-content-center justify-content-md-start">
+
+
                 @foreach ($liveTvs as $liveTv)
                 @if ($liveTv->mp4)
                     <div class="card my-3 col-lg-6 col-md-12 mb-4 mx-2" style="max-width: 500px;">

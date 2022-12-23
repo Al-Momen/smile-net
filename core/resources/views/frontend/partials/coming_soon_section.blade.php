@@ -9,8 +9,8 @@
                     <div class="swiper-slide">
                         <div class="row m-0">
                             <div class="col-lg-6 col-md-6 col-12 my-auto">
-                                <h1 class="text-white fs-1 text-uppercase">{{ $item->name }} <span
-                                        class="fw-lighter fs-5">- {{ $item->year }}</span>
+                                <h1 class="text-white fs-1 text-uppercase">{{ $item->name ?? '' }} <span
+                                        class="fw-lighter fs-5">- {{ $item->year ?? '' }}</span>
                                 </h1>
                                 <div class="d-flex py-3">
                                     <a target="_blank" href ="{{ route('comming.soon.movies.play',$item->id,)  }}">
@@ -20,14 +20,14 @@
                                     </a>
 
                                     <button type="button" class="btn btn-outline-danger rounded-pill px-3 py-2"
-                                        data-movie-description="{{ $item->description }}" id="more_details_description">
+                                        data-movie-description="{{ $item->description ?? '' }}" id="more_details_description">
                                         More Details
                                     </button>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">
                                 <img class="mx-auto d-block"
-                                    src="{{ asset('core\storage\app\public\comming-soon-movies\photo\\' . $item->image) }}"
+                                    src="{{ asset('core\storage\app\public\comming-soon-movies\photo\\' . $item->image ?? '') }}"
                                     alt="banner image">
                             </div>
                         </div>

@@ -62,7 +62,6 @@
                                 <th scope="col">Category</th>
                                 <th scope="col">Ticket Type</th>
                                 <th scope="col">Image</th>
-                                <th scope="col">Slug</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -81,7 +80,7 @@
                                     <td><img class="table-user-img img-fluid d-block mx-auto"
                                             src="{{ asset('core\storage\app\public\top-movies\photo\\' . $topMovie->image) }}"
                                             alt="Image"></td>
-                                    <td>{{ $topMovie->slug }}</td>
+                                   
                                     <td>
                                         <form action="{{ route('admin.top.movies.status.edit', $topMovie->id) }}"
                                             method="POST">

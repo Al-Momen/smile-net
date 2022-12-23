@@ -15,8 +15,12 @@ return new class extends Migration
     {
         Schema::create('admin_paypal_getways', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('image');
             $table->string('client_id');
             $table->string('secret_key');
+            $table->string('fixed_charge');
+            $table->decimal('percent_charge');
             $table->string('app_id')->nullable();
             $table->string('mode');
             $table->timestamps();

@@ -21,9 +21,9 @@
                 <div class="col-lg-4 col-md-12 mb-4 text-white">
                     <div class="card card2 h-100">
                         <div class="card-body">
-                            <h5 class="card-title text-capitalize">{{$eventPlan->ticketType->name}}</h5>
+                            <h5 class="card-title text-capitalize">{{$eventPlan->ticketType->name ?? ''}}</h5>
 
-                            <span class="h2 pt-4">{{$eventPlan->event->priceCurrency->symbol}}{{$eventPlan->price}}</span>
+                            <span class="h2 pt-4">{{$eventPlan->event->priceCurrency->symbol}}{{$eventPlan->price ?? ''}}</span>
                             <ul>
                                
                             </ul>

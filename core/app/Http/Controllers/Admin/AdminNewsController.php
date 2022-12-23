@@ -57,12 +57,12 @@ class AdminNewsController extends Controller
         if ($request->status == 'on') {
             $news-> status = 1;
             $news->update();
-            $notify[] = ['success', 'Admin Status is Active'];
+            $notify[] = ['success', 'Author Wall is Active'];
             return redirect()->back()->withNotify($notify);
         } else {
             $news->status = 0;
             $news->update();
-            $notify[] = ['success', 'Admin Status is Inactive'];
+            $notify[] = ['success', 'Author Wall is Inactive'];
             return redirect()->back()->withNotify($notify);
         }
     }
@@ -72,7 +72,7 @@ class AdminNewsController extends Controller
          $request->validate([
             'title' => 'required|min:2|max:255',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg',
+            'image' => 'image|mimes:jpeg,png,jpg',
             'description' => 'required',
             'tag' => 'required',
         ]);
@@ -88,7 +88,12 @@ class AdminNewsController extends Controller
             $news-> status = 1;  
             $news->image = Generals::update('news/', $oldImage,'png', $request->image);
             $news->update();
-            $notify[] = ['success', 'News Update Successfully'];
+            if ($request->hasFile('image')) {
+                $news->image = Generals::update('news/', $oldImage,'png', $request->image);
+                $news->update();
+            }
+
+            $notify[] = ['success', 'Author Wall Update Successfully'];
             return redirect()->route('admin.news.index')->withNotify($notify);
         } catch (QueryException $e) {
            

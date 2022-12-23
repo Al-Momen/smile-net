@@ -54,6 +54,16 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
+                                        <label>@lang('Name')</label>
+                                        <input class="form-control form--control" type="text" name="name"
+                                            placeholder="@lang('name')" required value="{{ $adminPaypal->name }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@lang('Image')</label>
+                                        <input class="form-control form--control" type="file" name="image"
+                                            placeholder="@lang('Image')" required value="{{ $adminPaypal->image }}">
+                                    </div>
+                                    <div class="form-group">
                                         <label>@lang('Client-Id')</label>
                                         <input class="form-control form--control" type="text" name="client_id"
                                             placeholder="@lang('Client-Id')" required value="{{ $adminPaypal->client_id }}">
@@ -63,6 +73,25 @@
                                         <input class="form-control form--control" type="text" name="secret_key"
                                             placeholder="@lang('Secret-key')" required value="{{ $adminPaypal->secret_key }}">
                                     </div>
+                                    
+                                    <div class="form-group">
+                                        <label>@lang('Fixed Charge')</label>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text set_currency" id="basic-addon1">{{$currency->symbol}}</span>
+                                            <input class="form-control form--control" type="text" name="fixed_change"
+                                                placeholder="@lang('Fixed Charge')" required
+                                                value="{{ $adminPaypal->fixed_change }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>@lang('Percent Charge')</label>
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text set_currency" id="basic-addon1">%</span>
+                                            <input class="form-control form--control" type="text" name="percent_change"
+                                                placeholder="@lang('Percent Charge')" required
+                                                value="{{ $adminPaypal->percent_change }}">
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label>@lang('App-id')</label>
                                         <input class="form-control form--control" type="text" name="app_id"
@@ -70,13 +99,13 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="mode" class="form-label">@lang('Mode')</label>
-                                        <select class="form-select form-select-md mb-3 "
-                                            style="padding: 12px 10px;" aria-label=".form-select-lg example" name="mode">
-                                            
-                                                <option @if ($adminPaypal->mode == 'sandbox') selected  @endif
-                                                value="sandbox"> Sandbox</option>
-                                                <option @if ($adminPaypal->mode == 'live') selected  @endif
-                                                value="live"> Live</option>
+                                        <select class="form-select form-select-md mb-3 " style="padding: 12px 10px;"
+                                            aria-label=".form-select-lg example" name="mode">
+
+                                            <option @if ($adminPaypal->mode == 'sandbox') selected @endif value="sandbox">
+                                                Sandbox</option>
+                                            <option @if ($adminPaypal->mode == 'live') selected @endif value="live"> Live
+                                            </option>
                                         </select>
                                     </div>
                                 </div>

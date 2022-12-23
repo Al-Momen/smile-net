@@ -19,14 +19,11 @@
                                     <div class="col-lg-12 form-group">
                                         <label>Email Send Method</label>
                                         <select name="email_method" class="form-control" >
-                                            <option value="php" @if($general->mail_config->name == 'php') selected @endif>@lang('PHP Mail')</option>
                                             <option value="smtp" @if($general->mail_config->name == 'smtp') selected @endif>@lang('SMTP')</option>
-                                            <option value="sendgrid" @if($general->mail_config->name == 'sendgrid') selected @endif>@lang('SendGrid API')</option>
-                                            <option value="mailjet" @if($general->mail_config->name == 'mailjet') selected @endif>@lang('Mailjet API')</option>
                                         </select>
                                     </div>
 
-                                         <div class="form-row mt-4 d-none configForm" id="smtp">
+                                         <div class="form-row mt-4  configForm" id="smtp">
                                         <div class="col-md-12">
                                             <h6 class="mb-2">@lang('SMTP Configuration')</h6>
                                         </div>
@@ -57,7 +54,7 @@
                                        </div>
                                      </div>
 
-                                    <div class="form-row mt-4 d-none configForm" id="sendgrid">
+                                    {{-- <div class="form-row mt-4  configForm" id="sendgrid">
                                         <div class="col-md-12">
                                             <h6 class="mb-2">@lang('SendGrid API Configuration')</h6>
                                         </div>
@@ -65,8 +62,8 @@
                                             <label>@lang('App Key') <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control" placeholder="@lang('SendGrid App key')" name="appkey" value="{{ $general->mail_config->appkey ?? '' }}"/>
                                         </div>
-                                    </div>
-                                    <div class="form-row mt-4 d-none configForm" id="mailjet">
+                                    </div> --}}
+                                    {{-- <div class="form-row mt-4  configForm" id="mailjet">
                                         <div class="col-md-12">
                                             <h6 class="mb-2">@lang('Mailjet API Configuration')</h6>
                                         </div>
@@ -80,7 +77,7 @@
                                                 <input type="text" class="form-control" placeholder="@lang('Mailjet Api Secret Key')" name="secret_key" value="{{ $general->mail_config->secret_key ?? '' }}"/>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-lg-12 form-group mt-10">
                                         <button type="submit" class="btn btn--base w-100">Update</button>
                                     </div>

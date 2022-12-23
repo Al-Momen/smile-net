@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('maximum_amount');
             $table->string('fixed_charge');
             $table->string('percent_charge');
-            $table->string('description');
+            $table->longText('description');
             $table->longText('user_data');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();

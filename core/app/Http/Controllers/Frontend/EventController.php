@@ -60,18 +60,22 @@ class EventController extends Controller
             $event->end_date = $request->end_date;
             $event->category_id = $request->category;
             $event->image = Generals::upload('events/', 'png', $request->image);
+            // return $event;
             $event->save();
             $ticketTypeIds = $request->ticket_type_id;
+            // dd($ticketTypeIds);
             $ticketSeats = $request->seat;
             $ticketPrices = $request->price;
+            // dd($ticketSeats);
             foreach ($ticketTypeIds as $index => $ticketTypeId) {
+                $ticketTypeIdSub = (int) $ticketTypeId - 1;
                 if (!is_null($ticketTypeId)) {
                     $eventPlan = new EventPlan();
                     $eventPlan->event_id = $event->id;
                     $eventPlan->author_event_id = $event->author_event_id;
                     $eventPlan->ticket_type_id = $ticketTypeId;
-                    $eventPlan->seat = $ticketSeats[$index];
-                    $eventPlan->price = $ticketPrices[$index];
+                    $eventPlan->seat = $ticketSeats[$ticketTypeIdSub];
+                    $eventPlan->price = $ticketPrices[$ticketTypeIdSub];
                     $eventPlan->save();
                 }
             }

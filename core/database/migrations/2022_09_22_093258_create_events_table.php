@@ -25,8 +25,8 @@ return new class extends Migration
             $table->tinyInteger("status")->nullable()->default(0);
             $table->tinyInteger("sold")->nullable()->default(0);
             $table->string("slug")->nullable();
-            $table->dateTime("start_date");
-            $table->dateTime("end_date");
+            $table->date("start_date");
+            $table->date("end_date");
             $table->timestamps();
         });
     }

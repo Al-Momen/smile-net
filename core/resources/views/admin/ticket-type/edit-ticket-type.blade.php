@@ -64,8 +64,15 @@
                                     <div class="form-group">
                                         <label>@lang('Ticket Types Name')</label>
                                         <input class="form-control form--control" type="text" name="name"
-                                            placeholder="@lang('Ticket Types Name')" required value="{{ $ticketTypes->name }}">
+                                            placeholder="@lang('Ticket Types Name')" required value="{{ $ticketTypes->name }}"
+                                            readonly>
                                     </div>
+                                    {{-- <div class="form-group">
+                                        <label>@lang('Date')</label>
+                                        <input class="form-control form--control" type="date" name="date"
+                                            placeholder="@lang('Date')" required value="{{ $ticketTypes->name }}"
+                                            >
+                                    </div> --}}
                                     <div class="form-group">
                                         <div class="input-group mb-3 mt-3">
                                             <span class="input-group-text"
@@ -75,12 +82,12 @@
                                                 id="doller-input" placeholder="Price" name="priceCurriency_id"
                                                 value="{{ $priceCurriency->id }}">
                                             <input type="number" class="form-control" min="0" id="doller-input"
-                                                placeholder="Price" name="price" value={{$ticketTypes->price}}>
+                                                placeholder="Price" name="price" value={{ $ticketTypes->price }}>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>@lang('Ticket Types Description')</label>
-                                        <textarea class="form-control form--control" type="text" name="description" rows="4" cols="50" required
+                                    <div class="form-group"> 
+                                        <label for="editor" class="form-label">@lang('Ticket Types Description')</label>
+                                        <textarea id="editor" name="description" rows="5" class="form-control" required
                                             value="{{ old('description') }}" style="height: 140px;" placeholder="@lang('Ticket Types Description')">{{ $ticketTypes->description }}</textarea>
                                     </div>
                                 </div>
@@ -98,5 +105,35 @@
     </div>
 
 @endsection
+
+@section('css')
+    <style>
+        /* Ck-editor css */
+        .ck-blurred {
+            height: 300px !important;
+        }
+
+        .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
+        .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
+            height: 300px;
+        }
+    </style>
+@endsection
 @section('scripts')
+    {{-- Ck-editor js --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+    <script>
+        let editor;
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(newEditor => {
+                editor = newEditor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        $('#btn_add').click(function() {
+            var descriptionData = editor.getData();
+        })
+    </script>
 @endsection

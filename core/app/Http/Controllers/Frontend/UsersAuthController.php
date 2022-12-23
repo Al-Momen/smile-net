@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Frontend;
 
 use Exception;
 use App\Mail\VerifyEmail;
+use App\Models\UserWallet;
 use App\Models\GeneralUser;
 use Illuminate\Http\Request;
+use App\Models\GeneralSetting;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\UserWallet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -25,14 +26,17 @@ class UsersAuthController extends Controller
     // user Regstration form function
     public function userRegistrationForm(Request $request)
     {
-        // dd($request->all());
+       
         if ($request->isMethod('post')) {
+            //  dd($request->all());
             $data = $request->validate([
                 'fullname' => 'required',
                 'email' => 'required|unique:general_users',
                 'phone' => 'required',
                 'password' => 'required',
+                'password' => 'required',
                 'country' => 'required',
+                'confirm_password' => 'required|same:password',
             ]);
             $data = $request->all();
             $general_user = new GeneralUser();
@@ -43,8 +47,15 @@ class UsersAuthController extends Controller
             $general_user->country = $data['country'];
             $general_user->password = Hash::make($data['password']);
             $general_user->save();
-            
-            Mail::to($general_user->email)->send(new VerifyEmail($general_user->verified_code));
+
+            $general = GeneralSetting::first();
+            $config = $general->mail_config;
+            $receiver_name = $general_user->full_name;
+            $subject = 'Welcome ' . strtoupper($config->name) . ' Mail';
+            $message = 'Your verification Code' . ' ' . $general_user->verified_code;
+            sendGeneralEmail($request->email, $subject, $message, $receiver_name);
+
+            // Mail::to($general_user->email)->send(new VerifyEmail($general_user->verified_code));
             if ($general_user->verified_code) {
                 return redirect()->route('otp.form')->with('success', "User Create Successfully");
             }
@@ -63,22 +74,29 @@ class UsersAuthController extends Controller
             $data = $request->all();
             if (Auth::guard('general')->attempt(['email' => $request->email, 'password' => $request->password,])) {
                 if (Auth::guard('general')->attempt(['email' => $request->email, 'password' => $request->password, "status" => 1], $request->has('remember'))) {
+                    if (Auth::guard('general')->attempt(['email' => $request->email, 'password' => $request->password, "status" => 1, "access" => 0])) {
 
-
-                    // ---------------------user wallet create---------------------
-                    $user_wallet = UserWallet::where('user_id', Auth::guard('general')->user()->id)->first();
-                    if($user_wallet){
+                        // ---------------------user wallet create---------------------
+                        $user_wallet = UserWallet::where('user_id', Auth::guard('general')->user()->id)->first();
+                        if ($user_wallet) {
+                            return redirect()->intended(route('user.deshboard'));
+                        } else {
+                            $user_wallet = new UserWallet();
+                            $user_wallet->user_id = Auth::guard('general')->user()->id;
+                            $user_wallet->save();
+                        }
                         return redirect()->intended(route('user.deshboard'));
+                    } else {
+                        return redirect()->back()->withErrors('Your Account banned');
                     }
-                    else{
-                        $user_wallet = new UserWallet();
-                        $user_wallet->user_id = Auth::guard('general')->user()->id;
-                        $user_wallet->save();
-                    }
-                    return redirect()->intended(route('user.deshboard'));
                 } else {
                     $general_users = DB::table('general_users')->where('email', $data['email'])->first();
-                    Mail::to($general_users->email)->send(new VerifyEmail($general_users->verified_code));
+                    $general = GeneralSetting::first();
+                    $config = $general->mail_config;
+                    $receiver_name = $general_users->full_name;
+                    $subject = 'Welcome ' . strtoupper($config->name) . ' Mail';
+                    $message = 'Your varification Code' . ' ' . $general_users->verified_code;
+                    sendGeneralEmail($request->email, $subject, $message, $receiver_name);
                     return redirect()->route('otp.form')->with('info', 'Please Verify your email');
                 }
             }
@@ -102,14 +120,94 @@ class UsersAuthController extends Controller
         }
     }
 
-      public function logout()
-      {
-          if (Auth::guard('general')->check()) {
-              Session::flush();
-              Auth::guard('general')->logout();
-          }
-          return redirect()->route('login');
-      }
-      
+    public function logout()
+    {
+        if (Auth::guard('general')->check()) {
+            Session::flush();
+            Auth::guard('general')->logout();
+        }
+        return redirect()->route('login');
+    }
+
     
+
+    // ----------------------------user Forgot password ----------------------------
+    public function passwordResetEmailView()
+    {
+        // return view('frontend.deshboard.pages.password_reset_email');
+        return view('frontend.auth.forgot-password.password_reset_email');
+    }
+
+    public function passwordResetEmail(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+        ]);
+        // dd($request->all());
+        $profile = GeneralUser::where('email', $request->email)->where('access', 0)->first();
+        if ($profile) {
+            $profile->update([
+                'verified_code' => rand(123456789, 987654321)
+            ]);
+            // Mail::to($profile->first()->email)->send(new VerifyEmail($profile->first()->verified_code));
+            $general = GeneralSetting::first();
+            $config = $general->mail_config;
+            $receiver_name = $profile->full_name;
+            $subject = 'Welcome ' . strtoupper($config->name) . ' Mail';
+            $message = 'Password reset Verification Code' . ' ' . $profile->verified_code;
+            sendGeneralEmail($request->email, $subject, $message, $receiver_name);
+            $encreptProfileId = encrypt($profile->id);
+            return redirect()->route('password.reset.otp.form', $encreptProfileId);
+        } else {
+            return redirect()->back()->with('danger', 'Your Email is not Valid');
+        }
+    }
+    public function userPasswordResetOtpForm($id)
+    {
+        $profileId = $id;
+        return view('frontend.auth.forgot-password.verify_otp_password_reset', compact('profileId'));
+    }
+
+    public function passwordResetOTPCheck(Request $request)
+    {
+
+        $profileId = decrypt($request->id);
+        
+        $reset_otp = GeneralUser::where('verified_code', $request->verified_code)->where('id', $profileId)->first();
+        $profile = $reset_otp;
+        if ($reset_otp) {
+            $encreptProfileId = encrypt($profile->id);
+            return redirect()->route('password.reset.view', $encreptProfileId);
+        } else {
+            return redirect()->route('password.reset.email.view')->with('danger', 'Your OTP is not verifyed');
+        }
+    }
+    public function passwordResetView($id)
+    {
+        $profileId = $id;
+        return view('frontend.auth.forgot-password.password_reset', compact('profileId'));
+    }
+
+
+    public function passwordReset(Request $request)
+    {
+        
+        $request->validate([
+            'new_pass' => 'required|min:5',
+            'confirm_pass' => 'required|same:new_pass',
+        ]);
+
+        $ProfileId = decrypt($request->profile_id);
+        try {
+            $profile = GeneralUser::where('id', $ProfileId)->first();
+            $profile->password = Hash::make($request->new_pass);
+            $profile->update();
+            Auth::guard('general')->loginUsingId($profile->id);
+            return redirect()->route('user.deshboard')->with('success', "Password Update Successfully");
+
+
+        } catch (QueryException $e) {
+            dd($e->getMessage());
+        }
+    }
 }

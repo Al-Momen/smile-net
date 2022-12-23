@@ -24,7 +24,7 @@
                     <div class="card my-3 col-lg-6 col-md-12 col-12 me-5" style="max-width: 500px; ">
                         <div class="row p-0">
                             <div class="subscription-basic">
-                                <h3 class="text-white text-uppercase">{{ $eventPlan->ticketType->name }}</h3>
+                                <h3 class="text-white text-uppercase">{{ $eventPlan->ticketType->name ?? '' }}</h3>
                             </div>
                             <div class="col-md-4 p-0">
                                 <img src="{{ asset('core\storage\app\public\events\\' . $events->image) }}"
@@ -35,12 +35,12 @@
                                     <h5 class="card-title text-capitalize">{{ $events->title }}</h5>
                                     <div class="card-text pt-3 pb-0">
                                         <div class="d-flex primary-color">
-                                            <p class="text-uppercase pe-2">@php
+                                            <p class="text-capitalize pe-2">Date: @php
                                                 $date = $events->end_date;
-                                                echo date('d/m/Y , h:i a ', strtotime($date));
+                                                echo date('d/m/Y', strtotime($date));
                                             @endphp</p>
                                         </div>
-                                        <p class="text-uppercase">BrusselsCirque Royal - Koninklijk Circus</p>
+                                        <p class="text-capitalize">{!! Str::words($events->description, 20, '') !!}</p>
                                     </div>
                                     <a href="{{ route('event.plan.pricing', $eventPlan->id) }}"><button
                                             class="btn btn-outline-danger mt-3">Buy
@@ -55,6 +55,6 @@
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                End News Card Section
-                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        End News Card Section
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 @endsection

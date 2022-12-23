@@ -21,7 +21,7 @@
                         <a href="" class="text-reset">Movies</a>
                     </p>
                     <p>
-                        <a href="{{route('news')}}" class="text-reset">News</a>
+                        <a href="{{route('news')}}" class="text-reset">Author Walls</a>
                     </p>
                 </div>
 

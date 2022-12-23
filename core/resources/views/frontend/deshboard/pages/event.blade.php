@@ -142,12 +142,12 @@
                             </div>
                             <div class="mb-3  col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="start_date" class="form-label">Start Date</label>
-                                <input type="datetime-local" class="form-control" placeholder="Start Date" name="start_date"
+                                <input type="date" class="form-control" placeholder="Start Date" name="start_date"
                                     id="start_date" required>
                             </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="end_date" class="form-label">End Date</label>
-                                <input type="datetime-local" class="form-control" placeholder="End Date" name="end_date"
+                                <input type="date" class="form-control" placeholder="End Date" name="end_date"
                                     id="end_date" required>
                             </div>
 
@@ -472,7 +472,7 @@
             console.log(button_data);
             var modal_body_description = $('#event_description_modal');
             var modal_body_title = $('span#events_title');
-            console.log(modal_body_title);
+            // console.log(modal_body_title);
             modal_body_description.html('');
 
             // var image = {{('core/storage/app/public/events//')}} ;
@@ -490,7 +490,7 @@
             var price = button_data?.event_plans?.map(eventPlan => {
                               return `
                                   ${eventPlan.ticket_type.name}:-
-                                  ${eventPlan.ticket_type.price}
+                                  ${eventPlan.price}
                                  
                               `;
                               

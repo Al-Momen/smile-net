@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('admin_stripe_getways', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('image');
             $table->string('stripe_key');
             $table->string('stripe_secret');
             $table->timestamps();

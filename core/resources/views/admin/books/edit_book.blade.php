@@ -41,7 +41,7 @@ $roles = userRolePermissionArray();
         </div>
     @endif
 
-    <form class="form-dashboard" action="{{ route('user.update.books', $book->id) }}"method="POST"
+    <form class="form-dashboard" action="{{ route('admin.update.book', $book->id) }}"method="POST"
         enctype="multipart/form-data" id="addEventForm">
         @csrf
         <div class="errMsgContainer" style="padding: 20px;">

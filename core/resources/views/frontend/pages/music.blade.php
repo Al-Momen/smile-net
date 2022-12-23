@@ -1,8 +1,8 @@
 @extends('frontend.master')
 @section('content')
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                  Start Banner Section
-              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                      Start Banner Section
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="ticket-banner  bg-overlay-base">
         @if ($site_image->image ?? '')
             <img class="img-fluid"
@@ -10,14 +10,14 @@
         @endif
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    End Banner Section
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                        End Banner Section
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                    Start Music Section
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                        Start Music Section
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="music-card">
         <div class="container py-5 mx-auto">
             <h1 class="text-white fw-bold fs-1 text-uppercase fw-bold">Music </h1>
@@ -67,8 +67,8 @@
                             </div>
                         </div>
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                Start Music Player
-                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                    Start Music Player
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         {{-- music player  --}}
                         <div id="music-player_{{ $val->id }}" class="music music__player  animate__slideInDown">
                             <audio style="display: none" id="music-audio_{{ $val->id }}"
@@ -155,8 +155,8 @@
                             </div>
                         </div>
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                 End Music Player
-                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                     End Music Player
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                     @endif
                 @endforeach
 
@@ -197,9 +197,81 @@
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                    End Music Section
-                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                        End Music Section
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+
+
+
+    @if (isset($access) && $access != null)
+        <!-- Modal -->
+        <div>
+            <div class="modal fade" id="exampleModalCenter" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="addModalLabel" aria-hidden="true">
+                <form class="form-dashboard" action="" method="POST" enctype="multipart/form-data" id="addAccessForm">
+                    @csrf
+                    <div class="modal-dialog ">
+                        <div class="modal-content" style="background-color: white!important;">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addModalLabel">Standard Package choose</h5>
+                            </div>
+                            <div class="modal-body">
+                                <div class="errMsgContainer" style="padding: 20px;">
+
+                                </div>
+                                <div class="col-12 pe-4 mb-3">
+                                    <h6 class="text-center">Standard Package you have one choose</p>
+                                </div>
+                                <div class=" col-lg-6 col-md-6 col-12 pe-4 d-none">
+                                    <div class="radio-item d-flex justify-content-center px-3">
+                                        <input type="text" name="user_id" class="radio-item-two"
+                                            value="{{ $access->user_id }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-12 pe-4 d-flex justify-content-center">
+                                    <div class="radio-item d-flex justify-content-center px-3 mb-3">
+                                        <input type="radio" id="movies" name="access" class="radio-item-two"
+                                            value="movies" required style="width: 30px;">
+                                        <label for="#cc" class="ms-2 text-capitalize text-black my-auto">Movies</label>
+                                    </div>
+                                    <div class="radio-item d-flex justify-content-center px-3 mb-3">
+                                        <input type="radio" id="movies" name="access" class="radio-item-two"
+                                        value="movies" required style="width: 22px">
+                                        <label for="#cc" class="ms-2 text-capitalize text-black my-auto">Music</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button type="submit" class="btn btn-primary" id="btn_add">Save</button>
+
+                                </div> <!-- Button trigger modal -->
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    @endif
 @endsection
+
+@if (isset($access) && $access != null)
+    @push('js')
+        <script type="text/javascript">
+            $(window).on('load', function() {
+                $('#exampleModalCenter').modal('show');
+                $(document).on('change', 'input[name="access"]', function(e) {
+                    let moviesAccess = $(this).val();
+                    let accessForm = $('form#addAccessForm');
+
+                    if (moviesAccess != null) {
+                        accessForm.attr('action', "{{ route('user.package.access') }}");
+                        console.log(moviesAccess);
+                    }
+                    // console.log(this, $(this).val());
+                })
+            });
+        </script>
+    @endpush
+@endif
 
 @push('js')
     <script type="text/javascript">

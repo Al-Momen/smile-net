@@ -57,9 +57,9 @@ Live Tv
                             @foreach ($allLiveTv as $liveTv)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td class="text-capitalize">{{ $liveTv->tv_name }}</td>
-                                    <td class="text-capitalize">{{ $liveTv->title }}</td>
-                                    <td class="text-capitalize">{{ $liveTv->tv_link }}</td>
+                                    <td class="text-capitalize">{{ $liveTv->tv_name ?? '' }}</td>
+                                    <td class="text-capitalize">{{ $liveTv->title ?? '' }}</td>
+                                    <td class="text-capitalize">{{ $liveTv->tv_link ?? '' }}</td>
                                     <td><img class="table-admin-img img-fluid d-block mx-auto"
                                             src="{{ asset('core\storage\app\public\live-tv\\' . $liveTv->image) }}"
                                             alt="Image"></td>
@@ -73,7 +73,6 @@ Live Tv
                                             </label>
                                         </form>
                                     </td>
-
                                     <td>
                                         <a
                                             href="{{ route('admin.live.tv.destroy', $liveTv->id) }}"class="btn btn-danger rounded"><i
@@ -95,6 +94,7 @@ Live Tv
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+
                 <form action="{{ route('admin.store.live.tv') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -117,14 +117,14 @@ Live Tv
                                         placeholder="@lang('Tv Name')" required value="{{ old('Tv Name') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label>@lang('Tv Link')</label>
+                                    <label>@lang('Smile Tv')</label>
                                     <input class="form-control form--control" type="text" name="tv_link"
-                                        placeholder="@lang('Tv Link')" required value="{{ old('Tv Link') }}">
+                                        placeholder="@lang('Smile Tv')" value="{{ old('Smile Tv') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>@lang('video Upload')</label>
                                     <input class="form-control form--control" type="file" name="mp4"
-                                        placeholder="@lang('Video Upload')"  accept="video/*,.mkv" id="mp4" required value="{{ old('Video Upload') }}">
+                                        placeholder="@lang('Video Upload')"  accept="video/*,.mkv" id="mp4" value="{{ old('Video Upload') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>@lang('Date')</label>

@@ -22,28 +22,28 @@
             </a>
         </div>
         <div class="view-prodact">
-            <a data-bs-toggle="modal" data-bs-target="#exampleModal">
+            {{-- <a data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <i class="las la-plus"></i>
                 <span>Add Ticket Type</span>
-            </a>
+            </a> --}}
         </div>
     </div>
     <div class="table-content">
         <div class="shadow-lg p-4 card-1 my-3">
             <!-- Button trigger modal -->
             <div>
-                <div>
+                <div class="table-responsive">
                     @php
                         $i = 1;
                     @endphp
-                    <table class="table text-white rounded mt-5">
+                    <table class="table text-white rounded mt-5 ">
                         <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">SI</th>
                                 <th scope="col">Ticket Type Name</th>
                                 <th scope="col">Price</th>
 
-                                <th scope="col">Ticket Type Description</th>
+                              
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -56,14 +56,14 @@
                             @foreach ($ticketTypes as $ticketType)
                                 <tr>
                                     <td>{{ $i++ }}</td>
-                                    <td class="text-capitalize">{{ $ticketType->name }}</td>
+                                    <td class="text-capitalize" >{{ $ticketType->name }}</td>
                                     <td class="text-capitalize">{{ $ticketType->price }} {{ $ticketType->priceCurrency->symbol }}</td>
                          
-                                    <td>{{ $ticketType->description }}</td>
+                                    
                                     <td>
-                                        <a
+                                        {{-- <a 
                                             href="{{ route('admin.ticket.type.destroy', $ticketType->id) }}"class="btn btn-danger rounded"><i
-                                                class="fas fa-trash"></i></a>
+                                                class="fas fa-trash"></i></a> --}}
                                         <a href="{{ route('admin.ticket.type.edit', $ticketType->id) }}"
                                             class="btn btn-primary rounded"> <i class="fas fa-edit"></i></a>
                                     </td>
@@ -95,7 +95,7 @@
                                 <div class="form-group">
                                     <label>@lang('Ticket Type Name')</label>
                                     <input class="form-control form--control" type="text" name="name"
-                                        placeholder="@lang('Ticket Type Name')" required value="{{ old('name') }}">
+                                        placeholder="@lang('Ticket Type Name')" required value="{{ old('name') }}"  aria-label="readonly input example" readonly>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group mb-3 mt-3">

@@ -53,7 +53,7 @@
                 <div class="row g-4 pt-3 vote-section">
                     @foreach ($adminVote->adminVoteImages as $index => $adminVoteImage)
                         <div class="col-12 col-lg-4 col-md-12 d-grid justify-content-center">
-                            <div class="card" style="width: 380px;">
+                            <div class="card" style="width: 290px;">
                                 <div class="subscription">
                                     @if ($totalVote)
                                         {

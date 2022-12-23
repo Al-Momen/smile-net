@@ -22,8 +22,8 @@ $roles = userRolePermissionArray();
     </div>
     <div class="view-prodact">
         <a href="{{ route('admin.permission-group.new') }}">
-            <i class="las la-plus align-middle me-1"></i>
-            <span>New Permission Group</span>
+            {{-- <i class="las la-plus align-middle me-1"></i>
+            <span>New Permission Group</span> --}}
         </a>
     </div>
 </div>

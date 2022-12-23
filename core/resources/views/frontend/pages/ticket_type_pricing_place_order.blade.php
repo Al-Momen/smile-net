@@ -56,7 +56,6 @@
                         <form class="pb-4" id="paymentsgateway" action="" method="post">
                             @csrf
                             <div class="d-flex justify-content-center pb-3">
-
                                 <div class="radio-item d-flex justify-content-center px-3 d-none">
                                     <input type="text" id="coponCode" name="coupon_code" class="radio-item-two "
                                         value="null">
@@ -156,6 +155,7 @@
             let paymentForm = $('form#paymentsgateway');
             // console.log(paymentForm);
             if (paymentGateWay == 'paypal') {
+                
                 paymentForm.attr('action', "{{ route('processPaypal.ticket_type.pricing') }}");
             }
             if (paymentGateWay == 'stripe') {

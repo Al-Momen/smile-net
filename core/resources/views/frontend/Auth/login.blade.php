@@ -48,9 +48,10 @@
 
                                 <div class="col-12">
                                     <div class="form-check">
-                                        <input class="form-check-input p-1" type="checkbox" name="remember" id="inlineFormCheck">
+                                        {{-- <input class="form-check-input p-1" type="checkbox" name="remember" id="inlineFormCheck">
                                         <label class="form-check-label text-white" for="inlineFormCheck">Remember
-                                            me</label>
+                                            me</label> --}}
+                                            <a href="{{route('password.reset.email.view')}}">Forgot password?</a>
                                     </div>
                                 </div>
 

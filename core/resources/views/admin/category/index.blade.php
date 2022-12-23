@@ -71,7 +71,7 @@ $roles = userRolePermissionArray();
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->description }}</td>
                                     <td>
-                                        <a href="{{route('admin.category.destroy',$category->id)}}"class="btn btn-danger rounded"><i class="fas fa-trash"></i></a>
+                                        {{-- <a href="{{route('admin.category.destroy',$category->id)}}"class="btn btn-danger rounded"><i class="fas fa-trash"></i></a> --}}
                                         <a href="{{route('admin.category.edit',$category->id)}}" class="btn btn-primary rounded"> <i class="fas fa-edit" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal"></i></a>
                                     </td>

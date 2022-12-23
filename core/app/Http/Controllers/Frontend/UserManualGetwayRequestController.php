@@ -11,13 +11,29 @@ class UserManualGetwayRequestController extends Controller
     public function index()
     {
         $allManualGetwayRequest = UserManualGetwayRequest::with('user', 'priceCurrency')->orderBy('id', 'DESC')->paginate(10);
-        return view('admin.user-manual-getway-request.index', compact('allManualGetwayRequest'));
+        return view('admin.user-withdraw-request.index', compact('allManualGetwayRequest'));
     }
-
+    public function approvedAllReq()
+    {
+        $allManualGetwayRequest = UserManualGetwayRequest::with('user', 'priceCurrency')->where('status',1)->orderBy('id', 'DESC')->paginate(10);
+        return view('admin.user-withdraw-request.approve_all_req', compact('allManualGetwayRequest'));
+    }
+     public function pendingAllReq()
+    {
+        
+        $allManualGetwayRequest = UserManualGetwayRequest::with('user', 'priceCurrency')->where('status',0)->orderBy('id', 'DESC')->paginate(10);
+        return view('admin.user-withdraw-request.pending_all_req', compact('allManualGetwayRequest'));
+    }
+    public function rejectedAllReq()
+    {
+        $allManualGetwayRequest = UserManualGetwayRequest::with('user', 'priceCurrency')->where('status',2)->orderBy('id', 'DESC')->paginate(10);
+        return view('admin.user-withdraw-request.reject_all_req', compact('allManualGetwayRequest'));
+    }
+   
     public function viewRequest($id)
     {
         $manualGetwayRequestView = UserManualGetwayRequest::with('user', 'priceCurrency')->where('id', $id)->first();
-        return view('admin.user-manual-getway-request.view_getway', compact('manualGetwayRequestView'));
+        return view('admin.user-withdraw-request.view_getway', compact('manualGetwayRequestView'));
     }
     public function approved($id)
     {

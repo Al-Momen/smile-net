@@ -73,12 +73,12 @@ class NewsController extends Controller
         if ($request->status == 'on') {
             $news->status = 1;
             $news->update();
-            $notify[] = ['success', 'News is Active'];
+            $notify[] = ['success', 'Author Wall is Active'];
             return redirect()->back()->withNotify($notify);
         } else {
             $news->status = 0;
             $news->update();
-            $notify[] = ['success', 'News is Inactive'];
+            $notify[] = ['success', 'Author Wall is Inactive'];
             return redirect()->back()->withNotify($notify);
         }
     }
@@ -101,8 +101,10 @@ class NewsController extends Controller
             $news->description = $request->description;
             $news->tag = $request->tag;
             $news->category_id = $request->category;
-            $news->image = Generals::update('news/', $oldImage,'png', $request->image);
             $news->update();
+            if($request->hasFile('image')){
+                $news->image = Generals::update('news/', $oldImage,'png', $request->image);
+            }
             return redirect()->route('user.news')->with('success', "News Update Successfully");
             // return response()->json([
             //     'status'=> 'success',

@@ -15,8 +15,8 @@
     <section class="movie-awards">
         @foreach ($categories as $category)
             <div class="container py-5 overflow-hidden">
-                <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold">{{ $category->name }}</h1>
-                <hr class="text-danger p-1 rounded" style="width: 75px;">
+                <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold">{{ $category->name ?? '' }}</h1>
+                <hr class="text-danger p-1 rounded" style="width: 75px;"> 
                 <!-- Swiper -->
                 <div class="swiper mySwiper2 pt-3">
                     <div class="swiper-wrapper" data-swiper-autoplay="4000">
@@ -25,11 +25,11 @@
                                 <div class="swiper-slide">
                                     <div class="card">
                                         <div class="subscription-premium">
-                                            <h3 class="text-white text-uppercase">{{ $items->ticket->name }}</h3>
+                                            <h3 class="text-white text-uppercase">{{ $items->ticket->name ?? '' }}</h3>
                                         </div>
-                                        <img src="{{ asset('core\storage\app\public\votes\\' . $items->vote_image) }}"
+                                        <img src="{{ asset('core\storage\app\public\votes\\' . $items->vote_image ?? '') }}"
                                             class="card-img-top" alt="image" class="img-fluid rounded-start"
-                                            style="width: 100%; height: 220px" />
+                                            style="width: 100%; height: 320px" />
                                         <div class="card-body d-flex">
                                             <h5 class="card-title text-white my-auto text-capitalize">
                                                 {{ $items->vote_name }}</h5>

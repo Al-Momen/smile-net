@@ -12,15 +12,15 @@
                 @foreach ($all_topMovies as $item)
                     <div class="col-12 col-lg-3 col-md-6">
                         <div class="card shadow-lg">
+                            <div class="subscription-premium">
+                                <h3 class="text-white text-uppercase">{{ $item->ticketType->name ?? ''}}</h3>
+                            </div>
                             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                <img src="{{ asset('core\storage\app\public\top-movies\photo\\' . $item->image) }}" class="img-fluid" />
+                                <img src="{{ asset('core\storage\app\public\top-movies\photo\\' . $item->image ?? '') }}" class="img-fluid" />
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title text-white">{{ $item->name }}</h5>
                                 <p class="primary-color">{{ $item->category }}</p>
-                                <a target="_blank" href ="{{ route('top.movies.play',$item->id,)  }}" class="btn btn-outline-secondary video-btn" >
-                                Watch Now
-                                </a>
                                 <a target="_blank" href ="{{ route('top.movies.play',$item->id,)  }}" class="btn btn-outline-secondary video-btn" >
                                 Watch Now
                                 </a>

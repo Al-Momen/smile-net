@@ -1,5 +1,6 @@
 @if($seo)
-    <meta name="title" Content="{{ $general->sitename(__($pageTitle)) }}">
+    {{-- <meta name="title" Content="{{ $general->sitename(__($pageTitle)) }}"> --}}
+    <meta name="description" content="{{ $seo->social_title }}">
     <meta name="description" content="{{ $seo->description }}">
     <meta name="keywords" content="{{ implode(',',$seo->keywords) }}">
     <link rel="shortcut icon" href="{{ getImage(imagePath()['logoIcon']['path'] .'/favicon.png') }}" type="image/x-icon">
@@ -8,13 +9,15 @@
     <link rel="apple-touch-icon" href="{{ getImage(imagePath()['logoIcon']['path'] .'/logo.png') }}">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="{{ $general->sitename($pageTitle) }}">
+    <meta name="description" content="{{ $seo->social_title }}">
+    {{-- <meta name="apple-mobile-web-app-title" content="{{ $general->sitename($pageTitle) }}"> --}}
 
     {{--<!-- Google / Search Engine Tags -->--}}
     @if(request()->routeIs('blog.details'))
     @stack('seo_share')
     @else
-    <meta itemprop="name" content="{{ $general->sitename($pageTitle) }}">
+    {{-- <meta itemprop="name" content="{{ $general->sitename($pageTitle) }}"> --}}
+    <meta name="description" content="{{ $seo->social_title }}">
     <meta itemprop="description" content="{{ $general->seo_description }}">
     <meta itemprop="image" content="{{ getImage(imagePath()['seo']['path'] .'/'. $seo->image) }}">
     @endif

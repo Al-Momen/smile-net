@@ -11,25 +11,29 @@ use App\Models\Coupon;
 use App\Models\UserVote;
 use App\Models\AdminVote;
 use App\Models\EventPlan;
+use Doctrine\DBAL\Events;
 use App\Models\TicketType;
 use App\Models\UserWallet;
 use App\Models\GeneralUser;
 use App\Models\AdminPricing;
 use Illuminate\Http\Request;
+use App\Models\PriceCurrency;
 use App\Models\AdminVoteImage;
 use App\Models\PricingDetails;
 use App\Models\BookTransaction;
 use App\Models\GeneralUserVote;
+use App\Models\AdminPaypalGetway;
+use App\Models\AdminStripeGetway;
+use App\Models\TicketTypeDetails;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\AdminBuyManualGetway;
 use App\Models\EventPlanTransaction;
-use App\Models\PriceCurrency;
-use App\Models\TicketTypeDetails;
-use Doctrine\DBAL\Events;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Admin\ManualGatewayController;
 
 class UsersDeshboardController extends Controller
 {
@@ -37,29 +41,42 @@ class UsersDeshboardController extends Controller
     {
         $ticketTypePlans = TicketTypeDetails::with(['ticket_type'])->where('user_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->count();
 
-         $eventPlanTranactionTicketCount = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->count();
+        $eventPlanTranactionTicketCount = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->count();
 
-         $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->paginate(5, ['*'], 'eventPlanTranaction');
+        $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->paginate(5, ['*'], 'eventPlanTranaction');
 
-        $books = BookTransaction::where('author_book_id', Auth::guard('general')->id())->where('author_book_type', 'App\Models\GeneralUser')->orderBy('id', 'desc')->paginate(5 , ['*'], 'books');
+        $books = BookTransaction::where('buy_user_id', Auth::guard('general')->id())->where('author_book_type', 'App\Models\GeneralUser')->orderBy('id', 'desc')->paginate(5, ['*'], 'books');
 
         $user_wallet = UserWallet::where('user_id', Auth::guard('general')->id())->first();
 
         $priceCurrency = PriceCurrency::first();
 
-        //  $events = EventPlanTransaction::distinct()->select('event_plan_transactions.*','book_transactions.paid_price as book_paid_price','book_transactions.book_id')
-        // ->join('book_transactions','book_transactions.author_book_id','=','event_plan_transactions.author_event_id')
-        // ->with('book')
-        // ->where(['event_plan_transactions.author_event_id' => Auth::guard('general')->user()->id])
-        // ->where(['book_transactions.author_book_type' => 'App\Models\GeneralUser'])
-        // ->paginate(10);
-        // dd($events);
-        return view('frontend.deshboard.pages.index', compact('eventPlanTranactionTicketCount','eventPlanTranaction','books','user_wallet','priceCurrency','ticketTypePlans'));
+        $today = Carbon::now();
+        $standard = TicketTypeDetails::where('ticket_slug', 'standard')->where('user_id', Auth::guard('general')->user()->id)->first();
+        $premium = TicketTypeDetails::where('ticket_slug', 'premium')->where('user_id', Auth::guard('general')->user()->id)->first();
+        
+        if ($premium != null) {
+
+            if ($premium->created_at->diffInDays($today, false) >= 30) {
+                $premium->delete();
+            }
+        }
+        if ($standard != null) {
+
+            if ($standard->created_at->diffInDays($today, false) >= 30) {
+                $standard->delete();
+            }
+        }
+
+        return view('frontend.deshboard.pages.index', compact('eventPlanTranactionTicketCount', 'eventPlanTranaction', 'books', 'user_wallet', 'priceCurrency', 'ticketTypePlans','premium'));
     }
     public function placeOrder($id)
     {
         $book = Book::with(['category', 'priceCurrency', 'user', 'admin'])->findOrFail($id);
-        return view('frontend.pages.place_order', compact('book'));
+        $allGetways['paypal'] = AdminPaypalGetway::first();
+        $allGetways['stripe'] = AdminStripeGetway::first();
+        $allGetways['manual'] = AdminBuyManualGetway::where('status' ,1)->get();
+        return view('frontend.pages.place_order', compact('book','allGetways'));
     }
 
     // ---------------------------------------- ticketType Pricing Place Order----------------------------------------
@@ -86,6 +103,7 @@ class UsersDeshboardController extends Controller
                     'error' => "Coupon code isn't Valid",
                 ]);
             };
+            
             if ($couponCheck->status == 1) {
                 return response()->json([
                     'success' => 'Coupon code is successfully added',
@@ -134,8 +152,8 @@ class UsersDeshboardController extends Controller
 
     public function buyingBooks()
     {
-
-        $buyBooks = BookTransaction::with('book')->where('author_book_id', Auth::guard('general')->user()->id)->get();
+        
+        $buyBooks = BookTransaction::with('book')->where('buy_user_id', Auth::guard('general')->user()->id)->get();
         return view('frontend.deshboard.pages.buying_books', compact('buyBooks'));
     }
 
@@ -143,15 +161,13 @@ class UsersDeshboardController extends Controller
     {
         $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->paginate(10);
         $priceCurrency = PriceCurrency::first();
-        return view('frontend.deshboard.pages.buying_ticket', compact('eventPlanTranaction','priceCurrency'));
-      
+        return view('frontend.deshboard.pages.buying_ticket', compact('eventPlanTranaction', 'priceCurrency'));
     }
     public function buyingPlanTicket()
     {
         $ticketTypePlans = TicketTypeDetails::with(['ticket_type'])->where('user_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->paginate(10);
         $priceCurrency = PriceCurrency::first();
-        return view('frontend.deshboard.pages.buying_plan', compact('ticketTypePlans','priceCurrency'));
-      
+        return view('frontend.deshboard.pages.buying_plan', compact('ticketTypePlans', 'priceCurrency'));
     }
 
     public function openPDF($id)
@@ -159,4 +175,5 @@ class UsersDeshboardController extends Controller
         $buyBooks = Book::where('id', $id)->first();
         return response()->file("core\storage\app\public\books\\" . $buyBooks->file);
     }
+
 }

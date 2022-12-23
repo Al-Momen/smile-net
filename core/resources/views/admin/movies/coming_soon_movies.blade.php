@@ -62,7 +62,7 @@
                                 <th scope="col">Ticket Type</th>
                                 <th scope="col">Year</th>
                                 <th scope="col">Image</th>
-                                <th scope="col">Slug</th>
+                                
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -82,7 +82,7 @@
                                     <td><img class="table-user-img img-fluid d-block mx-auto"
                                             src="{{ asset('core\storage\app\public\comming-soon-movies\photo\\' . $commingSoonMovie->image) }}"
                                             alt="Image"></td>
-                                    <td>{{ $commingSoonMovie->slug }}</td>
+                                    
                                     <td>
                                     <form action="{{ route('admin.comming.soon.movies.status.edit', $commingSoonMovie->id) }}"
                                         method="POST">

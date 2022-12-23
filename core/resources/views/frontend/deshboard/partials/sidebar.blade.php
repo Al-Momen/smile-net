@@ -2,7 +2,7 @@
     <div class="sidebar__inner">
         <div class="sidebar-top-inner">
             <div class="sidebar__logo">
-                <a href="index.html" class="sidebar__main-logo">
+                <a href="{{route('index')}}" class="sidebar__main-logo">
                     <img src="{{ asset('assets/frontend/images/logo/logo1.png') }}" alt="logo">
                 </a>
                 <div class="navbar__left">
@@ -62,7 +62,7 @@
                             </li>
                         </ul>
                     </li>
-                    
+
 
                     <li class="sidebar-menu-item">
                         <a href="{{ route('user.news') }}">
@@ -70,7 +70,7 @@
                             <span class="menu-title">Author wall</span>
                         </a>
                     </li>
-                    
+
                     <li class="sidebar-menu-item">
                         <a href="{{ route('user.buying.event.ticket.view') }}">
                             <i class="menu-icon las la-ticket-alt"></i>
@@ -84,7 +84,7 @@
                         </a>
                         <ul class="sidebar-submenu" style="display:none; list-style-type: none;">
                             <li class="sidebar-menu-item">
-                                <a href="{{ route('user.withdraw_history') }}" class="nav-link">
+                                <a href="{{ route('user.withdraw') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
                                     <span class="menu-title">@lang('Log')</span>
                                 </a>
@@ -99,7 +99,20 @@
                             </li>
                         </ul>
                     </li>
-                   
+
+                    @php
+                        $premium = App\Models\TicketTypeDetails::where('ticket_slug', 'premium')
+                            ->where('user_id', Auth::guard('general')->user()->id)
+                            ->first();
+                    @endphp
+                    @if ($premium != null)
+                        <li class="sidebar-menu-item">
+                            <a href="{{ route('user.profile') }}">
+                                <i class="menu-icon las fa-solid fa-tv"></i>
+                                <span class="menu-title">Go Live</span>
+                            </a>
+                        </li>
+                    @endif
                     <li class="sidebar-menu-item">
                         <a href="{{ route('user.profile') }}">
                             <i class="menu-icon las fa-solid fa-user-circle"></i>
@@ -107,9 +120,9 @@
                         </a>
                     </li>
                     <li class="sidebar-menu-item">
-                        <a href="{{ route('user.password.reset.email.view') }}">
+                        <a href="{{ route('user.password.change') }}">
                             <i class="menu-icon las las la-key"></i>
-                            <span class="menu-title">Password</span>
+                            <span class="menu-title">Password Change</span>
                         </a>
                     </li>
 

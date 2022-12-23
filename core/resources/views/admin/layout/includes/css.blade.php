@@ -13,6 +13,7 @@
 <!-- animate.css -->
 <link rel="stylesheet" href="{{ URL::asset('core/public/admin') }}/assets/css/animate.css">
 <!-- main style css link -->
+<link rel="stylesheet" href="{{ URL::asset('assets/admin') }}/css/select2.min.css">
 <link rel="stylesheet" href="{{ URL::asset('core/public/admin') }}/assets/css/style.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.1/spectrum.min.css"/>
 @stack('custom_css')

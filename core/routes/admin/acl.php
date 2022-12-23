@@ -36,6 +36,7 @@ Route::post('permission-group/store', ['middleware' => 'acl:new_menu', 'as' => '
 Route::get('permission-group/{id}/edit', ['middleware' => 'acl:edit_menu', 'as' => 'permission-group.edit', 'uses' => '\App\Http\Controllers\Admin\PermissionGroupController@getEdit']);
 Route::post('permission-group/{id}/update', ['middleware' => 'acl:edit_menu', 'as' => 'permission-group.update', 'uses' => '\App\Http\Controllers\Admin\PermissionGroupController@putUpdate']);
 Route::get('permission-group/{id}/delete', ['middleware' => 'acl:delete_menu', 'as' => 'permission-group.delete', 'uses' => '\App\Http\Controllers\Admin\PermissionGroupController@getDelete']);
+
 //Permission
 Route::get('permission', ['middleware' => 'acl:view_action', 'as' => 'permission.index', 'uses' => '\App\Http\Controllers\Admin\PermissionController@getIndex']);
 Route::get('permission/new', ['middleware' => 'acl:new_action', 'as' => 'permission.new', 'uses' => '\App\Http\Controllers\Admin\PermissionController@getCreate']);

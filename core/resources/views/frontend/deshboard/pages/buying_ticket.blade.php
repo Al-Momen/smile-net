@@ -37,7 +37,7 @@
                                             <i class="fa-solid fa-circle-dot"></i>
                                             <div class="">
                                                 <h4 class="text-capitalize">Ticket</h4>
-                                                <span class="text-capitalize">{{ $planTranaction->eventPlans->ticketType->name }}</span>
+                                                <span class="text-capitalize">{{ $planTranaction->eventPlans->ticketType->name ?? '' }}</span>
                                             </div>
                                         </div>
 
@@ -48,7 +48,7 @@
                                                     echo date('h.i a - M d Y  ', strtotime($date));
                                                 @endphp
                                             </span>
-                                            <h3>{{ $planTranaction->paid_price }}{{ $priceCurrency->symbol }}</h3>
+                                            <h3>{{ $planTranaction->paid_price ?? '' }}{{ $priceCurrency->symbol ?? '' }}</h3>
                                         </div>
                                     </div>
                                 </div>

@@ -443,7 +443,6 @@ function siteName()
     } else {
         $title = "<span>$general->sitename</span>";
     }
-
     return $title;
 }
 
@@ -470,7 +469,7 @@ function getPageSections($arr = false)
     $sections = json_decode(file_get_contents($jsonUrl));
     if ($arr) {
         $sections = json_decode(file_get_contents($jsonUrl), true);
-        ksort($sections);
+        // ksort($sections);
     }
     return $sections;
 }
@@ -480,6 +479,7 @@ function getImage($image, $size = null)
 {
     $clean = '';
     if (file_exists($image) && is_file($image)) {
+        // dd(asset($image));
         return asset($image) . $clean;
     }
     if ($size) {
@@ -521,7 +521,6 @@ function sendEmail($user, $type = null, $shortCodes = [])
     if ($general->en != 1 || !$emailTemplate) {
         return;
     }
-
 
     $message = shortCodeReplacer("{{fullname}}", $user->fullname, $general->email_template);
     $message = shortCodeReplacer("{{username}}", $user->username, $message);
@@ -572,6 +571,7 @@ function sendPhpMail($receiver_email, $receiver_name, $subject, $message, $gener
 function sendSmtpMail($config, $receiver_email, $receiver_name, $subject, $message, $general)
 {
     $mail = new PHPMailer(true);
+
 
     try {
         //Server settings
@@ -773,19 +773,25 @@ function showDateTime($date, $format = 'Y-m-d h:i A')
 function sendGeneralEmail($email, $subject, $message, $receiver_name = '')
 {
     $general = GeneralSetting::first();
+    
     if ($general->en != 1 || !$general->email_from) {
+        
         return;
     }
+    
     $message = shortCodeReplacer("{{message}}", $message, $general->email_template);
     $message = shortCodeReplacer("{{fullname}}", $receiver_name, $message);
     $message = shortCodeReplacer("{{username}}", $email, $message);
-
+    
     $config = $general->mail_config;
-
+    
     if ($config->name == 'php') {
+        
         sendPhpMail($email, $receiver_name, $subject, $message, $general);
     } else if ($config->name == 'smtp') {
+        
         sendSmtpMail($config, $email, $receiver_name, $subject, $message, $general);
+
     } else if ($config->name == 'sendgrid') {
         sendSendGridMail($config, $email, $receiver_name, $subject, $message, $general);
     } else if ($config->name == 'mailjet') {

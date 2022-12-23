@@ -141,7 +141,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                    {{-- <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="Ticket-Type" class="form-label">@lang('Ticket-Type')</label>
                                         <select class="form-select form-select-md mb-3 text-capitalize"
                                             style="padding: 12px 10px;" aria-label=".form-select-lg example"
@@ -153,26 +153,31 @@
                                                     {{ $ticketType->name }}</option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="type" class="form-label">@lang('Type')</label>
                                         <input type="text" class="form-control" placeholder="Type" name="type"
                                             id="type" value="">
                                     </div>
-                                    <div class="mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                    <div class=" col-lg-6 col-md-6 col-12 pe-4">
                                         <label>@lang('Date')</label>
                                         <input class="form-control" type="datetime-local" name="date"
                                             placeholder="@lang('date')" required value="{{ old('date') }}">
                                     </div>
-                                    <div class="mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                    <div class="col-lg-6 col-md-6 col-12 pe-4">
+                                        <label for="image" class="form-label">@lang('Image') </label>
+                                        <input type="file" src="" class="form-control px-3 pt-2"
+                                        name="image" accept="image/*" id="image">
+                                    </div>
+                                    <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="smile_tv_link" class="form-label">@lang('Smile-Tv Link')</label>
                                         <input type="text" class="form-control" placeholder="Smile-Tv Link"
                                             name="smile_tv_link" id="smile_tv_link" value="">
                                     </div>
-                                    <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="image" class="form-label">@lang('Image') </label>
+                                    <div class="mt-4 col-lg-6 col-md-6 col-12 pe-4">
+                                        <label for="video" class="form-label">@lang('Video') </label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="image" accept="image/*" id="image">
+                                            name="mp4" accept="video/*,.mkv" id="video">
                                     </div>
 
                                 </div>

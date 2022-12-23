@@ -11,15 +11,15 @@
                     <div>
                         <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
                             <p class="text-white m-0 fw-bold">Name:</p>
-                            <p class="text-white m-0 ">{{ $profile->full_name }}</p>
+                            <p class="text-white m-0 text-capitalize">{{ $profile->full_name }}</p>
                         </div>
                         <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
                             <p class="text-white m-0 fw-bold">Email:</p>
                             <p class="text-white m-0 ">{{ $profile->email }}</p>
                         </div>
                         <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
-                            <p class="text-white m-0 fw-bold">Follower</p>
-                            <p class="text-white m-0 ">12k</p>
+                            <p class="text-white m-0 fw-bold">Active Ticket:</p>
+                            <p class="text-white m-0 text-capitalize">{{$ticketTypeDetails != null ? $ticketTypeDetails->ticket_type->name : "null" }}</p>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                                 <label for="username" class="form-label text-white">UserName<span
                                         class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="username" placeholder="jhon123"
-                                    name="user_name" required value="{{ $profile->user_name ?? null}}">
+                                    name="user_name" required value="{{ $profile->user_name ?? null}}" readonly>
                             </div>
                             <div class="mb-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="phone" class="form-label text-white">Phone<span

@@ -74,10 +74,10 @@ $roles = userRolePermissionArray();
                                 <tr>
                                     <td>{{ $event->user->full_name }}</td>
                                     <td><img class="table-user-img img-fluid d-block mx-auto"
-                                            src="{{ asset('core\storage\app\public\profile\\' . $event->user->photo) }}"
+                                            src="{{ asset('core\storage\app\public\profile\\' . $event->user->photo ?? '') }}"
                                             alt="Image"></td>
-                                    <td>{{ $event->title }}</td>
-                                    <td>{{ $event->category->name }}</td>
+                                    <td>{{ $event->title ?? '' }}</td>
+                                    <td>{{ $event->category->name?? ''}}</td>
                                     <td>
                                         <form action="{{ route('admin.event.status.edit', $event->id) }}" method="POST">
                                             @csrf

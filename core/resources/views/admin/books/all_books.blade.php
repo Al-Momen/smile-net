@@ -72,10 +72,10 @@
                             @foreach ($general_books as $book)
                                 @if ($book->author_book_type == 'App\Models\User')
                                     <tr >
-                                        <td>{{ $book->admin->adminUser->first_name.' '.$book->admin->adminUser->last_name }} {{ $book->admin->adminUser->last_name }}</td>
-                                        <td>{{ $book->title }}</td>
+                                        <td>{{ $book->admin->adminUser->first_name ?? ''.' '.$book->admin->adminUser->last_name ?? '' }} {{ $book->admin->adminUser->last_name ?? '' }}</td>
+                                        <td>{{ $book->title ?? '' }}</td>
                                         <td><img class="table-user-img img-fluid d-block mx-auto"
-                                                src="{{ asset('core\storage\app\public\books\\' . $book->image) }}"
+                                                src="{{ asset('core\storage\app\public\books\\' . $book->image ?? '') }}"
                                                 alt="Image"></td>
                                         <td>{{ $book->category->name }}</td>
                                         <td>
@@ -98,12 +98,12 @@
                                 @endif
                                 @if ($book->author_book_type == 'App\Models\GeneralUser')
                                     <tr>                                    
-                                        <td>{{ $book->user->full_name }}</td>
-                                        <td>{{ $book->title }}</td>
+                                        <td>{{ $book->user->full_name ?? ''}}</td>
+                                        <td>{{ $book->title ?? ''}}</td>
                                         <td><img class="table-user-img img-fluid d-block mx-auto"
-                                                src="{{ asset('core\storage\app\public\books\\' . $book->image) }}"
+                                                src="{{ asset('core\storage\app\public\books\\' . $book->image ?? '') }}"
                                                 alt="Image"></td>
-                                        <td>{{ $book->category->name }}</td>
+                                        <td>{{ $book->category->name ??''}}</td>
                                         <td>
                                             <form action="{{ route('admin.book.status.edit', $book->id) }}" method="POST">
                                                 @csrf

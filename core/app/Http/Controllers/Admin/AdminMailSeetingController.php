@@ -42,4 +42,9 @@ class AdminMailSeetingController extends Controller
             dd($e->getMessage());
         }
     }
+    public function mailTemplate(Request $request)
+    {
+        // dd($request->all());
+        return view('admin.mail-setup.email_template');
+    }
 }

@@ -76,12 +76,12 @@ $roles = userRolePermissionArray();
                             @foreach ($general_books as $book)
                                 
                                     <tr>
-                                        <td>{{ $book->title }}</td>
+                                        <td>{{ $book->title ?? '' }}</td>
                                         <td><img class="table-user-img img-fluid d-block mx-auto"
-                                                src="{{ asset('core\storage\app\public\books\\' . $book->image) }}"
+                                                src="{{ asset('core\storage\app\public\books\\' . $book->image ?? '') }}"
                                                 alt="Image"></td>
-                                        <td>{{ $book->category->name }}</td>
-                                        <td>{{ $book->price }} {{ $price->symbol }}</td>
+                                        <td>{{ $book->category->name ?? '' }}</td>
+                                        <td>{{ $book->price ?? '' }} {{ $price->symbol ?? '' }}</td>
                                         <td>
                                             <form action="{{ route('admin.book.status.edit', $book->id) }}" method="POST">
                                                 @csrf
@@ -154,7 +154,7 @@ $roles = userRolePermissionArray();
                                             @foreach ($categories as $category)
                                                 <option @if ($category->id)  @endif
                                                     value="{{ $category->id }}">
-                                                    {{ $category->name }}</option>
+                                                    {{ $category->name ?? ' ' }}</option>
                                             @endforeach
                                         </select>
                                     </div>

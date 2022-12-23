@@ -14,8 +14,6 @@ Route::group(['prefix' => 'setting', 'as' => 'setting.'], function () {
     Route::get('seo/manage', '\App\Http\Controllers\Admin\GeneralSettingController@seoPage')->name('seo.page');
     Route::post('seo/update/{key}', [GeneralSettingController::class, 'seoUpdate'])->name('seo.update');
     
-
-
     Route::group(['prefix' => 'extensions', 'as' => 'extensions.'], function () {
         Route::get('list', '\App\Http\Controllers\Admin\ExtensionController@index')->name('index');
         Route::post('update/{id}', '\App\Http\Controllers\Admin\ExtensionController@update')->name('update');

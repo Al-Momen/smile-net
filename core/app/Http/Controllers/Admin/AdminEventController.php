@@ -55,7 +55,7 @@ class AdminEventController extends Controller
            'description' => 'required',
            'start_date' => 'required',
            'end_date' => 'required',
-           'image' => 'required|image|mimes:jpeg,png,jpg',
+           'image' => 'image|mimes:jpeg,png,jpg',
            'category' => 'required',
            'ticket_type_id' => 'required',
        ]);
@@ -70,8 +70,11 @@ class AdminEventController extends Controller
            $event->start_date = $request->start_date;
            $event->end_date = $request->end_date;
            $event->category_id = $request->category;
-           $event->image = Generals::update('events/', $oldImage, 'png', $request->image);
            $event->update();
+           if ($request->hasFile('image')) {
+            $event->image = Generals::update('events/', $oldImage, 'png', $request->image);
+            $event->update();
+        }
 
            $ticketTypeIds = $request->ticket_type_id;
            $ticketSeats = $request->seat;

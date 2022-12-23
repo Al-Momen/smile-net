@@ -9,20 +9,20 @@
                     <div class="swiper-slide">
                         <div class="card" style="width: 250px;">
                             <div class="subscription">
-                                <h3 class="text-white text-uppercase">{{ $item->ticketType->name }}</h3>
+                                <h3 class="text-white text-uppercase">{{ $item->ticketType->name ?? '' }}</h3>
                             </div>
                             <img src="{{ asset('core\storage\app\public\new-item-movies\photo\\' . $item->image) }}"
                                 alt="Image" class="card-img-top" alt="image" style="width: 100%; height: 230px">
                             <div class="card-body">
-                                <h5 class="card-title">{{ $item->name }}</h5>
-                                <p class="primary-color">{{ $item->category }}</p>
+                                <h5 class="card-title">{{ $item->name ?? ''}}</h5>
+                                <p class="primary-color">{{ $item->category ?? ''}}</p>
                                 <div class="sm-btn-wrapper">
                                     <a target="_blank" href="{{ route('new.item.movies.play', $item->id) }}"
                                         class="btn btn-outline-secondary video-btn sm-btn">
                                         Watch Now
                                     </a>
                                     <button type="button" class="btn btn-outline-danger rounded-pill sm-btn px-3 py-2"
-                                        data-movie-description="{{ $item->description }}" id="more_details_description">
+                                        data-movie-description="{{ $item->description ?? ''}}" id="more_details_description">
                                         More Details
                                     </button>
                                 </div>

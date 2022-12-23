@@ -7,7 +7,7 @@
                     @foreach ($all_commingSoonMovies as $item)
                         <div class="swiper-slide">
                             <div class="card" style="width: 250px;">
-                                <img src="{{ asset('core\storage\app\public\comming-soon-movies\photo\\' . $item->image) }}"
+                                <img src="{{ asset('core\storage\app\public\comming-soon-movies\photo\\' . $item->image ?? '') }}"
                                     class="card-img-top" alt="image" style="width: 100%; height: 200px">
                                 <div class="card-body">
                                     <h5 class="card-title text-white">{{ $item->name }}</h5>
@@ -19,7 +19,7 @@
                                         </a>
                                         <button type="button"
                                             class="btn btn-outline-danger rounded-pill sm-btn px-3 py-2"
-                                            data-movie-description="{{ $item->description }}"
+                                            data-movie-description="{{ $item->description ?? '' }}"
                                             id="more_details_description">
                                             More Details
                                         </button>

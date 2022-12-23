@@ -12,12 +12,12 @@
         @endif
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                End Banner Section
-                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+            End Banner Section
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                Start News Card Section
-                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        Start News Card Section
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section>
         <div class="container pt-5">
             @foreach ($events as $event)
@@ -41,12 +41,12 @@
                                                 <h5 class="card-title text-capitalize">{{ $item->title }}</h5>
                                                 <div class="card-text pt-3 pb-0">
                                                     <div class="d-flex primary-color">
-                                                        <p class="text-uppercase pe-2">@php
+                                                        <p class="text-capitalize pe-2"> Date: @php
                                                             $date = $item->end_date;
-                                                            echo date('d/m/Y , h:i a ', strtotime($date));
+                                                            echo date('d/m/Y', strtotime($date));
                                                         @endphp</p>
                                                     </div>
-                                                    <p class="text-uppercase">BrusselsCirque Royal - Koninklijk Circus</p>
+                                                    <p class="text-uppercase">{!! Str::words($item->description, 20, '') !!}</p>
                                                 </div>
                                                 {{-- <a href="ticket-pricing.html"><button
                                                         class="btn btn-outline-danger mt-3">Buy

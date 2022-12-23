@@ -32,9 +32,9 @@ class BookController extends Controller
 
         //    ------------sold book count------------
         $data['general_sold_count'] = BookTransaction::where('author_book_id', Auth::guard('general')
-        ->user()->id)
-        ->where('author_book_type', 'App\Models\GeneralUser')
-        ->where('sold', 1)->count();
+            ->user()->id)
+            ->where('author_book_type', 'App\Models\GeneralUser')
+            ->where('sold', 1)->count();
 
         $data['categories'] = AdminCategory::all();
         $data['price'] = PriceCurrency::first();
@@ -100,9 +100,9 @@ class BookController extends Controller
             'title' => 'required|min:2|max:255',
             'description' => 'required',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg',
+            'image' => 'image|mimes:jpeg,png,jpg,svg,webp',
             'price' => 'required',
-            'file' => 'required|mimes:pdf|max:100000',
+            'file' => 'mimes:pdf|max:100000',
         ]);
         try {
             $book = Book::where('id', $id)->first();
@@ -116,9 +116,15 @@ class BookController extends Controller
             $book->price = $request->price;
             $book->tag = $request->tag;
             $book->description = $request->description;
-            $book->image = Generals::update('books/', $oldImage, 'png', $request->image);
-            $book->file = Generals::FileUpdate('books/', $oldFile, $request->file);
             $book->update();
+            if ($request->hasFile('image')) {
+                $book->image = Generals::update('books/', $oldImage, 'png', $request->image);
+                $book->update();
+            }
+            if ($request->hasFile('file')) {
+                $book->file = Generals::FileUpdate('books/', $oldFile, $request->file);
+                $book->update();
+            }
             return redirect()->route("user.books")->with('success', "Books update Successfully");
         } catch (QueryException $e) {
             dd($e->getMessage());
