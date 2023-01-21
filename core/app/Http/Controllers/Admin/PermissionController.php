@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\BaseController;
-use App\Repositories\Admin\Permission\PermissionInterface;
-use App\Http\Requests\Admin\PermissionRequest;
+use DB;
 use Illuminate\Http\Request;
 use Yajra\Datatables\Datatables;
-use DB;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
+use App\Http\Requests\Admin\PermissionRequest;
+use App\Repositories\Admin\Permission\PermissionInterface;
 
-class PermissionController extends BaseController
+class PermissionController extends Controller
 {
     protected $permission;
 

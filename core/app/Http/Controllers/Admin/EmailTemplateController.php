@@ -1,14 +1,18 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\EmailTemplate;
+use App\Models\GeneralSetting;
+use App\Models\GeneralUser;
+use Illuminate\Http\Request;
 
 class EmailTemplateController extends Controller
 {
     public function index()
     {
+        // dd('index');
         $pageTitle = 'Email Templates';
         $emptyMessage = 'No templates available';
         $email_templates = EmailTemplate::paginate(20);
@@ -25,6 +29,7 @@ class EmailTemplateController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $request->validate([
             'subject' => 'required',
             'email_body' => 'required',
@@ -86,8 +91,6 @@ class EmailTemplateController extends Controller
         $notify[] = ['success', 'Email configuration has been updated.'];
         return back()->withNotify($notify);
     }
-
-
     public function emailTemplate()
     {
         $pageTitle = 'Global Email Template';
@@ -121,7 +124,9 @@ class EmailTemplateController extends Controller
         $subject = 'Testing ' . strtoupper($config->name) . ' Mail';
         $message = 'This is a test email, please ignore it if you are not meant to get this email.';
 
+
         try {
+
             sendGeneralEmail($request->email, $subject, $message, $receiver_name);
         } catch (\Exception $exp) {
             $notify[] = ['error', 'Invalid credential'];
@@ -129,6 +134,28 @@ class EmailTemplateController extends Controller
         }
 
         $notify[] = ['success', 'You should receive a test mail at ' . $request->email . ' shortly.'];
+        return back()->withNotify($notify);
+    }
+
+    public function sendMailNotification(Request $request)
+    {
+        $all_email = GeneralUser::get();
+        foreach ($all_email as $email) {
+            $general = GeneralSetting::first();
+            $config = $general->mail_config;
+            $receiver_name = explode('@', $email->email)[0];
+            $subject = 'Testing ' . strtoupper($config->name) . ' Mail';
+            $message = '';
+
+            try {
+                sendGeneralEmail($email->email, $subject, $message, $receiver_name);
+            } catch (\Exception $exp) {
+                $notify[] = ['error', 'Invalid credential'];
+                return back()->withNotify($notify);
+            }
+        }
+
+        $notify[] = ['success', 'All mail send at shortly.'];
         return back()->withNotify($notify);
     }
 }

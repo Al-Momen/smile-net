@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\BaseController;
-use App\Repositories\Admin\AdminUser\AdminUserInterface;
-use App\Http\Requests\Admin\AssignAccessRequest;
-use Illuminate\Http\Request;
 use DB;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
+use App\Http\Requests\Admin\AssignAccessRequest;
+use App\Repositories\Admin\AdminUser\AdminUserInterface;
 
-class AssignAccessController extends BaseController
+class AssignAccessController extends Controller
 {
     //protected $role;
     protected $user;

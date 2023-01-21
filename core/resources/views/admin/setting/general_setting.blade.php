@@ -22,8 +22,8 @@ $roles = userRolePermissionArray();
     </div>
     <div class="view-prodact">
         <a href="{{ route('admin.permission-group.new') }}">
-            <i class="las la-plus align-middle me-1"></i>
-            <span>New Permission Group</span>
+            {{-- <i class="las la-plus align-middle me-1"></i>
+            <span>New Permission Group</span> --}}
         </a>
     </div>
 </div>
@@ -99,97 +99,97 @@ $roles = userRolePermissionArray();
                             </div>
 
                             <div class="row text-center pt-30 mb-10-none">
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                {{-- <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>User Registration</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="registration"
                                         @if ($general->registration) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>Secure Password</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="secure_password"
                                         @if ($general->secure_password) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>Agree Policy</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="agree"
                                         @if ($general->agree) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>Force SSL</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="force_ssl"
                                         @if ($general->force_ssl) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>Email Verification</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="ev"
                                         @if ($general->ev) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>Email Notification</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="en"
                                         @if ($general->en) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>SMS Verification</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="sv"
                                         @if ($general->sv) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>SMS Notification</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="sn"
                                         @if ($general->sn) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>Deposit</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="deposit_status"
                                         @if ($general->deposit_status) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>Withdraw</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="withdraw_status"
                                         @if ($general->withdraw_status) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>KYC Verification</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="kyc_verification"
                                         @if ($general->kyc_verification) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>Dark Theme</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="dark"
                                         @if ($general->dark) checked @endif>
-                                </div>
-                                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
+                                </div> --}}
+                                {{-- <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-4 col-sm-6 form-group">
                                     <label>Devlopment Mode</label>
                                     <input type="checkbox" data-width="100%" data-size="large" data-onstyle="-success"
                                         data-offstyle="-danger" data-toggle="toggle" data-on="Activated"
                                         data-off="Deactivated" name="devlopment_mode"
                                         @if ($general->devlopment_mode) checked @endif>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="info-two-btn mt-30">

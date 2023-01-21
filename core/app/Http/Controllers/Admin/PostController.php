@@ -14,7 +14,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\UpdatePostRequest;
 use App\Repositories\Admin\Post\PostInterface;
 
-class PostController extends BaseController
+class PostController extends Controller
 {
     protected $post;
     /**

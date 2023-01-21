@@ -10,17 +10,17 @@
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
     <!-- fav link -->
-    <link rel="shortcut icon" href="{{ URL::asset('core/public/backend') }}/assets/images/logo/fav.png" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ URL::asset('core/public/admin') }}/assets/images/logo/fav.png" type="image/x-icon">
     <!-- fontawesome css link -->
-    <link rel="stylesheet" href="{{ URL::asset('core/public/backend') }}/assets/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="{{ URL::asset('core/public/admin') }}/assets/css/fontawesome-all.min.css">
     <!-- bootstrap css link -->
-    <link rel="stylesheet" href="{{ URL::asset('core/public/backend') }}/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ URL::asset('core/public/admin') }}/assets/css/bootstrap.min.css">
     <!-- line-awesome-icon css -->
-    <link rel="stylesheet" href="{{ URL::asset('core/public/backend') }}/assets/css/line-awesome.min.css">
+    <link rel="stylesheet" href="{{ URL::asset('core/public/admin') }}/assets/css/line-awesome.min.css">
     <!-- animate.css -->
-    <link rel="stylesheet" href="{{ URL::asset('core/public/backend') }}/assets/css/animate.css">
+    <link rel="stylesheet" href="{{ URL::asset('core/public/admin') }}/assets/css/animate.css">
     <!-- main style css link -->
-    <link rel="stylesheet" href="{{ URL::asset('core/public/backend') }}/assets/css/style.css">
+    <link rel="stylesheet" href="{{ URL::asset('core/public/admin') }}/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"/>
     @include('admin.layout.includes.css')
 </head>
@@ -85,50 +85,34 @@
             <form class="login-form" action="{{ route('admin.login') }}" method="post" >
                 @csrf
                 <span class="title">Log-in</span>
-                <label for="username">Username</label>
+                <label for="username">Email</label>
                 <input type="text" id="loginEmail" name="email" placeholder="Enter email">
                 <label for="password">Password</label>
                 <input id="loginPassword" type="password" name="password" placeholder="Enter password">
                 <span class="forget"><a href="#">Forget password?</a></span>
                 <input type="submit" value="Login">
-                <span class="new">Admin Login to <b>Appdevs</b> dashboard</span>
+                <span class="new">Admin Login to <b>{{$general->sitename}}</b> dashboard</span>
             </form>
-            <div class="col-md-12">
-                @if (env('APP_MODE') == 'demo')
-                    <div class="card-footer">
-                        <div class="row">
-                            <div class="col-10">
-                                <span>Email: admin@admin.com </span><br>
-                                <span> Password : admin123</span>
-                            </div>
-                            <div class="col-2">
-                                <button class="btn btn-primary btn-block" onclick="copy_cred()">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-            </div>
+           
         </div>
     </div>
     <!--~~~~~~~~~~~~~~End Login~~~~~~~~~~~~~~~-->
     <!-- jquery -->
-    <script src="{{ URL::asset('core/public/backend') }}/assets/js/jquery-3.5.1.min.js"></script>
+    <script src="{{ URL::asset('core/public/admin') }}/assets/js/jquery-3.5.1.min.js"></script>
     <!-- bootstrap js -->
-    <script src="{{ URL::asset('core/public/backend') }}/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ URL::asset('core/public/admin') }}/assets/js/bootstrap.bundle.min.js"></script>
     <!-- grid.bundle js -->
-    <script src="{{ URL::asset('core/public/backend') }}/assets/js/grid.bundle.min.js"></script>
+    <script src="{{ URL::asset('core/public/admin') }}/assets/js/grid.bundle.min.js"></script>
     <!-- select2 js -->
-    <script src="{{ URL::asset('core/public/backend') }}/assets/js/select2.min.js"></script>
+    <script src="{{ URL::asset('core/public/admin') }}/assets/js/select2.min.js"></script>
     <!-- toggle js -->
-    <script src="{{ URL::asset('core/public/backend') }}/assets/js/toggle.js"></script>
+    <script src="{{ URL::asset('core/public/admin') }}/assets/js/toggle.js"></script>
     <!-- nicEdit js -->
-    <script src="{{ URL::asset('core/public/backend') }}/assets/js/nicEdit.js"></script>
+    <script src="{{ URL::asset('core/public/admin') }}/assets/js/nicEdit.js"></script>
     <!-- bootstrap-iconpicker js -->
-    <script src="{{ URL::asset('core/public/backend') }}/assets/js/bootstrap-iconpicker.bundle.min.js"></script>
+    <script src="{{ URL::asset('core/public/admin') }}/assets/js/bootstrap-iconpicker.bundle.min.js"></script>
     <!-- main -->
-    <script src="{{ URL::asset('core/public/backend') }}/assets/js/main.js"></script>
+    <script src="{{ URL::asset('core/public/admin') }}/assets/js/main.js"></script>
     <script>
         /* Get the documentElement (<html>) to display */
         let elem = document.documentElement;

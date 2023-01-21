@@ -6,8 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class GatewayCurrency extends Model
 {
-    protected $casts = ['status' => 'boolean'];
+    // protected $casts = ['status' => 'boolean'];
     protected $guarded = ['id'];
+    protected $casts = [
+        'name' => 'string',
+        'currency' => 'string',
+        'method_code' => 'string',
+        'symbol' => 'string',
+        'gateway_alias' => 'string',
+        'min_amount' => 'double',
+        'max_amount' => 'double',
+        'percent_charge' => 'double',
+        'fixed_charge' => 'double',
+        'rate' => 'double',
+        'image' => 'string',
+        'status' => 'boolean',
+    ];
 
     // Relation
     public function method()

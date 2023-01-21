@@ -25,10 +25,12 @@ class GeneralUser extends Authenticatable implements MustVerifyEmail
         'last_name',
         'phone',
         'verified_code',
-        'var_code_send_at',
         'country',
         'email',
         'password',
+        'photo',
+        'user_name',
+        'follower',
     ];
 
     /**
@@ -49,6 +51,13 @@ class GeneralUser extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function votes(){
+        return $this->belongsToMany(AdminVote::class,'user_vote','user_id','vote_id');
+    }
+    public function book()
+    {
+        return $this->morphOne(Book::class, 'bookable');
+    }
 
 
 }

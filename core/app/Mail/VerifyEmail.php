@@ -29,7 +29,6 @@ class VerifyEmail extends Mailable
      */
     public function build()
     {
-       
-        return $this->view('frontend.Auth.verify_email');
+        return $this->view('frontend.auth.verify_email');
     }
 }

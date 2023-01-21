@@ -1,8 +1,9 @@
 <?php
 namespace App\Http\Controllers\Admin;
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller as BaseController;
 
-class DashboardController extends BaseController
+class DashboardController extends Controller
 {
     public function __construct()
     {

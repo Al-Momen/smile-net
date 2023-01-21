@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,11 +17,8 @@ class general_user
      */
     public function handle(Request $request, Closure $next)
     {
-
-
-        if(!Auth::guard('general_user')->check())
-        {
-            return redirect()->route('user.login');
+        if (!Auth::guard('general')->check()) {
+            return redirect()->route('login');
         }
         return $next($request);
     }

@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Route;
 
 
+
 function sidebarVariation()
 {
 
@@ -48,18 +49,7 @@ function systemDetails()
     return $system;
 }
 
-function getLatestVersion()
-{
-    $param['purchasecode'] = env("PURCHASECODE");
-    $param['website'] = @$_SERVER['HTTP_HOST'] . @$_SERVER['REQUEST_URI'] . ' - ' . env("APP_URL");
-    $url = 'https://license.viserlab.com/updates/version/' . systemDetails()['name'];
-    $result = curlPostContent($url, $param);
-    if ($result) {
-        return $result;
-    } else {
-        return null;
-    }
-}
+
 
 
 function slug($string)
@@ -442,23 +432,7 @@ function siteName()
     } else {
         $title = "<span>$general->sitename</span>";
     }
-
     return $title;
-}
-
-
-//moveable
-function getTemplates()
-{
-    $param['purchasecode'] = env("PURCHASECODE");
-    $param['website'] = @$_SERVER['HTTP_HOST'] . @$_SERVER['REQUEST_URI'] . ' - ' . env("APP_URL");
-    $url = 'https://license.viserlab.com/updates/templates/' . systemDetails()['name'];
-    $result = curlPostContent($url, $param);
-    if ($result) {
-        return $result;
-    } else {
-        return null;
-    }
 }
 
 
@@ -469,7 +443,7 @@ function getPageSections($arr = false)
     $sections = json_decode(file_get_contents($jsonUrl));
     if ($arr) {
         $sections = json_decode(file_get_contents($jsonUrl), true);
-        ksort($sections);
+        // ksort($sections);
     }
     return $sections;
 }
@@ -477,8 +451,10 @@ function getPageSections($arr = false)
 
 function getImage($image, $size = null)
 {
+   
     $clean = '';
     if (file_exists($image) && is_file($image)) {
+        // dd(asset($image));
         return asset($image) . $clean;
     }
     if ($size) {
@@ -520,7 +496,6 @@ function sendEmail($user, $type = null, $shortCodes = [])
     if ($general->en != 1 || !$emailTemplate) {
         return;
     }
-
 
     $message = shortCodeReplacer("{{fullname}}", $user->fullname, $general->email_template);
     $message = shortCodeReplacer("{{username}}", $user->username, $message);
@@ -571,6 +546,7 @@ function sendPhpMail($receiver_email, $receiver_name, $subject, $message, $gener
 function sendSmtpMail($config, $receiver_email, $receiver_name, $subject, $message, $general)
 {
     $mail = new PHPMailer(true);
+
 
     try {
         //Server settings
@@ -687,6 +663,18 @@ function imagePath()
         ],
         'deposit'=>[
             'path'=>'assets/images/verify/deposit'
+        ],
+        'buy_book'=>[
+            'path'=>'assets/images/verify/buy_book',
+            'size' => '800x800',
+        ],
+        'buy_ticket'=>[
+            'path'=>'assets/images/verify/buy_ticket',
+            'size' => '800x800',
+        ],
+        'buy_event_plan'=>[
+            'path'=>'assets/images/verify/buy_event_plan',
+            'size' => '800x800',
         ]
     ];
     $data['image'] = [
@@ -730,7 +718,7 @@ function imagePath()
         ],
         'user'=> [
             'path'=>'assets/images/user/profile',
-            'size'=>'350x300'
+            'size'=>'300x250'
         ],
         'merchant'=> [
             'path'=>'assets/images/merchant/profile',
@@ -772,19 +760,25 @@ function showDateTime($date, $format = 'Y-m-d h:i A')
 function sendGeneralEmail($email, $subject, $message, $receiver_name = '')
 {
     $general = GeneralSetting::first();
+    
     if ($general->en != 1 || !$general->email_from) {
+        
         return;
     }
+    
     $message = shortCodeReplacer("{{message}}", $message, $general->email_template);
     $message = shortCodeReplacer("{{fullname}}", $receiver_name, $message);
     $message = shortCodeReplacer("{{username}}", $email, $message);
-
+    
     $config = $general->mail_config;
-
+    
     if ($config->name == 'php') {
+        
         sendPhpMail($email, $receiver_name, $subject, $message, $general);
     } else if ($config->name == 'smtp') {
+        
         sendSmtpMail($config, $email, $receiver_name, $subject, $message, $general);
+
     } else if ($config->name == 'sendgrid') {
         sendSendGridMail($config, $email, $receiver_name, $subject, $message, $general);
     } else if ($config->name == 'mailjet') {
@@ -814,9 +808,9 @@ function getContent($data_keys, $singleQuery = false, $limit = null, $orderById 
 function gatewayRedirectUrl($type = false)
 {
     if ($type) {
-        return 'user.home';
+        return 'index';
     } else {
-        return 'user.home';
+        return 'index';
     }
 }
 

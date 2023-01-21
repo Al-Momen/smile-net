@@ -23,8 +23,9 @@ class CreateAuthsTable extends Migration
             $table->bigInteger('model_id')->unsigned()->comment('1 = Admin');
             $table->tinyInteger('gender')->default(1);
             $table->date('dob')->nullable();
-            $table->bigInteger('facebook_id')->nullable();
-            $table->bigInteger('google_id')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('twitter')->nullable();
             $table->string('activation_code')->nullable();
             $table->dateTime('activation_code_expire')->nullable();
             $table->tinyInteger('is_first_login')->default(1);

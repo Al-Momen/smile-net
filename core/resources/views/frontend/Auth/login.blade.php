@@ -4,6 +4,8 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Start SignIn Section
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+    
     <section>
         <div class="container mx-auto py-5">
             <div class="col-lg-8 offset-lg-1 mx-auto">
@@ -28,7 +30,7 @@
                 <div class="shadow-lg rounded">
                     <div class="pe-0">
                         <div class="form-left h-100 py-5 px-5 text-white">
-                            <form action="{{route('user.login')}}" method="post" class="row g-4">
+                            <form class="row g-4" action="{{ route('login.action') }}" method="post">
                                 @csrf
                                 <div class="col-12">
                                     <label class="text-white">Email<span class="text-danger">*</span></label>
@@ -46,9 +48,10 @@
 
                                 <div class="col-12">
                                     <div class="form-check">
-                                        <input class="form-check-input p-1" type="checkbox" name="remember" id="inlineFormCheck">
+                                        {{-- <input class="form-check-input p-1" type="checkbox" name="remember" id="inlineFormCheck">
                                         <label class="form-check-label text-white" for="inlineFormCheck">Remember
-                                            me</label>
+                                            me</label> --}}
+                                            <a href="{{route('password.reset.email.view')}}">Forgot password?</a>
                                     </div>
                                 </div>
 
@@ -59,7 +62,7 @@
                             </form>
                         </div>
                     </div>
-                    <a href="{{route('user.regstration.form')}}" class="d-flex justify-content-center">
+                    <a href="{{route('registration')}}" class="d-flex justify-content-center">
                         <h3 class="text-capitalize text-danger fs-6 pb-3">create an account</h3>
                     </a>
                 </div>

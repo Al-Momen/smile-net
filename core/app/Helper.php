@@ -1,13 +1,14 @@
 <?php
 
-use App\Models\AdminUser;
-use App\Models\Category;
-use App\Models\SubCategory;
-use App\Models\Hscode;
 use App\Models\Brand;
-use App\Models\ProductModel;
+use App\Models\Hscode;
+use App\Models\Category;
 use App\Models\VatClass;
+use App\Models\AdminUser;
+use App\Models\SubCategory;
+use App\Models\ProductModel;
 use App\Models\Auth as CustomAuth;
+use Illuminate\Support\Facades\DB;
 
 if (!function_exists('getAuthId')) {
 
@@ -34,6 +35,8 @@ if (!function_exists('userRolePermissionArray')) {
         return [];
     }
 }
+
+
 
 
 if (!function_exists('hasRoleToThisUser')) {

@@ -49,6 +49,7 @@ class CreateGeneralSettingsTable extends Migration
             $table->text('qr_template')->nullable();
             $table->string('sys_version')->nullable();
             $table->string('cron_run')->nullable();
+            $table->string('url')->nullable();
             $table->timestamps();
         });
     }

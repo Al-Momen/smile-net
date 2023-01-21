@@ -33,16 +33,16 @@ $roles = userRolePermissionArray();
         <div class="col-lg-12">
             <div class="table-wrapper table-responsive">
                 <table class="custom-table">
-                    <thead>
+                    <thead style="color:#7b8191">
                         <tr>
-                            <th>@lang('Currency Details')</th>
+                            <th style="color:#7b8191">@lang('Currency Details')</th>
                             <th>@lang('Symbol')</th>
                             <th>@lang('Currency')</th>
                             <th>@lang('Status')</th>
                             <th>@lang('Action')</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="color:#7b8191">
                         @forelse ($currencies as $key => $item)
                             <tr class="{{ $item->is_default == 1 ? 'bg--active' : '' }}">
                                 <td data-label="@lang('Currency Full Name/Code')">
@@ -97,7 +97,7 @@ $roles = userRolePermissionArray();
     </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog" style="color:#7b8191">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>

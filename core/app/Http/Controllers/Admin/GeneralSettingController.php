@@ -9,13 +9,16 @@ use App\Models\GeneralSetting;
 use App\Rules\FileTypeValidate;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
+// use Intervention\Image\Facades\Image as FacadesImage;
 use Intervention\Image\Facades\Image as FacadesImage;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\File;
 
 class GeneralSettingController extends Controller
 {
     public function index()
     {
+       
         $general = GeneralSetting::first();
         $pageTitle = 'General Setting';
         $timezones = json_decode(file_get_contents(resource_path('views/admin/partials/timezone.json')));
@@ -78,11 +81,14 @@ class GeneralSettingController extends Controller
 
     public function logoIconUpdate(Request $request)
     {
+        
         $request->validate([
             'logo' => ['image',new FileTypeValidate(['jpg','jpeg','png'])],
             'whiteLogo' => ['image',new FileTypeValidate(['jpg','jpeg','png'])],
             'favicon' => ['image',new FileTypeValidate(['png','ico'])],
         ]);
+
+        $path = imagePath()['logoIcon']['path'];
 
         if ($request->hasFile('logo')) {
             try {
@@ -90,7 +96,8 @@ class GeneralSettingController extends Controller
                 if (!file_exists($path)) {
                     mkdir($path, 0755, true);
                 }
-                FacadesImage::make($request->logo)->save($path . '/logo.png');
+                // FacadesImage::make($request->logo)->save($path . '/logo.png');
+                File::move($request->logo, $path . '/logo.png');
             } catch (\Exception $exp) {
                 $notify[] = ['error', 'Logo could not be uploaded.'];
                 return back()->withNotify($notify);
@@ -103,7 +110,8 @@ class GeneralSettingController extends Controller
                 if (!file_exists($path)) {
                     mkdir($path, 0755, true);
                 }
-                FacadesImage::make($request->whiteLogo)->save($path . '/whiteLogo.png');
+                // FacadesImage::make($request->whiteLogo)->save($path . '/whiteLogo.png');
+                File::move($request->whiteLogo, $path . '/whiteLogo.png');
             } catch (\Exception $exp) {
                 $notify[] = ['error', 'White Logo could not be uploaded.'];
                 return back()->withNotify($notify);
@@ -117,7 +125,8 @@ class GeneralSettingController extends Controller
                     mkdir($path, 0755, true);
                 }
                 $size = explode('x', imagePath()['favicon']['size']);
-                FacadesImage::make($request->favicon)->resize($size[0], $size[1])->save($path . '/favicon.png');
+                File::move($request->favicon, $path . '/favicon.png');
+                // FacadesImage::make($request->favicon)->resize($size[0], $size[1])->save($path . '/favicon.png');
             } catch (\Exception $exp) {
                 $notify[] = ['error', 'Favicon could not be uploaded.'];
                 return back()->withNotify($notify);
@@ -154,7 +163,7 @@ class GeneralSettingController extends Controller
     {
         $pageTitle = 'SEO Configuration';
         $seo = Frontend::where('data_keys', 'seo.data')->first();
-
+        
         if(!$seo){
             $data_values = '{"keywords":["admin","blog"],"description":"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit","social_title":"WEBSITENAME","social_description":"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit","image":null}';
             $data_values = json_decode($data_values, true);
@@ -167,7 +176,8 @@ class GeneralSettingController extends Controller
     }
     public function seoUpdate(Request $request, $key)
     {
-        $purifier = new HTMLPurifier();
+        $purifier = new \HTMLPurifier();
+
         $valInputs = $request->except('_token', 'image_input', 'key', 'status', 'type', 'id');
         foreach ($valInputs as $keyName => $input) {
             if (gettype($input) == 'array') {
@@ -180,6 +190,7 @@ class GeneralSettingController extends Controller
         if (!$type) {
             abort(404);
         }
+
         $imgJson = @getPageSections()->$key->$type->images;
         $validation_rule = [];
         $validation_message = [];

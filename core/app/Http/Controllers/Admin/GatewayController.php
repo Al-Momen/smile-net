@@ -19,44 +19,38 @@ class GatewayController extends Controller
         $gateways = Gateway::automatic()->with('currencies')->get();
         return view('admin.gateway.list', compact('pageTitle', 'emptyMessage', 'gateways'));
     }
-
     public function edit($alias)
     {
         $gateway = Gateway::automatic()->with('currencies')->where('alias', $alias)->firstOrFail();
-        $pageTitle = 'Update Gateway : ' . $gateway->name;
-
+        $pageTitle = 'Update Gateway:' . $gateway->name;
         $supportedCurrencies = collect(json_decode($gateway->supported_currencies))->except($gateway->currencies->pluck('currency'));
-
-        $parameters = collect(json_decode($gateway->gateway_parameters));
+        $parameters = collect(json_decode($gateway->parameters));
         $global_parameters = null;
         $hasCurrencies = false;
         $currencyIdx = 1;
-
         if ($gateway->currencies->count() > 0) {
-            $global_parameters = json_decode($gateway->currencies->first()->gateway_parameter);
+            $global_parameters = json_decode($gateway->currencies->first()->parameters);
             $hasCurrencies = true;
         }
-
         return view('admin.gateway.edit', compact('pageTitle', 'gateway', 'supportedCurrencies', 'parameters', 'hasCurrencies', 'currencyIdx', 'global_parameters'));
     }
 
-
-    public function update(Request $request, $alias)
+    public function update(Request $request, $code)
     {
-
-        $gateway = Gateway::where('alias',$alias)->firstOrFail();
+        $gateway = Gateway::where('code',$code)->firstOrFail();
         $this->gatewayValidator($request)->validate();
         $this->gatewayCurrencyValidator($request, $gateway)->validate();
-
-        $parameters = collect(json_decode($gateway->gateway_parameters));
-
+        
+        $parameters = collect(json_decode($gateway->parameters));
+        
+        
         foreach ($parameters->where('global', true) as $key => $pram) {
             $parameters[$key]->value = $request->global[$key];
         }
+        
 
         $path = imagePath()['gateway']['path'];
         $size = imagePath()['gateway']['size'];
-
         $filename = $gateway->image;
         if ($request->hasFile('image')) {
             try {
@@ -67,12 +61,10 @@ class GatewayController extends Controller
             }
         }
         $gateway->alias = $request->alias;
-        $gateway->gateway_parameters = json_encode($parameters);
+        $gateway->parameters = json_encode($parameters);
         $gateway->image = $filename;
         $gateway->save();
-
         $gateway_currencies = collect([]);
-
         if ($request->has('currency')) {
 
             foreach ($request->currency as $key => $currency) {
@@ -111,16 +103,14 @@ class GatewayController extends Controller
                     'max_amount' => $currency['max_amount'],
                     'fixed_charge' => $currency['fixed_charge'],
                     'percent_charge' => $currency['percent_charge'],
-                    'rate' => 1,
+                    'rate' => $currency['rate'],
                     'symbol' => $currency['symbol'],
                     'gateway_parameter' => json_encode($param),
                 ]);
-
-
                 $gateway_currencies->push($gateway_currency);
             }
         }
-
+ 
         $gateway->currencies()->delete();
 
         $gateway->currencies()->saveMany($gateway_currencies);
@@ -138,6 +128,27 @@ class GatewayController extends Controller
         removeFile(imagePath()['gateway']['path'] . '/' . $gateway_currency->image);
         $gateway_currency->delete();
         $notify[] = ['success', $name . ' has been removed from ' . $gateway->name];
+        return back()->withNotify($notify);
+    }
+
+    public function activate(Request $request)
+    {
+    //    dd($request->all());
+        $request->validate(['code' => 'required']);
+        $gateway = Gateway::where('code', $request->code)->firstOrFail();
+        $gateway->status = 1;
+        $gateway->save();
+        $notify[] = ['success', $gateway->name . ' has been activated.'];
+        return back()->withNotify($notify);
+    }
+
+    public function deactivate(Request $request)
+    {
+        $request->validate(['code' => 'required']);
+        $gateway = Gateway::where('code', $request->code)->firstOrFail();
+        $gateway->status = 0;
+        $gateway->save();
+        $notify[] = ['success', $gateway->name . ' has been disabled.'];
         return back()->withNotify($notify);
     }
 
@@ -171,7 +182,7 @@ class GatewayController extends Controller
         $custom_attributes = [];
         $validation_rule = [];
 
-        $param_list = collect(json_decode($gateway->gateway_parameters));
+        $param_list = collect(json_decode($gateway->parameters));
         $supported_currencies = collect(json_decode($gateway->supported_currencies))->flip()->implode(',');
 
         foreach ($param_list->where('global', true) as $key => $pram) {
@@ -184,7 +195,6 @@ class GatewayController extends Controller
             foreach ($request->currency as $key => $currency) {
                 $validation_rule['currency.' . $key . '.currency']       = 'required|max:10|string|in:' . $supported_currencies;
                 $validation_rule['currency.' . $key . '.symbol']       = 'required|max:3|string';
-
                 $validation_rule['currency.' . $key . '.name']           = 'required|max:60';
                 $validation_rule['currency.' . $key . '.image']          = ['nullable', 'image', new FileTypeValidate(['jpg', 'jpeg', 'png'])];
                 $validation_rule['currency.' . $key . '.min_amount']     = 'required|numeric|lte:currency.' . $key . '.max_amount';

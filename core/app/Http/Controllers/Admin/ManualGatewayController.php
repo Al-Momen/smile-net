@@ -12,10 +12,10 @@ class ManualGatewayController extends Controller
 {
     public function index()
     {
-        $data['pageTitle'] = 'Manual Gateways';
-        $data['gateways'] = Gateway::manual()->orderBy('id','desc')->get();
-        $data['emptyMessage'] = 'No manual methods available.';
-        return view('admin.gateway_manual.list', $data);
+        $pageTitle = 'Manual Gateways';
+        $gateways = Gateway::manual()->orderBy('id','desc')->get();
+        $emptyMessage = 'No manual methods available.';
+        return view('admin.gateway_manual.list', compact('pageTitle', 'gateways','emptyMessage'));
     }
 
     public function create()
@@ -24,14 +24,14 @@ class ManualGatewayController extends Controller
         return view('admin.gateway_manual.create', compact('pageTitle'));
     }
 
-
     public function store(Request $request)
     {
-
+        
         $request->validate([
             'name'           => 'required|max:60',
             'image'          => ['required','image',new FileTypeValidate(['jpeg', 'jpg', 'png'])],
             'currency'       => 'required|max:10',
+            'rate'           => 'required',
             'min_limit'      => 'required|numeric|gt:0',
             'max_limit'      => 'required|numeric|gt:' . $request->min_limit,
             'fixed_charge'   => 'required|numeric|gte:0',
@@ -51,6 +51,7 @@ class ManualGatewayController extends Controller
         $filename = '';
         $path = imagePath()['gateway']['path'];
         $size = imagePath()['gateway']['size'];
+        
         if ($request->hasFile('image')) {
             try {
                 $filename = uploadImage($request->image, $path, $size);
@@ -77,7 +78,7 @@ class ManualGatewayController extends Controller
         $method->alias = strtolower(trim(str_replace(' ','_',$request->name)));
         $method->image = $filename;
         $method->status = 0;
-        $method->gateway_parameters = json_encode([]);
+        $method->parameters = json_encode([]);
         $method->input_form = $inputForm;
         $method->supported_currencies = json_encode([$request->currency=>$request->currency]);
         $method->crypto = 0;
@@ -93,7 +94,7 @@ class ManualGatewayController extends Controller
             'max_amount' => $request->max_limit,
             'fixed_charge' => $request->fixed_charge,
             'percent_charge' => $request->percent_charge,
-            'rate' => 1,
+            'rate' => $request->rate,
             'image' => $filename,
             'gateway_parameter' => json_encode($inputForm),
         ]));
@@ -120,6 +121,7 @@ class ManualGatewayController extends Controller
                 new FileTypeValidate(['jpeg', 'jpg', 'png'])
             ],
             'currency'       => 'required',
+            'rate'           => 'required',
             'min_limit'      => 'required|numeric|gt:0',
             'max_limit'      => 'required|numeric|gt:'.$request->min_limit,
             'fixed_charge'   => 'required|numeric|gte:0',
@@ -132,7 +134,6 @@ class ManualGatewayController extends Controller
         $method = Gateway::manual()->findOrFail($id);
 
         $filename = $method->image;
-
         $path = imagePath()['gateway']['path'];
         $size = imagePath()['gateway']['size'];
         if ($request->hasFile('image')) {
@@ -159,16 +160,14 @@ class ManualGatewayController extends Controller
         $method->name = $request->name;
         $method->alias = strtolower(trim(str_replace(' ','_',$request->name)));
         $method->image = $filename;
-        $method->gateway_parameters = json_encode([]);
+        $method->parameters = json_encode([]);
         $method->supported_currencies = json_encode([$request->currency=>$request->currency]);
         $method->crypto = 0;
         $method->description = $request->instruction;
         $method->input_form = $input_form;
         $method->save();
 
-
         $single_currency = $method->single_currency;
-
         $single_currency->name = $request->name;
         $single_currency->gateway_alias = strtolower(trim(str_replace(' ','_',$method->name)));
         $single_currency->currency = $request->currency;
@@ -177,11 +176,10 @@ class ManualGatewayController extends Controller
         $single_currency->max_amount = $request->max_limit;
         $single_currency->fixed_charge = $request->fixed_charge;
         $single_currency->percent_charge = $request->percent_charge;
-        $single_currency->rate = 1;
+        $single_currency->rate = $request->rate;
         $single_currency->image = $filename;
         $single_currency->gateway_parameter = json_encode($input_form);
         $single_currency->save();
-
         $notify[] = ['success', $method->name . ' Manual gateway has been updated.'];
         return back()->withNotify($notify);
     }
@@ -198,5 +196,24 @@ class ManualGatewayController extends Controller
             Gateway::where('id', $data['item_id'])->update(['status' => $status]);
             return  response()->json(['status' => $status, 'item_id' => $data['item_id']]);
         }
+    }
+    public function activate(Request $request)
+    {
+        $request->validate(['code' => 'required|integer']);
+        $method = Gateway::where('code', $request->code)->firstOrFail();
+        $method->status = 1;
+        $method->save();
+        $notify[] = ['success', $method->name . ' has been activated.'];
+        return back()->withNotify($notify);
+    }
+
+    public function deactivate(Request $request)
+    {
+        $request->validate(['code' => 'required|integer']);
+        $method = Gateway::where('code', $request->code)->firstOrFail();
+        $method->status = 0;
+        $method->save();
+        $notify[] = ['success', $method->name . ' has been deactivated.'];
+        return back()->withNotify($notify);
     }
 }

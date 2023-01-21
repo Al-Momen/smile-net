@@ -2,6 +2,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\PageSeeder;
+use Database\Seeders\SocialSeeder;
 use Database\Seeders\CurrencySeeder;
 use Database\Seeders\GeneralSettingSeeder;
 
@@ -18,6 +20,11 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CurrencySeeder::class,
             GeneralSettingSeeder::class,
+            SocialSeeder::class,
+            PageSeeder::class,
+            MailsettingSeeder::class,
+            PaypalgetwaySeeder::class,
+            StripegetwaySeeder::class
         ]);
     }
 }

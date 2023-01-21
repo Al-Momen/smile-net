@@ -9,8 +9,7 @@
             </button>
             <form class="app-search d-none d-lg-block col p-0">
                 <div class="position-relative">
-                    <input class="form-control" type="text" placeholder="Search . . . ."
-                        aria-label="Search">
+                    <input class="form-control" type="text" placeholder="Search . . . ." aria-label="Search">
                     <span class="las la-search"></span>
                 </div>
             </form>
@@ -25,8 +24,7 @@
                 <li class="fullscreen-list-btn">
                     <button class="fullscreen-btn">
                         <i class="fullscreen-open las la-compress" onclick="openFullscreen();"></i>
-                        <i class="fullscreen-close las la-compress-arrows-alt"
-                            onclick="closeFullscreen();"></i>
+                        <i class="fullscreen-close las la-compress-arrows-alt" onclick="closeFullscreen();"></i>
                     </button>
                 </li>
                 <li class="notification-area">
@@ -42,8 +40,7 @@
                         <ul class="notification-list">
                             <li>
                                 <div class="thumb">
-                                    <img src="{{ URL::asset('assets/admin/images/1.jpg') }}"
-                                        alt="user">
+                                    <img src="{{ URL::asset('assets/admin/images/1.jpg') }}" alt="user">
                                 </div>
                                 <div class="content">
                                     <h6 class="title">Add money request from testagent
@@ -58,28 +55,30 @@
                     </div>
                 </li>
                 <li class="dropdown">
-                    <button type="button" class="" data-bs-toggle="dropdown"
-                        data-display="static" aria-haspopup="true" aria-expanded="false">
+                    <button type="button" class="" data-bs-toggle="dropdown" data-display="static"
+                        aria-haspopup="true" aria-expanded="false">
                         <span class="navbar-user">
+                            @php
+                                use App\Models\Auth as ModelsAuth;
+                                use Illuminate\Support\Facades\Auth;
+                                $profile= ModelsAuth::where('id', auth()->user()->id)->first()
+                            @endphp
                             <span class="navbar-user__thumb"><img
-                                    src="{{ URL::asset('assets/admin/images/user.jpeg') }}"
-                                    alt="user"></span>
+                                    src="{{ asset('core\storage\app\public\admin-profile\\' . $profile->adminUser->profile_pic) }}" alt="user"></span>
                             <span class="navbar-user__info">
                                 <span class="navbar-user__name">admin</span>
                             </span>
                             <span class="icon"><i class="las la-chevron-circle-down"></i></span>
                         </span>
                     </button>
-                    <div
-                        class="dropdown-menu dropdown-menu--sm p-0 border-0 box--shadow1 dropdown-menu-right">
-                        <a href="#"
+                    <div class="dropdown-menu dropdown-menu--sm p-0 border-0 box--shadow1 dropdown-menu-right">
+                        <a href="{{ route('admin.profile') }}"
                             class="dropdown-menu__item d-flex align-items-center ps-3 pe-3 pt-2 pb-2">
                             <i class="dropdown-menu__icon las la-user-circle"></i>
                             <span class="dropdown-menu__caption">Profile</span>
                         </a>
 
-                        <a href="#"
-                            class="dropdown-menu__item d-flex align-items-center ps-3 pe-3 pt-2 pb-2">
+                        <a href="{{route('admin.password.change.view')}}" class="dropdown-menu__item d-flex align-items-center ps-3 pe-3 pt-2 pb-2">
                             <i class="dropdown-menu__icon las la-key"></i>
                             <span class="dropdown-menu__caption">Password</span>
                         </a>

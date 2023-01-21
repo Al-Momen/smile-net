@@ -1,4 +1,14 @@
 @extends('admin.layout.master')
+@section('title')
+    Email Template
+@endsection
+@section('page-name')
+Email Template
+@endsection
+
+@php
+$roles = userRolePermissionArray();
+@endphp
 @section('content')
 <div class="title-area">
     {{-- <h5 class="title">Password Reset</h5> --}}

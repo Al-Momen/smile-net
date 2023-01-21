@@ -1,10 +1,7 @@
 /node_modules
+/public/build
 /public/hot
 /public/storage
-public/media/images/profile/**
-public/media/images/gym/**
-public/media/images/workout-item/**
-/public/app-assets/Profile_picture
 /storage/*.key
 /vendor
 .env
@@ -12,12 +9,8 @@ public/media/images/workout-item/**
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
+auth.json
 npm-debug.log
 yarn-error.log
-
-.git
-.idea
-storage/framework/cache/**
-storage/framework/sessions/**
-storage/framework/views/**
-development
+/.idea
+/.vscode
