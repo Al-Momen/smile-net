@@ -6,7 +6,7 @@
     Manual Gateways
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
 @section('content')
     <div class="dashboard-title-part">
@@ -30,8 +30,7 @@ $roles = userRolePermissionArray();
                 <div class="user-info-header two">
                     <h5 class="title">Manual Gateway</h5>
                 </div>
-                <form class="dashboard-form" action="{{ route('admin.gateway.manual.store') }}" method="POST"
-                    enctype="multipart/form-data">
+                <form action="{{ route('admin.gateway.manual.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="dashboard-form-area two mt-10">
                         <div class="image-upload-wrapper style">
@@ -40,31 +39,38 @@ $roles = userRolePermissionArray();
                                     <div class="thumb">
                                         <div class="avatar-preview">
                                             <div class="profilePicPreview bg_img"
-                                                data-background="assets/images/paypal-m.png"
-                                                style="background-image: url(&quot;assets/images/paypal-m.png&quot;);">
+                                                data-background="{{ getImage(imagePath()['gateway']['path'], imagePath()['gateway']['size']) }}">
                                                 <button type="button" class="remove-image"><i
                                                         class="fa fa-times"></i></button>
                                             </div>
                                         </div>
                                         <div class="avatar-edit">
-                                            <input type="file" class="profilePicUpload" name="image"
-                                                id="profilePicUpload2" accept=".png, .jpg, .jpeg">
+                                            <input type='file' class="profilePicUpload" name="image"
+                                                id="profilePicUpload2" accept=".png, .jpg, .jpeg" />
                                             <label for="profilePicUpload2"><i class="las la-pen"></i></label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="image-upload-content two">
-
-                                    <div class="row">
-                                        <div class="col-lg-6 form-group">
-                                            <label>Gateway Name *</label>
-                                            <input type="text" class="form--control" value="{{ old('name') }}"
-                                                name="name" placeholder="Stripe">
+                                    <div class="image-upload-form-two">
+                                        <div class="row">
+                                            <div class="col-lg-6 form-group">
+                                                <label>Gateway Name *</label>
+                                                <input type="text" class="form--control" name="name"
+                                                    value="{{ old('name') }}">
+                                            </div>
+                                            <div class="col-lg-6 form-group">
+                                                <label>Currency *</label>
+                                                <input type="text" class="form--control" name="currency"
+                                                    value="{{ old('currency') }}">
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 form-group">
-                                            <label>Currency *</label>
-                                            <input type="text" class="form--control" value="USD" name="currency"
-                                                {{ old('currency') }}>
+                                        <div class="row">
+                                            <div class="col-lg-6 form-group">
+                                                <label>rate*</label>
+                                                <input type="text" class="form--control" name="rate"
+                                                    value="{{ old('rate') }}">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -76,26 +82,27 @@ $roles = userRolePermissionArray();
                                     <div class="user-info-header two">
                                         <h5 class="title">Range</h5>
                                     </div>
-
-                                    <div class="row justify-content-center mb-10-none">
-                                        <div class="col-lg-12 form-group">
-                                            <label>Minimum Amount</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text copytext curName">USD</span>
+                                    <div class="dashboard-form">
+                                        <div class="row justify-content-center mb-10-none">
+                                            <div class="col-lg-12 form-group">
+                                                <label>Minimum Amount</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text copytext curName"></span>
+                                                    </div>
+                                                    <input type="text" class="form--control" name="min_limit"
+                                                        placeholder="0" value="{{ old('min_limit') }}">
                                                 </div>
-                                                <input type="number" name="min_limit" class="form--control" placeholder="0"
-                                                    value="{{ old('min_limit') }}">
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12 form-group">
-                                            <label>Maximum Amount</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text copytext curName">USD</span>
+                                            <div class="col-lg-12 form-group">
+                                                <label>Maximum Amount</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text copytext curName"></span>
+                                                    </div>
+                                                    <input type="text" class="form--control" placeholder="0"
+                                                        name="max_limit" value="{{ old('max_limit') }}">
                                                 </div>
-                                                <input type="number" class="form--control" placeholder="0"
-                                                    value="{{ old('max_limit') }}" name="max_limit">
                                             </div>
                                         </div>
                                     </div>
@@ -106,30 +113,30 @@ $roles = userRolePermissionArray();
                                     <div class="user-info-header two">
                                         <h5 class="title">Charge</h5>
                                     </div>
-
-                                    <div class="row justify-content-center mb-10-none">
-                                        <div class="col-lg-12 form-group">
-                                            <label>Fixed Charge *</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text copytext curName">USD</span>
+                                    <div class="dashboard-form">
+                                        <div class="row justify-content-center mb-10-none">
+                                            <div class="col-lg-12 form-group">
+                                                <label>Fixed Charge *</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text copytext curName"></span>
+                                                    </div>
+                                                    <input type="text" class="form--control"placeholder="0"
+                                                        name="fixed_charge" value="{{ old('fixed_charge') }}">
                                                 </div>
-                                                <input type="number" name="fixed_charge" class="form--control"
-                                                    placeholder="0" value="{{ old('fixed_charge') }}">
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12 form-group">
-                                            <label>Percent Charge *</label>
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text copytext curName">%</span>
+                                            <div class="col-lg-12 form-group">
+                                                <label>Percent Charge *</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text copytext">%</span>
+                                                    </div>
+                                                    <input type="text" class="form--control" placeholder="0"
+                                                        name="percent_charge" value="{{ old('percent_charge') }}">
                                                 </div>
-                                                <input type="number" name="percent_charge" class="form--control"
-                                                    placeholder="0" value="{{ old('percent_charge') }}">
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="col-lg-12 mt-30">
@@ -137,13 +144,13 @@ $roles = userRolePermissionArray();
                                     <div class="user-info-header two">
                                         <h5 class="title">Deposit Instruction</h5>
                                     </div>
-                                    <div class="row justify-content-center mb-10-none">
-
-                                        <textarea class="form--control" name="instruction" id="" cols="30" rows="10"
-                                            placeholder="Write Text Here"></textarea>
-
+                                    <div class="dashboard-form">
+                                        <div class="row justify-content-center mb-10-none">
+                                            <div class="col-lg-12 form-group">
+                                                <textarea class="form--control nicEdit" placeholder="Write Text Here" name="instruction">{{ old('instruction') }}</textarea>
+                                            </div>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="col-lg-12 mt-30">
@@ -151,16 +158,51 @@ $roles = userRolePermissionArray();
                                     <div class="user-info-header two">
                                         <h5 class="title">User Data</h5>
                                         <button type="button" class="btn--base active addUserData"><i
-                                                class="la la-fw la-plus"></i>@lang('Add New')
-                                        </button>
+                                                class="las la-plus"></i> Add</button>
                                     </div>
-                                    <div class="row justify-content-center mb-10-none addedField">
+                                    <div class="dashboard-form">
+                                        <div class="row justify-content-center mb-10-none">
+                                            <div role="form">
+                                                {{-- <div class="form-group">
+                                                <div class="input-group row ">
+                                                    <div class="col-md-4">
+                                                        <input name="field_name[]" class="form-control form--control" type="text" required placeholder="@lang('Field Name')">
+                                                    </div>
+                                                    <div class="col-md-3 mt-md-0 mt-2">
+                                                        <select name="type[]" class="form-control form--control">
+                                                            <option value="text" > @lang('Input Text') </option>
+                                                            <option value="textarea" > @lang('Textarea') </option>
+                                                            <option value="file"> @lang('File') </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-3 mt-md-0 mt-2">
+                                                        <select name="validation[]"
+                                                                class="form-control form--control">
+                                                            <option value="required"> @lang('Required') </option>
+                                                            <option value="nullable">  @lang('Optional') </option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2 mt-md-0 mt-2 text-right">
+
+                                                            <button class="btn--base bg--danger removeBtn w-100" type="button">
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+
+                                                    </div>
+                                                </div>
+                                            </div> --}}
+
+                                                <div class="row addedField">
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="gateway-btn mt-20">
-                            <button type="submit" class="btn--base w-100 mt-20">Save</button>
+                            <button type="submit" class="btn--base w-100 mt-20">Update Settings</button>
                         </div>
                     </div>
                 </form>
@@ -177,31 +219,36 @@ $roles = userRolePermissionArray();
             });
             $('.addUserData').on('click', function() {
                 var html = `
-                        <div class="row ptb-30 justify-content-center mb-10-none">
-                            <div class="col-lg-4 col-md-4  form-group">
+                <div class="col-md-12 user-data">
+                    <div class="form-group">
+                        <div class="input-group row ">
+                            <div class="col-md-4">
                                 <input name="field_name[]" class="form-control form--control" type="text" required placeholder="@lang('Field Name')">
                             </div>
-                            <div class="col-lg-3 col-md-3 form-group">
+                            <div class="col-md-3 mt-md-0 mt-2">
                                 <select name="type[]" class="form-control form--control">
                                     <option value="text" > @lang('Input Text') </option>
                                     <option value="textarea" > @lang('Textarea') </option>
                                     <option value="file"> @lang('File') </option>
                                 </select>
                             </div>
-                            <div class="col-lg-3 col-md-3 form-group">
+                            <div class="col-md-3 mt-md-0 mt-2">
                                 <select name="validation[]"
                                         class="form-control form--control">
                                     <option value="required"> @lang('Required') </option>
                                     <option value="nullable">  @lang('Optional') </option>
                                 </select>
                             </div>
-                            <div class="col-lg-2 col-md-2 form-group">
-                                    <a class="btn--base bg--danger w-100 removeBtn w-100" type="button">
+                            <div class="col-md-2 mt-md-0 mt-2 text-right">
+
+                                    <button class="btn--base bg--danger removeBtn w-100" type="button">
                                         <i class="fa fa-times"></i>
-                                    </a>
+                                    </button>
+
                             </div>
                         </div>
-                `;
+                    </div>
+                </div>`;
                 $('.addedField').append(html)
             });
 

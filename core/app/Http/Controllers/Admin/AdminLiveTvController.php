@@ -13,7 +13,7 @@ class AdminLiveTvController extends Controller
 {
     public function index()
     {
-        $allLiveTv = AdminLiveTv::with('admin')->paginate(10);
+        $allLiveTv = AdminLiveTv::with('admin')->orderBy('id','desc')->paginate(10);
         return view('admin.admin-live-tv.index',compact('allLiveTv'));
     }
     public function storeLiveTv(Request $request)

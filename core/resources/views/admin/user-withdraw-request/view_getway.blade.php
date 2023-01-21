@@ -1,9 +1,9 @@
 @extends('admin.layout.master')
 @section('title')
-    User Manual Getway
+    User Manual Withdraw
 @endsection
 @section('page-name')
-    User Manual Getway
+    User Manual Withdraw
 @endsection
 @php
     $roles = userRolePermissionArray();
@@ -27,104 +27,153 @@
 
         </div>
     </div>
-    <div class="table-content mt-5 " style="display:flex; ">
-        <div class="row">
-            <div class="card" style="width: 30rem;">
-                <div class="card-header">
-                    <h3 class="text-primary text-center">User Information</h3>
-                </div>
-                <div class="card-body">
-                    <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-center align-items-center text-center">
-                        <span class="text-center"><img
-                                src="{{ asset('core\storage\app\public\profile\\' . $manualGetwayRequestView->user->photo) }}"
-                                alt="user image" style="width: 150px; height: 150px; border-radius: 99px;"></span>
+    <div class="table-content mt-5 ">
+        <div class="row justify-content-center mb-30-none">
+            <div class="col-xl-4 col-lg-6 col-md-6 mb-30">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-primary text-center">User Information</h3>
                     </div>
-                    <hr>
-                    <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
-                        <span><strong>Name:</strong></span>
-                        <span>{{ $manualGetwayRequestView->user->full_name }}</span>
-                    </div>
-                    <hr>
-                    <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
-                        <span><strong>User Name:</strong></span>
-                        <span>{{ $manualGetwayRequestView->user->user_name }}</span>
-                    </div>
-                    <hr>
-                    <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
-                        <span><strong>Email:</strong></span>
-                        <span>{{ $manualGetwayRequestView->user->email }}</span>
-                    </div>
-                    <hr>
-                    <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
-                        <span><strong>Phone:</strong></span>
-                        <span>{{ $manualGetwayRequestView->user->phone }}</span>
-                    </div>
-                    <hr>
-                    <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
-                        <span><strong>Country:</strong></span>
-                        <span>{{ $manualGetwayRequestView->user->country }}</span>
+                    <div class="card-body">
+                        <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-center align-items-center text-center">
+                            <span class="text-center"><img
+                                    src="{{ getImage(imagePath()['profile']['user']['path'] . '/' . $manualGetwayRequestView->user->photo, imagePath()['profile']['user']['size']) }}"
+                                    alt="user image" style="width: 150px; height: 150px; border-radius: 99px;"></span>
+                        </div>
+                        <hr>
+                        <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                            <span><strong>Name:</strong></span>
+                            <span>{{ $manualGetwayRequestView->user->full_name ?? ' ' }}</span>
+                        </div>
+                        <hr>
+
+                        <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                            <span><strong>Email:</strong></span>
+                            <span>{{ $manualGetwayRequestView->user->email ?? ' ' }}</span>
+                        </div>
+                        <hr>
+                        <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                            <span><strong>Phone:</strong></span>
+                            <span>{{ $manualGetwayRequestView->user->phone ?? ' ' }}</span>
+                        </div>
+                        <hr>
+                        <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                            <span><strong>Country:</strong></span>
+                            <span>{{ $manualGetwayRequestView->user->country ?? ' ' }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row ms-5">
-            <div class="card" style="width: 30rem;">
-                <div class="card-header">
-                    <h3 class="text-primary text-center">Deposit User Data</h3>
-                </div>
-                <div class="card-body">
-                    @php
-                        $manual_getway_fields = json_decode($manualGetwayRequestView->gateway_parameters);
-                    @endphp
-                    @foreach ($manual_getway_fields as $item)
+            <div class="col-xl-4 col-lg-6 col-md-6 mb-30">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="text-primary text-center">Withdraw User Data</h3>
+                    </div>
+                    <div class="card-body">
+
+                        @php
+                            $manual_getway_fields = json_decode($manualGetwayRequestView->gateway_parameters ?? ' ');
+                        @endphp
                         <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
-                            <span><strong>{{ $item->field_lavel }}:</strong></span>
-                            <span>{{ $item->value }}</span>
+                            <span><strong>Gateway Method:</strong></span>
+                            <span>{{ $manualGetwayRequestView->gateway_method ?? ' ' }}</span>
                         </div>
                         <hr>
-                    @endforeach
-                    <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-end align-items-center">
-                        @if ($manualGetwayRequestView->status == 0)
-                            <button class="btn btn-success me-2"><a
-                                    href="{{ route('admin.manual.getway.request.approved', $manualGetwayRequestView->id) }}">Approved</a></button>
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
-                                Reject
-                            </button>
-                            {{-- <button class="btn btn-danger">
-                                <a href="{{ route('admin.manual.getway.request.reject', $manualGetwayRequestView->id) }}">Reject</a>
-                            </button> --}}
+                        <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                            <span><strong>TRX</strong></span>
+                            <span>{{ $manualGetwayRequestView->transaction_no ?? ' ' }}</span>
+                        </div>
+                        <hr>
+                        <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                            <span><strong>Amount</strong></span>
+                            <span>{{ $manualGetwayRequestView->amount ?? ' ' }} {{$manualGetwayRequestView->priceCurrency->symbol ?? ' '}}</span>
+                        </div>
+                        <hr>
+                        <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                            <span><strong> Fixed-charge</strong></span>
+                            <span>{{ $manualGetwayRequestView->fixed_charge ?? ' '}} {{$manualGetwayRequestView->priceCurrency->symbol ?? ' '}}</span>
+                        </div>
+                        <hr>
+                        <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                            <span><strong>Percent-charge</strong></span>
+                            <span>{{ $manualGetwayRequestView->percent_charge ?? ' '}}% {{$manualGetwayRequestView->priceCurrency->symbol ?? ' '}}</span>
+                        </div>
+                        <hr>
+                        <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                            <span><strong>Total Amount</strong></span>
+                            <span>{{ $manualGetwayRequestView->total ?? ' '}} {{$manualGetwayRequestView->priceCurrency->symbol ?? ' '}}</span>
+                        </div>
+                        <hr>
+                        @if ($manual_getway_fields)
+                            @foreach ($manual_getway_fields as $k => $v)
+                                @if ($v->field_type == 'input')
+                                    <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                                        <span><strong class="text-capitalize">{{ $k }}:</strong></span>
+                                        <span class="text-capitalize">{{ $v->field_name }}</span>
+                                    </div>
+                                    <hr>
+                                @endif
+                                @if ($v->field_type == 'textarea')
+                                    <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                                        <span><strong class="text-capitalize">{{ $k }}:</strong></span>
+                                        <span class="text-capitalize">{{ $v->field_name }}</span>
+                                    </div>
+                                    <hr>
+                                @endif
+                                @if ($v->field_type == 'file')
+                                    <div class="block  mb-sm-2 mb-md-0 justify-content-between align-items-center">
+                                        <span><strong class="text-capitalize">{{ $k }}:</strong></span>
+                                        <span class="text-center"><img
+                                                src="{{ getImage(imagePath()['withdraw']['method']['path'] . '/' . $v->field_name, imagePath()['profile']['user']['size']) }}"
+                                                alt="user image" style="width: 300px; height: 300px;"></span>
+                                    </div>
+                                    <hr>
+                                @endif
+                            @endforeach
+                            <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-end align-items-center">
+                                @if ($manualGetwayRequestView->status == 0)
+                                    <button class="btn btn-success me-2"><a
+                                            href="{{ route('admin.manual.getway.request.approved', $manualGetwayRequestView->id) }}">Approved</a></button>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
+                                        Reject
+                                    </button>
+                                    {{-- <button class="btn btn-danger">
+                                    <a href="{{ route('admin.manual.getway.request.reject', $manualGetwayRequestView->id) }}">Reject</a>
+                                </button> --}}
+                                @endif
+                            </div>
                         @endif
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="{{ route('admin.manual.getway.request.reject', $manualGetwayRequestView->id) }}" method="POST">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Reject</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="recipient-name" class="col-form-label">Text:</label>
-                            <textarea name="reject" id="" cols="10" rows="5"></textarea>
-                          </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Reject</button>
-                    </div>
-                </form>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('admin.manual.getway.request.reject', $manualGetwayRequestView->id) }}"
+                        method="POST">
+                        @csrf
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Reject</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="recipient-name" class="col-form-label">Text:</label>
+                                <textarea name="reject" id="" cols="10" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success">Reject</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    </form>
 @endsection
 @section('css')
     <style>

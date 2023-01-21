@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -39,66 +39,59 @@
                 </div>
             @endif
 
-            <div>
-                <h3 class="text-white text-capitalize fw-bold pt-5 pb-3">Smile-Tv</h3>
-                <div class="table-responsive">
-                    <table class="table text-white rounded text-nowrap">
-                        <thead style="color:#7b8191">
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Ticket Type</th>
-                                <th scope="col">Type</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Smile-Tv</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-capitalize text-center" style="font-size: 14px;color:#7b8191">
-                            @if ($allSmileTv->count() == 0)
-                                <tr>
-                                    <td colspan="99">No data found</td>
-                                </tr>
-                            @endif
-                            @foreach ($allSmileTv as $smileTv)
-                                <tr>
-                                    <td>{{ $smileTv->name }}</td>
-                                    <td>{{ $smileTv->title }}</td>
-                                    <td>{{ optional($smileTv->category)->name ?? 'N/A' }}</td>
-                                    <td>{{ optional($smileTv->ticketType)->name ?? 'N/A' }}</td>
-                                    <td>{{ $smileTv->type }}</td>
-                                    <td>{{ $smileTv->image }}</td>
-                                    <td>{{ $smileTv->smile_tv_link }}</td>
-                                    <td>
-                                        <form action="{{ route('admin.smile.tv.status.edit', $smileTv->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            <label class="switch" id="switch">
-                                                <input type="checkbox" name="status"
-                                                    @if ($smileTv->status == 1) checked @endif id="switchInput">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </form>
-                                    </td>
-                                    <td class="">
-                                        <a
-                                            href="{{ route('admin.smile.tv.destroy', $smileTv->id) }}"class="btn btn-danger rounded"><i
-                                                class="fas fa-trash"></i>
-                                        </a>
-                                        <a
-                                            href="{{ route('admin.edit.smile.tv', $smileTv->id) }}"class="btn btn-primary rounded"><i
-                                                class="fas fa-edit"></i>
-                                        </a>
 
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $allSmileTv->links() }}
-                </div>
+
+            <div class="table-wrapper table-responsive">
+                <table class="custom-table table text-white rounded mt-5 ">
+                    <thead style="color:#7b8191">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-capitalize text-center" style="font-size: 14px;color:#7b8191">
+                        @if ($allSmileTv->count() == 0)
+                            <tr>
+                                <td colspan="99" class="text-center">No data found</td>
+                            </tr>
+                        @endif
+                        @foreach ($allSmileTv as $smileTv)
+                            <tr>
+                                <td>{{ $smileTv->name }}</td>
+                                <td>{{ $smileTv->title }}</td>
+                                <td>{{ optional($smileTv->category)->name ?? 'N/A' }}</td>
+                                <td>{{ $smileTv->type }}</td>
+                              
+                                <td>
+                                    <form action="{{ route('admin.smile.tv.status.edit', $smileTv->id) }}" method="POST">
+                                        @csrf
+                                        <label class="switch" id="switch">
+                                            <input type="checkbox" name="status"
+                                                @if ($smileTv->status == 1) checked @endif id="switchInput">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </form>
+                                </td>
+                                <td class="">
+                                    <a
+                                        href="{{ route('admin.smile.tv.destroy', $smileTv->id) }}"class="btn btn-danger rounded"><i
+                                            class="fas fa-trash"></i>
+                                    </a>
+                                    <a
+                                        href="{{ route('admin.edit.smile.tv', $smileTv->id) }}"class="btn btn-primary rounded"><i
+                                            class="fas fa-edit"></i>
+                                    </a>
+
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $allSmileTv->links() }}
             </div>
         </div>
     </div>
@@ -167,7 +160,7 @@
                                     <div class="col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="image" class="form-label">@lang('Image') </label>
                                         <input type="file" src="" class="form-control px-3 pt-2"
-                                        name="image" accept="image/*" id="image">
+                                            name="image" accept="image/*" id="image">
                                     </div>
                                     <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="smile_tv_link" class="form-label">@lang('Smile-Tv Link')</label>

@@ -22,14 +22,14 @@
             </a>
         </div>
         <div class="view-prodact">
-            <a href="{{route('admin.manual.paymentgetway.addpayment')}}">
+            <a href="{{ route('admin.manual.paymentgetway.addpayment') }}">
                 <i class="las la-plus"></i>
                 <span>Add Manual</span>
             </a>
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -52,53 +52,51 @@
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
 
-                <div>
-                    <table class="table text-white rounded mt-5">
-                        <thead class="text-center" style="color:#7b8191">
+            <div class="table-wrapper table-responsive">
+                <table class="custom-table table text-white rounded mt-5 ">
+                    <thead class="text-center" style="color:#7b8191">
+                        <tr>
+                            <th scope="col">Getway Name</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="color:#7b8191">
+                        @if ($manualPayment->count() == 0)
                             <tr>
-                                <th scope="col">getway-name</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                <td colspan="99" class="text-center">No data found</td>
                             </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($manualPayment->count() == 0)
-                                <tr>
-                                    <td colspan="99">No data found</td>
-                                </tr>
-                            @endif
-                            @foreach ($manualPayment as $item)
-                                <tr>
-                                    <td class="text-capitalize">{{$item->name}}</td>
-                                    <td><img class="table-user-img img-fluid d-block mx-auto"
-                                            src="{{ asset('core\storage\app\public\manual-getway\\' . $item->image) }}"
-                                            alt="Image"></td>
-                                    <td>
-                                        <form action="{{ route('admin.manual.getway.status.edit', $item->id) }}" method="POST">
-                                            @csrf
-                                            <label class="switch" id="switch">
-                                                <input type="checkbox" name="status"
-                                                    @if ($item->status == 1) checked @endif id="switchInput">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="{{ route('admin.manual.paymentgetway.destroy', $item->id) }}"class="btn btn-danger rounded"><i
-                                                class="fas fa-trash"></i></a>
-                                        {{-- <a href="{{ route('admin.manual.paymentgetway.edit', $item->id) }}"
+                        @endif
+                        @foreach ($manualPayment as $item)
+                            <tr>
+                                <td class="text-capitalize">{{ $item->name }}</td>
+                                <td><img class="table-user-img img-fluid d-block me-auto"
+                                        src="{{ asset('core\storage\app\public\manual-getway\\' . $item->image) }}"
+                                        alt="Image"></td>
+                                <td>
+                                    <form action="{{ route('admin.manual.getway.status.edit', $item->id) }}" method="POST">
+                                        @csrf
+                                        <label class="switch" id="switch">
+                                            <input type="checkbox" name="status"
+                                                @if ($item->status == 1) checked @endif id="switchInput">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </form>
+                                </td>
+                                <td>
+                                    <a
+                                        href="{{ route('admin.manual.paymentgetway.destroy', $item->id) }}"class="btn btn-danger rounded"><i
+                                            class="fas fa-trash"></i></a>
+                                    {{-- <a href="{{ route('admin.manual.paymentgetway.edit', $item->id) }}"
                                             class="btn btn-primary rounded">
                                             <i class="fas fa-edit"></i></a> --}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -211,17 +209,3 @@
         @endif
     </script>
 @endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -230,6 +230,7 @@
             },
         });
     </script>
+    @include('partials.notify')
     @stack('js')
 </body>
 

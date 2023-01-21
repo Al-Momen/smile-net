@@ -30,6 +30,7 @@
     </div>
     <div class="table-content">
         <div class="shadow-lg p-4 card-1 my-3">
+            <div class="table-wrapper table-responsive">
             <!-- Button trigger modal -->
             <div>
                 <div>
@@ -50,7 +51,7 @@
                         <tbody class="text-center">
                             @if ($allPricing->count() == 0)
                                 <tr>
-                                    <td colspan="99">No data found</td>
+                                    <td colspan="99" class="text-center">No data found</td>
                                 </tr>
                             @endif
                             @foreach ($allPricing as $pricing)
@@ -84,6 +85,7 @@
                     </table>
                     {{ $allPricing->links() }}
                 </div>
+            </div>
             </div>
         </div>
     </div>

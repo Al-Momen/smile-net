@@ -67,7 +67,7 @@
                             </div>
                         </form>
 
-                        <form class="pb-4" id="paymentsgateway" action="{{ route('processPaypal') }}" method="post">
+                        <form class="pb-4" id="paymentsgateway" action="{{ route('book.buy.now.insert') }}" method="post">
                             @csrf
                             <div class="d-flex justify-content-center pb-3 flex-wrap">
                                 <div class="radio-item d-flex justify-content-center px-3 d-none">
@@ -89,27 +89,24 @@
                                 <div class="w-100 mb-4 ">
                                     <h3 class="fs-6 p-0 text-white md-5">Payment Gateway</h3>
                                     <select class="form-control select-item-2 py-0 w-100 text-capitalize"
-                                        name="select_gateway">
+                                        name="method">
                                         {{-- <option>--</option> --}}
-                                        @foreach ($allGetways ?? null as $key => $getway)
-                                            @if ($key != 'manual')
-                                                <option data-getway="{{ $getway }}" value="{{ $getway->name }}">
-                                                    {{ $getway->name }}</option>
-                                            @endif
-                                        @endforeach
-                                        @foreach ($allGetways ?? null as $key => $getway)
-                                            @if ($key == 'manual')
-                                                @foreach ($getway as $item)
-                                                    <option value="{{ $item->code }}" data-code="{{ $item->code }}">
-                                                        {{ $item->name }}</option>
-                                                @endforeach
-                                            @endif
+                                        @foreach ($allGetways as $data)
+                                            <option value="{{ $data->id }}" data-name="{{ $data->name }}"
+                                                data-currency="{{ $data->currency }}"
+                                                data-method_code="{{ $data->method_code }}"
+                                                data-min_amount="{{ showAmount($data->min_amount) }}"
+                                                data-max_amount="{{ showAmount($data->max_amount) }}"
+                                                data-base_symbol="{{ $data->baseSymbol() }}"
+                                                data-fix_charge="{{ showAmount($data->fixed_charge) }}"
+                                                data-percent_charge="{{ showAmount($data->percent_charge) }}">
+                                                {{ __($data->name) }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
-
                                 <div class="">
-                                    @foreach ($allGetways['manual'] as $key => $item)
+                                    {{-- @foreach ($allGetways['manual'] as $key => $item)
                                         @php
                                             $manual_getway_fields = json_decode($item->user_data);
                                             // dd($manual_getway_fields);
@@ -134,7 +131,7 @@
                                                 </div>
                                             @endforeach
                                         </div>
-                                    @endforeach
+                                    @endforeach --}}
                                 </div>
                             </div>
                             <div class="place-order-btn">
@@ -219,64 +216,28 @@
         });
     </script>
     <script>
-        var manualRoute = "{{ route('user.buy.manual') }}";
-        $(document).on('change', 'select[name="select_gateway"]', function(e) {
-            let selctedOption = $(this).val();
-            var getway = $('select[name="select_gateway"] :selected').attr('data-getway');
+        $(document).ready(function() {
 
-            $(".field-wrp").addClass("d-none");
-            let paymentForm = $('form#paymentsgateway');
-            if (selctedOption == 'paypal') {
+            $(".pay_system").change(function(event) {
+                var code = $(".pay_system").val();
 
-                $('#fixedCharge').html(JSON.parse(getway).fixed_change);
-                $('#parcentCharge').html(JSON.parse(getway).percent_change + " %");
+                if (code == 'gateway') {
+                    $("#gateway").removeClass("d-none");
+                    $("#wallet").addClass("d-none");
 
-                var totalAmount = $('#amountPaidPara').html();
-                var gateway_fixed_charge = JSON.parse(getway).fixed_change;
-                var gateway_percent_charge = JSON.parse(getway).percent_change;
-
-                // console.log(totalAmount);
-                // console.log(gateway_fixed_charge);
-                // console.log(gateway_percent_charge);
-
-                var percent_charge = (parseFloat(totalAmount) / 100) * parseFloat(gateway_percent_charge);
-                 
-                var total_charge = parseFloat(gateway_fixed_charge) + parseFloat(percent_charge);
-
-                var payableAmount = parseFloat(totalAmount) - parseFloat(total_charge);
-
-                $('#amountPaidPara').html(payableAmount);
-
-                // console.log(payableAmount);
-                
-                $('.fixedChargeDiv').removeClass("d-none");
-                $('.parcentChargeDiv').removeClass("d-none");
-                // var getway = selctedOption data('getway');
-                console.log(getway);
-                paymentForm.attr('action', "{{ route('processPaypal') }}");
-            }
-            if (selctedOption == 'stripe') {
-
-                $('#fixedCharge').html(JSON.parse(getway).fixed_change);
-                $('#parcentCharge').html(JSON.parse(getway).percent_change);
-                $('.fixedChargeDiv').removeClass("d-none");
-                $('.parcentChargeDiv').removeClass("d-none");
-
-                console.log(getway);
-                paymentForm.attr('action', "{{ route('stripe.view') }}");
-            }
-            if ($.isNumeric(selctedOption)) {
-
-                $('.fixedChargeDiv').addClass("d-none");
-                $('.parcentChargeDiv').addClass("d-none");
-                paymentForm.attr('action', manualRoute);
-                if (parseInt(selctedOption) >= 1000) {
-                    $(".card-info-" + selctedOption + "").removeClass("d-none");
-                } else {
-                    $(".card-info").addClass("d-none");
                 }
-            }
-        })
+                if (code == 'wallet') {
+                    $("#wallet").removeClass("d-none");
+                    $("#gateway").addClass("d-none");
+                }
+                if (code == '') {
+                    $("#wallet").addClass("d-none");
+                    $("#gateway").addClass("d-none");
+                }
+
+            });
+
+        });
     </script>
     <script>
         $("select").niceSelect()

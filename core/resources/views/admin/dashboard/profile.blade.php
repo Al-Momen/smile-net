@@ -2,7 +2,7 @@
 @section('Dashboard', 'active')
 @section('Dashboard', 'open')
 @section('title')
-    @lang('admin_action.list_page_title')
+    @lang(' Admin profile')
 @endsection
 @section('page-name')
     @lang('admin_action.list_page_sub_title')
@@ -99,7 +99,7 @@
                                             <select
                                                 class="form--control selectpicker countrypicker form-select form-select-md mb-3"
                                                 style="padding: 12px 10px;" aria-label=".form-select-lg example"
-                                                name="country" data-live-search="true" data-default="United States"
+                                                name="country" data-live-search="true" data-default="{{ $profile->adminUser->country ?? null }}"
                                                 data-flag="true">
                                             </select>
                                         </div>

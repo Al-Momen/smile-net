@@ -15,6 +15,7 @@ class AdminProfileController extends Controller
 {
     public function adminProfile()
     {
+        // dd($request->all());
         $profile = ModelsAuth::with('adminUser')->where('id', Auth::user()->id)->first();
         return view('admin.dashboard.profile', compact('profile'));
     }
@@ -29,10 +30,8 @@ class AdminProfileController extends Controller
             'phone_number' => 'required',
             'address' => 'required',
             'country' => 'required',
-            'image' => 'required',
+            
         ]);
-
-
         $profileStore =  ModelsAuth::where('id', auth()->user()->id)->first();
         $profileStore->username =  $request->user_name;
         $profileStore->mobile_no =  $request->phone_number;
@@ -46,8 +45,12 @@ class AdminProfileController extends Controller
         $profileStore->designation =  $request->designation;
         $profileStore->address =  $request->address;
         $profileStore->country =  $request->country;
-        $profileStore->profile_pic =  Generals::update('admin-profile/', $oldImage = null, 'png', $request->image);
         $profileStore->update();
+        if($request->hasFile('image')){
+
+            $profileStore->profile_pic =  Generals::update('admin-profile/', $oldImage = null, 'png', $request->image);
+            $profileStore->update();
+        }
         $notify[] = ['success', 'Admin Profile update Successfully'];
         return redirect()->back()->withNotify($notify);
     }

@@ -25,4 +25,7 @@ class UserVote extends Model
     public function adminVote(){
         return $this->belongsTo(AdminVote::class,'admin_vote_id','id');
     }
+    public function user(){
+        return $this->belongsTo(GeneralUser::class,'user_id','id');
+    }
 }

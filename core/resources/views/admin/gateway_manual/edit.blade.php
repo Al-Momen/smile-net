@@ -6,27 +6,24 @@
     Manual Gateways
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
 @section('content')
-<div class="dashboard-title-part">
-    <h5 class="title">Dashboard</h5>
-    <div href="" class="dashboard-path">
-        <a href={{ route('admin.dashboard') }}>
-            <span class="main-path">Dashboards</span>
-        </a>
-        <i class="las la-angle-right"></i>
-        <a href="{{ route('admin.admin-user') }}">
-            <span class="active-path g-color">Admin Users</span>
-        </a>
+    <div class="dashboard-title-part">
+        <h5 class="title">Dashboard</h5>
+        <div href="" class="dashboard-path">
+            <a href={{ route('admin.dashboard') }}>
+                <span class="main-path">Dashboards</span>
+            </a>
+            <i class="las la-angle-right"></i>
+            <a href="{{ route('admin.admin-user') }}">
+                <span class="active-path g-color">Admin Users</span>
+            </a>
+        </div>
+        <div class="view-prodact">
+            
+        </div>
     </div>
-    <div class="view-prodact">
-        <a href="{{ route('admin.admin-user.new') }}">
-            <i class="las la-plus align-middle me-1"></i>
-            <span>Create Admin User</span>
-        </a>
-    </div>
-</div>
 
     <div class="user-detail-area">
         <div class="row mb-30-none">
@@ -34,7 +31,7 @@ $roles = userRolePermissionArray();
                 <div class="user-info-header two">
                     <h5 class="title">Manual Gateway</h5>
                 </div>
-                <form class="dashboard-form" action="{{ route('admin.gateway.manual.store') }}" method="POST"
+                <form class="dashboard-form" action="{{ route('admin.gateway.manual.update', $method->id) }}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="dashboard-form-area two mt-10">
@@ -58,18 +55,26 @@ $roles = userRolePermissionArray();
                                     </div>
                                 </div>
                                 <div class="image-upload-content two">
-
-                                    <div class="row">
-                                        <div class="col-lg-6 form-group">
-                                            <label>Gateway Name *</label>
-                                            <input type="text" class="form--control"
-                                                value="{{ old('name', $method->name) }}" name="name"
-                                                placeholder="Stripe">
+                                    <div class="image-upload-form-two">
+                                        <div class="row">
+                                            <div class="col-lg-6 form-group">
+                                                <label>Gateway Name *</label>
+                                                <input type="text" class="form--control"
+                                                    value="{{ old('name', $method->name) }}" name="name"
+                                                    placeholder="Stripe">
+                                            </div>
+                                            <div class="col-lg-6 form-group">
+                                                <label>Currency *</label>
+                                                <input type="text" class="form--control"
+                                                    value="{{ @$method->single_currency->currency }}" name="currency">
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 form-group">
-                                            <label>Currency *</label>
-                                            <input type="text" class="form--control"
-                                                value="{{ @$method->single_currency->currency }}" name="currency">
+                                        <div class="row">
+                                            <div class="col-lg-6 form-group">
+                                                <label>rate*</label>
+                                                <input type="number" class="form--control"
+                                                    value="{{ old('rate', @$method->single_currency->rate) }}" name="rate">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -114,7 +119,6 @@ $roles = userRolePermissionArray();
                                     <div class="user-info-header two">
                                         <h5 class="title">Charge</h5>
                                     </div>
-
                                     <div class="row justify-content-center mb-10-none">
                                         <div class="col-lg-12 form-group">
                                             <label>Fixed Charge *</label>
@@ -166,10 +170,13 @@ $roles = userRolePermissionArray();
                                         </button>
                                     </div>
                                     <div class="row justify-content-center mb-10-none addedField">
+                                        @if ($method->input_form != null)
                                             @foreach ($method->input_form as $k => $v)
                                                 <div class="row ptb-30 justify-content-center mb-10-none">
                                                     <div class="col-lg-4 col-md-4  form-group">
-                                                        <input name="field_name[]" class="form-control form--control" type="text" value="{{ $v->field_level }}" required placeholder="@lang('Field Name')">
+                                                        <input name="field_name[]" class="form-control form--control"
+                                                            type="text" value="{{ $v->field_level }}" required
+                                                            placeholder="@lang('Field Name')">
                                                     </div>
                                                     <div class="col-lg-3 col-md-3 form-group">
 
@@ -197,13 +204,14 @@ $roles = userRolePermissionArray();
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-2 col-md-2 form-group">
-                                                            <a class="btn--base bg--danger w-100 removeBtn w-100" type="button">
-                                                                <i class="fa fa-times"></i>
-                                                            </a>
+                                                        <a class="btn--base bg--danger w-100 removeBtn w-100"
+                                                            type="button">
+                                                            <i class="fa fa-times"></i>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             @endforeach
-
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -221,13 +229,10 @@ $roles = userRolePermissionArray();
     <script>
         (function($) {
             "use strict";
-
             $('input[name=currency]').on('input', function() {
                 $('.curName').text($(this).val());
             });
             $('.currency_symbol').text($('input[name=currency]').val());
-
-
             $('.addUserData').on('click', function() {
                 var html = `
                         <div class="row ptb-30 justify-content-center mb-10-none">

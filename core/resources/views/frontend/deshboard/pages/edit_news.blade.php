@@ -1,20 +1,6 @@
 @extends('frontend.deshboard.master')
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close" data-bs-dismiss="alert"
-                aria-label="Close"></button>
-        </div>
-    @endif
+   
     <form class="form-dashboard" action="{{ route('user.update.news', $news->id) }}"method="POST"
         enctype="multipart/form-data" id="addEventForm">
         @csrf
@@ -22,7 +8,7 @@
 
         </div>
 
-        <div class="row g-4k" style="padding: 20px;">
+        <div class="row g-4k">
             <h5 class="modal-title mb-4" id="addModalLabel">Events Update</h5>
             <div class=" col-lg-6 col-md-6 col-12 pe-4">
                 <label for="title" class="form-label">Title</label>
@@ -37,7 +23,7 @@
 
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="categoty" class="form-label">Category</label>
-                <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
+                <select class="form-select form-select-md mb-3"
                     aria-label=".form-select-lg example" name="category">
                     <option value=""> -- </option>
                     @foreach ($categories as $category)
@@ -50,8 +36,8 @@
 
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="image" class="form-label">Image</label>
-                <input type="file" src="" class="form-control px-3 pt-2" name="image" accept="image/*"
-                    id="image">
+                <input type="file" src="" class="form-control" name="image" accept="image/*"
+                    id="image" style="height: 38px !important">
             </div>
             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                 <label for="editor" class="form-label">Description</label>

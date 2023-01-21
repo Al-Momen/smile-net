@@ -31,12 +31,12 @@
     <div class="table-content">
         <div class="shadow-lg p-4 card-1 my-3">
             <!-- Button trigger modal -->
-            <div>
-                <div>
+            <div class="table-wrapper">
+                <div class="table-responsive">
                     @php
                         $i = 1;
                     @endphp
-                    <table class="table text-white rounded mt-5">
+                    <table class=" custom-table table text-white rounded mt-5">
                         <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">SI</th>
@@ -50,7 +50,7 @@
                         <tbody class="text-center" style="color:#7b8191">
                             @if ($adminVotes->count() == 0)
                                 <tr>
-                                    <td colspan="99">No data found</td>
+                                    <td colspan="99" class="text-center">No data found</td>
                                 </tr>
                             @endif
                             @foreach ($adminVotes as $vote)
@@ -59,7 +59,7 @@
                                     <td class="text-capitalize">{{ $vote->vote_name }}</td>
                                     <td class="text-capitalize">{{ $vote->category->name }}</td>
                                     <td>
-                                        <img class="table-admin-img img-fluid d-block mx-auto"
+                                        <img class="table-admin-img img-fluid d-block me-auto"
                                             src="{{ asset('core\storage\app\public\votes\\' . $vote->vote_image) }}"
                                             alt="Image">
                                     </td>

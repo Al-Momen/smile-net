@@ -3,7 +3,7 @@
     User-details
 @endsection
 @section('page-name')
-    All-News
+    View-user
 @endsection
 @php
     $roles = userRolePermissionArray();
@@ -18,7 +18,7 @@
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">All-News</span>
+                <span class="active-path g-color">View-user</span>
             </a>
         </div>
         <div class="view-prodact">
@@ -60,8 +60,8 @@
             <div class="col-lg-6 col-md-6 col-12">
                 <div>
                     <div>
-                        <img class=" img-fluid d-block mx-auto"
-                            src="{{ asset('core\storage\app\public\profile\\' . $view_user->photo) ?? null }}" alt="Image">
+                        <img class=" img-fluid d-block mx-auto mt-4"
+                            src="{{ getImage(imagePath()['profile']['user']['path'] .'/'. $view_user->photo) ?? null }}" alt="Image">
                     </div>
                 </div>
             </div>

@@ -1,3 +1,4 @@
+
 @extends('admin.layout.master')
 @section('title')
     Currency
@@ -6,8 +7,9 @@
     Currency
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
+
 @section('content')
     <div class="dashboard-title-part">
         <h5 class="title">Dashboard</h5>
@@ -21,18 +23,22 @@ $roles = userRolePermissionArray();
             </a>
         </div>
         <div class="view-prodact">
+            {{-- <a data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="las la-plus"></i>
+                <span>Add Ticket Type</span>
+            </a> --}}
         </div>
     </div>
     <div class="table-content">
         <div class="shadow-lg p-4 card-1 my-3">
             <!-- Button trigger modal -->
-            <div>
-                <div>
+            <div class="table-wrapper">
+                <div class="table-responsive">
                     @php
                         $i = 1;
                     @endphp
-                    <table class="table text-white rounded mt-5">
-                        <thead class="text-center">
+                    <table class="custom-table table rounded mt-5 ">
+                        <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">SI</th>
                                 <th scope="col">Currency Name</th>
@@ -41,20 +47,21 @@ $roles = userRolePermissionArray();
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
+                        <tbody class="text-center" style="color:#7b8191">
+                            
                             @foreach ($priceCurrencies as $priceCurrency)
-                                <tr>
-                                    <td>{{ $i++ }}</td>
-                                    <td class="text-capitalize">{{ $priceCurrency->name }}</td>
-                                    <td>{{ $priceCurrency->code }}</td>
-                                    <td>{{ $priceCurrency->symbol }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.price.currency.edit', $priceCurrency->id) }}"
-                                            class="btn btn-primary rounded"> <i class="fas fa-edit" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td class="text-capitalize">{{ $priceCurrency->name }}</td>
+                                <td>{{ $priceCurrency->code }}</td>
+                                <td>{{ $priceCurrency->symbol }}</td>
+                                <td>
+                                    <a href="{{ route('admin.price.currency.edit', $priceCurrency->id) }}"
+                                        class="btn btn-primary rounded"> <i class="fas fa-edit" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                     {{ $priceCurrencies->links() }}
@@ -66,47 +73,38 @@ $roles = userRolePermissionArray();
     {{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-                @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                            data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-                <form action="{{ route('admin.price.currency.store') }}" method="POST">
+                <form action="{{ route('admin.ticket.type.store') }}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="modal-content">
 
                             <div class="modal-header bg--primary">
-                                <h5 class="modal-title text-white">@lang('Add Currency')</h5>
+                                <h5 class="modal-title text-white">@lang('Add Ticket Type')</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
 
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <label>@lang('Currency Name')</label>
+                                    <label>@lang('Ticket Type Name')</label>
                                     <input class="form-control form--control" type="text" name="name"
-                                        placeholder="@lang('Currency Name')" required value="{{ old('name') }}">
+                                        placeholder="@lang('Ticket Type Name')" required value="{{ old('name') }}"  aria-label="readonly input example" readonly>
                                 </div>
                                 <div class="form-group">
-                                    <label>@lang('Currency Code')</label>
-                                    <input class="form-control form--control" type="number" name="code"
-                                        placeholder="@lang('e.g: USD')" required value="{{ old('code') }}">
+                                    <div class="input-group mb-3 mt-3">
+                                        <span class="input-group-text"
+                                            style="
+                                                border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $priceCurriency->symbol }}</span>
+                                        <input type="number" class="form-control d-none" min="0" id="doller-input"
+                                            placeholder="Price" name="priceCurriency_id" value="{{$priceCurriency->id}}">
+                                        <input type="number" class="form-control" min="0" id="doller-input"
+                                            placeholder="Price" name="price">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>@lang('Currency Symbol')</label>
-                                    <input class="form-control form--control" type="text" name="symbol"
-                                        placeholder="@lang('e.g: $')" required value="{{ old('symbol') }}">
+                                    <label>@lang('Ticket Type Description')</label>
+                                    <textarea class="form-control form--control" type="text" name="description" rows="4" cols="50" required
+                                        value="{{ old('ticket_description') }}" style="height: 140px;" placeholder="@lang('Ticket Type Description')"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -129,3 +127,13 @@ $roles = userRolePermissionArray();
         @endif
     </script>
 @endsection
+@push('css')
+
+    <style>
+        td{
+            font-size: 20px;
+        }
+    </style>
+    
+@endpush
+

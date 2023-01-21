@@ -56,23 +56,25 @@
                             <div class="card" style="width: 290px;">
                                 <div class="subscription">
                                     @if ($totalVote)
-                                        {
+                                    {
+                                    <h3 class="text-white text-uppercase">
+                                        {{ $percent = number_format((App\Models\UserVote::all()->where('admin_vote_id', $adminVote->id)->where('admin_vote_image_id', $adminVoteImage->id)->count() /$totalVote) *100,2) }}%
+                                    </h3>
+                                    }
+                                    @else{
                                         <h3 class="text-white text-uppercase">
-                                            {{ $percent = number_format((App\Models\UserVote::all()->where('admin_vote_id', $adminVote->id)->where('admin_vote_image_id', $adminVoteImage->id)->count() /$totalVote) *100,2) }}%
+                                            0 %
                                         </h3>
-                                        }
-                                        @else{
-                                            <h3 class="text-white text-uppercase">
-                                                0 %
-                                            </h3>
-                                        }
+                                    }
                                     @endif
                                 </div>
                                 <img src="{{ asset('core\storage\app\public\votes\\' . $adminVoteImage->image) }}"
                                     class="card-img-top" alt="image" style="width: 100%; height: 220px">
-                                <div class="card-body d-flex">
+                                <div class="card-body row">
+                                  <div class="col-6">
                                     <h5 class="card-title text-white text-capitalize">{{ $adminVoteImage->name }}</h5>
-                                    <div class="form-check ms-auto">
+                                  </div>
+                                    <div class="form-check col-6 d-grid justify-content-end">
                                         <input class="form-check-input" value="{{ $adminVote->id }}" name="admin_vote_id"
                                             style="display:none">
                                         <label class="form-check-label text-white" for="exampleRadios1">

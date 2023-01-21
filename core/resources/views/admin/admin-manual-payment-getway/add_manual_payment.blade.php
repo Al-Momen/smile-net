@@ -44,9 +44,10 @@
             <!-- Button trigger modal -->
             <div>
                 <div>
-                    <form action="{{ route('admin.manual.paymentgetway.store') }}" class="gateway-form" method="POST"
+                    <form action="{{ route('admin.manual.getway.store') }}" class="gateway-form" method="POST"
                         enctype="multipart/form-data">
                         @csrf
+                        
                         <div class="modal-body">
                             <div class="modal-content">
                                 <div class="modal-header bg--primary ">
@@ -169,7 +170,7 @@
                                                 <select class="custom-select form-control form--control"
                                                     id="inputGroupSelect01" name="field_type[]">
                                                     <option value="input" selected>input Text</option>
-                                                    <option value="number">Number</option>
+                                                    <option value="textarea">Textarea</option>
                                                     <option value="file">File</option>
                                                 </select>
                                             </div>
@@ -245,8 +246,6 @@
         $(document).on('click', '#currency_code', function(e) {
             $(".set_currency").text($(this).text());
         });
-
-
 
         $(document).on('click', '.field-close', function(e) {
             e.preventDefault();

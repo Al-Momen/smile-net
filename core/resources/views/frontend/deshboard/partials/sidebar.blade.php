@@ -2,7 +2,7 @@
     <div class="sidebar__inner">
         <div class="sidebar-top-inner">
             <div class="sidebar__logo">
-                <a href="{{route('index')}}" class="sidebar__main-logo">
+                <a href="{{ route('index') }}" class="sidebar__main-logo">
                     <img src="{{ asset('assets/frontend/images/logo/logo1.png') }}" alt="logo">
                 </a>
                 <div class="navbar__left">
@@ -37,7 +37,13 @@
                             <li class="sidebar-menu-item">
                                 <a href="{{ route('user.buying.books.view') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
-                                    <span class="menu-title">@lang('Book Lists')</span>
+                                    <span class="menu-title">@lang('Buying Book')</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a href="{{ route('user.book_history') }}" class="nav-link">
+                                    <i class="menu-icon las la-dot-circle"></i>
+                                    <span class="menu-title">@lang('Buy History')</span>
                                 </a>
                             </li>
                         </ul>
@@ -55,14 +61,48 @@
                                 </a>
                             </li>
                             <li class="sidebar-menu-item">
-                                <a href="{{ route('user.buying.plan.ticket.view') }}" class="nav-link">
+
+
+                                <li class="sidebar-menu-item">
+                                    <a href="{{ route('user.buying.event.ticket.view') }}" class="nav-link">
+                                        <i class="menu-icon las la-dot-circle"></i>
+                                        <span class="menu-title"> Buying Event </span>
+                                    </a>
+                                </li>
+                                
+                            </li>
+                            <li class="sidebar-menu-item">
+                                <a href="{{ route('user.event_plan_history') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
-                                    <span class="menu-title">@lang('Plan Lists')</span>
+                                    <span class="menu-title">@lang('Buy History')</span>
                                 </a>
                             </li>
                         </ul>
                     </li>
 
+                    <li class="sidebar-menu-item sidebar-dropdown">
+                        <a href="#">
+                            <i class="menu-icon las la-ticket-alt"></i>
+                            <span class="menu-title">@lang('Subscription')</span>
+                        </a>
+                        <ul class="sidebar-submenu" style="display:none; list-style-type: none;">
+                            
+                            <li class="sidebar-menu-item">
+                                
+                                <a href="{{ route('user.buying.plan.ticket.view') }}" class="nav-link">
+                                    <i class="menu-icon las la-dot-circle"></i>
+                                    <span class="menu-title">@lang('Plan Lists')</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-menu-item">
+                                
+                                <a href="{{ route('user.ticket_history') }}" class="nav-link">
+                                    <i class="menu-icon las la-dot-circle"></i>
+                                    <span class="menu-title">@lang('History')</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
                     <li class="sidebar-menu-item">
                         <a href="{{ route('user.news') }}">
@@ -71,12 +111,6 @@
                         </a>
                     </li>
 
-                    <li class="sidebar-menu-item">
-                        <a href="{{ route('user.buying.event.ticket.view') }}">
-                            <i class="menu-icon las la-ticket-alt"></i>
-                            <span class="menu-title">Event Ticket</span>
-                        </a>
-                    </li>
                     <li class="sidebar-menu-item sidebar-dropdown">
                         <a href="#">
                             <i class="menu-icon las la-money-check-alt"></i>
@@ -86,7 +120,7 @@
                             <li class="sidebar-menu-item">
                                 <a href="{{ route('user.withdraw') }}" class="nav-link">
                                     <i class="menu-icon las la-dot-circle"></i>
-                                    <span class="menu-title">@lang('Log')</span>
+                                    <span class="menu-title">@lang('Withdraw')</span>
                                 </a>
                             </li>
                         </ul>
@@ -102,15 +136,39 @@
 
                     @php
                         $premium = App\Models\TicketTypeDetails::where('ticket_slug', 'premium')
-                            ->where('user_id', Auth::guard('general')->user()->id)
+                            ->where('user_id', Auth::guard('general')->user()->id)->where('status',1)
                             ->first();
                     @endphp
                     @if ($premium != null)
-                        <li class="sidebar-menu-item">
-                            <a href="{{ route('user.profile') }}">
-                                <i class="menu-icon las fa-solid fa-tv"></i>
-                                <span class="menu-title">Go Live</span>
+                        <li class="sidebar-menu-item sidebar-dropdown">
+                            <a href="#">
+                                <i class="menu-icon las fa-Solid fa-tv"></i>
+                                <span class="menu-title">@lang('Go Live')</span>
                             </a>
+                            <ul class="sidebar-submenu" style="display:none; list-style-type: none;">
+                                <li class="sidebar-menu-item">
+                                    <a href="{{ route('user.host_meeting') }}" class="nav-link">
+                                        <i class="menu-icon las la-dot-circle"></i>
+                                        <span class="menu-title">@lang('Host Meeting')</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sidebar-submenu" style="display:none; list-style-type: none;">
+                                <li class="sidebar-menu-item">
+                                    <a href="{{ route('user.join_meeting') }}" class="nav-link">
+                                        <i class="menu-icon las la-dot-circle"></i>
+                                        <span class="menu-title">@lang('Join Meeting')</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="sidebar-submenu" style="display:none; list-style-type: none;">
+                                <li class="sidebar-menu-item">
+                                    <a href="{{ route('user.meeting_history') }}" class="nav-link">
+                                        <i class="menu-icon las la-dot-circle"></i>
+                                        <span class="menu-title">@lang('History')</span>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     @endif
                     <li class="sidebar-menu-item">
@@ -140,7 +198,7 @@
                 </ul>
             </div>
             <div class="copyright-area">
-                <p>Copyright © 2022 <a href="#0">Smile Net</a></p>
+                <p>Copyright © 2022 <a href="{{route('index')}}">{{ $general->sitename }}</a></p>
             </div>
         </div>
     </div>

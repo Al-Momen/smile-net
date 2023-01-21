@@ -16,7 +16,8 @@ class ManualPaymentGetwayController extends Controller
 {
     public function index()
     {
-        $manualPayment = AdminManualGetway::paginate('10');
+        
+        $manualPayment = AdminManualGetway::orderBy('id', 'desc')->paginate('10');
         return view('admin.admin-manual-payment-getway.manual', compact('manualPayment'));
     }
 
@@ -26,10 +27,10 @@ class ManualPaymentGetwayController extends Controller
         return view('admin.admin-manual-payment-getway.add_manual_payment', compact('currency'));
     }
 
+
     public function store(Request $request)
     {
-        // dd($request->all());
-
+        
         $request->validate([
             'gatway_name'    => 'required|max:60',
             'image'          => ['required', 'image', new FileTypeValidate(['jpeg', 'jpg', 'png'])],
@@ -90,6 +91,14 @@ class ManualPaymentGetwayController extends Controller
         return redirect()->route('admin.manual.paymentgetway.view')->withNotify($notify);
     }
 
+
+    public function edit($id)
+    {
+        
+        $manual_gateway = AdminManualGetway::with('currency')->findOrFail($id);
+        return view('admin.admin-manual-payment-getway.edit_manual_payment', compact('manual_gateway'));
+    }
+
     public function manualGetwayStatusEdit(Request $request, $id)
     {
         $manualgetway = AdminManualGetway::where('id', $id)->first();
@@ -129,7 +138,7 @@ class ManualPaymentGetwayController extends Controller
 
     public function buyManualStore(Request $request)
     {
-        // dd($request->all());
+        
 
         $request->validate([
             'gatway_name'    => 'required|max:60',

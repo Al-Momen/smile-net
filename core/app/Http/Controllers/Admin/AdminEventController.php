@@ -20,9 +20,12 @@ class AdminEventController extends Controller
 {
    public function index()
    {
-      $events = Event::with('user')->paginate(10);
+      $events = Event::with('user')->orderBy('id','desc')->paginate(10);
       $general_user = GeneralUser::all();
-      return view('admin.all-events.index', compact('events', 'general_user'));
+      return view('admin.all-events.index', compact(
+        'events',
+        'general_user'
+        ));
    }
    public function editStatusEvent(Request $request, $id)
    {

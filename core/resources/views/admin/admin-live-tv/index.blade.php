@@ -3,7 +3,7 @@
     Live Tv
 @endsection
 @section('page-name')
-Live Tv
+    Live Tv
 @endsection
 @php
     $roles = userRolePermissionArray();
@@ -29,14 +29,14 @@ Live Tv
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             <!-- Button trigger modal -->
-            <div>
-                <div>
+            <div class="shadow-lg card-1 my-3">
+                <div class="table-wrapper table-responsive">
                     @php
                         $i = 1;
                     @endphp
-                    <table class="table text-white rounded mt-5">
+                    <table class="custom-table table text-white rounded mt-5 ">
                         <thead class="text-center"style="color:#7b8191">
                             <tr>
                                 <th scope="col">SI</th>
@@ -51,7 +51,7 @@ Live Tv
                         <tbody class="text-center"style="color:#7b8191">
                             @if ($allLiveTv->count() == 0)
                                 <tr>
-                                    <td colspan="99">No data found</td>
+                                    <td colspan="99" class="text-center">No data found</td>
                                 </tr>
                             @endif
                             @foreach ($allLiveTv as $liveTv)
@@ -90,6 +90,7 @@ Live Tv
             </div>
         </div>
     </div>
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -124,7 +125,8 @@ Live Tv
                                 <div class="form-group">
                                     <label>@lang('video Upload')</label>
                                     <input class="form-control form--control" type="file" name="mp4"
-                                        placeholder="@lang('Video Upload')"  accept="video/*,.mkv" id="mp4" value="{{ old('Video Upload') }}">
+                                        placeholder="@lang('Video Upload')" accept="video/*,.mkv" id="mp4"
+                                        value="{{ old('Video Upload') }}">
                                 </div>
                                 <div class="form-group">
                                     <label>@lang('Date')</label>

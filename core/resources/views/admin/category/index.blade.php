@@ -47,10 +47,9 @@ $roles = userRolePermissionArray();
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
-
+            <div class="table-wrapper table-responsive">
                 <div>
-                    <table class="table text-white rounded mt-5">
+                    <table class="custom-table table text-white rounded mt-5">
                         <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">ID</th>
@@ -62,7 +61,7 @@ $roles = userRolePermissionArray();
                         <tbody class="text-center" style="color:#7b8191">
                             @if ($categories->count() == 0)
                                 <tr>
-                                    <td colspan="99">No data found</td>
+                                    <td colspan="99" class="text-center">No data found</td>
                                 </tr>
                             @endif
                             @foreach ($categories as $category)

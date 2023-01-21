@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-xl-4 col-lg-4 col-md-6 mb-20">
                     <div class="dashbord-user">
                         <div class="dashboard-content">
@@ -69,47 +69,55 @@
                                 <th scope="col">End Date</th>
                                 <th scope="col">Category</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Sold out</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody class="text-capitalize" style="font-size: 14px;">
                             <tr>
-                                @foreach ($general_events as $event)
-                            <tr>
-                                <td>{{ $event->title }}</td>
-                                <td>
-                                    @php
-                                        $date = $event->start_date;
-                                        echo date('d/m/Y , h:i a ', strtotime($date));
-                                    @endphp
-                                </td>
-                                <td>
-                                    @php
-                                        $date = $event->end_date;
-                                        echo date('d/m/Y , h:i a ', strtotime($date));
-                                    @endphp
-                                </td>
-                                <td>{{ optional($event->category)->name ?? 'N/A' }}</td>
+                                @forelse ($general_events as $event)
+                                    <td>{{ $event->title }}</td>
+                                    <td>
+                                        @php
+                                            $date = $event->start_date;
+                                            echo date('d/m/Y , h:i a ', strtotime($date));
+                                        @endphp
+                                    </td>
+                                    <td>
+                                        @php
+                                            $date = $event->end_date;
+                                            echo date('d/m/Y , h:i a ', strtotime($date));
+                                        @endphp
+                                    </td>
+                                    <td>{{ optional($event->category)->name ?? 'N/A' }}</td>
 
-                                <td>
-                                    @php
-                                        if ($event->status == 1) {
-                                            echo '<span class="badge bg-success">Active</span>';
-                                        } else {
-                                            echo '<span class="badge bg-danger">Pending</span>';
-                                        }
-                                    @endphp
-                                </td>
-                                <td class="">
-                                    <button class="fas fa-eye btn btn-primary rounded font-icon"
-                                        data-event-details="{{ $event}}" id="event_details"></button>
+                                    <td>
+                                        @php
+                                            if ($event->status == 1) {
+                                                echo '<span class="badge bg-success">Active</span>';
+                                            } else {
+                                                echo '<span class="badge bg-danger">Pending</span>';
+                                            }
+                                        @endphp
+                                    </td>
+                                    <td class="">
+                                        <a href="{{ route('user.sold.out.events', $event->id) }}"> <i
+                                                class="fa-solid fa-eye btn btn-primary rounded font-icon">
+                                            </i></a>
+                                    </td>
+                                    <td class="">
+                                        <button class="fas fa-eye btn btn-primary rounded font-icon"
+                                            data-event-details="{{ $event }}" id="event_details"></button>
 
-                                    <a href="{{ route('user.edit.events', $event->id) }}"> <i
-                                            class="fa-solid fa-edit btn btn-primary rounded font-icon">
-                                        </i></a>
-                                </td>
+                                        <a href="{{ route('user.edit.events', $event->id) }}"> <i
+                                                class="fa-solid fa-edit btn btn-primary rounded font-icon">
+                                            </i></a>
+                                    </td>
+                            @empty
+                            <tr class="col-md-12 w-100">
+                                <td>{{ $empty_data }}</td>
                             </tr>
-                            @endforeach
+                            @endforelse
                             </tr>
                         </tbody>
                     </table>
@@ -125,9 +133,9 @@
             id="addEventForm">
             @csrf
             <div class="modal-dialog">
-                <div class="modal-content" style="background-color: white!important;">
+                <div class="modal-content" style="  background-image: linear-gradient(to right top, #15243b, #1a2137, #1e1f33, #201c2e, #211a2a);!important;">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">Events Add</h5>
+                        <h5 class="modal-title text-white" id="addModalLabel">Events Add</h5>
                         <button type="button" class="btn-close" id="cross_close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
@@ -136,25 +144,25 @@
                         </div>
                         <div class="row g-4k" style="padding: 20px;">
                             <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="title" class="form-label">Title</label>
+                                <label for="title" class="form-label text-white">Title</label>
                                 <input type="text" class="form-control" placeholder="Title" name="title" id="title"
                                     value="">
                             </div>
                             <div class="mb-3  col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="start_date" class="form-label">Start Date</label>
+                                <label for="start_date" class="form-label text-white">Start Date</label>
                                 <input type="date" class="form-control" placeholder="Start Date" name="start_date"
                                     id="start_date" required>
                             </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="end_date" class="form-label">End Date</label>
+                                <label for="end_date" class="form-label text-white">End Date</label>
                                 <input type="date" class="form-control" placeholder="End Date" name="end_date"
                                     id="end_date" required>
                             </div>
 
                             <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="categoty" class="form-label">Category</label>
+                                <label for="categoty" class="form-label text-white">Category</label>
                                 <select class="form-select form-select-md mb-3 text-capitalize"
-                                    style="padding: 12px 10px;" aria-label=".form-select-lg example" name="category">
+                                    aria-label=".form-select-lg example" name="category">
                                     <option value=""> -- </option>
                                     @foreach ($categories as $category)
                                         <option @if ($category->id)  @endif value="{{ $category->id }}">
@@ -170,12 +178,12 @@
                                             data-bs-toggle="collapse" data-bs-target="#{{ $item->name }}"
                                             aria-expanded="false" aria-controls="collapse">
                                         <label for="{{ $item->name }}"
-                                            class="text-capitalize">{{ $item->name }}</label>
+                                            class="text-capitalize text-white">{{ $item->name }}</label>
                                         <div class="collapse" id="{{ $item->name }}">
-                                            <label for="basic">Seat</label>
+                                            <label for="basic" class="text-white">Seat</label>
                                             <input type="number" name="seat[]"
                                                 placeholder="Enter your {{ $item->name }} Seat">
-                                            <label for="basic">Price</label>
+                                            <label for="basic" class="text-white">Price</label>
                                             <div class="input-group mb-3 mt-3">
                                                 <span class="input-group-text"
                                                     style="
@@ -192,18 +200,18 @@
                             </div>
 
                             <div class="mb-4 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="image" class="form-label">Image</label>
-                                <input type="file" src="" class="form-control px-3 pt-2" name="image"
+                                <label for="image" class="form-label text-white">Image</label>
+                                <input type="file" src="" class="form-control" name="image"
                                     accept="image/*" id="image">
                             </div>
 
                             <div class="mb-3 mt-2 col-lg-12 col-md-12 col-12 pe-4">
-                                <label for="editor" class="form-label">Description</label>
+                                <label for="editor" class="form-label text-white">Description</label>
                                 <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        <div class="mb-4 me-4 d-flex justify-content-end">
+                            <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal"
                                 id="btn_close">Close</button>
                             <button type="submit" class="btn btn-primary" id="btn_add">Add</button>
 
@@ -226,7 +234,7 @@
                 </div>
                 <div class="modal-body" id="event_description_modal">
 
-                    
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
                             id="btn_close">Close</button>
@@ -291,7 +299,7 @@
 
         input[type=checkbox]+label:before {
             content: "\2714";
-            border: 0.1em solid #000;
+            border: 0.1em solid #fff;
             border-radius: 0.2em;
             display: inline-block;
             width: 22px;
@@ -475,43 +483,42 @@
             // console.log(modal_body_title);
             modal_body_description.html('');
 
-            // var image = {{('core/storage/app/public/events//')}} ;
-            var image = "{{ url('/') }}" + '/core/storage/app/public/events/'  ;
+            // var image = {{ 'core/storage/app/public/events//' }} ;
+            var image = "{{ url('/') }}" + '/core/storage/app/public/events/';
             console.log(image);
 
             var seat_details = button_data?.event_plans?.map(eventPlan => {
-                            
-                              return `
+
+                return `
                                   ${eventPlan.ticket_type.name}:-
                                   ${eventPlan.seat}
                               `;
-                              
-                          });
+
+            });
             var price = button_data?.event_plans?.map(eventPlan => {
-                              return `
+                return `
                                   ${eventPlan.ticket_type.name}:-
                                   ${eventPlan.price}
                                  
                               `;
-                              
-                          });
+
+            });
             var ticket_type = button_data?.event_plans?.map(eventPlan => {
-                            
-                              return `
+
+                return `
                                   ${eventPlan.ticket_type.name}
                                  
                               `;
-                              
-                          });
+
+            });
 
             var eventStatus = '';
-             if (button_data.status == 1) {
+            if (button_data.status == 1) {
                 eventStatus = 'Active';
-            }else{
+            } else {
                 eventStatus = 'Inactive';
             }
             modal_body_description.append(
-
                 `
                     <div class="row g-4k" style="padding: 20px;">
                         <div class=" col-lg-6 col-md-6 col-12 pe-4" id="events_title">

@@ -74,10 +74,21 @@
                         <a class="nav-link text-white fs-6" href="{{ route('music') }}">Musics</a>
                     </li>
 
+                    @if (Auth::guard('general')->user())
+                        @php
+                            $premium = App\Models\TicketTypeDetails::where('ticket_slug', 'premium')
+                                ->where('user_id', Auth::guard('general')->user()->id)
+                                ->where('status', 1)
+                                ->first();
+                            // dd($premium);
+                        @endphp
+                    @endif
 
-                    <li class="nav-item pe-1">
-                        <a class="nav-link text-white fs-6" href="{{ route('live_now') }}">Live Now</a>
-                    </li>
+                    @if ($premium != null)
+                        <li class="nav-item pe-1">
+                            <a class="nav-link text-white fs-6" href="{{ route('user.host_meeting') }}">Live Now</a>
+                        </li>
+                    @endif
 
                     <li class="nav-item pe-1">
                         <a class="nav-link text-white fs-6" href="{{ route('smile_tv') }}">Smile TV</a>

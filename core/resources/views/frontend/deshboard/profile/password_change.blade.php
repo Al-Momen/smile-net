@@ -36,33 +36,35 @@
                             <form class="row g-4" action="{{ route('user.password.change.store') }}" method="post">
                                 @csrf
                                 <div class="col-12">
-                                    <div class="form-check d-none">
+                                    <div class="form-check d-none p-0">
                                         <input type="text" name="profile_id" value="{{$profile->id}}"class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-check">
+                                    <div class="form-check p-0">
                                         <label class="mb-3 text-white">Old Password<span class="text-danger">*</span></label>
                                         <input type="text" name="old_pass" placeholder="Old Password"
                                             class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-check">
+                                    <div class="form-check p-0">
                                         <label class="mb-3 text-white">New Password<span class="text-danger">*</span></label>
                                         <input type="text" name="new_pass" placeholder="New Password"
                                             class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-check">
+                                    <div class="form-check p-0">
                                         <label class="mb-3 text-white">Confirm Password<span class="text-danger">*</span></label>
                                         <input type="text" name="confirm_pass" placeholder="Confirm Password"
                                             class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary px-4 float-end mt-4">Submit</button>
+                                   <div>
+                                    <button type="submit" class="btn btn-primary px-4 w-100 mt-4">Submit</button>
+                                   </div>
                                 </div>
                             </form>
                         </div>

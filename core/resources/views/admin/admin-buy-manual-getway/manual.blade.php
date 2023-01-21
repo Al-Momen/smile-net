@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -52,10 +52,9 @@
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
-
-                <div>
-                    <table class="table text-white rounded mt-5">
+            <div class="shadow-lg card-1 my-3">
+                <div class="table-wrapper table-responsive">
+                    <table class="custom-table table text-white rounded mt-5 ">
                         <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">Getway Name</th>
@@ -67,13 +66,13 @@
                         <tbody class="text-center" style="color:#7b8191">
                             @if ($manualPayment->count() == 0)
                                 <tr>
-                                    <td colspan="99">No data found</td>
+                                    <td colspan="99" class="text-center">No data found</td>
                                 </tr>
                             @endif
                             @foreach ($manualPayment as $item)
                                 <tr>
                                     <td class="text-capitalize">{{$item->name}}</td>
-                                    <td><img class="table-user-img img-fluid d-block mx-auto"
+                                    <td><img class="table-user-img img-fluid d-block me-auto"
                                             src="{{ asset('core\storage\app\public\manual-getway\\' . $item->image) }}"
                                             alt="Image"></td>
                                     <td>

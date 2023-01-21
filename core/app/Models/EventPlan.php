@@ -39,7 +39,7 @@ class EventPlan extends Model
     }
     public function eventPlanTransaction()
     {
-        return $this->hasMany(EventPlanTransaction::class,'id','event_plan_id');
+        return $this->hasMany(EventPlanTransaction::class,'event_plan_id','id');
     }
 
 }

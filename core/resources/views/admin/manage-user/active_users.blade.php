@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -49,32 +49,31 @@
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
-
-                <div>
-                    <table class="table text-white rounded mt-5">
+            <div class="table-content">
+                <div class="table-wrapper table-responsive">
+                    <table class="custom-table table text-white rounded mt-5">
                         <thead class="text-center" style="color:#7b8191">
                             <tr>
-                                <th scope="col">User-Name</th>
+                                <th scope="col">Name</th>
                                 <th scope="col">Image</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Country</th>
-                                <th scope="col">Status</th>
+                                <th scope="col" class="text-center">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody class="text-center" style="color:#7b8191">
                             @if ($active_users->count() == 0)
                                 <tr>
-                                    <td colspan="99">No data found</td>
+                                    <td colspan="99" class="text-center">No data found</td>
                                 </tr>
                             @endif
                             @foreach ($active_users as $user)
                                 <tr>
-                                    <td>{{ $user->user_name }}</td>
-                                    <td><img class="table-user-img img-fluid d-block mx-auto"
-                                            src="{{ asset('core\storage\app\public\profile\\' . $user->photo) }}"
+                                    <td class="text-capitalize">{{ $user->full_name }}</td>
+                                    <td><img class="table-user-img img-fluid d-block me-auto"
+                                            src="{{ getImage(imagePath()['profile']['user']['path'].'/'. $user->photo)}}"
                                             alt="Image"></td>
                                     <td>{{ $user->phone }}</td>
                                     <td>{{ $user->email }}</td>
@@ -82,9 +81,10 @@
                                     <td>
                                         <form action="{{ route('admin.user.access.edit', $user->id) }}" method="POST">
                                             @csrf
-                                            <div class="btn-container"> 
+                                            <div class="btn-container">
                                                 <label class="switch btn-color-mode-switch">
-                                                    <input type="checkbox" name="access" id="color_mode"  @if ($user->access == 1) checked @endif>
+                                                    <input type="checkbox" name="access" id="color_mode"
+                                                        @if ($user->access == 1) checked @endif>
                                                     <label for="color_mode" data-on="Banned" data-off="Active"
                                                         class="btn-color-mode-switch-inner"></label>
                                                 </label>
@@ -92,7 +92,8 @@
                                         </form>
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.view.user', $user->id) }}" class="btn btn-primary rounded">
+                                        <a href="{{ route('admin.view.user', $user->id) }}"
+                                            class="btn btn-primary rounded">
                                             <i class="fas fa-eye" data-bs-toggle="modal"
                                                 data-bs-target="#exampleModal"></i></a>
                                     </td>
@@ -104,6 +105,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
 
 @endsection
@@ -229,14 +231,14 @@
             content: attr(data-on);
             left: 83px;
             background: rgb(231, 6, 6);
-            
+
         }
 
         .btn-color-mode-switch input[type="checkbox"]:checked+label.btn-color-mode-switch-inner:before {
             content: attr(data-off);
             right: auto;
             left: 20px;
-            
+
         }
 
         .btn-color-mode-switch input[type="checkbox"]:checked+label.btn-color-mode-switch-inner {

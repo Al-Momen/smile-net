@@ -1,9 +1,9 @@
 @extends('admin.layout.master')
 @section('title')
-    User Manual Getway
+    User Manual Withdraw
 @endsection
 @section('page-name')
-    User Manual Getway
+    User Manual Withdraw
 @endsection
 @php
     $roles = userRolePermissionArray();
@@ -18,7 +18,7 @@
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">User Manual Getway</span>
+                <span class="active-path g-color">Manual Pending-logs</span>
             </a>
         </div>
         <div class="view-prodact">
@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -51,59 +51,57 @@
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
 
-                <div>
-                    <table class="table text-white rounded mt-5">
-                        <thead class="text-center" style="color:#7b8191">
+            <div class="table-wrapper table-responsive">
+                <table class="custom-table table text-white rounded mt-5 ">
+                    <thead class="text-center" style="color:#7b8191">
+                        <tr>
+                            <th scope="col">User</th>
+                            <th scope="col">Getway-name</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Trancation</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="color:#7b8191">
+                        @if ($allManualGetwayRequest->count() == 0)
                             <tr>
-                                <th scope="col">User</th>
-                                <th scope="col">Getway-name</th>
-                                <th scope="col">Amount</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Trancation</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                <td colspan="99" class="text-center" class="text-center">No data found</td>
                             </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($allManualGetwayRequest->count() == 0)
-                                <tr>
-                                    <td colspan="99">No data found</td>
-                                </tr>
-                            @endif
-                            @foreach ($allManualGetwayRequest as $item)
-                                <tr>
-                                    <td class="text-capitalize">{{ $item->user->full_name }}</td>
-                                    <td class="text-capitalize">{{ $item->gateway_method }}</td>
-                                    <td class="text-capitalize">{{ $item->amount }}{{ $item->priceCurrency->symbol }}</td>
-                                    <td class="text-capitalize">
-                                        @php
-                                            $date = $item->created_at;
-                                            echo date('d/m/Y', strtotime($date));
-                                        @endphp
-                                    </td>
-                                    <td class="text-capitalize">{{ $item->transaction_no }}</td>
-                                    <td class="text-capitalize">
-                                        @if ($item->status == 0)
-                                            <span class="badge bg-warning"> Pending </span>
-                                        @elseif($item->status == 1)
-                                            <span class="badge bg-success"> Approved </span>
-                                        @else
-                                            <span class="badge bg-danger"> Cancelled </span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('admin.user.manual.getway.request.view', $item->id) }}"
-                                            class="btn btn-primary rounded">
-                                            <i class="fas fa-eye"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $allManualGetwayRequest->links() }}
-                </div>
+                        @endif
+                        @foreach ($allManualGetwayRequest as $item)
+                            <tr>
+                                <td class="text-capitalize">{{ $item->user->full_name ?? ' ' }}</td>
+                                <td class="text-capitalize">{{ $item->gateway_method ?? ' ' }}</td>
+                                <td class="text-capitalize">{{ $item->amount ?? ' ' }}{{ $item->priceCurrency->symbol ?? ' ' }}</td>
+                                <td class="text-capitalize">
+                                    @php
+                                        $date = $item->created_at;
+                                        echo date('d/m/Y', strtotime($date));
+                                    @endphp
+                                </td>
+                                <td class="text-capitalize">{{ $item->transaction_no ?? ' ' }}</td>
+                                <td class="text-capitalize">
+                                    @if ($item->status == 0)
+                                        <span class="badge bg-warning"> Pending </span>
+                                    @elseif($item->status == 1)
+                                        <span class="badge bg-success"> Approved </span>
+                                    @else
+                                        <span class="badge bg-danger"> Cancelled </span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.user.manual.getway.request.view', $item->id) }}"
+                                        class="btn btn-primary rounded">
+                                        <i class="fas fa-eye"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $allManualGetwayRequest->links() }}
             </div>
         </div>
     </div>

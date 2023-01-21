@@ -6,7 +6,7 @@
     Coupon
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
 @section('content')
     <div class="dashboard-title-part">
@@ -28,51 +28,60 @@ $roles = userRolePermissionArray();
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             <!-- Button trigger modal -->
-            <div>
-                <div>
-                    @php
-                        $i = 1;
-                    @endphp
-                    <table class="table text-white rounded mt-5">
-                        <thead class="text-center" style="color:#7b8191">
-                            <tr>
-                                <th scope="col">SI</th>
-                                <th scope="col">Coupon Name</th>
-                                <th scope="col">Coupon Code</th>
-                                <th scope="col">Discount Price</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @foreach ($coupons as $coupon)
+            <div class="table-content">
+                <div class="shadow-lg card-1 my-3">
+                    <div class="table-wrapper table-responsive">
+                        @php
+                            $i = 1;
+                        @endphp
+
+                        <table class="custom-table table text-white rounded mt-5 ">
+                            <thead class="text-center" style="color:#7b8191">
                                 <tr>
-                                    <td>{{ $i++ }}</td>
-                                    <td class="text-capitalize">{{ $coupon->name }}</td>
-                                    <td>{{ $coupon->code }}</td>
-                                    <td>{{ $coupon->discount_price }}</td>
-                                    <td>
-                                        <form action="{{ route('admin.coupon.status.edit', $coupon->id) }}" method="POST">
-                                            @csrf
-                                            <label class="switch" id="switch">
-                                                <input type="checkbox" name="status"
-                                                    @if ($coupon->status == 1) checked @endif id="switchInput">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('admin.coupon.destroy', $coupon->id) }}"
-                                            class="btn btn-danger rounded"> <i class="fas fa-trash" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"></i></a>
-                                    </td>
+                                    <th scope="col">SI</th>
+                                    <th scope="col">Coupon Name</th>
+                                    <th scope="col">Coupon Code</th>
+                                    <th scope="col">Discount Price</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $coupons->links() }}
+                            </thead>
+                            <tbody class="text-center" style="color:#7b8191">
+                                @if ($coupons->count() == 0)
+                                <tr>
+                                    <td colspan="99" class="text-center">No data found</td>
+                                </tr>
+                            @endif
+                                @foreach ($coupons as $coupon)
+                                    <tr>
+                                        <td>{{ $i++ }}</td>
+                                        <td class="text-capitalize">{{ $coupon->name }}</td>
+                                        <td>{{ $coupon->code }}</td>
+                                        <td>{{ $coupon->discount_price }}</td>
+                                        <td>
+                                            <form action="{{ route('admin.coupon.status.edit', $coupon->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                <label class="switch" id="switch">
+                                                    <input type="checkbox" name="status"
+                                                        @if ($coupon->status == 1) checked @endif id="switchInput">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('admin.coupon.destroy', $coupon->id) }}"
+                                                class="btn btn-danger rounded"> <i class="fas fa-trash"
+                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $coupons->links() }}
+                    </div>
                 </div>
             </div>
         </div>

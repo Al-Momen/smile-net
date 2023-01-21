@@ -12,9 +12,10 @@
                         <span class="navbar-user">
                             <span class="d-none">{{$profileImage = app\Models\GeneralUser::where('id',Auth::guard('general')->user()->id)->first()}}</span>
                             <span class="navbar-user__thumb"><img
-                                    src="{{ asset('core\storage\app\public\profile\\'.$profileImage->photo) }}" alt="user"></span>
+                                    src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$profileImage->photo,imagePath()['profile']['user']['size'])}}" alt="user">
+                            </span>
                             <span class="navbar-user__info">
-                                <span class="navbar-user__name">User</span>
+                                <span class="navbar-user__name text-capitalize">{{$profileImage->full_name}}</span>
                             </span>
                             <span class="icon"><i class="las la-chevron-circle-down"></i></span>
                         </span>

@@ -1,9 +1,9 @@
 @extends('admin.layout.master')
 @section('title')
-    Ticket Type
+    Subscription Plan
 @endsection
 @section('page-name')
-    Ticket Type
+    Subscription Plan
 @endsection
 @php
     $roles = userRolePermissionArray();
@@ -18,7 +18,7 @@
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">Ticket Type</span>
+                <span class="active-path g-color">Subscription Plan</span>
             </a>
         </div>
         <div class="view-prodact">
@@ -31,19 +31,18 @@
     <div class="table-content">
         <div class="shadow-lg p-4 card-1 my-3">
             <!-- Button trigger modal -->
-            <div>
+            <div class="table-wrapper">
                 <div class="table-responsive">
                     @php
                         $i = 1;
                     @endphp
-                    <table class="table text-white rounded mt-5 ">
+                    <table class="custom-table table text-white rounded mt-5 ">
                         <thead class="text-center" style="color:#7b8191">
                             <tr>
                                 <th scope="col">SI</th>
                                 <th scope="col">Ticket Type Name</th>
                                 <th scope="col">Price</th>
-
-                              
+                                <th scope="col">Days</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -58,8 +57,7 @@
                                     <td>{{ $i++ }}</td>
                                     <td class="text-capitalize" >{{ $ticketType->name }}</td>
                                     <td class="text-capitalize">{{ $ticketType->price }} {{ $ticketType->priceCurrency->symbol }}</td>
-                         
-                                    
+                                    <td class="text-capitalize">{{ $ticketType->days ?? '' }} Days</td>
                                     <td>
                                         {{-- <a 
                                             href="{{ route('admin.ticket.type.destroy', $ticketType->id) }}"class="btn btn-danger rounded"><i
@@ -134,3 +132,12 @@
         @endif
     </script>
 @endsection
+@push('css')
+
+    <style>
+        td{
+            font-size: 20px;
+        }
+    </style>
+    
+@endpush

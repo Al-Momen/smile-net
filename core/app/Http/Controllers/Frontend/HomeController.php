@@ -41,6 +41,7 @@ use App\Http\Controllers\Admin\AdminMoviesController;
 use App\Models\AdminVideoMusic;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
+use PhpParser\PrettyPrinter\Standard;
 
 class HomeController extends Controller
 {
@@ -61,14 +62,13 @@ class HomeController extends Controller
 
 
         if (Auth::guard('general')->user()) {
-            $access = TicketTypeDetails::with('ticket_type')->where('user_id', Auth::guard('general')->user()->id)->first();
-           if($access!= null){
-
-            if ($access->ticket_slug == 'standard' && $access->access == null) {
-                return view('frontend.pages.index', compact('all_newItemMovies', 'all_topMovies', 'all_commingSoonMoviesLatest', 'all_commingSoonMovies', 'site_image', 'access'));
+            $access = TicketTypeDetails::with('ticket_type')->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
+            if ($access != null) {
+                if ($access->ticket_slug == 'standard' && $access->access == null) {
+                    // dd($access);
+                    return view('frontend.pages.index', compact('all_newItemMovies', 'all_topMovies', 'all_commingSoonMoviesLatest', 'all_commingSoonMovies', 'site_image', 'access'));
+                }
             }
-
-           }
         }
 
         return view('frontend.pages.index', compact('all_newItemMovies', 'all_topMovies', 'all_commingSoonMoviesLatest', 'all_commingSoonMovies', 'site_image'));
@@ -80,9 +80,10 @@ class HomeController extends Controller
         $request->validate([
             'access' => 'required',
         ]);
-        
+
         try {
-            $access = TicketTypeDetails::with('ticket_type')->where('user_id', $request->user_id)->first();
+            // dd('request');
+            $access = TicketTypeDetails::with('ticket_type')->where('user_id', $request->user_id)->where('status', 1)->where('ticket_status', 1)->first();
             $access->access = $request->access;
             $access->update();
             return redirect()->back();
@@ -105,21 +106,22 @@ class HomeController extends Controller
         if (Auth::guard('general')->user()) {
             $playMovies = AdminTopMovies::with('ticketType')->where('id', $id)->first();
 
-            $findTicket = TicketTypeDetails::with('ticket_type')->where('ticket_type_id', $playMovies->ticket_type_id)->where('user_id', Auth::guard('general')->user()->id)->first();
+            $findTicket = TicketTypeDetails::with('ticket_type')->where('ticket_type_id', $playMovies->ticket_type_id)->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
 
-            $premium = TicketTypeDetails::with('ticket_type')->where('user_id', Auth::guard('general')->user()->id)->where('ticket_slug', 'premium')->first();
+            $premium = TicketTypeDetails::with('ticket_type')->where('user_id', Auth::guard('general')->user()->id)->where('ticket_slug', 'premium')->where('status', 1)->where('ticket_status', 1)->first();
 
             if ($playMovies->ticketType->name == "basic") {
 
                 return view('frontend.pages.play_video', compact('playMovies'));
             } else if ($findTicket != null) {
-                if($findTicket->ticket_slug == 'standard' && $findTicket->access == 'movies' || $premium != null){
+                if ($findTicket->ticket_slug == 'standard' && $findTicket->access == 'movies' || $premium != null) {
                     return view('frontend.pages.play_video', compact('playMovies'));
                 }
-                return redirect()->route('ticketTypePricing')->with('success', 'You can see only music');
-
+                $notify[] = ['success', 'You can see only music'];
+                return redirect()->route('ticketTypePricing')->withNotify($notify);
             } else {
-                return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your Subscription Plan');
+                $notify[] = ['success', 'Please upgrade your Subscription Plan'];
+                return redirect()->route('ticketTypePricing')->withNotify($notify);
             }
         } else {
             return redirect()->route('login');
@@ -132,21 +134,23 @@ class HomeController extends Controller
         if (Auth::guard('general')->user()) {
             $playMovies = AdminNewItemMovies::with('ticketType')->where('id', $id)->first();
 
-            $findTicket = TicketTypeDetails::with('ticket_type')->where('ticket_type_id', $playMovies->ticket_type_id)->where('user_id', Auth::guard('general')->user()->id)->first();
+            $findTicket = TicketTypeDetails::with('ticket_type')->where('ticket_type_id', $playMovies->ticket_type_id)->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
 
-            $premium = TicketTypeDetails::with('ticket_type')->where('user_id', Auth::guard('general')->user()->id)->where('ticket_slug', 'premium')->first();
+            $premium = TicketTypeDetails::with('ticket_type')->where('user_id', Auth::guard('general')->user()->id)->where('ticket_slug', 'premium')->where('status', 1)->where('ticket_status', 1)->first();
 
             if ($playMovies->ticketType->name == "basic") {
 
                 return view('frontend.pages.play_video', compact('playMovies'));
             } else if ($findTicket != null) {
 
-                if($findTicket->ticket_slug == 'standard' && $findTicket->access == 'movies' || $premium != null){
+                if ($findTicket->ticket_slug == 'standard' && $findTicket->access == 'movies' || $premium != null) {
                     return view('frontend.pages.play_video', compact('playMovies'));
                 }
-                return redirect()->route('ticketTypePricing')->with('success', 'You can see only music');
+                $notify[] = ['success', 'You can see only music'];
+                return redirect()->route('ticketTypePricing')->withNotify($notify);
             } else {
-                return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your Subscription Plan');
+                $notify[] = ['success', 'Please upgrade your Subscription Plan'];
+                return redirect()->route('ticketTypePricing')->withNotify($notify);
             }
         } else {
             return redirect()->route('login');
@@ -233,25 +237,31 @@ class HomeController extends Controller
         return view('frontend.pages.book_admin_profile', compact('bookprofile', 'site_image'));
     }
 
+
+
+
     // ---------------------------------------Live now page---------------------------------------
     public function live_now()
     {
         $today = \Carbon\Carbon::now();
         if (Auth::guard('general')->user()) {
-            $premium = TicketTypeDetails::where('ticket_slug', 'premium')->where('user_id', Auth::guard('general')->user()->id)->first();
+            $premium = TicketTypeDetails::where('ticket_slug', 'premium')->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
             if ($premium != null) {
-                if ($premium->created_at->diffInDays($today, false) <= 30) {
+                $premium = Carbon::parse($premium->date);
+                $today = Carbon::parse($today);
+                $date_diff = $premium->diffInDays($today);
+                if ($date_diff >= 0) {
+                    $liveTvs = AdminLiveTv::where('status', 1)->paginate(8);
                     $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
                         $query->where('pages', 'live-now');
                     })->latest()->first();
-                    $liveTvs = AdminLiveTv::where('status', 1)->paginate(8);
                     return view('frontend.pages.live_now', compact('liveTvs', 'site_image'));
-                } else {
-                    $premium->delete();
-                    return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your Subscription Plan');
                 }
+                $premium->ticket_status = 0;
+                $premium->update();
             } else {
-                return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your Subscription Plan');
+                $notify[] = ['success', 'Please upgrade your Subscription Plan'];
+                return redirect()->route('ticketTypePricing')->withNotify($notify);
             }
         } else {
             return redirect()->route('login');
@@ -260,10 +270,11 @@ class HomeController extends Controller
     // ---------------------------------------Item movies play---------------------------------------
     public function liveTvPlay($id)
     {
-        $playLiveVideo = AdminLiveTv::where('id', $id)->first();
+        $playLiveVideo = AdminSmileTv::where('id', $id)->first();
         // $ticketTypePricing = TicketTypeDetails::where('ticket_type_id', $playMovies->ticket_type_id)->where('user_id', Auth::guard('general')->user()->id)->get();
         // if ($ticketTypePricing->count() > 0) {
         // }
+        // dd($playLiveVideo);
         return view('frontend.pages.play_video_live', compact('playLiveVideo'));
         // return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your ticket');
 
@@ -280,44 +291,56 @@ class HomeController extends Controller
     // ---------------------------------------music page---------------------------------------
     public function music()
     {
-        $today = \Carbon\Carbon::now();
+        $today = Carbon::now();
         // check login
         if (Auth::guard('general')->user()) {
-            $standard = TicketTypeDetails::where('ticket_slug', 'standard')->where('user_id', Auth::guard('general')->user()->id)->first();
+            $standard = TicketTypeDetails::where('ticket_slug', 'standard')->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
 
-            $premium = TicketTypeDetails::where('ticket_slug', 'premium')->where('user_id', Auth::guard('general')->user()->id)->first();
+            $premium = TicketTypeDetails::where('ticket_slug', 'premium')->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
 
             //access standard
-            $access = TicketTypeDetails::with('ticket_type')->where('user_id', Auth::guard('general')->user()->id)->first();
-            if($access != null){
+            $access = TicketTypeDetails::with('ticket_type')->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
+            if ($access != null) {
                 if ($access->ticket_slug == 'standard' && $access->access == null) {
                     $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
                         $query->where('pages', 'music');
                     })->latest()->first();
                     $allMusic = Music::with('admin.adminUser')->orderBy('id', 'DESC')->paginate(10);
                     $allMusicVideo = AdminVideoMusic::with('admin.adminUser')->where('status', 1)->orderBy('id', 'DESC')->paginate(10);
-                    
-                    return view('frontend.pages.music', compact('allMusicVideo', 'allMusic', 'site_image','access'));
+                    return view('frontend.pages.music', compact('allMusicVideo', 'allMusic', 'site_image', 'access'));
                 }
             }
 
             // check standard package
             if ($standard != null) {
                 // check monthly package expired
+                $standard_date = Carbon::parse($standard->date);
+                $today = Carbon::parse($today);
+                $date_diff = $standard_date->diffInDays($today);
                 if ($standard->access == 'music') {
-                    $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
-                        $query->where('pages', 'music');
-                    })->latest()->first();
-                    $allMusic = Music::with('admin.adminUser')->orderBy('id', 'DESC')->paginate(10);
-                    $allMusicVideo = AdminVideoMusic::with('admin.adminUser')->where('status', 1)->orderBy('id', 'DESC')->paginate(10);
-                    return view('frontend.pages.music', compact('allMusicVideo', 'allMusic', 'site_image'));
+                    if ($date_diff >= 0) {
+                        $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
+                            $query->where('pages', 'music');
+                        })->latest()->first();
+                        $allMusic = Music::with('admin.adminUser')->orderBy('id', 'DESC')->paginate(10);
+                        $allMusicVideo = AdminVideoMusic::with('admin.adminUser')->where('status', 1)->orderBy('id', 'DESC')->paginate(10);
+                        return view('frontend.pages.music', compact('allMusicVideo', 'allMusic', 'site_image'));
+                    } else {
+                        $standard->ticket_status = 0;
+                        $standard->update();
+                        $notify[] = ['success', 'Please upgrade your Subscription Plan'];
+                        return redirect()->route('ticketTypePricing')->withNotify($notify);
+                    }
                 } else {
-                    
-                    return redirect()->route('ticketTypePricing')->with('success','You can see only Movies');
+                    $notify[] = ['success', 'You can see only Movies'];
+                    return redirect()->route('ticketTypePricing')->withNotify($notify);
                 }
                 // check premium package
             } else if ($premium != null) {
-                if ($premium->created_at->diffInDays($today, false) <= 30) {
+                $premium_date = Carbon::parse($premium->date);
+                $today = Carbon::parse($today);
+                $date_diff = $premium_date->diffInDays($today);
+                if ($date_diff >= 0) {
                     $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
                         $query->where('pages', 'music');
                     })->latest()->first();
@@ -325,11 +348,14 @@ class HomeController extends Controller
                     $allMusicVideo = AdminVideoMusic::with('admin.adminUser')->where('status', 1)->orderBy('id', 'DESC')->paginate(10);
                     return view('frontend.pages.music', compact('allMusicVideo', 'allMusic', 'site_image'));
                 } else {
-                    $standard->delete();
-                    return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your Subscription Plan');
+                    $premium->ticket_status = 0;
+                    $premium->update();
+                    $notify[] = ['success', 'Please upgrade your Subscription Plan'];
+                    return redirect()->route('ticketTypePricing')->withNotify($notify);
                 }
             } else {
-                return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your Subscription Plan');
+                $notify[] = ['success', 'Please upgrade your Subscription Plan'];
+                return redirect()->route('ticketTypePricing')->withNotify($notify);
             }
         } else {
             return redirect()->route('login');
@@ -339,7 +365,6 @@ class HomeController extends Controller
     //  ---------------------------------------video music play---------------------------------------
     public function videoMusicPlay($id)
     {
-
         $playVideoMusic = AdminVideoMusic::where('id', $id)->first();
         return view('frontend.pages.play_video_music', compact('playVideoMusic'));
     }
@@ -358,7 +383,6 @@ class HomeController extends Controller
             $query->where('pages', 'smile-tv');
         })->latest()->first();
         $allSmileTvs = AdminSmileTv::where('status', 1)->get();
-
         return view('frontend.pages.smile_tv', compact('allSmileTvs', 'site_image'));
     }
 
@@ -366,36 +390,48 @@ class HomeController extends Controller
     // ---------------------------------------News page---------------------------------------
     public function news()
     {
-        $today = \Carbon\Carbon::now();
+        $today = Carbon::now();
         if (Auth::guard('general')->user()) {
-
-            $standard = TicketTypeDetails::where('ticket_slug', 'standard')->where('user_id', Auth::guard('general')->user()->id)->first();
-            $premium = TicketTypeDetails::where('ticket_slug', 'premium')->where('user_id', Auth::guard('general')->user()->id)->first();
+            $standard = TicketTypeDetails::where('ticket_slug', 'standard')->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
+            $premium = TicketTypeDetails::where('ticket_slug', 'premium')->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
 
             if ($standard != null) {
-                if ($standard->created_at->diffInDays($today, false) <= 30) {
+                $standard_date = Carbon::parse($standard->date);
+                $today = Carbon::parse($today);
+                $date_diff = $standard_date->diffInDays($today);
+
+                if ($date_diff >= 0) {
                     $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
                         $query->where('pages', 'news');
                     })->latest()->first();
                     $allNews = AdminNews::with(['admin', 'user'])->where('status', '=', 1)->paginate(6);
                     return view('frontend.pages.news', compact('allNews', 'site_image'));
                 } else {
-                    $standard->delete();
-                    return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your Subscription Plan');
+                    $standard->ticket_status = 0;
+                    $standard->update();
+                    $notify[] = ['success', 'Please upgrade your Subscription Plan'];
+                    return redirect()->route('ticketTypePricing')->withNotify($notify);
                 }
             } else if ($premium != null) {
-                if ($premium->created_at->diffInDays($today, false) <= 30) {
+                $premium_date = Carbon::parse($premium->date);
+                $today = Carbon::parse($today);
+                $date_diff = $premium_date->diffInDays($today);
+
+                if ($date_diff >= 0) {
                     $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
                         $query->where('pages', 'news');
                     })->latest()->first();
                     $allNews = AdminNews::with(['admin', 'user'])->where('status', '=', 1)->paginate(6);
                     return view('frontend.pages.news', compact('allNews', 'site_image'));
                 } else {
-                    $premium->delete();
-                    return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your Subscription Plan');
+                    $premium->ticket_status = 0;
+                    $premium->update();
+                    $notify[] = ['success', 'Please upgrade your Subscription Plan'];
+                    return redirect()->route('ticketTypePricing')->withNotify($notify);
                 }
             } else {
-                return redirect()->route('ticketTypePricing')->with('success', 'Please upgrade your Subscription Plan');
+                $notify[] = ['success', 'Please upgrade your Subscription Plan'];
+                return redirect()->route('ticketTypePricing')->withNotify($notify);
             }
         } else {
             return redirect()->route('login');

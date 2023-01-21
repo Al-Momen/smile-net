@@ -26,7 +26,7 @@ class UsersAuthController extends Controller
     // user Regstration form function
     public function userRegistrationForm(Request $request)
     {
-       
+
         if ($request->isMethod('post')) {
             //  dd($request->all());
             $data = $request->validate([
@@ -43,7 +43,7 @@ class UsersAuthController extends Controller
             $general_user->full_name = $data['fullname'];
             $general_user->email = $data['email'];
             $general_user->phone = $data['phone'];
-            $general_user->verified_code = rand(123456789, 987654321);
+            $general_user->verified_code = rand(1234567, 7654321);
             $general_user->country = $data['country'];
             $general_user->password = Hash::make($data['password']);
             $general_user->save();
@@ -57,7 +57,9 @@ class UsersAuthController extends Controller
 
             // Mail::to($general_user->email)->send(new VerifyEmail($general_user->verified_code));
             if ($general_user->verified_code) {
-                return redirect()->route('otp.form')->with('success', "User Create Successfully");
+                $notify[] = ['success', "User Create Successfully"];
+                return redirect()->route("otp.form")->withNotify($notify);
+                // return redirect()->route('otp.form')->with('success', "User Create Successfully");
             }
         }
         return view('frontend.auth.regstration');
@@ -97,11 +99,15 @@ class UsersAuthController extends Controller
                     $subject = 'Welcome ' . strtoupper($config->name) . ' Mail';
                     $message = 'Your varification Code' . ' ' . $general_users->verified_code;
                     sendGeneralEmail($request->email, $subject, $message, $receiver_name);
-                    return redirect()->route('otp.form')->with('info', 'Please Verify your email');
+                    $notify[] = ['error', "Please Verify your email"];
+                    return redirect()->route("otp.form")->withNotify($notify);
                 }
             }
         }
-        return redirect()->back()->withErrors('Access denied');;
+
+        $notify[] = ['error', "Invalid password"];
+        return redirect()->back()->withNotify($notify);
+        
     }
 
     //user otp Check functon
@@ -114,9 +120,19 @@ class UsersAuthController extends Controller
     public function userOtp(Request $request)
     {
         $user = DB::table('general_users')->where('verified_code', $request->verified_code)->first();
-        if ($user->verified_code == $request->verified_code) {
-            $update = DB::table('general_users')->where('id', $user->id)->update(['status' => 1]);
-            return redirect()->route("login")->with('success', "User is Verified");
+
+        if ($user != null) {
+
+            if ($user->verified_code == $request->verified_code) {
+                $update = DB::table('general_users')->where('id', $user->id)->update(['status' => 1]);
+                Auth::guard('general')->loginUsingId($user->id);
+                $notify[] = ['success', "user is Verifyed"];
+                return redirect()->route("user.deshboard")->withNotify($notify);
+            }
+        } else {
+            $notify[] = ['error', "OTP doesn't match"];
+            // return redirect()->back()->withNotify('success', 'You Vote successfully');
+            return redirect()->back()->withNotify($notify);
         }
     }
 
@@ -129,7 +145,7 @@ class UsersAuthController extends Controller
         return redirect()->route('login');
     }
 
-    
+
 
     // ----------------------------user Forgot password ----------------------------
     public function passwordResetEmailView()
@@ -157,9 +173,13 @@ class UsersAuthController extends Controller
             $message = 'Password reset Verification Code' . ' ' . $profile->verified_code;
             sendGeneralEmail($request->email, $subject, $message, $receiver_name);
             $encreptProfileId = encrypt($profile->id);
-            return redirect()->route('password.reset.otp.form', $encreptProfileId);
+
+            $notify[] = ['success', "Please Check ypur Email"];
+            return redirect()->route('password.reset.otp.form', $encreptProfileId)->withNotify($notify);
         } else {
-            return redirect()->back()->with('danger', 'Your Email is not Valid');
+            
+            $notify[] = ['success', "Your Email is not Valid"];
+            return redirect()->back()->withNotify($notify);
         }
     }
     public function userPasswordResetOtpForm($id)
@@ -172,14 +192,17 @@ class UsersAuthController extends Controller
     {
 
         $profileId = decrypt($request->id);
-        
+
         $reset_otp = GeneralUser::where('verified_code', $request->verified_code)->where('id', $profileId)->first();
         $profile = $reset_otp;
         if ($reset_otp) {
             $encreptProfileId = encrypt($profile->id);
             return redirect()->route('password.reset.view', $encreptProfileId);
         } else {
-            return redirect()->route('password.reset.email.view')->with('danger', 'Your OTP is not verifyed');
+            // return redirect()->route('password.reset.email.view')->with('danger', 'Your OTP is not verifyed');
+            $notify[] = ['error', "Your OTP doesn't match"];
+            return redirect()->route('password.reset.email.view')->withNotify($notify);
+            
         }
     }
     public function passwordResetView($id)
@@ -191,7 +214,7 @@ class UsersAuthController extends Controller
 
     public function passwordReset(Request $request)
     {
-        
+
         $request->validate([
             'new_pass' => 'required|min:5',
             'confirm_pass' => 'required|same:new_pass',
@@ -203,9 +226,10 @@ class UsersAuthController extends Controller
             $profile->password = Hash::make($request->new_pass);
             $profile->update();
             Auth::guard('general')->loginUsingId($profile->id);
-            return redirect()->route('user.deshboard')->with('success', "Password Update Successfully");
-
-
+            ddd('ok');
+            $notify[] = ['success', "Password Update Successfully"];
+            return redirect()->route('user.deshboard')->withNotify($notify);
+    
         } catch (QueryException $e) {
             dd($e->getMessage());
         }

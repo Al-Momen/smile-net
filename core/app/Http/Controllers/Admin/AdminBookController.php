@@ -16,7 +16,7 @@ class AdminBookController extends Controller
     public function index()
     {
         // dd($modalList);
-        $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('author_book_type','App\Models\User')->paginate(10);
+        $data['general_books'] = Book::with(['category', 'priceCurrency'])->where('author_book_type','App\Models\User')->orderBy('id','desc')->paginate(10);
         $data['general_count'] = Book::where('author_book_id', Auth::guard('general')->id())->count();
         $data['categories'] = AdminCategory::all();
         $data['price'] = PriceCurrency::first();
@@ -41,7 +41,7 @@ class AdminBookController extends Controller
             $book->description = $request->description;
             $book->category_id = $request->category;
             $book->price_id = $request->price_id;
-            $book->status = $request->status;
+            $book->status = 1;
             $book->price = $request->price;
             $book->tag = $request->tag;
             $book->image = Generals::upload('books/', 'png', $request->image);
@@ -97,7 +97,7 @@ class AdminBookController extends Controller
             $book->category_id = $request->category;
             $book->price_id = $request->price_id;
             $book->price = $request->price;
-            $book->status = $request->status;
+            $book->status = 1;
             $book->tag = $request->tag;
             $book->description = $request->description;
             $book->update();
@@ -129,7 +129,7 @@ class AdminBookController extends Controller
 
     public function allBooks()
     {
-        $data['general_books'] = Book::with(['category', 'priceCurrency','user','admin.adminuser'])->paginate(8);
+        $data['general_books'] = Book::with(['category', 'priceCurrency','user','admin.adminuser'])->orderby('id','desc')->paginate(8);
         $data['general_count'] = Book::count();
         $data['categories'] = AdminCategory::all();
         $data['price'] = PriceCurrency::first();

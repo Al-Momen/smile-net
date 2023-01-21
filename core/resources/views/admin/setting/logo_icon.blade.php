@@ -11,7 +11,7 @@
         </a>
         <i class="las la-angle-right"></i>
         <a href="{{ route('admin.admin-user') }}">
-            <span class="active-path g-color">Admin Users</span>
+            <span class="active-path g-color">Admin logo-icon</span>
         </a>
     </div>
     <div class="view-prodact">

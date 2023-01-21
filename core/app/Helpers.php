@@ -49,18 +49,7 @@ function systemDetails()
     return $system;
 }
 
-function getLatestVersion()
-{
-    $param['purchasecode'] = env("PURCHASECODE");
-    $param['website'] = @$_SERVER['HTTP_HOST'] . @$_SERVER['REQUEST_URI'] . ' - ' . env("APP_URL");
-    $url = 'https://license.viserlab.com/updates/version/' . systemDetails()['name'];
-    $result = curlPostContent($url, $param);
-    if ($result) {
-        return $result;
-    } else {
-        return null;
-    }
-}
+
 
 
 function slug($string)
@@ -447,21 +436,6 @@ function siteName()
 }
 
 
-//moveable
-function getTemplates()
-{
-    $param['purchasecode'] = env("PURCHASECODE");
-    $param['website'] = @$_SERVER['HTTP_HOST'] . @$_SERVER['REQUEST_URI'] . ' - ' . env("APP_URL");
-    $url = 'https://license.viserlab.com/updates/templates/' . systemDetails()['name'];
-    $result = curlPostContent($url, $param);
-    if ($result) {
-        return $result;
-    } else {
-        return null;
-    }
-}
-
-
 function getPageSections($arr = false)
 {
 
@@ -477,6 +451,7 @@ function getPageSections($arr = false)
 
 function getImage($image, $size = null)
 {
+   
     $clean = '';
     if (file_exists($image) && is_file($image)) {
         // dd(asset($image));
@@ -688,6 +663,18 @@ function imagePath()
         ],
         'deposit'=>[
             'path'=>'assets/images/verify/deposit'
+        ],
+        'buy_book'=>[
+            'path'=>'assets/images/verify/buy_book',
+            'size' => '800x800',
+        ],
+        'buy_ticket'=>[
+            'path'=>'assets/images/verify/buy_ticket',
+            'size' => '800x800',
+        ],
+        'buy_event_plan'=>[
+            'path'=>'assets/images/verify/buy_event_plan',
+            'size' => '800x800',
         ]
     ];
     $data['image'] = [
@@ -731,7 +718,7 @@ function imagePath()
         ],
         'user'=> [
             'path'=>'assets/images/user/profile',
-            'size'=>'350x300'
+            'size'=>'300x250'
         ],
         'merchant'=> [
             'path'=>'assets/images/merchant/profile',
@@ -821,9 +808,9 @@ function getContent($data_keys, $singleQuery = false, $limit = null, $orderById 
 function gatewayRedirectUrl($type = false)
 {
     if ($type) {
-        return 'user.home';
+        return 'index';
     } else {
-        return 'user.home';
+        return 'index';
     }
 }
 

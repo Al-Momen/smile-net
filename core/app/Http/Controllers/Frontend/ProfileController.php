@@ -24,7 +24,7 @@ class ProfileController extends Controller
     public function index()
     {
         $profile =  GeneralUser::where('id', Auth::guard('general')->id())->first();
-        $ticketTypeDetails =  TicketTypeDetails::with('ticket_type')->where('user_id', Auth::guard('general')->id())->first();
+        $ticketTypeDetails =  TicketTypeDetails::with('ticket_type')->where('user_id', Auth::guard('general')->id())->where('status', 1)->where('ticket_status',1)->first();
         return view('frontend.deshboard.pages.profile', compact('profile','ticketTypeDetails'));
     }
 
@@ -46,13 +46,21 @@ class ProfileController extends Controller
             $profile->facebook = $request->facebook;
             $profile->instagram = $request->instagram;
             $profile->twitter = $request->twitter;
-            $profile->photo = Generals::upload('profile/', 'png', $request->image);
             $profile->update();
-            return redirect()->back()->with('success', "Profile Update Successfully");
+            if ($request->hasFile('image')) {
+                $location = imagePath()['profile']['user']['path'];
+                $size = imagePath()['profile']['user']['size'];
+                $old = $profile->image;
+                $filename = uploadImage($request->image, $location, $size, $old);
+                $profile->photo = $filename;
+                $profile->update();
+            }
+            $notify[] = ['success', "Profile Update Successfully"];
+            return redirect()->back()->withNotify($notify);
         } catch (QueryException $e) {
             dd($e->getMessage());
         }
-    }
+    } 
 
     // ------------------------------password change------------------------------
     public function passwordChange()
@@ -75,7 +83,7 @@ class ProfileController extends Controller
             $profilePassUpdate->update();
             
             $notify[] = ['success', 'Your password update Successfully'];
-            return redirect()->route('user.deshboard')->with('success', 'Your password update Successfully');
+            return redirect()->route('user.deshboard')->withNotify($notify);
         }
         
         return redirect()->back()->with('danger', 'Your password is not Valid');

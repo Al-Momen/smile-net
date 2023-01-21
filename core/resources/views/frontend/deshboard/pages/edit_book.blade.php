@@ -49,22 +49,22 @@
             </div>
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4" style="display:none">
                 <label for="tag" class="form-label">price_id</label>
-                <input type="text" src="" class="form-control px-3 pt-2" name="price_id"
+                <input type="text" class="form-control px-3 pt-2" name="price_id"
                     id="tag" placeholder="Tag" value="{{ $price->id }}" >
             </div>
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="image" class="form-label">Image</label>
-                <input type="file" src="" class="form-control px-3 pt-2" name="image" accept="image/*"
-                    id="image">
+                <input type="file" class="form-control" name="image" accept="image/*"
+                    id="image" style="height: 38px !important">
             </div>
-            <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
+            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="file" class="form-label">File</label>
-                <input type="file" src="" class="form-control px-3 pt-2" name="file"
-                    accept="" id="file">
+                <input type="file" class="form-control"name="file"
+                    accept="" id="file" style="height: 38px !important">
             </div>
             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="tag" class="form-label">Tag</label>
-                <input type="text" src="" class="form-control px-3 pt-2" name="tag" id="tag" placeholder="Tag" value="{{$book->tag}}">
+                <input type="text" class="form-control px-3 pt-2" name="tag" id="tag" placeholder="Tag" value="{{$book->tag}}">
             </div>
             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                 <label for="editor" class="form-label">Description</label>

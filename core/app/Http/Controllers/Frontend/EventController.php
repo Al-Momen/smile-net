@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
 use App\Http\Helpers\Generals;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\EventPlanTransaction;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
@@ -21,7 +22,7 @@ class EventController extends Controller
 {
     public function events()
     {
-         $data['general_events'] = Event::with(['category','eventPlans.eventPlanTransaction','eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->id())->paginate(8);
+         $data['general_events'] = Event::with(['category','eventPlans.eventPlanTransaction','eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->id())->orderBy('id','desc')->paginate(8);
         // --------------total events count--------------
         $data['general_count'] = Event::where('author_event_id', Auth::guard('general')->id())->count();
         // --------------active events count--------------
@@ -33,6 +34,7 @@ class EventController extends Controller
         $data['categories'] = AdminCategory::all();
         $data['ticketType'] = TicketType::all();
         $data['priceCurrency'] = PriceCurrency::first();
+        $data['empty_data'] = "No data found";
         return view('frontend.deshboard.pages.event', $data);
     }
     public function storeEvents(Request $request)
@@ -154,4 +156,35 @@ class EventController extends Controller
         $notify[] = ['success', 'Events view Successfully'];
         return redirect()->back()->withNotify($notify);
     }
+
+
+    // -----------------------------Manual all Event request-----------------------------
+
+    public function event_plan_history()
+    {
+        $eventHistory = EventPlanTransaction::where('author_event_id', Auth::guard('general')->user()->id)->where('status', '!=', 0)->orderBy('id','desc')->paginate(8);
+        $priceCurrency = PriceCurrency::first();
+        return view('frontend.deshboard.pages.manual_event_request.event_history', compact('eventHistory','priceCurrency'));
+    }
+    public function sold_out($id)
+    {
+        $sold_event_history = EventPlan::with('eventPlanTransaction.eventPlans','ticketType')->where('event_id', $id)->orderBy('id','desc')->paginate(3);
+    //    dd($sold_event_history);
+        $currency = PriceCurrency::first();
+        $empty_message = "No data Found";
+        return view('frontend.deshboard.pages.sold-event-plan.sold_events_plan',compact(
+            'sold_event_history',
+            'currency',
+            'empty_message',
+        ));
+        
+    }
+
+    public function user_manual_event_request_view($id)
+    {
+        $event_request_view = EventPlanTransaction::where('id', $id)->with('user','eventPlans')->first();
+        $priceCurrency = PriceCurrency::first();
+        return view('frontend.deshboard.pages.manual_event_request.event_view', compact('event_request_view','priceCurrency'));
+    }
+
 }

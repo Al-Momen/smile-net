@@ -54,21 +54,6 @@
             </div>
         </div>
         <div class="shadow-lg p-4 card-1 my-3">
-            @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close" data-bs-dismiss="alert"
-                    aria-label="Close"></button>
-            </div>
-        @endif
             <!-- Button trigger modal -->
             <div class="text-end">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -85,12 +70,13 @@
                                 <th scope="col">Category</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Status</th>
+                                <th scope="col">Sold out</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="">
 
-                            @foreach ($general_books as $book)
+                            @forelse ($general_books as $book)
                                 @if ($book->author_book_type == 'App\Models\GeneralUser')
                                     <tr>
                                         <td>{{ $book->title }}</td>
@@ -108,6 +94,11 @@
                                             @endphp
                                         </td>
                                         <td class="">
+                                            <a href="{{ route('user.sold.out.books', $book->id) }}">
+                                                <i class="fa-solid fa-eye btn btn-primary rounded"></i>
+                                            </a>
+                                        </td>
+                                        <td class="">
                                             <a href="{{ route('user.destroy.books', $book->id) }}"><i
                                                     class="fa-solid fa-trash-can btn btn-danger rounded">
                                                 </i></a>
@@ -118,10 +109,14 @@
                                         </td>
                                     </tr>
                                 @endif
-                            @endforeach
-
+                            @empty
+                                <tr class="col-md-12 w-100">
+                                    <td>{{ $empty_data }}</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+                    {{ $general_books->links() }}
                 </div>
             </div>
         </div>
@@ -133,9 +128,9 @@
             id="addEventForm">
             @csrf
             <div class="modal-dialog">
-                <div class="modal-content" style="background-color: white!important;">
+                <div class="modal-content" style=" background-image: linear-gradient(to right top, #15243b, #1a2137, #1e1f33, #201c2e, #211a2a);!important;">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">Books Add</h5>
+                        <h5 class="modal-title text-white" id="addModalLabel">Books Add</h5>
                         <button type="button" class="btn-close" id="cross_close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
@@ -145,28 +140,28 @@
                         </div>
                         <div class="row g-4k" style="padding: 20px;">
                             <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="title" class="form-label">Title</label>
+                                <label for="title" class="form-label text-white">Title</label>
                                 <input type="text" class="form-control" placeholder="Title" name="title" id="title"
                                     value="">
                             </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4" style="display:none">
-                                <label for="tag" class="form-label">price_id</label>
+                                <label for="tag" class="form-label text-white">price_id</label>
                                 <input type="text" src="" class="form-control px-3 pt-2" name="price_id"
                                     id="tag" placeholder="Tag" value="{{ $price->id }}">
                             </div>
                             <div class=" col-lg-6 col-md-6 col-12 ">
-                                <label for="doller-input" class="form-label"> Price</label>
+                                <label for="doller-input" class="form-label text-white"> Price</label>
                                 <div class="input-group ">
                                     <span class="input-group-text"
                                         style="
                                         border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $price->symbol }}</span>
-                                    <input type="number" class="form-control" min="0" id="doller-input"
+                                    <input type="number" class="form-control text-white" min="0" id="doller-input"
                                         placeholder="Price" name="price">
                                 </div>
                             </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="categoty" class="form-label">Category</label>
-                                <select class="form-select form-select-md mb-3 text-capitalize"
+                                <label for="categoty" class="form-label text-white">Category</label>
+                                <select class="form-select form-select-md mb-3 text-capitalize text-white"
                                     style="padding: 12px 10px;" aria-label=".form-select-lg example" name="category">
                                     <option value=""> -- </option>
                                     @foreach ($categories as $category)
@@ -177,29 +172,30 @@
                             </div>
 
                             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="image" class="form-label"> Cover Image</label>
-                                <input type="file" src="" class="form-control px-3 pt-2" name="image"
+                                <label for="image" class="form-label text-white"> Cover Image</label>
+                                <input type="file" src="" class="form-control " name="image"
                                     accept="image/*" id="image">
                             </div>
 
                             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="file" class="form-label">File</label>
-                                <input type="file" src="" class="form-control px-3 pt-2" name="file"
-                                accept="application/pdf" id="file">
+                                <label for="file" class="form-label text-white">File <span class="text-danger" style="font-size:14px">(Pdf upload)</span></label>
+                                
+                                <input type="file" src="" class="form-control " name="file"
+                                    accept="application/pdf" id="file">
                             </div>
                             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="tag" class="form-label">Tag</label>
+                                <label for="tag" class="form-label text-white">Tag</label>
                                 <input type="text" src="" class="form-control px-3 pt-2" name="tag"
                                     id="tag" placeholder="Tag">
                             </div>
 
                             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
-                                <label for="editor" class="form-label">Description</label>
+                                <label for="editor" class="form-label text-white">Description</label>
                                 <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        <div class="mb-4 me-4 d-flex justify-content-end">
+                            <button type="button" class="btn btn-danger me-2" data-bs-dismiss="modal"
                                 id="btn_close">Close</button>
                             <button type="submit" class="btn btn-primary" id="btn_add">Add</button>
 
@@ -300,6 +296,10 @@
 
         .slider.round:before {
             border-radius: 50%;
+        }
+
+        .pagination .page-item .page-link {
+            color: white;
         }
     </style>
 @endpush

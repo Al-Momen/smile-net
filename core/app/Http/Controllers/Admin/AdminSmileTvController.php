@@ -48,7 +48,10 @@ class AdminSmileTvController extends Controller
             $smileTv->date = $request->date;
             $smileTv->smile_tv_link = $request->smile_tv_link;
             $smileTv->image = Generals::upload('smile-tv/', 'png', $request->image);
-            $smileTv->mp4 = Generals::upload('smile-tv/video/', $request->mp4->getClientOriginalExtension(), $request->mp4);
+            if($request->hasFile('mp4')){
+
+                $smileTv->mp4 = Generals::upload('smile-tv/video/', $request->mp4->getClientOriginalExtension(), $request->mp4);
+            }
             $smileTv->save();
             $notify[] = ['success', 'Smile-Tv Create Successfully'];
             return redirect()->back()->withNotify($notify);

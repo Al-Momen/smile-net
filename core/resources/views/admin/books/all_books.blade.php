@@ -8,7 +8,6 @@
 @php
     $roles = userRolePermissionArray();
 @endphp
-
 @section('content')
     <div class="dashboard-title-part">
         <h5 class="title">Dashboard</h5>
@@ -26,7 +25,7 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -49,83 +48,89 @@
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
-
-                <div>
-                    <table class="table text-white rounded mt-5">
-                        <thead class="text-center" style="color:#7b8191">
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Category Name</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($general_books->count() == 0)
+            <div class="table-content">
+                <div class="shadow-lg card-1 my-3">
+                    <div class="table-wrapper table-responsive">
+                        <table class="custom-table table text-white rounded mt-5">
+                            <thead class="text-center" style="color:#7b8191">
                                 <tr>
-                                    <td colspan="99">No data found</td>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
                                 </tr>
-                            @endif
-                            @foreach ($general_books as $book)
-                                @if ($book->author_book_type == 'App\Models\User')
-                                    <tr >
-                                        <td>{{ $book->admin->adminUser->first_name ?? ''.' '.$book->admin->adminUser->last_name ?? '' }} {{ $book->admin->adminUser->last_name ?? '' }}</td>
-                                        <td>{{ $book->title ?? '' }}</td>
-                                        <td><img class="table-user-img img-fluid d-block mx-auto"
-                                                src="{{ asset('core\storage\app\public\books\\' . $book->image ?? '') }}"
-                                                alt="Image"></td>
-                                        <td>{{ $book->category->name }}</td>
-                                        <td>
-                                            <form action="{{ route('admin.book.status.edit', $book->id) }}" method="POST">
-                                                @csrf
-                                                <label class="switch" id="switch">
-                                                    <input type="checkbox" name="status"
-                                                        @if ($book->status == 1) checked @endif id="switchInput">
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.view.book', $book->id) }}"
-                                                class="btn btn-primary rounded">
-                                                <i class="fas fa-eye" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal"></i></a>
-                                        </td>
+                            </thead>
+                            <tbody class="text-center" style="color:#7b8191">
+                                @if ($general_books->count() == 0)
+                                    <tr>
+                                        <td colspan="99" class="text-center">No data found</td>
                                     </tr>
                                 @endif
-                                @if ($book->author_book_type == 'App\Models\GeneralUser')
-                                    <tr>                                    
-                                        <td>{{ $book->user->full_name ?? ''}}</td>
-                                        <td>{{ $book->title ?? ''}}</td>
-                                        <td><img class="table-user-img img-fluid d-block mx-auto"
-                                                src="{{ asset('core\storage\app\public\books\\' . $book->image ?? '') }}"
-                                                alt="Image"></td>
-                                        <td>{{ $book->category->name ??''}}</td>
-                                        <td>
-                                            <form action="{{ route('admin.book.status.edit', $book->id) }}" method="POST">
-                                                @csrf
-                                                <label class="switch" id="switch">
-                                                    <input type="checkbox" name="status"
-                                                        @if ($book->status == 1) checked @endif id="switchInput">
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.view.book', $book->id) }}"
-                                                class="btn btn-primary rounded">
-                                                <i class="fas fa-eye" data-bs-toggle="modal"
+                                @foreach ($general_books as $book)
+                                    @if ($book->author_book_type == 'App\Models\User')
+                                        <tr>
+                                            <td>{{ $book->admin->adminUser->first_name ?? ('' . ' ' . $book->admin->adminUser->last_name ?? '') }}
+                                                {{ $book->admin->adminUser->last_name ?? '' }}</td>
+                                            <td>{{ $book->title ?? '' }}</td>
+                                            <td><img class="table-user-img img-fluid d-block me-auto"
+                                                    src="{{ asset('core\storage\app\public\books\\' . $book->image ?? '') }}"
+                                                    alt="Image"></td>
+                                            <td>{{ $book->category->name }}</td>
+                                            <td>
+                                                <form action="{{ route('admin.book.status.edit', $book->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <label class="switch" id="switch">
+                                                        <input type="checkbox" name="status"
+                                                            @if ($book->status == 1) checked @endif
+                                                            id="switchInput">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.view.book', $book->id) }}"
+                                                    class="btn btn-primary rounded">
+                                                    <i class="fas fa-eye" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    @if ($book->author_book_type == 'App\Models\GeneralUser')
+                                        <tr>
+                                            <td>{{ $book->user->full_name ?? '' }}</td>
+                                            <td>{{ $book->title ?? '' }}</td>
+                                            <td><img class="table-user-img img-fluid d-block me-auto"
+                                                    src="{{ asset('core\storage\app\public\books\\' . $book->image ?? '') }}"
+                                                    alt="Image"></td>
+                                            <td>{{ $book->category->name ?? '' }}</td>
+                                            <td>
+                                                <form action="{{ route('admin.book.status.edit', $book->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <label class="switch" id="switch">
+                                                        <input type="checkbox" name="status"
+                                                            @if ($book->status == 1) checked @endif
+                                                            id="switchInput">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.view.book', $book->id) }}"
+                                                    class="btn btn-primary rounded">
+                                                    <i class="fas fa-eye" data-bs-toggle="modal"
                                                     data-bs-target="#exampleModal"></i></a>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{$general_books->links()}}
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $general_books->links() }}
+                    </div>
                 </div>
             </div>
         </div>

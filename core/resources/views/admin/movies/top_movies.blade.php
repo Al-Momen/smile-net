@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -52,59 +52,60 @@
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
+            <div class="table-content">
+                <div class="shadow-lg card-1 my-3">
+                    <div class="table-wrapper table-responsive">
+                        <table class="custom-table table text-white rounded mt-5 ">
+                            <thead class="text-center" style="color:#7b8191">
+                                <tr>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Ticket Type</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center" style="color:#7b8191">
+                                @if ($topMovies->count() == 0)
+                                    <tr>
+                                        <td colspan="99" class="text-center">No data found</td>
+                                    </tr>
+                                @endif
+                                @foreach ($topMovies as $topMovie)
+                                    <tr>
+                                        <td>{{ $topMovie->name }}</td>
+                                        <td>{{ $topMovie->category }}</td>
+                                        <td>{{ $topMovie->ticketType->name }}</td>
+                                        <td><img class="table-user-img img-fluid d-block me-auto"
+                                                src="{{ asset('core\storage\app\public\top-movies\photo\\' . $topMovie->image) }}"
+                                                alt="Image"></td>
 
-                <div class="table-responsive">
-                    <table class="table text-white rounded mt-5 text-nowrap">
-                        <thead class="text-center" style="color:#7b8191">
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Ticket Type</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($topMovies->count() == 0)
-                                <tr>
-                                    <td colspan="99">No data found</td>
-                                </tr>
-                            @endif
-                            @foreach ($topMovies as $topMovie)
-                                <tr>
-                                    <td>{{ $topMovie->name }}</td>
-                                    <td>{{ $topMovie->category }}</td>
-                                    <td>{{ $topMovie->ticketType->name }}</td>
-                                    <td><img class="table-user-img img-fluid d-block mx-auto"
-                                            src="{{ asset('core\storage\app\public\top-movies\photo\\' . $topMovie->image) }}"
-                                            alt="Image"></td>
-                                   
-                                    <td>
-                                        <form action="{{ route('admin.top.movies.status.edit', $topMovie->id) }}"
-                                            method="POST">
-                                            @csrf
-                                            <label class="switch" id="switch">
-                                                <input type="checkbox" name="status"
-                                                    @if ($topMovie->status == 1) checked @endif id="switchInput">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="{{ route('admin.destroy.top.movies', $topMovie->id) }}"class="btn btn-danger rounded"><i
-                                                class="fas fa-trash"></i></a>
-                                        <a href="{{ route('admin.edit.top.movies', $topMovie->id) }}"
-                                            class="btn btn-primary rounded">
-                                            <i class="fas fa-edit"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $topMovies->links() }}
+                                        <td>
+                                            <form action="{{ route('admin.top.movies.status.edit', $topMovie->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                <label class="switch" id="switch">
+                                                    <input type="checkbox" name="status"
+                                                        @if ($topMovie->status == 1) checked @endif id="switchInput">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <a
+                                                href="{{ route('admin.destroy.top.movies', $topMovie->id) }}"class="btn btn-danger rounded"><i
+                                                    class="fas fa-trash"></i></a>
+                                            <a href="{{ route('admin.edit.top.movies', $topMovie->id) }}"
+                                                class="btn btn-primary rounded">
+                                                <i class="fas fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $topMovies->links() }}
+                    </div>
                 </div>
             </div>
         </div>

@@ -2,88 +2,43 @@
 @section('content')
     <div class="table-content">
         <div class="row">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close" data-bs-dismiss="alert"
-                        aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('info'))
-                <div class="alert alert-info alert-dismissible fade show" role="alert">
-                    <strong>{{ session('info') }}!</strong> <button type="button" class="btn-close" data-bs-dismiss="alert"
-                        aria-label="Close"></button>
-                </div>
-            @endif
+
             <div class="row">
                 <div class="header-title">
                     <h4>Withdraw</h4>
                 </div>
-                {{-- @foreach ($manualGetway as $item)
-                    @php
-                        $user_data = json_decode($item->user_data, true);
-                    @endphp
-                @endforeach --}}
-                {{-- 
-                        <div class="col-12 mb-2">
-                            <label for="{{ $field['field_name'] }}"
-                                class="form-label text-white">{{ $field['field_level'] }}</label>
-                            <input type="{{ $field['field_type'] }}" class="form-control" name="{{ $field['field_name'] }}"
-                                {{ $field['field_validation'] }}>
-                        </div> 
-                        --}}
-
-                <form action="{{route('user.withdraw.request')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('user.withdraw.request') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="col-12 mb-2">
-                        <label class="form--label dark-label text-capitalize">Select Getway<span class="text-danger">*</span></label>
-                        <select class="custom-select form-control form--control dark-select method_code" id="inputGroupSelect01"
-                            name="gateway">
-                            @foreach ($manualGetways as $manualGetway)
-                                <option value="{{ $manualGetway->code }}" data-code="{{ $manualGetway->code }}" selected>
-                                    {{ $manualGetway->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-12 mb-2">
-                        <label class="form--label dark-label text-capitalize">Amount<span class="text-danger">*</span></label>
-                    <input type="number" class="form--control dark-select"
-                        name="amount" placeholder="Amount"
-                         style="padding: 12px;">
-                    </div>
-
-                    @foreach ($manualGetways as $item)
-                        @php
-                            $manual_getway_fields = json_decode($item->user_data);
-                            // dd($manual_getway_fields);
-                        @endphp
-                        <div class="row d-none field-wrp card-info-{{ $item->code }}" id="card-info-{{ $item->code }}"
-                            data-code="{{ $item->code }}">
-                            <div class="instruction col-md-12 step__form__group mb-3">
-                                <span class="text-danger fw-bold d-flex ">{!! $item->description ?? '' !!} </span>
+                        <div class="card">
+                            <div class="card-header text-white">
+                                Withdraw
                             </div>
-                            @foreach ($manual_getway_fields as $field)
-                                <div class="col-md-12 step__form__group mb-3">
-                                    <label class="form--label dark-label text-capitalize">{{ $field->field_level }}<span
-                                            class="text-danger">
-                                            {{ $field->field_validation == 'required' ? '*' : '' }} </span></label>
-                                    <input type="{{ $field->field_type }}" class="form--control dark-select"
-                                        name="{{ $field->field_name }}" placeholder="{{ $field->field_level }}"
-                                         style="padding: 12px;">
+                            <div class="card-body">
+                                <div class="col-12 mb-4 mt-3">
+                                    <label class="form--label dark-label text-capitalize">Amount<span
+                                            class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" id="exampleFormControlInput1"
+                                            placeholder="Amount" name="amount">
+                                    
                                 </div>
-                            @endforeach
+                                <div class="col-12 mb-5">
+                                    <label class="form--label dark-label text-capitalize">Select Getway<span
+                                            class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" aria-label="form-select-lg example" name="gateway">
+                                        <option selected>---</option>
+                                        @foreach ($manualGetways as $manualGetway)
+                                            <option value="{{ $manualGetway->code }}" data-code="{{ $manualGetway->code }}">
+                                                {{ $manualGetway->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mt-2 text-end mt-4">
+                                    <button type="submit" class="btn btn-primary text-white text-end">Confirm</button>
+                                </div>
+                            </div>
                         </div>
-                    @endforeach
-                    <div class="form-group mt-2 text-end">
-                        <button type="submit" class="btn btn-primary text-white text-end">Submit</button>
                     </div>
                 </form>
             </div>
@@ -94,7 +49,7 @@
         </div>
     </div>
 @endsection
-@Push('js')
+@push('js')
     <script>
         (function($) {
             "use strict";
@@ -111,7 +66,7 @@
             });
         })(jQuery);
     </script>
-@endPush
+@endpush
 @push('css')
     <style>
         .dark-select {

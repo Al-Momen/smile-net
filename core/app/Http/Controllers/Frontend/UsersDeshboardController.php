@@ -21,6 +21,7 @@ use App\Models\PriceCurrency;
 use App\Models\AdminVoteImage;
 use App\Models\PricingDetails;
 use App\Models\BookTransaction;
+use App\Models\GatewayCurrency;
 use App\Models\GeneralUserVote;
 use App\Models\AdminPaypalGetway;
 use App\Models\AdminStripeGetway;
@@ -40,57 +41,91 @@ class UsersDeshboardController extends Controller
     public function index()
     {
         $ticketTypePlans = TicketTypeDetails::with(['ticket_type'])->where('user_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->count();
-
         $eventPlanTranactionTicketCount = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->count();
 
-        $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->paginate(5, ['*'], 'eventPlanTranaction');
+        $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->where('status', 1)->orderBy('id', 'desc')->paginate(5, ['*'], 'eventPlanTranaction');
 
-        $books = BookTransaction::where('buy_user_id', Auth::guard('general')->id())->where('author_book_type', 'App\Models\GeneralUser')->orderBy('id', 'desc')->paginate(5, ['*'], 'books');
+        $books = BookTransaction::where('buy_user_id', Auth::guard('general')->id())->where('author_book_type', 'App\Models\GeneralUser')->where('status', 1)->orderBy('id', 'desc')->paginate(5, ['*'], 'books');
 
         $user_wallet = UserWallet::where('user_id', Auth::guard('general')->id())->first();
 
         $priceCurrency = PriceCurrency::first();
 
         $today = Carbon::now();
-        $standard = TicketTypeDetails::where('ticket_slug', 'standard')->where('user_id', Auth::guard('general')->user()->id)->first();
-        $premium = TicketTypeDetails::where('ticket_slug', 'premium')->where('user_id', Auth::guard('general')->user()->id)->first();
-        
-        if ($premium != null) {
+        $standard = TicketTypeDetails::with('ticket_type')->where('ticket_slug', 'standard')->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
+        $premium = TicketTypeDetails::with('ticket_type')->where('ticket_slug', 'premium')->where('user_id', Auth::guard('general')->user()->id)->where('status', 1)->where('ticket_status', 1)->first();
+        // dd($premium);
 
-            if ($premium->created_at->diffInDays($today, false) >= 30) {
-                $premium->delete();
+
+        if ($premium != null) {
+            $premium_date = Carbon::parse($premium->date);
+            $today = Carbon::parse($today);
+            $date_diff = $premium_date->diffInDays($today);
+            if ($date_diff <= 0) {
+                // dd('ok');
+                $premium->ticket_status = 0;
+                $premium->update();
             }
         }
         if ($standard != null) {
-
-            if ($standard->created_at->diffInDays($today, false) >= 30) {
-                $standard->delete();
+            $standard_date = Carbon::parse($standard->date);
+            $today = Carbon::parse($today);
+            $date_diff = $standard_date->diffInDays($today);
+            if ($date_diff <= 0) {
+                $standard->ticket_status = 0;
+                $standard->update();
             }
         }
 
-        return view('frontend.deshboard.pages.index', compact('eventPlanTranactionTicketCount', 'eventPlanTranaction', 'books', 'user_wallet', 'priceCurrency', 'ticketTypePlans','premium'));
+        // ---------------------user wallet create---------------------
+        $user_wallet = UserWallet::where('user_id', Auth::guard('general')->user()->id)->first();
+        if (!$user_wallet) {
+            $user_wallet = new UserWallet();
+            $user_wallet->user_id = Auth::guard('general')->user()->id;
+            $user_wallet->save();
+        }
+        $empty_message = 'No data found';
+
+        return view('frontend.deshboard.pages.index', compact(
+            'eventPlanTranactionTicketCount',
+            'eventPlanTranaction',
+            'books',
+            'user_wallet',
+            'priceCurrency',
+            'ticketTypePlans',
+            'premium',
+            'empty_message',
+        ));
     }
     public function placeOrder($id)
     {
         $book = Book::with(['category', 'priceCurrency', 'user', 'admin'])->findOrFail($id);
-        $allGetways['paypal'] = AdminPaypalGetway::first();
-        $allGetways['stripe'] = AdminStripeGetway::first();
-        $allGetways['manual'] = AdminBuyManualGetway::where('status' ,1)->get();
-        return view('frontend.pages.place_order', compact('book','allGetways'));
+        $allGetways = GatewayCurrency::whereHas('method', function ($gate) {
+            $gate->where('status', 1);
+        })->with('method')->orderby('method_code')->get();
+        return view('frontend.pages.place_order', compact('book', 'allGetways'));
     }
 
     // ---------------------------------------- ticketType Pricing Place Order----------------------------------------
     public function ticketTypePricingPlaceOrder($id)
     {
         $ticketTypePricing = TicketType::with(['priceCurrency'])->findOrFail($id);
-        return view('frontend.pages.ticket_type_pricing_place_order', compact('ticketTypePricing'));
+
+        $allGetways = GatewayCurrency::whereHas('method', function ($gate) {
+            $gate->where('status', 1);
+        })->with('method')->orderby('method_code')->get();
+        // dd($allGetways);
+        return view('frontend.pages.ticket_type_pricing_place_order', compact('ticketTypePricing', 'allGetways'));
     }
 
     // --------------------------------------- plan Pricing place order page---------------------------------------
     public function eventPlanTransaction($id)
     {
         $eventPlan = EventPlan::where('id', $id)->with(['ticketType', 'event.priceCurrency'])->first();
-        return view('frontend.pages.event_plan_transaction', compact('eventPlan'));
+        $allGetways = GatewayCurrency::whereHas('method', function ($gate) {
+            $gate->where('status', 1);
+        })->with('method')->orderby('method_code')->get();
+        return view('frontend.pages.event_plan_transaction', compact('eventPlan', 'allGetways'));
     }
 
     // ---------------User coupon check by ajax---------------
@@ -103,7 +138,7 @@ class UsersDeshboardController extends Controller
                     'error' => "Coupon code isn't Valid",
                 ]);
             };
-            
+
             if ($couponCheck->status == 1) {
                 return response()->json([
                     'success' => 'Coupon code is successfully added',
@@ -130,7 +165,8 @@ class UsersDeshboardController extends Controller
         ]);
         $user_already_voted = UserVote::where('admin_vote_id', $request->admin_vote_id)->where('user_id', Auth::guard('general')->user()->id)->get();
         if ($user_already_voted->count() > 0) {
-            return back()->with('success', 'You are Already voted this item');
+            $notify[]=['success', 'You are Already voted this item'];
+            return back()->withNotify($notify);
         }
         $voted = new UserVote();
         $voted->user_id = Auth::guard('general')->user()->id;
@@ -139,7 +175,7 @@ class UsersDeshboardController extends Controller
         $voted->voted = 'yes';
         $voted->save();
         $notify[] = ['success', 'Vote Successfully'];
-        return redirect()->back()->with('success', 'You Vote successfully');
+        return redirect()->back()->withNotify($notify);
     }
     public function userPayment(Request $request)
     {
@@ -152,28 +188,52 @@ class UsersDeshboardController extends Controller
 
     public function buyingBooks()
     {
-        
-        $buyBooks = BookTransaction::with('book')->where('buy_user_id', Auth::guard('general')->user()->id)->get();
-        return view('frontend.deshboard.pages.buying_books', compact('buyBooks'));
+        $buyBooks = BookTransaction::with('book')->where('buy_user_id', Auth::guard('general')->user()->id)->where('status', 1)->orderBy('id','desc')->paginate(10);
+        $empty_message = 'No Data Found';
+        return view('frontend.deshboard.pages.buying_books', compact('buyBooks', 'empty_message'));
     }
-
     public function buyingEventTicket()
     {
-        $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->paginate(10);
+        $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->where('status', 1)->orderBy('id', 'desc')->paginate(10);
         $priceCurrency = PriceCurrency::first();
-        return view('frontend.deshboard.pages.buying_ticket', compact('eventPlanTranaction', 'priceCurrency'));
+        $empty_message = 'No Data Found';
+        return view('frontend.deshboard.pages.buying_plan', compact(
+            'eventPlanTranaction',
+             'priceCurrency',
+             'empty_message',
+            ));
     }
     public function buyingPlanTicket()
     {
-        $ticketTypePlans = TicketTypeDetails::with(['ticket_type'])->where('user_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->paginate(10);
+        $ticketTypePlans = TicketTypeDetails::with(['ticket_type'])->where('user_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->where('status','!=' ,0)->paginate(10);
+        // dd($ticketTypePlans);
+        $empty_message = 'No Data Found';
         $priceCurrency = PriceCurrency::first();
-        return view('frontend.deshboard.pages.buying_plan', compact('ticketTypePlans', 'priceCurrency'));
+        return view('frontend.deshboard.pages.buying_ticket', compact(
+            'ticketTypePlans',
+             'priceCurrency',
+             'empty_message',
+            ));
     }
 
     public function openPDF($id)
     {
         $buyBooks = Book::where('id', $id)->first();
-        return response()->file("core\storage\app\public\books\\" . $buyBooks->file);
+        return response()->file("core/storage/app/public/books/" . $buyBooks->file);
     }
 
+    // -----------------------------Manual all Ticket request-----------------------------
+    public function ticket_history()
+    {
+        $ticketHistory = TicketTypeDetails::where('user_id', Auth::guard('general')->user()->id)->where('status', '!=', 0)->paginate(8);
+        $priceCurrency = PriceCurrency::first();
+        return view('frontend.deshboard.pages.manual_ticket_request.ticket_history', compact('ticketHistory', 'priceCurrency'));
+    }
+
+    public function user_manual_ticket_request_view($id)
+    {
+        $ticket_request_view = TicketTypeDetails::where('id', $id)->with('user', 'ticket_type')->first();
+        $priceCurrency = PriceCurrency::first();
+        return view('frontend.deshboard.pages.manual_ticket_request.ticket_view', compact('ticket_request_view', 'priceCurrency'));
+    }
 }

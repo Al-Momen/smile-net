@@ -15,7 +15,7 @@ class AdminNewsController extends Controller
 {
     public function index()
     {
-        $allNews = AdminNews::with(['category','admin'])->where('news_type','App\Models\User')->where('user_id',Auth::user()->id)->paginate(10);
+        $allNews = AdminNews::with(['category','admin'])->where('news_type','App\Models\User')->where('user_id',Auth::user()->id)->orderBy('id','desc')->paginate(10);
         $categories = AdminCategory::all();
         return view('admin.admin-news.news',compact('categories','allNews'));
     }
@@ -111,7 +111,7 @@ class AdminNewsController extends Controller
 
     public function allNews()
     {
-        $allNews = AdminNews::with(['category','admin.adminUser','user'])->paginate(10);
+        $allNews = AdminNews::with(['category','admin.adminUser','user'])->orderBy('id','desc')->paginate(10);
         $categories = AdminCategory::all();
         return view('admin.admin-news.all_news', compact('allNews','categories'));
     }

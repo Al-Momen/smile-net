@@ -1,4 +1,14 @@
 @extends('admin.layout.master')
+@section('title')
+    Email Template
+@endsection
+@section('page-name')
+    Email Template
+@endsection
+
+@php
+    $roles = userRolePermissionArray();
+@endphp
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -9,50 +19,67 @@
                             <h5 class="title">Email Configuration</h5>
                             <div class="info-btn">
                                 {{-- <a type="button" data-bs-target="#testMailModal" data-bs-toggle="modal"><span class="nane-btn">Send Test Mail</span> <i class="las la-paper-plane"></i></a> --}}
-                                <a href="#0" class="btn btn--base" data-bs-toggle="modal" data-bs-target="#exampleModalTwo"> Send Test Mail  <i class="las la-paper-plane"></i></a>
+                                <a href="#0" class="btn btn--base" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalTwo"> Send Test Mail <i class="las la-paper-plane"></i></a>
                             </div>
                         </div>
                         <div class="dashboard-form-area two mt-10">
-                            <form class="dashboard-form" action="{{ route('admin.email.template.setting.update') }}" method="POST">
+                            <form class="dashboard-form" action="{{ route('admin.email.template.setting.update') }}"
+                                method="POST">
                                 @csrf
                                 <div class="row justify-content-center mb-10-none">
                                     <div class="col-lg-12 form-group">
                                         <label>Email Send Method</label>
-                                        <select name="email_method" class="form-control" >
-                                            <option value="smtp" @if($general->mail_config->name == 'smtp') selected @endif>@lang('SMTP')</option>
+                                        <select name="email_method" class="form-control">
+                                            <option value="smtp" @if ($general->mail_config->name == 'smtp') selected @endif>
+                                                @lang('SMTP')</option>
                                         </select>
                                     </div>
 
-                                         <div class="form-row mt-4  configForm" id="smtp">
+                                    <div class="form-row mt-4  configForm" id="smtp">
                                         <div class="col-md-12">
                                             <h6 class="mb-2">@lang('SMTP Configuration')</h6>
                                         </div>
-                                       <div class="row">
-                                        <div class="form-group col-md-4">
-                                            <label class="font-weight-bold">@lang('Host') <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" placeholder="e.g. @lang('smtp.googlemail.com')" name="host" value="{{ $general->mail_config->host ?? '' }}"/>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="font-weight-bold">@lang('Host') <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control"
+                                                    placeholder="e.g. @lang('smtp.googlemail.com')" name="host"
+                                                    value="{{ $general->mail_config->host ?? '' }}" />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="font-weight-bold">@lang('Port') <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="@lang('Available port')"
+                                                    name="port" value="{{ $general->mail_config->port ?? '' }}" />
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="font-weight-bold">@lang('Encryption')</label>
+                                                <select class="form-control" name="enc">
+                                                    <option
+                                                        value="ssl"{{ $general->mail_config->enc == 'ssl' ? 'Selected' : '' }}>
+                                                        @lang('SSL')</option>
+                                                    <option value="tls"
+                                                        {{ $general->mail_config->enc == 'tls' ? 'Selected' : '' }}>
+                                                        @lang('TLS')</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="font-weight-bold">@lang('Username') <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control"
+                                                    placeholder="@lang('Normally your email') address" name="username"
+                                                    value="{{ $general->mail_config->username ?? '' }}" />
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label class="font-weight-bold">@lang('Password') <span
+                                                        class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="@lang('Normally your email password')"
+                                                    name="password" value="{{ $general->mail_config->password ?? '' }}" />
+                                            </div>
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="font-weight-bold">@lang('Port') <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" placeholder="@lang('Available port')" name="port" value="{{ $general->mail_config->port ?? '' }}"/>
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="font-weight-bold">@lang('Encryption')</label>
-                                            <select class="form-control" name="enc">
-                                                <option value="ssl"{{ $general->mail_config->enc == 'ssl' ? "Selected":"" }}>@lang('SSL')</option>
-                                                <option value="tls" {{ $general->mail_config->enc == 'tls' ? "Selected":"" }}>@lang('TLS')</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="font-weight-bold">@lang('Username') <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" placeholder="@lang('Normally your email') address" name="username" value="{{ $general->mail_config->username ?? '' }}"/>
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label class="font-weight-bold">@lang('Password') <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" placeholder="@lang('Normally your email password')" name="password" value="{{ $general->mail_config->password ?? '' }}"/>
-                                        </div>
-                                       </div>
-                                     </div>
+                                    </div>
 
                                     {{-- <div class="form-row mt-4  configForm" id="sendgrid">
                                         <div class="col-md-12">
@@ -125,56 +152,57 @@
 
     <div class="modal fade" id="exampleModalTwo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@lang('Test Mail Setup')</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="las la-times"></i></button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ route('admin.email.template.test.mail') }}" method="POST">
-                @csrf
-                <input type="hidden" name="id">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">@lang('Test Mail Setup')</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i
+                            class="las la-times"></i></button>
+                </div>
                 <div class="modal-body">
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label>@lang('Sent to') <span class="text-danger">*</span></label>
-                            <input type="text" name="email" class="form-control" placeholder="@lang('Email Address')">
+                    <form action="{{ route('admin.email.template.test.mail') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id">
+                        <div class="modal-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label>@lang('Sent to') <span class="text-danger">*</span></label>
+                                    <input type="text" name="email" class="form-control"
+                                        placeholder="@lang('Email Address')">
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                        <div class="modal-footer mt-20">
+                            <a class="btn--base bg--danger" data-bs-dismiss="modal">Close</a>
+                            <button type="submit" class="btn--base">Submit</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="modal-footer mt-20">
-                    <a class="btn--base bg--danger" data-bs-dismiss="modal">Close</a>
-                    <button type="submit" class="btn--base">Submit</button>
-                </div>
-            </form>
-            </div>
 
-          </div>
+            </div>
         </div>
-      </div>
+    </div>
 @endsection
 
 
 @push('script')
     <script>
-        (function ($) {
+        (function($) {
             "use strict";
 
-            var method = '{{ $general->mail_config->name??''}}';
+            var method = '{{ $general->mail_config->name ?? '' }}';
             emailMethod(method);
             $('select[name=email_method]').on('change', function() {
                 var method = $(this).val();
                 emailMethod(method);
             });
 
-            function emailMethod(method){
+            function emailMethod(method) {
                 $('.configForm').addClass('d-none');
-                if(method != 'php') {
+                if (method != 'php') {
                     $(`#${method}`).removeClass('d-none');
                 }
             }
 
         })(jQuery);
-
     </script>
 @endpush

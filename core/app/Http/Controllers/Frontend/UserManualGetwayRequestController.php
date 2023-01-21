@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\UserWallet;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\UserManualGetwayRequest;
@@ -20,7 +21,6 @@ class UserManualGetwayRequestController extends Controller
     }
      public function pendingAllReq()
     {
-        
         $allManualGetwayRequest = UserManualGetwayRequest::with('user', 'priceCurrency')->where('status',0)->orderBy('id', 'DESC')->paginate(10);
         return view('admin.user-withdraw-request.pending_all_req', compact('allManualGetwayRequest'));
     }
@@ -37,24 +37,31 @@ class UserManualGetwayRequestController extends Controller
     }
     public function approved($id)
     {
+        
         $manualGetwayRequestView = UserManualGetwayRequest::where('id', $id)->first();
         $manualGetwayRequestView->status = 1;
         $manualGetwayRequestView->update();
+        
         $notify[] = ['success', 'User request is Approved'];
-        return redirect()->route('admin.user.manual.getway.request')->withNotify($notify);
+        return redirect()->route('admin.user.manual.getway.request.view',$id)->withNotify($notify);
     }
     public function reject(Request $request, $id)
     {
         $request->validate([
             'reject' =>'required',
         ]);
-        
+
+
         $manualGetwayRequestView = UserManualGetwayRequest::where('id', $id)->first();
         $manualGetwayRequestView->status = 2;
         $manualGetwayRequestView->reject = $request->reject;
         $manualGetwayRequestView->update();
+
+        //  user money back 
+        $userWallet = UserWallet::where('user_id',$manualGetwayRequestView->user_id)->first();
+        $userWallet->balance = $userWallet->balance + $manualGetwayRequestView->amount;
+        $userWallet->update();
         $notify[] = ['success', 'User request is Cancelled'];
-        return redirect()->route('admin.user.manual.getway.request',$id)->withNotify($notify);
-        
+        return redirect()->route('admin.user.manual.getway.request.view',$id)->withNotify($notify);
     }
 }

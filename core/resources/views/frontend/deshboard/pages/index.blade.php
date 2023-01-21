@@ -92,7 +92,7 @@
                 </div>
                 <div class="col-12">
                     <div class="scroll">
-                        @foreach ($eventPlanTranaction as $item)
+                        @forelse ($eventPlanTranaction as $item)
                             <div class="card mb-3" data-bs-toggle="collapse" data-bs-target="#flush-collapse2"
                                 aria-expanded="false" aria-controls="flush-collapse2">
                                 <div class="card-text mt-2">
@@ -111,12 +111,24 @@
                                                     echo date('h.i a - M d Y  ', strtotime($date));
                                                 @endphp
                                             </span>
-                                            <h3>{{ $item->paid_price }}{{$priceCurrency->symbol}}</h3>
+                                            <h3>{{ $item->final_amo}}{{$priceCurrency->symbol}}</h3>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
+                            @empty
+                            <div class="col-12">
+                                <div class="card mb-3 card-text">
+                                    <div class="card-text text-center">
+                                        <span class="text-capitalize text-center">{{ $empty_message }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 text-center text-white">
+        
+                            </div>
+
+                        @endforelse
                     </div>
                     <div class="mt-4"style="float: right;">
                         {{ $eventPlanTranaction->links() }}

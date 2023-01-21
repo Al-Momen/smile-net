@@ -659,15 +659,15 @@ blockquote .quote-icon {
 }
 
 *:hover::-webkit-scrollbar-thumb {
-  background: #eaf7e4;
+  background: #38cab3;
 }
 .table-responsive::-webkit-scrollbar {
-  width: 8px;
+  width: 2px;
   height: 10px;
-  background: green;
+  background: transparent;
 }
 .table-responsive::-webkit-scrollbar-thumb {
-  background: red !important;
+  background: transparent;
 }
 .table-responsive::-webkit-scrollbar-button {
   display: block !important;
@@ -783,7 +783,7 @@ table{
   font-weight: 600;
   text-align: left;
   color: #878a99;
-  font-size: 13px;
+  font-size: 15px;
   padding: 10px 20px;
 }
 .custom-table thead tr th:first-child {
@@ -811,7 +811,7 @@ table{
   border: none;
   font-weight: 500;
   text-align: left;
-  font-size: 12px;
+  font-size: 16px;
   padding: 11px 20px;
 }
 .custom-table tbody tr td:first-child {
@@ -982,6 +982,9 @@ table{
 }
 .custom--card .card-body {
   padding: 20px 30px;
+}
+.card-body-admin {
+ margin: 20px;
 }
 @media only screen and (max-width: 991px) {
   .custom--card .card-body {
@@ -1980,7 +1983,8 @@ select.form-control[multiple], select.form-control[size] {
   background-color: #1a1d21;
 }
 .page-wrapper.dark-version *:hover::-webkit-scrollbar-thumb {
-  background: #1a1d21;
+ 
+  background: #38cab3;
 }
 .page-wrapper.dark-version .sidebar {
   background: #212529;

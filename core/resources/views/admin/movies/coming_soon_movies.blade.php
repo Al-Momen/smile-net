@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -52,61 +52,64 @@
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
-                <div class="table-responsive">
-                    <table class="table text-white rounded mt-5 text-nowrap">
-                        <thead class="text-center" style="color:#7b8191">
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Ticket Type</th>
-                                <th scope="col">Year</th>
-                                <th scope="col">Image</th>
-                                
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($commingSoonMovies->count() == 0)
+            <div class="table-content">
+                <div class="shadow-lg card-1 my-3">
+                    <div class="table-wrapper table-responsive">
+                        <table class="custom-table table text-white rounded mt-5 ">
+                            <thead class="text-center" style="color:#7b8191">
                                 <tr>
-                                    <td colspan="99">No data found</td>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Ticket Type</th>
+                                    <th scope="col">Year</th>
+                                    <th scope="col">Image</th>
+
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
                                 </tr>
-                            @endif
-                            @foreach ($commingSoonMovies as $commingSoonMovie)
-                                <tr>
-                                    <td>{{ $commingSoonMovie->name }}</td>
-                                    <td>{{ $commingSoonMovie->category }}</td>
-                                    <td>{{ $commingSoonMovie->ticketType->name }}</td>
-                                    <td>{{ $commingSoonMovie->year }}</td>
-                                    <td><img class="table-user-img img-fluid d-block mx-auto"
-                                            src="{{ asset('core\storage\app\public\comming-soon-movies\photo\\' . $commingSoonMovie->image) }}"
-                                            alt="Image"></td>
-                                    
-                                    <td>
-                                    <form action="{{ route('admin.comming.soon.movies.status.edit', $commingSoonMovie->id) }}"
-                                        method="POST">
-                                        @csrf
-                                        <label class="switch" id="switch">
-                                            <input type="checkbox" name="status"
-                                                @if ($commingSoonMovie->status == 1) checked @endif id="switchInput">
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </form>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="{{ route('admin.destroy.comming.soon.movies', $commingSoonMovie->id) }}"class="btn btn-danger rounded"><i
-                                                class="fas fa-trash"></i></a>
-                                        <a href="{{ route('admin.edit.comming.soon.movies', $commingSoonMovie->id) }}"
-                                            class="btn btn-primary rounded">
-                                            <i class="fas fa-edit"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $commingSoonMovies->links() }}
+                            </thead>
+                            <tbody class="text-center" style="color:#7b8191">
+                                @if ($commingSoonMovies->count() == 0)
+                                    <tr>
+                                        <td colspan="99" class="text-center">No data found</td>
+                                    </tr>
+                                @endif
+                                @foreach ($commingSoonMovies as $commingSoonMovie)
+                                    <tr>
+                                        <td>{{ $commingSoonMovie->name }}</td>
+                                        <td>{{ $commingSoonMovie->category }}</td>
+                                        <td>{{ $commingSoonMovie->ticketType->name }}</td>
+                                        <td>{{ $commingSoonMovie->year }}</td>
+                                        <td><img class="table-user-img img-fluid d-block me-auto"
+                                                src="{{ asset('core\storage\app\public\comming-soon-movies\photo\\' . $commingSoonMovie->image) }}"
+                                                alt="Image"></td>
+
+                                        <td>
+                                            <form
+                                                action="{{ route('admin.comming.soon.movies.status.edit', $commingSoonMovie->id) }}"
+                                                method="POST">
+                                                @csrf
+                                                <label class="switch" id="switch">
+                                                    <input type="checkbox" name="status"
+                                                        @if ($commingSoonMovie->status == 1) checked @endif id="switchInput">
+                                                    <span class="slider round"></span>
+                                                </label>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <a
+                                                href="{{ route('admin.destroy.comming.soon.movies', $commingSoonMovie->id) }}"class="btn btn-danger rounded"><i
+                                                    class="fas fa-trash"></i></a>
+                                            <a href="{{ route('admin.edit.comming.soon.movies', $commingSoonMovie->id) }}"
+                                                class="btn btn-primary rounded">
+                                                <i class="fas fa-edit"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $commingSoonMovies->links() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -133,8 +136,8 @@
                                     </div>
                                     <div class=" col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="category" class="form-label">@lang('Category')</label>
-                                        <input type="text" class="form-control" placeholder="Category Type" name="category"
-                                            id="category" value="">
+                                        <input type="text" class="form-control" placeholder="Category Type"
+                                            name="category" id="category" value="">
                                     </div>
 
                                     <div class=" col-lg-6 col-md-6 col-12 pe-4 mt-4">

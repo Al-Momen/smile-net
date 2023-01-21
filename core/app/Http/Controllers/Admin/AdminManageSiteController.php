@@ -13,7 +13,7 @@ class AdminManageSiteController extends Controller
 {
     public function index()
     {
-        $allSiteImages = AdminManageSite::with('manageSite')->get();
+        $allSiteImages = AdminManageSite::with('manageSite')->paginate(10);
         $pages = Pages::get();
         return view('admin.admin-manage-site.manage_site',compact('allSiteImages','pages'));
         

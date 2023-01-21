@@ -85,13 +85,13 @@
             <form class="login-form" action="{{ route('admin.login') }}" method="post" >
                 @csrf
                 <span class="title">Log-in</span>
-                <label for="username">Username</label>
+                <label for="username">Email</label>
                 <input type="text" id="loginEmail" name="email" placeholder="Enter email">
                 <label for="password">Password</label>
                 <input id="loginPassword" type="password" name="password" placeholder="Enter password">
                 <span class="forget"><a href="#">Forget password?</a></span>
                 <input type="submit" value="Login">
-                <span class="new">Admin Login to <b>Appdevs</b> dashboard</span>
+                <span class="new">Admin Login to <b>{{$general->sitename}}</b> dashboard</span>
             </form>
            
         </div>

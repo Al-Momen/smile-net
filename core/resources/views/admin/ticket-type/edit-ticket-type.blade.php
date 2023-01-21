@@ -1,9 +1,9 @@
 @extends('admin.layout.master')
 @section('title')
-    Category
+    Subscription Plan
 @endsection
 @section('page-name')
-    Category
+    Subscription Plan
 @endsection
 @php
     $roles = userRolePermissionArray();
@@ -18,19 +18,19 @@
             </a>
             <i class="las la-angle-right"></i>
             <a href="{{ route('admin.ticket.type.index') }}">
-                <span class="active-path g-color">Category</span>
+                <span class="active-path g-color">Subscription Plan</span>
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">Edit Category</span>
+                <span class="active-path g-color">Edit Subscription Plan</span>
             </a>
         </div>
         <div class="view-prodact">
 
-            <a data-bs-toggle="modal" data-bs-target="#exampleModal">
+            {{-- <a data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <i class="las la-plus"></i>
                 <span>Add Category</span>
-            </a>
+            </a> --}}
         </div>
     </div>
     <div class="table-content">
@@ -58,13 +58,13 @@
                         <div class="modal-body">
                             <div class="modal-content">
                                 <div class="modal-header bg--primary">
-                                    <h5 class="modal-title text-white">@lang('Edit Ticket Types')</h5>
+                                    <h5 class="modal-title text-white">@lang('Edit Subscription Plan')</h5>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label>@lang('Ticket Types Name')</label>
+                                        <label>@lang('Subscription Plan Name')</label>
                                         <input class="form-control form--control" type="text" name="name"
-                                            placeholder="@lang('Ticket Types Name')" required value="{{ $ticketTypes->name }}"
+                                            placeholder="@lang('Subscription Plan Name')" required value="{{ $ticketTypes->name }}"
                                             readonly>
                                     </div>
                                     {{-- <div class="form-group">
@@ -74,6 +74,7 @@
                                             >
                                     </div> --}}
                                     <div class="form-group">
+                                        <label>@lang('Subscription Price')</label>
                                         <div class="input-group mb-3 mt-3">
                                             <span class="input-group-text"
                                                 style="
@@ -85,8 +86,15 @@
                                                 placeholder="Price" name="price" value={{ $ticketTypes->price }}>
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label>@lang('Subscription Days')</label>
+                                        <div class="input-group mb-3 mt-3">
+                                            <input type="number" class="form-control" min="0" id="doller-input"
+                                                placeholder="Enter your days" name="days" value={{ $ticketTypes->date }}>
+                                        </div>
+                                    </div>
                                     <div class="form-group"> 
-                                        <label for="editor" class="form-label">@lang('Ticket Types Description')</label>
+                                        <label for="editor" class="form-label">@lang('Subscription Description')</label>
                                         <textarea id="editor" name="description" rows="5" class="form-control" required
                                             value="{{ old('description') }}" style="height: 140px;" placeholder="@lang('Ticket Types Description')">{{ $ticketTypes->description }}</textarea>
                                     </div>

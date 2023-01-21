@@ -22,11 +22,18 @@ return new class extends Migration
             $table->string("paid_price");
             $table->string("coupon")->nullable();
             $table->string("method_code")->nullable();
+            $table->string("method_currency")->nullable();
             $table->string("payment_getway");
             $table->decimal("discount")->nullable()->default(0);
             $table->string("transaction_id")->nullable()->unique();
+            $table->tinyInteger("status")->default(0);
+            $table->decimal("charge")->nullable();
+            $table->decimal("rate")->nullable();
+            $table->decimal("final_amo")->nullable();
             $table->string("sold")->default(0);
+            $table->string("detail")->default(0);
             $table->string("slug")->nullable();
+            $table->string("reject")->nullable();
             $table->timestamps();
         });
     }

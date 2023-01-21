@@ -19,7 +19,7 @@ class AdminMoviesController extends Controller
     {
         
         $ticketTypes = TicketType::get();
-         $newItemMovies = AdminNewItemMovies::with('ticketType')->paginate(15);
+         $newItemMovies = AdminNewItemMovies::with('ticketType')->orderBy('id','desc')->paginate(15);
         return view('admin.movies.new_item_movies',compact('newItemMovies','ticketTypes'));
     }
     public function storeNewItemSeason(Request $request)
@@ -110,7 +110,7 @@ class AdminMoviesController extends Controller
     public function topMovies()
     {
         $ticketTypes = TicketType::get();
-        $topMovies = AdminTopMovies::with('ticketType')->paginate(15);
+        $topMovies = AdminTopMovies::with('ticketType')->orderBy('id','desc')->paginate(15);
         return view('admin.movies.top_movies',compact('topMovies','ticketTypes'));
     }
     public function storeTopMovies(Request $request)
@@ -197,7 +197,7 @@ class AdminMoviesController extends Controller
      public function commingSoonMovies()
      {
          $ticketTypes = TicketType::get();
-         $commingSoonMovies = AdminCommingSoonMovies::with('ticketType')->paginate(15);
+         $commingSoonMovies = AdminCommingSoonMovies::with('ticketType')->orderBy('id','desc')->paginate(15);
          return view('admin.movies.coming_soon_movies',compact('commingSoonMovies','ticketTypes'));
      }
      public function storeCommingSoonMovies(Request $request)

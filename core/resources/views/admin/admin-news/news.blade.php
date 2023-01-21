@@ -6,7 +6,7 @@
     Author-walls
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
 
 @section('content')
@@ -29,7 +29,7 @@ $roles = userRolePermissionArray();
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -52,30 +52,30 @@ $roles = userRolePermissionArray();
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
-
-                <div>
-                    <table class="table text-white rounded mt-5">
-                        <thead class="text-center" style="color:#7b8191">
-                            <tr>
-                                <th scope="col">Title</th>
-                                <th scope="col">Category Name</th>
-                                <th scope="col">Image</th>
-                                {{-- <th scope="col">Status</th> --}}
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($allNews->count() == 0)
+            <div class="table-content">
+                <div class="shadow-lg card-1 my-3">
+                    <div class="table-wrapper table-responsive">
+                        <table class="custom-table table text-white rounded mt-5 ">
+                            <thead class="text-center" style="color:#7b8191">
                                 <tr>
-                                    <td colspan="99">No data found</td>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Image</th>
+                                    {{-- <th scope="col">Status</th> --}}
+                                    <th scope="col">Action</th>
                                 </tr>
-                            @endif
-                            @foreach ($allNews as $news)       
+                            </thead>
+                            <tbody class="text-center" style="color:#7b8191">
+                                @if ($allNews->count() == 0)
+                                    <tr>
+                                        <td colspan="99" class="text-center">No data found</td>
+                                    </tr>
+                                @endif
+                                @foreach ($allNews as $news)
                                     <tr>
                                         <td>{{ $news->title }}</td>
                                         <td>{{ $news->category->name }}</td>
-                                        <td><img class="table-user-img img-fluid d-block mx-auto"
+                                        <td><img class="table-user-img img-fluid d-block me-auto"
                                                 src="{{ asset('core\storage\app\public\news\\' . $news->image) }}"
                                                 alt="Image"></td>
                                         {{-- <td>
@@ -97,10 +97,11 @@ $roles = userRolePermissionArray();
                                                 <i class="fas fa-edit"></i></a>
                                         </td>
                                     </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{$allNews->links()}}
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $allNews->links() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,7 +126,7 @@ $roles = userRolePermissionArray();
                                         <input type="text" class="form-control" placeholder="Title" name="title"
                                             id="title" value="">
                                     </div>
-                                    
+
                                     <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="categoty" class="form-label">@lang('Category')</label>
                                         <select class="form-select form-select-md mb-3 text-capitalize"
@@ -141,8 +142,8 @@ $roles = userRolePermissionArray();
                                     </div>
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="image" class="form-label">@lang('Image') </label>
-                                        <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="image" accept="image/*" id="image">
+                                        <input type="file" src="" class="form-control px-3 pt-2" name="image"
+                                            accept="image/*" id="image">
                                     </div>
 
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
@@ -150,7 +151,7 @@ $roles = userRolePermissionArray();
                                         <input type="text" src="" class="form-control px-3 pt-2"
                                             name="tag" id="tag" placeholder="@lang('Tag')">
                                     </div>
-                                    
+
                                     <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                                         <label for="editor" class="form-label">@lang('Description')</label>
                                         <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>

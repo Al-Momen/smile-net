@@ -53,9 +53,10 @@
                                 <button type="submit" class="btn btn-outline-primary mt-3 w-100">Apply Coupon</button>
                             </div>
                         </form>
-                        <form class="pb-4" id="paymentsgateway" action="" method="post">
+                        
+                        <form class="pb-4" id="paymentsgateway" action="{{ route('ticket.buy.now.insert') }}" method="post">
                             @csrf
-                            <div class="d-flex justify-content-center pb-3">
+                            <div class="d-flex justify-content-center pb-3 flex-wrap">
                                 <div class="radio-item d-flex justify-content-center px-3 d-none">
                                     <input type="text" id="coponCode" name="coupon_code" class="radio-item-two "
                                         value="null">
@@ -64,28 +65,64 @@
                                     <input type="text" id="discount" name="discount" class="radio-item-two"
                                         value="0.00">
                                 </div>
-                                <div class="radio-item d-flex justify-content-center px-3">
+                                <div class="radio-item d-flex justify-content-center">
                                     <input type="text" name="ticket_type_id" class="radio-item-two d-none"
                                         value="{{ $ticketTypePricing->id }}">
                                 </div>
-                                <div class="radio-item d-flex justify-content-center px-3">
+                                <div class="radio-item d-flex justify-content-center">
                                     <input type="text" id="paid_price" name="paid_price" class="radio-item-two d-none"
                                         value="{{ $ticketTypePricing->price }}">
                                 </div>
-                                <div class="radio-item d-flex justify-content-center px-3">
-                                    <input type="radio" id="paypal" name="payment_getway" class="radio-item-two"
-                                        value="paypal" required>
-                                    <label for="#cc" class="ms-2 text-capitalize text-white my-auto">Paypal</label>
+                                <div class="w-100 mb-4 ">
+                                    <h3 class="fs-6 p-0 text-white md-5">Payment Gateway</h3>
+                                    <select class="form-control select-item-2 py-0 w-100 text-capitalize"
+                                        name="method">
+                                        {{-- <option>--</option> --}}
+                                        @foreach ($allGetways as $data)
+                                            <option value="{{ $data->id }}" data-name="{{ $data->name }}"
+                                                data-currency="{{ $data->currency }}"
+                                                data-method_code="{{ $data->method_code }}"
+                                                data-min_amount="{{ showAmount($data->min_amount) }}"
+                                                data-max_amount="{{ showAmount($data->max_amount) }}"
+                                                data-base_symbol="{{ $data->baseSymbol() }}"
+                                                data-fix_charge="{{ showAmount($data->fixed_charge) }}"
+                                                data-percent_charge="{{ showAmount($data->percent_charge) }}">
+                                                {{ __($data->name) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="radio-item d-flex justify-content-center">
-                                    <input type="radio" id="stripe" name="payment_getway" class="radio-item-two"
-                                        value="stripe" required>
-                                    <label for="#cc" class="ms-2 text-capitalize text-white my-auto">Stripe</label>
+                                <div class="">
+                                    {{-- @foreach ($allGetways['manual'] as $key => $item)
+                                        @php
+                                            $manual_getway_fields = json_decode($item->user_data);
+                                            // dd($manual_getway_fields);
+                                        @endphp
+                                        <div class="row field-wrp d-none card-info-{{ $item->code }}"
+                                            id="card-info-{{ $item->code }}" data-code="{{ $item->code }}">
+                                            <div class="instruction col-md-12 step__form__group mb-3">
+                                                <p>Description</p><span
+                                                    class="text-danger fw-bold d-flex ">{!! $item->description ?? '' !!} </span>
+                                            </div>
+                                            @foreach ($manual_getway_fields as $field)
+                                                <div class="col-md-12 step__form__group mb-3">
+                                                    <label
+                                                        class="form--label dark-label text-capitalize text-white">{{ $field->field_level }}<span
+                                                            class="text-danger">
+                                                            {{ $field->field_validation == 'required' ? '*' : '' }}
+                                                        </span></label>
+                                                    <input type="{{ $field->field_type }}"
+                                                        class="form--control text-white dark-select"
+                                                        name="{{ $field->field_name }}"
+                                                        placeholder="{{ $field->field_level }}" style="padding: 12px;">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endforeach --}}
                                 </div>
                             </div>
                             <div class="place-order-btn">
-                                <button type="submit" class="btn btn-primary w-100">ORDER
-                                    NOW</button>
+                                <button type="submit" class="btn btn-primary w-100">ORDER NOW</button>
                             </div>
                         </form>
                     </div>

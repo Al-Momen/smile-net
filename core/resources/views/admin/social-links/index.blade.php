@@ -24,49 +24,49 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
-            <!-- Button trigger modal -->
-            <div>
-                <div class="table-responsive">
-                    @php
-                        $i = 1;
-                    @endphp
-                    <table class="table text-white rounded mt-5">
-                        <thead class="text-center" style="color:#7b8191">
+
+        <!-- Button trigger modal -->
+        <div>
+            <div class="table-wrapper table-responsive">
+                @php
+                    $i = 1;
+                @endphp
+                <table class="custom-table table text-white rounded mt-5">
+                    <thead class="text-center" style="color:#7b8191">
+                        <tr>
+                            <th scope="col">Email</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Facebook-link</th>
+                            <th scope="col">Twitter-link</th>
+                            <th scope="col">Instragram-link</th>
+                            <th scope="col">Linkedin-link</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="color:#7b8191">
+                        @foreach ($socialLinks as $socialLink)
                             <tr>
-                                <th scope="col">Email</th>
-                                <th scope="col">Phone</th>
-                                <th scope="col">Address</th>
-                                <th scope="col">Facebook-link</th>
-                                <th scope="col">Twitter-link</th>
-                                <th scope="col">Instragram-link</th>
-                                <th scope="col">Linkedin-link</th>
-                                <th scope="col">Action</th>
+                                <td>{{ $socialLink->email }}</td>
+                                <td>{{ $socialLink->phone }}</td>
+                                <td>{{ $socialLink->address }}</td>
+                                <td>{{ $socialLink->fb_link }}</td>
+                                <td>{{ $socialLink->twitter_link }}</td>
+                                <td>{{ $socialLink->instragram_link }}</td>
+                                <td>{{ $socialLink->linkedin_link }}</td>
+                                <td>
+                                    <a href="{{ route('admin.social.edit', $socialLink->id) }}"
+                                        class="btn btn-primary rounded"> <i class="fas fa-edit" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal"></i></a>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @foreach ($socialLinks as $socialLink)
-                                <tr>
-                                    <td>{{ $socialLink->email }}</td>
-                                    <td >{{ $socialLink->phone }}</td>
-                                    <td>{{ $socialLink->address }}</td>
-                                    <td>{{ $socialLink->fb_link }}</td>
-                                    <td>{{ $socialLink->twitter_link }}</td>
-                                    <td>{{ $socialLink->instragram_link }}</td>
-                                    <td>{{ $socialLink->linkedin_link }}</td>
-                                    <td>
-                                        <a href="{{ route('admin.social.edit', $socialLink->id) }}"
-                                            class="btn btn-primary rounded"> <i class="fas fa-edit" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $socialLinks->links() }}
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $socialLinks->links() }}
             </div>
         </div>
+
     </div>
     <!-- Modal -->
     {{-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

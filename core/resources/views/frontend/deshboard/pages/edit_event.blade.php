@@ -1,20 +1,6 @@
 @extends('frontend.deshboard.master')
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close" data-bs-dismiss="alert"
-                aria-label="Close"></button>
-        </div>
-    @endif
+   
     <form class="form-dashboard" action="{{ route('user.update.events', $event->id) }}"method="POST"
         enctype="multipart/form-data" id="addEventForm">
         @csrf
@@ -80,8 +66,8 @@
             </div>
             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                 <label for="image" class="form-label">Image</label>
-                <input type="file" src="" class="form-control px-3 pt-2" name="image" accept="image/*"
-                    id="image">
+                <input type="file" src="" class="form-control" name="image" accept="image/*"
+                    id="image"style="height: 38px !important">
             </div>
             <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
                 <label for="editor" class="form-label">Description</label>

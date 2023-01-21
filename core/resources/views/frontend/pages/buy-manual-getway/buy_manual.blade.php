@@ -71,6 +71,7 @@
                                 $manual_getway_fields = json_decode($item->user_data);
                                 // dd($manual_getway_fields);
                             @endphp
+                            
                             <div class="row d-none field-wrp card-info-{{ $item->code }}"
                                 id="card-info-{{ $item->code }}" data-code="{{ $item->code }}">
                                 <div class="instruction col-md-12 step__form__group mb-3">

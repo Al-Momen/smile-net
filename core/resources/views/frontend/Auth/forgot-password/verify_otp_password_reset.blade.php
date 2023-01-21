@@ -90,13 +90,13 @@
                                         <input type="text" name="id" value="{{$profileId}}" class="form-control">
                                     </div>
 
-                                    <div class="form-check">
+                                    <div class="form-check p-0">
                                         <label class="mb-3 text-white"> OTP Code<span class="text-danger">*</span></label>
                                         <input type="text" name="verified_code" class="form-control" placeholder="Code">
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary px-4 float-end mt-4">Submit</button>
+                                    <button type="submit" class="btn btn-primary px-4 w-100 mt-4">Verify</button>
                                 </div>
                             </form>
                         </div>

@@ -9,10 +9,11 @@ use App\Models\AdminCategory;
 use App\Http\Helpers\Generals;
 use App\Http\Controllers\Controller;
 use App\Models\AdminVoteImage;
+use App\Models\UserVote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
-
+ 
 class AdminVoteController extends Controller
 {
     public function index()
@@ -122,6 +123,20 @@ class AdminVoteController extends Controller
         $vote->delete();
         $notify[] = ['success', 'Vote Delete Successfully'];
         return redirect()->back()->withNotify($notify);
+    }
+
+    public function allVote()
+    {
+         $votes = UserVote::with('adminVoteImage','user')->orderBy('id','desc')->paginate(10);
+        
+        return view('admin.vote.all_vote',compact('votes'));
+    }
+
+    public function voteView()
+    {
+         $votes = UserVote::with('adminVoteImage','user')->orderBy('id','desc')->first();
+        
+        return view('admin.vote.view_vote',compact('votes'));
     }
       //Image upload One
       private function uploadOne(string $dir, string $name, string $format, $image = null)

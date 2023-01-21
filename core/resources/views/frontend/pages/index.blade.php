@@ -53,7 +53,6 @@
                             </div>
                             <div class="modal-body">
                                 <div class="errMsgContainer" style="padding: 20px;">
-
                                 </div>
                                 <div class="col-12 pe-4 mb-3">
                                     <h6 class="text-center">Standard Package you have one choose</p>
@@ -72,7 +71,7 @@
                                     </div>
                                     <div class="radio-item d-flex justify-content-center px-3 mb-3">
                                         <input type="radio" id="movies" name="access" class="radio-item-two"
-                                        value="movies" required style="width: 22px">
+                                        value="music" required style="width: 22px">
                                         <label for="#cc" class="ms-2 text-capitalize text-black my-auto">Music</label>
                                     </div>
                                 </div>

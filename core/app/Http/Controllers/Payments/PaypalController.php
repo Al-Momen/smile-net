@@ -136,8 +136,6 @@ class PaypalController extends Controller
             ->with('error', $response['message'] ?? 'You have canceled the transaction.');
     }
 
-
-
     // -------------------------------Ticket type Pricing paypal process function-------------------------------
 
     public function processPaypalTicketTypePricing(Request $request)

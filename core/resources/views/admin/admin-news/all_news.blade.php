@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -47,83 +47,88 @@
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
-
-                <div>
-                    <table class="table text-white rounded mt-5">
-                        <thead class="text-center" style="color:#7b8191">
-                            <tr>
-                                <th scope="col">User Name</th>
-                                <th scope="col">Title</th>
-                                <th scope="col">Category Name</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($allNews->count() == 0)
+            <div class="table-content">
+                <div class="shadow-lg card-1 my-3">
+                    <div class="table-wrapper table-responsive">
+                        <table class="custom-table table text-white rounded mt-5 ">
+                            <thead class="text-center" style="color:#7b8191">
                                 <tr>
-                                    <td colspan="99">No data found</td>
+                                    <th scope="col">User Name</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Image</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
                                 </tr>
-                            @endif
-                            @foreach ($allNews as $news)
-                                @if ($news->news_type == 'App\Models\User')
+                            </thead>
+                            <tbody class="text-center" style="color:#7b8191">
+                                @if ($allNews->count() == 0)
                                     <tr>
-                                        <td class="text-capitalize">
-                                            {{$news->admin->adminUser->first_name . ' ' . $news->admin->adminUser->last_name }}
-                                        </td>
-                                        <td>{{ $news->title }}</td>
-                                        <td>{{ $news->category->name }}</td>
-                                        <td><img class="table-user-img img-fluid d-block mx-auto"
-                                                src="{{ asset('core\storage\app\public\news\\' . $news->image) }}"
-                                                alt="Image"></td>
-                                        <td>
-                                            <form action="{{ route('admin.news.status.edit', $news->id) }}" method="POST">
-                                                @csrf
-                                                <label class="switch" id="switch">
-                                                    <input type="checkbox" name="status"
-                                                        @if ($news->status == 1) checked @endif id="switchInput">
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.view.news', $news->id) }}"
-                                                class="btn btn-primary rounded">
-                                                <i class="fas fa-eye"></i></a>
-                                        </td>
+                                        <td colspan="99" class="text-center">No data found</td>
                                     </tr>
                                 @endif
-                                @if ($news->news_type == 'App\Models\GeneralUser')
-                                    <tr>               
-                                        <td class="text-capitalize">{{$news->user->full_name }}</td>                     
-                                        <td>{{ $news->title }}</td>
-                                        <td>{{ $news->category->name }}</td>
-                                        <td><img class="table-user-img img-fluid d-block mx-auto"
-                                                src="{{ asset('core\storage\app\public\news\\' . $news->image) }}"
-                                                alt="Image"></td>
-                                        <td>
-                                            <form action="{{ route('admin.news.status.edit', $news->id) }}" method="POST">
-                                                @csrf
-                                                <label class="switch" id="switch">
-                                                    <input type="checkbox" name="status"
-                                                        @if ($news->status == 1) checked @endif id="switchInput">
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.view.news', $news->id) }}"
-                                                class="btn btn-primary rounded">
-                                                <i class="fas fa-eye"></i></a>
-                                        </td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $allNews->links() }}
+                                @foreach ($allNews as $news)
+                                    @if ($news->news_type == 'App\Models\User')
+                                        <tr>
+                                            <td class="text-capitalize">
+                                                {{ $news->admin->adminUser->first_name . ' ' . $news->admin->adminUser->last_name }}
+                                            </td>
+                                            <td>{{ $news->title }}</td>
+                                            <td>{{ $news->category->name }}</td>
+                                            <td><img class="table-user-img img-fluid d-block me-auto"
+                                                    src="{{ asset('core\storage\app\public\news\\' . $news->image) }}"
+                                                    alt="Image"></td>
+                                            <td>
+                                                <form action="{{ route('admin.news.status.edit', $news->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <label class="switch" id="switch">
+                                                        <input type="checkbox" name="status"
+                                                            @if ($news->status == 1) checked @endif
+                                                            id="switchInput">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.view.news', $news->id) }}"
+                                                    class="btn btn-primary rounded">
+                                                    <i class="fas fa-eye"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    @if ($news->news_type == 'App\Models\GeneralUser')
+                                        <tr>
+                                            <td class="text-capitalize">{{ $news->user->full_name }}</td>
+                                            <td>{{ $news->title }}</td>
+                                            <td>{{ $news->category->name }}</td>
+                                            <td><img class="table-user-img img-fluid d-block me-auto"
+                                                    src="{{ asset('core\storage\app\public\news\\' . $news->image) }}"
+                                                    alt="Image"></td>
+                                            <td>
+                                                <form action="{{ route('admin.news.status.edit', $news->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <label class="switch" id="switch">
+                                                        <input type="checkbox" name="status"
+                                                            @if ($news->status == 1) checked @endif
+                                                            id="switchInput">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.view.news', $news->id) }}"
+                                                    class="btn btn-primary rounded">
+                                                    <i class="fas fa-eye"></i></a>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{ $allNews->links() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -164,14 +169,14 @@
                                     </div>
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="image" class="form-label">@lang('Image') </label>
-                                        <input type="file" src="" class="form-control px-3 pt-2" name="image"
-                                            accept="image/*" id="image">
+                                        <input type="file" src="" class="form-control px-3 pt-2"
+                                            name="image" accept="image/*" id="image">
                                     </div>
 
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="tag" class="form-label">@lang('Tag')</label>
-                                        <input type="text" src="" class="form-control px-3 pt-2" name="tag"
-                                            id="tag" placeholder="@lang('Tag')">
+                                        <input type="text" src="" class="form-control px-3 pt-2"
+                                            name="tag" id="tag" placeholder="@lang('Tag')">
                                     </div>
                                     <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                         <label for="status" class="form-label">Status</label>

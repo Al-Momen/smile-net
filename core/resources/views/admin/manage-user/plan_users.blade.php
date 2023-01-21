@@ -1,9 +1,9 @@
 @extends('admin.layout.master')
 @section('title')
-    SUBSCRIPTION PLAN Users
+    Subsctiption Plan Users
 @endsection
 @section('page-name')
-    SUBSCRIPTION PLAN Users
+    Subsctiption Plan Users
 @endsection
 @php
     $roles = userRolePermissionArray();
@@ -18,7 +18,7 @@
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">SUBSCRIPTION PLAN Users</span>
+                <span class="active-path g-color">Subsctiption Plan Users</span>
             </a>
         </div>
         <div class="view-prodact">
@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
+        <div class="shadow-lg card-1 my-3">
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
@@ -49,13 +49,12 @@
                 </div>
             @endif
             <!-- Button trigger modal -->
-            <div>
-
-                <div>
-                    <table class="table text-white rounded mt-5">
+            <div class="table-content">
+                <div class="table-wrapper table-responsive">
+                    <table class=" custom-table table text-white rounded mt-5">
                         <thead class="text-center" style="color:#7b8191">
                             <tr>
-                                <th scope="col">User-Name</th>
+                                <th scope="col">Name</th>
                                 <th scope="col">Image</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Email</th>
@@ -73,9 +72,9 @@
                             @endif
                             @foreach ($sub_plans as $plan_user)
                                 <tr>
-                                    <td>{{ $plan_user->user->user_name }}</td>
-                                    <td><img class="table-user-img img-fluid d-block mx-auto"
-                                            src="{{ asset('core\storage\app\public\profile\\' . $plan_user->user->photo) }}"
+                                    <td class="text-capitalize">{{ $plan_user->user->full_name }}</td>
+                                    <td><img class="table-user-img img-fluid d-block me-auto"
+                                            src="{{ getImage(imagePath()['profile']['user']['path'].'/' .$plan_user->user->photo) }}"
                                             alt="Image"></td>
                                     <td>{{ $plan_user->user->phone }}</td>
                                     <td>{{ $plan_user->user->email }}</td>
@@ -97,6 +96,7 @@
                         </tbody>
                     </table>
                     {{ $sub_plans->links() }}
+                
                 </div>
             </div>
         </div>

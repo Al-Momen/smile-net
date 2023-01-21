@@ -59,7 +59,7 @@
         <div class="me-5 d-none d-lg-block">
             <p>
                 © 2022 Copyright:
-                <a class="text-reset fw-bold" href="{{route('index')}}">smile net</a>
+                <a class="text-reset fw-bold" href="{{route('index')}}">{{$general->sitename}}</a>
             </p>
         </div>
 
