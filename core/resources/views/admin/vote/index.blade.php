@@ -29,64 +29,62 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
-            <!-- Button trigger modal -->
-            <div class="table-wrapper">
-                <div class="table-responsive">
-                    @php
-                        $i = 1;
-                    @endphp
-                    <table class=" custom-table table text-white rounded mt-5">
-                        <thead class="text-center" style="color:#7b8191">
+
+        <!-- Button trigger modal -->
+        <div class="table-wrapper">
+            <div class="table-responsive">
+                @php
+                    $i = 1;
+                @endphp
+                <table class=" custom-table table text-white rounded mt-5">
+                    <thead class="text-center" style="color:#7b8191">
+                        <tr>
+                            <th scope="col">SI</th>
+                            <th scope="col">Vote Name</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Vote Image</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="color:#7b8191">
+                        @if ($adminVotes->count() == 0)
                             <tr>
-                                <th scope="col">SI</th>
-                                <th scope="col">Vote Name</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Vote Image</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                <td colspan="99" class="text-center">No data found</td>
                             </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($adminVotes->count() == 0)
-                                <tr>
-                                    <td colspan="99" class="text-center">No data found</td>
-                                </tr>
-                            @endif
-                            @foreach ($adminVotes as $vote)
-                                <tr>
-                                    <td>{{ $i++ }}</td>
-                                    <td class="text-capitalize">{{ $vote->vote_name }}</td>
-                                    <td class="text-capitalize">{{ $vote->category->name }}</td>
-                                    <td>
-                                        <img class="table-admin-img img-fluid d-block me-auto"
-                                            src="{{ asset('core\storage\app\public\votes\\' . $vote->vote_image) }}"
-                                            alt="Image">
-                                    </td>
-                                    <td>
-                                        <form action="{{ route('admin.vote.status.edit', $vote->id) }}" method="POST">
-                                            @csrf
-                                            <label class="switch" id="switch">
-                                                <input type="checkbox" name="status"
-                                                    @if ($vote->status == 1) checked @endif id="switchInput">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="{{ route('admin.vote.destroy', $vote->id) }}"class="btn btn-danger rounded"><i
-                                                class="fas fa-trash"></i></a>
-                                        {{-- <a href="{{ route('admin.vote.edit', $vote->id) }}" class="btn btn-primary rounded">
+                        @endif
+                        @foreach ($adminVotes as $vote)
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td class="text-capitalize">{{ $vote->vote_name }}</td>
+                                <td class="text-capitalize">{{ $vote->category->name }}</td>
+                                <td>
+                                    <img class="table-admin-img img-fluid d-block me-auto"
+                                        src="{{ asset('core\storage\app\public\votes\\' . $vote->vote_image) }}"
+                                        alt="Image">
+                                </td>
+                                <td>
+                                    <form action="{{ route('admin.vote.status.edit', $vote->id) }}" method="POST">
+                                        @csrf
+                                        <label class="switch" id="switch">
+                                            <input type="checkbox" name="status"
+                                                @if ($vote->status == 1) checked @endif id="switchInput">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </form>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.vote.destroy', $vote->id) }}"class="btn btn-danger rounded"><i
+                                            class="fas fa-trash"></i></a>
+                                    {{-- <a href="{{ route('admin.vote.edit', $vote->id) }}" class="btn btn-primary rounded">
                                             <i class="fas fa-edit" data-bs-toggle="modal"
                                                 data-bs-target="#exampleModal"></i></a> --}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $adminVotes->links() }}
-                </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $adminVotes->links() }}
             </div>
         </div>
     </div>
@@ -94,94 +92,84 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+                <div class="modal-header ">
+                    <h5 class="modal-title text-white">@lang('Add Vote Type')</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <form action="{{ route('admin.vote.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+
                     <div class="modal-body">
-                        <div class="modal-content">
-                            <div class="modal-header bg--primary">
-                                <h5 class="modal-title text-white">@lang('Add Vote Type')</h5>
-
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                        <h5 class="modal-title text-white mb-4">@lang('#Vote')</h5>
+                        <div class="form-group">
+                            <label>@lang('Vote Name')</label>
+                            <input class=" form--control" type="text" name="vote_name" placeholder="@lang('Vote Name')"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">@lang('voting Image')</label>
+                            <input type="file" src="" class="form--control img-height" name="vote_image"
+                                accept="image/*" id="image">
+                        </div>
+                        <div class="form-group">
+                            <label for="categoty">@lang('Category')</label>
+                            <select class="form--control text-capitalize" style="padding: 12px 10px;"
+                                aria-label=".form-select-lg example" name="category">
+                                <option value=""> -- </option>
+                                @foreach ($categories as $category)
+                                    <option @if ($category->id)  @endif value="{{ $category->id }}">
+                                        {{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ticket">@lang('Ticket')</label>
+                            <select class="form--control text-capitalize" style="padding: 12px 10px;"
+                                aria-label=".form-select-lg example" name="ticket">
+                                <option value=""> -- </option>
+                                @foreach ($tickets as $ticket)
+                                    <option @if ($ticket->id)  @endif value="{{ $ticket->id }}">
+                                        {{ $ticket->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <h5 class="modal-title text-white mb-4 item-title">@lang('#Item One')</h5>
+                                <label>@lang('Item Name')</label>
+                                <input class="form--control" type="text" name="names[]" placeholder="@lang('Item One Name')"
+                                    required>
                             </div>
-                            <div class="modal-body">
-                                <h5 class="modal-title text-white mb-4">@lang('#Vote')</h5>
-                                <div class="form-group">
-                                    <label>@lang('Vote Name')</label>
-                                    <input class="form-control form--control" type="text" name="vote_name"
-                                        placeholder="@lang('Vote Name')" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="image" class="form-label">@lang('voting Image')</label>
-                                    <input type="file" src="" class="form-control px-3 pt-2" name="vote_image"
-                                        accept="image/*" id="image"
-                                        style="
-                                    padding-top: 14px !important;
-                                ">
-                                </div>
-                                <div class="form-group">
-                                    <label for="categoty" class="form-label">@lang('Category')</label>
-                                    <select class="form-select form-select-md mb-3 text-capitalize"
-                                        style="padding: 12px 10px;" aria-label=".form-select-lg example" name="category">
-                                        <option value=""> -- </option>
-                                        @foreach ($categories as $category)
-                                            <option @if ($category->id)  @endif value="{{ $category->id }}">
-                                                {{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="ticket" class="form-label">@lang('Ticket')</label>
-                                    <select class="form-select form-select-md mb-3 text-capitalize"
-                                        style="padding: 12px 10px;" aria-label=".form-select-lg example" name="ticket">
-                                        <option value=""> -- </option>
-                                        @foreach ($tickets as $ticket)
-                                            <option @if ($ticket->id)  @endif value="{{ $ticket->id }}">
-                                                {{ $ticket->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div>
-                                    <div class="form-group">
-                                        <h5 class="modal-title text-white mb-4 item-title">@lang('#Item One')</h5>
-                                        <label>@lang('Item Name')</label>
-                                        <input class="form-control form--control" type="text" name="names[]"
-                                            placeholder="@lang('Item One Name')" required>
-                                    </div>
 
-                                    <div class="form-group">
-                                        <label for="image" class="form-label image-title">@lang('Image One')</label>
-                                        <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="images[]" accept="image/*" id="image"
-                                            style="padding-top: 14px !important;">
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="form-group">
-                                        <h5 class="modal-title text-white mb-4 item-title">@lang('#Item Two')</h5>
-                                        <label>@lang('Item Two Name')</label>
-                                        <input class="form-control form--control" type="text" name="names[]"
-                                            placeholder="@lang('Item Two Name')">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="image" class="form-label image-title">@lang('Image Two')</label>
-                                        <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="images[]" accept="image/*"
-                                            id="image"style="padding-top: 14px !important;">
-                                    </div>
-                                </div>
-                                <div id="newVoteAppend">
-
-                                </div>
-                                <div class="form-group text-center">
-                                    <button class="btn btn-success" id="addNewVote">Add Vote</button>
-                                </div>
+                            <div class="form-group">
+                                <label for="image" class=" image-title">@lang('Image One')</label>
+                                <input type="file" src="" class="form--control " name="images[]"
+                                    accept="image/*" id="image">
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                        <div>
+                            <div class="form-group">
+                                <h5 class="modal-title text-white mb-4 item-title">@lang('#Item Two')</h5>
+                                <label>@lang('Item Two Name')</label>
+                                <input class="form--control" type="text" name="names[]"
+                                    placeholder="@lang('Item Two Name')">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="image" class=" image-title">@lang('Image Two')</label>
+                                <input type="file" src="" class="form--control " name="images[]"
+                                    accept="image/*" id="image">
+                            </div>
+                        </div>
+                        <div id="newVoteAppend">
+
+                        </div>
+                        <div class="form-group text-center">
+                            <button class="btn--base bg-success" id="addNewVote">Add Vote</button>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn--base bg-primary">Save</button>
+                            <button type="button" class="btn--base bg-danger" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </form>
@@ -192,6 +180,10 @@
 
 @section('css')
     <style>
+        .img-height {
+            line-height: 35px;
+        }
+
         .table-admin-img {
             height: 60px;
             width: 60px;
@@ -304,14 +296,14 @@
                             <button type="button" class="btn-close bg-danger p-2" aria-label="Close"></button>
                         </div>
                         <label>@lang('Item Two Name')</label>
-                        <input class="form-control form--control" type="text" name="names[]"
+                        <input class=" form--control" type="text" name="names[]"
                         placeholder="@lang('Item Two Name')" required >
                     </div>
 
                     <div class="form-group">
-                        <label for="image" class="form-label image-title">@lang('Image ${item}')</label>
-                        <input type="file" src="" class="form-control px-3 pt-2"
-                            name="images[]" accept="image/*"  "id="image"style="padding-top: 14px !important;">
+                        <label for="image" class=" image-title">@lang('Image ${item}')</label>
+                        <input type="file" src="" class="form--control"
+                            name="images[]" accept="image/*"  "id="image">
                     </div>
                 
                 </div>

@@ -35,85 +35,56 @@
     </div>
     <div class="table-content">
         <div class="shadow-lg p-4 card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
             <!-- Button trigger modal -->
             <div>
                 <div>
                     <form action="{{ route('admin.ticket.type.update', $ticketTypes->id) }}" method="POST">
                         @csrf
-                        <div class="modal-body">
-                            <div class="modal-content">
-                                <div class="modal-header bg--primary">
-                                    <h5 class="modal-title text-white">@lang('Edit Subscription Plan')</h5>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label>@lang('Subscription Plan Name')</label>
-                                        <input class="form-control form--control" type="text" name="name"
-                                            placeholder="@lang('Subscription Plan Name')" required value="{{ $ticketTypes->name }}"
-                                            readonly>
-                                    </div>
-                                    {{-- <div class="form-group">
-                                        <label>@lang('Date')</label>
-                                        <input class="form-control form--control" type="date" name="date"
-                                            placeholder="@lang('Date')" required value="{{ $ticketTypes->name }}"
-                                            >
-                                    </div> --}}
-                                    <div class="form-group">
-                                        <label>@lang('Subscription Price')</label>
-                                        <div class="input-group mb-3 mt-3">
-                                            <span class="input-group-text"
-                                                style="
-                                                    border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $priceCurriency->symbol }}</span>
-                                            <input type="number" class="form-control d-none" min="0"
-                                                id="doller-input" placeholder="Price" name="priceCurriency_id"
-                                                value="{{ $priceCurriency->id }}">
-                                            <input type="number" class="form-control" min="0" id="doller-input"
-                                                placeholder="Price" name="price" value={{ $ticketTypes->price }}>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>@lang('Subscription Days')</label>
-                                        <div class="input-group mb-3 mt-3">
-                                            <input type="number" class="form-control" min="0" id="doller-input"
-                                                placeholder="Enter your days" name="days" value={{ $ticketTypes->date }}>
-                                        </div>
-                                    </div>
-                                    <div class="form-group"> 
-                                        <label for="editor" class="form-label">@lang('Subscription Description')</label>
-                                        <textarea id="editor" name="description" rows="5" class="form-control" required
-                                            value="{{ old('description') }}" style="height: 140px;" placeholder="@lang('Ticket Types Description')">{{ $ticketTypes->description }}</textarea>
-                                    </div>
-                                </div>
+                        <div class="user-info-header two mb-4">
+                            <h5 class="title text-white">@lang('Edit Currency')</h5>
+                        </div>
+
+                        <div class="form-group">
+                            <label>@lang('Subscription Plan Name')</label>
+                            <input class="form-control form--control" type="text" name="name"
+                                placeholder="@lang('Subscription Plan Name')" required value="{{ $ticketTypes->name }}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>@lang('Subscription Price')</label>
+                            <div class="input-group">
+                                <span class="input-group-text"
+                                    style="
+                                        border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $priceCurriency->symbol }}</span>
+                                <input type="number" class="form--control d-none" min="0" id="doller-input"
+                                    placeholder="Price" name="priceCurriency_id" value="{{ $priceCurriency->id }}">
+                                <input type="number" class="form--control" min="0" id="doller-input"
+                                    placeholder="Price" name="price" value={{ $ticketTypes->price }}>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><a
+                        <div class="form-group">
+                            <label>@lang('Subscription Days')</label>
+                            <div class="input-group">
+                                <input type="number" class="form--control" min="0" id="doller-input"
+                                    placeholder="Enter your days" name="days" value={{ $ticketTypes->days }}>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="editor">@lang('Subscription Description')</label>
+                            <textarea id="editor" name="description" rows="5" class="form--control" required
+                                value="{{ old('description') }}" style="height: 140px;" placeholder="@lang('Ticket Types Description')">{{ $ticketTypes->description }}</textarea>
+                        </div>
+                        <div class="form-group text-end">
+                            <button type="submit" class="btn--base bg-primary">update</button>
+                            <button type="button" class="btn--base bg-danger" data-bs-dismiss="modal"><a
                                     href="{{ route('admin.ticket.type.index') }}">Close</a></button>
-                            <button type="submit" class="btn btn-primary">update</button>
+
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
 @endsection
-
 @section('css')
     <style>
         /* Ck-editor css */

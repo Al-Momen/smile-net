@@ -27,6 +27,7 @@
                 <div class="header-title">
                     <h4>Buying Event Tickets</h4>
                 </div>
+                
                 @forelse ($eventPlanTranaction as $planTranaction)
                     {{-- @foreach ($planTranaction->eventPlans as $item) --}}
                         <div class="col-12">

@@ -8,7 +8,7 @@
     <title>@yield('title')</title>
     <link rel="apple-touch-icon" href="{{ asset('/app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/app-assets/images/ico/favicon.ico') }}">
-    <link rel="icon" href="{{ URL::asset('assets/frontend/images/logo/fav.ico') }}" type="image/x-icon">
+    
     <link rel="icon" href="{{ asset('images/logoIcon/favicon.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ getImage(imagePath()['logoIcon']['path'] . '/favicon.png') }}"
         type="image/x-icon">

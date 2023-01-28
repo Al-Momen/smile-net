@@ -107,7 +107,6 @@ class TicketBuyController extends Controller
         $track = session()->get('Track');
         $ticketTypeDetails = TicketTypeDetails::where('transaction_id', $track)->where('status', 0)->orderBy('id', 'DESC')->with('gateway')->firstOrFail();
        
-
         if ($ticketTypeDetails->method_code >= 1000) {
             $notify[] = ['success', 'Please Follow The  Next Step'];
             return redirect()->route('ticket.buy.manual.confirm');
@@ -139,7 +138,6 @@ class TicketBuyController extends Controller
         // }
         // dd($data->view);
         $pageTitle = 'Payment Confirm';
-
         return view("frontend.pages.". $data->view, compact('data', 'pageTitle', 'ticketTypeDetails'));
     }
 

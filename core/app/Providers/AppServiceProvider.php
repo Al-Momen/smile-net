@@ -10,6 +10,7 @@ use App\Models\SupportTicket;
 use App\Models\GeneralSetting;
 use App\Models\AdminSocialLink;
 use App\Models\AdminMailSetting;
+use App\Models\FooterSection;
 use App\Models\TicketTypeDetails;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\Paginator;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
 
-
+ini_set('memory_limit',-1);
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -57,6 +58,7 @@ class AppServiceProvider extends ServiceProvider
         //nabvar use this variable 
         $viewShare['category_events'] = AdminCategory::all();
         $viewShare['buyManualGetway'] = AdminBuyManualGetway::all();
+        $viewShare['footer'] = FooterSection::first();
        
         // $viewShare['ticketTypeDetails'] = TicketTypeDetails::with('ticket_type')->pluck('user_id');
         // $viewShare['ticketTypeStanderd'] = TicketTypeDetails::where('ticket_slug','standard')->first();

@@ -40,11 +40,8 @@
                                 <div class="image-upload">
                                     <div class="thumb">
                                         <div class="avatar-preview">
-                                            <div class="profilePicPreview bg_img"
-                                                data-background="assets/images/paypal-m.png"
-                                                style="background-image: url(&quot;assets/images/paypal-m.png&quot;);">
-                                                <button type="button" class="remove-image"><i
-                                                        class="fa fa-times"></i></button>
+                                            <div class="profilePicPreview"
+                                                style="background-image: url('{{ getImage(imagePath()['gateway']['path'] . '/' . $method->image, imagePath()['gateway']['size']) }}')">
                                             </div>
                                         </div>
                                         <div class="avatar-edit">
@@ -172,7 +169,7 @@
                                     <div class="row justify-content-center mb-10-none addedField">
                                         @if ($method->input_form != null)
                                             @foreach ($method->input_form as $k => $v)
-                                                <div class="row ptb-30 justify-content-center mb-10-none">
+                                                <div class="row ptb-30 justify-content-center mb-10-none user-data">
                                                     <div class="col-lg-4 col-md-4  form-group">
                                                         <input name="field_name[]" class="form-control form--control"
                                                             type="text" value="{{ $v->field_level }}" required
@@ -235,7 +232,7 @@
             $('.currency_symbol').text($('input[name=currency]').val());
             $('.addUserData').on('click', function() {
                 var html = `
-                        <div class="row ptb-30 justify-content-center mb-10-none">
+                        <div class="row ptb-30 justify-content-center mb-10-none user-data">
                             <div class="col-lg-4 col-md-4  form-group">
                                 <input name="field_name[]" class="form-control form--control" type="text" required placeholder="@lang('Field Name')">
                             </div>
@@ -254,7 +251,7 @@
                                 </select>
                             </div>
                             <div class="col-lg-2 col-md-2 form-group">
-                                    <a class="btn--base bg--danger w-100 removeBtn w-100" type="button">
+                                    <a class="btn--base bg--danger w-100 removeBtn" type="button">
                                         <i class="fa fa-times"></i>
                                     </a>
                             </div>
@@ -263,7 +260,8 @@
             });
 
             $(document).on('click', '.removeBtn', function() {
-                $(this).closest('.user-data').remove();
+                console.log($(this));
+                $(this).parents('.user-data').remove();
             });
 
             @if (old('currency'))

@@ -25,83 +25,57 @@
 
         </div>
     </div>
+
+    <!-- Button trigger modal -->
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('danger'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session('danger') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            <!-- Button trigger modal -->
-            <div class="table-content">
-                <div class="table-wrapper table-responsive">
-                        <table class="custom-table table text-white rounded mt-5 ">
-                            <thead class="text-center" style="color:#7b8191">
-                                <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Image</th>
-                                    <th scope="col">Phone</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Country</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center" style="color:#7b8191">
-                                @if ($all_users->count() == 0)
-                                    <tr>
-                                        <td colspan="99" class="text-center">No data found</td>
-                                    </tr>
+        <div class="table-wrapper table-responsive">
+            <table class="custom-table table text-white rounded mt-5 ">
+                <thead class="text-center" style="color:#7b8191">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center" style="color:#7b8191">
+                    @if ($all_users->count() == 0)
+                        <tr>
+                            <td colspan="99" class="text-center">No data found</td>
+                        </tr>
+                    @endif
+                    @foreach ($all_users as $user)
+                        <tr>
+                            <td class="text-capitalize">{{ $user->full_name }}</td>
+                            <td><img class="table-user-img img-fluid d-block me-auto"
+                                    src="{{ getImage(imagePath()['profile']['user']['path'] . '/' . $user->photo) }}"
+                                    alt="Image"></td>
+                            <td>{{ $user->phone }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->country }}</td>
+                            <td>
+                                @if ($user->access == 0)
+                                    <span class="badge bg-success">Active</span>
+                                @else
+                                    <span class="badge bg-danger">Banned</span>
                                 @endif
-                                @foreach ($all_users as $user)
-                                    <tr>
-                                        <td class="text-capitalize">{{ $user->full_name }}</td>
-                                        <td><img class="table-user-img img-fluid d-block me-auto"
-                                                src="{{ getImage(imagePath()['profile']['user']['path'].'/'. $user->photo) }}"
-                                                alt="Image"></td>
-                                        <td>{{ $user->phone }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->country }}</td>
-                                        <td>
-                                            @if ($user->access == 0)
-                                                <span class="badge bg-success">Active</span>
-                                            @else
-                                                <span class="badge bg-danger">Banned</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.view.user', $user->id) }}"
-                                                class="btn btn-primary rounded">
-                                                <i class="fas fa-eye" data-bs-toggle="modal"
-                                                    data-bs-target="#exampleModal"></i></a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $all_users->links() }}
-                    
-                </div>
-            </div>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.view.user', $user->id) }}" class="btn btn-primary rounded">
+                                    <i class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#exampleModal"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $all_users->links() }}
+
         </div>
     </div>
-
+   
 @endsection
 @section('css')
     <style>

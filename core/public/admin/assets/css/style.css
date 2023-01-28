@@ -4566,7 +4566,53 @@ select.form-control[multiple], select.form-control[size] {
     font-size: 10px !important;
   }
 }
+input[type=file]{
+  padding: 0;
+}
+input[type=file]::file-selector-button {
+  background: #38cab3;
+  color: #fff;
+  border-radius: 3px 0 0 3px;
+  border: none;
+  font-size: 14px;
+  line-height: 48px;
+  width: 100px;
+  padding: 0;
+}
 
-/*--------------------------------------------------------------
-    [ ## Blog ]
---------------------------------------------------------------*/
+
+
+ /* Ck-editor css */
+ .ck-blurred {
+  height: 300px !important;
+  background: none;
+
+}
+
+.ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
+.ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
+  height: 300px;
+  background: none;
+}
+
+.dark-version .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
+.dark-version .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-version .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused), .dark-version .ck.ck-editor__top .ck-sticky-panel .ck-toolbar {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-version .ck.ck-icon{
+  color: #fff;
+}
+
+.dark-version .ck.ck-toolbar{
+  background: transparent !important;
+}
+
+.dark-version .ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label, .dark-version .ck.ck-dropdown .ck-button.ck-dropdown__button, .dark-version .ck.ck-toolbar>.ck-toolbar__items>:not(.ck-toolbar__line-break), .dark-version .ck.ck-button, .dark-version a.ck.ck-button, .dark-version .ck.ck-list, .dark-version .ck.ck-dropdown__panel{
+  background: #212529 !important;
+  color: #fff;
+}

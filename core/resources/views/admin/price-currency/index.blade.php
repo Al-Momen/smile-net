@@ -1,4 +1,3 @@
-
 @extends('admin.layout.master')
 @section('title')
     Currency
@@ -30,26 +29,26 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
-            <!-- Button trigger modal -->
-            <div class="table-wrapper">
-                <div class="table-responsive">
-                    @php
-                        $i = 1;
-                    @endphp
-                    <table class="custom-table table rounded mt-5 ">
-                        <thead class="text-center" style="color:#7b8191">
-                            <tr>
-                                <th scope="col">SI</th>
-                                <th scope="col">Currency Name</th>
-                                <th scope="col">Currency Code</th>
-                                <th scope="col">Currency Symbol</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            
-                            @foreach ($priceCurrencies as $priceCurrency)
+
+        <!-- Button trigger modal -->
+        <div class="table-wrapper">
+            <div class="table-responsive">
+                @php
+                    $i = 1;
+                @endphp
+                <table class="custom-table table rounded mt-5 ">
+                    <thead class="text-center" style="color:#7b8191">
+                        <tr>
+                            <th scope="col">SI</th>
+                            <th scope="col">Currency Name</th>
+                            <th scope="col">Currency Code</th>
+                            <th scope="col">Currency Symbol</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="color:#7b8191">
+
+                        @foreach ($priceCurrencies as $priceCurrency)
                             <tr>
                                 <td>{{ $i++ }}</td>
                                 <td class="text-capitalize">{{ $priceCurrency->name }}</td>
@@ -62,10 +61,9 @@
                                 </td>
                             </tr>
                         @endforeach
-                        </tbody>
-                    </table>
-                    {{ $priceCurrencies->links() }}
-                </div>
+                    </tbody>
+                </table>
+                {{ $priceCurrencies->links() }}
             </div>
         </div>
     </div>
@@ -128,12 +126,9 @@
     </script>
 @endsection
 @push('css')
-
     <style>
-        td{
+        td {
             font-size: 20px;
         }
     </style>
-    
 @endpush
-

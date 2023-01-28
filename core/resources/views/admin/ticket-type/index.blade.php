@@ -29,50 +29,50 @@
         </div>
     </div>
     <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
-            <!-- Button trigger modal -->
-            <div class="table-wrapper">
-                <div class="table-responsive">
-                    @php
-                        $i = 1;
-                    @endphp
-                    <table class="custom-table table text-white rounded mt-5 ">
-                        <thead class="text-center" style="color:#7b8191">
+        <!-- Button trigger modal -->
+        <div class="table-wrapper">
+            <div class="table-responsive">
+                @php
+                    $i = 1;
+                @endphp
+                <table class="custom-table table text-white rounded mt-5 ">
+                    <thead class="text-center" style="color:#7b8191">
+                        <tr>
+                            <th scope="col">SI</th>
+                            <th scope="col">Ticket Type Name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Days</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="color:#7b8191">
+                        @if ($ticketTypes->count() == 0)
                             <tr>
-                                <th scope="col">SI</th>
-                                <th scope="col">Ticket Type Name</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Days</th>
-                                <th scope="col">Action</th>
+                                <td colspan="99">No data found</td>
                             </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($ticketTypes->count() == 0)
-                                <tr>
-                                    <td colspan="99">No data found</td>
-                                </tr>
-                            @endif
-                            @foreach ($ticketTypes as $ticketType)
-                                <tr>
-                                    <td>{{ $i++ }}</td>
-                                    <td class="text-capitalize" >{{ $ticketType->name }}</td>
-                                    <td class="text-capitalize">{{ $ticketType->price }} {{ $ticketType->priceCurrency->symbol }}</td>
-                                    <td class="text-capitalize">{{ $ticketType->days ?? '' }} Days</td>
-                                    <td>
-                                        {{-- <a 
+                        @endif
+                        @foreach ($ticketTypes as $ticketType)
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td class="text-capitalize">{{ $ticketType->name }}</td>
+                                <td class="text-capitalize">{{ $ticketType->price }}
+                                    {{ $ticketType->priceCurrency->symbol }}</td>
+                                <td class="text-capitalize">{{ $ticketType->days ?? '' }} Days</td>
+                                <td>
+                                    {{-- <a 
                                             href="{{ route('admin.ticket.type.destroy', $ticketType->id) }}"class="btn btn-danger rounded"><i
                                                 class="fas fa-trash"></i></a> --}}
-                                        <a href="{{ route('admin.ticket.type.edit', $ticketType->id) }}"
-                                            class="btn btn-primary rounded"> <i class="fas fa-edit"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $ticketTypes->links() }}
-                </div>
+                                    <a href="{{ route('admin.ticket.type.edit', $ticketType->id) }}"
+                                        class="btn btn-primary rounded"> <i class="fas fa-edit"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $ticketTypes->links() }}
             </div>
         </div>
+    </div>
     </div>
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -82,7 +82,6 @@
                     @csrf
                     <div class="modal-body">
                         <div class="modal-content">
-
                             <div class="modal-header bg--primary">
                                 <h5 class="modal-title text-white">@lang('Add Ticket Type')</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -93,7 +92,8 @@
                                 <div class="form-group">
                                     <label>@lang('Ticket Type Name')</label>
                                     <input class="form-control form--control" type="text" name="name"
-                                        placeholder="@lang('Ticket Type Name')" required value="{{ old('name') }}"  aria-label="readonly input example" readonly>
+                                        placeholder="@lang('Ticket Type Name')" required value="{{ old('name') }}"
+                                        aria-label="readonly input example" readonly>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group mb-3 mt-3">
@@ -101,7 +101,7 @@
                                             style="
                                                 border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $priceCurriency->symbol }}</span>
                                         <input type="number" class="form-control d-none" min="0" id="doller-input"
-                                            placeholder="Price" name="priceCurriency_id" value="{{$priceCurriency->id}}">
+                                            placeholder="Price" name="priceCurriency_id" value="{{ $priceCurriency->id }}">
                                         <input type="number" class="form-control" min="0" id="doller-input"
                                             placeholder="Price" name="price">
                                     </div>
@@ -133,11 +133,9 @@
     </script>
 @endsection
 @push('css')
-
     <style>
-        td{
+        td {
             font-size: 20px;
         }
     </style>
-    
 @endpush

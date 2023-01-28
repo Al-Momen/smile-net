@@ -37,11 +37,9 @@
                     <div class="card-body">
                         <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-center align-items-center text-center">
                             <span class="text-center"><img
-                                    src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$allManualEventPlanRequest->user->photo,imagePath()['profile']['user']['size'])}} ?? '' "
+                                    src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$allManualEventPlanRequest->user->photo,imagePath()['profile']['user']['size'])}}"
                                     alt="user image" style="width: 150px; height: 150px; border-radius: 99px;"></span>
                         </div>
-
-                        
                         <hr>
                         <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-between align-items-center">
                             <span><strong>Name:</strong></span>
@@ -67,7 +65,7 @@
                 </div>
             </div>
             <div class="col-xl-4 col-lg-6 col-md-6 mb-30">
-                <div class="card">
+                <div class="card" >
                     <div class="card-header">
                         <h3 class="text-primary text-center"> Event Plan User Data</h3>
                     </div>
@@ -130,9 +128,9 @@
 
                         <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-end align-items-center">
                             @if ($allManualEventPlanRequest->status == 2)
-                                <button class="btn btn-success me-2"><a
+                                <button class="btn--base bg--success me-2"><a
                                         href="{{ route('admin.manual.event.request.approved', $allManualEventPlanRequest->id) }}">Approved</a></button>
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                <button type="button" class="btn--base bg-danger" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">
                                     Reject
                                 </button>
@@ -164,8 +162,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success">Reject</button>
+                            <button type="button" class="btn--base bg-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn--base bg-success">Reject</button>
                         </div>
                     </form>
                 </div>

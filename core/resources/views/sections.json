@@ -1,0 +1,139 @@
+{
+    "home_banner": {
+        "builder": true,
+        "no_selection": true,
+        "name": " Home Banner",
+        "content": {
+            "images": {
+                "background_image": {
+                    "size": "5000x2815"
+                },
+                "shadow": {
+                    "size": "415x480"
+                },
+                "image": {
+                    "size": "415x480"
+                }
+            },
+            "heading": "text",
+            "title": "text",
+            "button_name": "text",
+            "button_link": "text"
+        }
+    },
+     "home_brand_section": {
+        "builder": true,
+        "name": "Home Brands",
+        "element": {
+            "images": {
+                "image": {
+                    "size": "140x37"
+                }
+            },
+            "modal": false
+        }
+    },
+    
+
+    "about_banner": {
+        "builder": true,
+        "name": "About Banner",
+        "content": {
+            "images": {
+                "background_image": {
+                    "size": "5000x2815"
+                }
+            },
+            "heading": "text",
+            "title": "text",
+            "button_name": "text",
+            "video_link": "text"
+        }
+    },
+
+    "about_company_section": {
+        "builder": true,
+        "no_selection": true,
+        "name": "About Section",
+        "content": {
+            "images": {
+                "image": {
+                    "size": "636x732"
+                }
+            },
+            "title": "text",
+            "heading_one": "text",
+            "heading_two": "text",
+            "sub_heading": "textarea"
+        },
+        "element": {
+            "social_icon": "icon",
+            "sub_heading": "text",
+            "modal": true
+        }
+    },
+   
+    "contact_us_banner": {
+        "builder": true,
+        "no_selection": true,
+        "name": "Contact Us Banner",
+        "content": {
+            "images": {
+                "background_image": {
+                    "size": "5000x2815"
+                }
+            },
+            "title": "text",
+            "heading": "text",
+            "video_link": "text"
+        }
+    },
+    "contact_us_section": {
+        "builder": true,
+        "no_selection": true,
+        "name": "Contact Us Section",
+        "content": {
+            "images": {
+                "image": {
+                    "size": "530x420"
+                }
+            },
+            "title": "text",
+            "heading": "text"
+        },
+        "element": {
+            "social_icon": "icon",
+            "title": "text",
+            "sub_heading": "text",
+            "modal": true
+        }
+    },
+    "contact_us": {
+        "builder": true,
+        "no_selection": true,
+        "name": "Contact Us",
+        "content": {
+            "images": {
+                "image": {
+                    "size": "530x420"
+                }
+            },
+            "title": "text",
+            "heading": "text"
+        }
+    },
+   
+    "footer": {
+        "builder": true,
+        "no_selection": true,
+        "name": "Footer Section",
+        "content": {
+            "images": {
+                "background_image": {
+                    "size": "1920x768"
+                }
+            },
+            "short_details": "textarea"
+        }
+    }
+}

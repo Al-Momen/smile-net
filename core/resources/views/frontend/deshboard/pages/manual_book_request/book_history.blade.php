@@ -44,7 +44,7 @@
                         @endif
                         @foreach ($bookHistory as $item)
                             <tr>
-                                <td class="text-capitalize">{{ $item->user->full_name ?? ' ' }}</td>
+                                <td class="text-capitalize">{{ $item->user->full_name ?? '' }}</td>
                                 <td class="text-capitalize">{{ $item->payment_getway }}</td>
                                 <td class="text-capitalize">{{ $priceCurrency->symbol }} {{ $item->final_amo }} </td>
                                 <td class="text-capitalize">

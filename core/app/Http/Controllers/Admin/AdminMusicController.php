@@ -23,7 +23,6 @@ class AdminMusicController extends Controller
         $request->validate([
             'title' => 'required|min:2|max:255',
             'artist' => 'required',
-            'singer_name' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg',
             'mp3' => 'required',
 
@@ -33,7 +32,6 @@ class AdminMusicController extends Controller
             $music->user_id = Auth::user()->id;
             $music->title = $request->title;
             $music->artist = $request->artist;
-            $music->singer_name = $request->singer_name;
             $music->status = $request->status;
             $music->image = Generals::upload('music/photo/', 'png', $request->image);
             $music->mp3 = Generals::fileUpload('music/', $request->mp3);
@@ -71,10 +69,7 @@ class AdminMusicController extends Controller
         $request->validate([
             'title' => 'required|min:2|max:255',
             'artist' => 'required',
-            'singer_name' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg',
-            'mp3' => 'required',
-
+            'image' => 'image|mimes:jpeg,png,jpg',
         ]);
         try {
             $music = Music::where('id', $id)->first();
@@ -83,13 +78,21 @@ class AdminMusicController extends Controller
             $music->user_id = Auth::user()->id;
             $music->title = $request->title;
             $music->artist = $request->artist;
-            $music->singer_name = $request->singer_name;
             $music->status = $request->status;
-            $music->image = Generals::update('music/photo/', $oldImage, 'png', $request->image);
-            $music->mp3 = Generals::FileUpdate('music/', $oldFile, $request->mp3);
             $music->update();
+            if($request->hasFile('image')){
+
+                $music->image = Generals::update('music/photo/', $oldImage, 'png', $request->image);
+                $music->update();
+            }
+            if($request->hasFile('mp3')){
+
+                $music->mp3 = Generals::FileUpdate('music/', $oldFile, $request->mp3);
+                $music->update();
+            }
+            
             $notify[] = ['success', 'Music update Successfully'];
-            return redirect()->back()->withNotify($notify);
+            return redirect()->route('admin.music.index')->withNotify($notify);
         } catch (QueryException $e) {
             dd($e->getMessage());
         }

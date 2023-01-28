@@ -18,7 +18,7 @@
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">View</span>
+                <span class="active-path g-color">View Vote</span>
             </a>
         </div>
         <div class="view-prodact">

@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('partials.seo')
-    <title>Smile Net</title>
+    <title>{{$general->sitename}}</title>
 
     <link
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
@@ -176,30 +176,25 @@
 
         var swiper = new Swiper(".mySwiper4", {
             slidesPerView: 4,
-            spaceBetween: 20,
-            freeMode: true,
+            spaceBetween: 30,
             autoplay: {
                 delay: 6000,
                 disableOnInteraction: false
             },
             breakpoints: {
-                '480': {
-                    slidesPerView: 1,
-                    spaceBetween: 30,
+                1199: {
+                slidesPerView: 3,
                 },
-                '768': {
-                    slidesPerView: 2,
-                    spaceBetween: 20,
+                991: {
+                slidesPerView: 3,
                 },
-                '820': {
-                    slidesPerView: 3,
-                    spaceBetween: 20,
+                767: {
+                slidesPerView: 2,
                 },
-                '912': {
-                    slidesPerView: 3,
-                    spaceBetween: 20,
-                },
+                575: {
+                slidesPerView: 1,
             },
+        }
         });
 
         var swiper = new Swiper(".mySwiper5", {

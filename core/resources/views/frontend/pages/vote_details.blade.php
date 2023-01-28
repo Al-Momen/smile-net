@@ -33,28 +33,14 @@
                     </ul>
                 </div>
             </div>
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+            
             <form action="{{ route('store.voted') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="row g-4 pt-3 vote-section">
                     @foreach ($adminVote->adminVoteImages as $index => $adminVoteImage)
                         <div class="col-12 col-lg-4 col-md-12 d-grid justify-content-center">
-                            <div class="card" style="width: 290px;">
-                                <div class="subscription">
+                            <div class="card" style="width: 290px; height: auto;">
+                                <div class="subscription" style="margin-top: -25px">
                                     @if ($totalVote)
                                     {
                                     <h3 class="text-white text-uppercase">
@@ -69,10 +55,10 @@
                                     @endif
                                 </div>
                                 <img src="{{ asset('core\storage\app\public\votes\\' . $adminVoteImage->image) }}"
-                                    class="card-img-top" alt="image" style="width: 100%; height: 220px">
+                                    class="card-img-top" alt="image" style="width: 100%; height: 270px">
                                 <div class="card-body row">
                                   <div class="col-6">
-                                    <h5 class="card-title text-white text-capitalize">{{ $adminVoteImage->name }}</h5>
+                                    <h5 class="card-title text-white text-capitalize m-0 p-0">{{ $adminVoteImage->name }}</h5>
                                   </div>
                                     <div class="form-check col-6 d-grid justify-content-end">
                                         <input class="form-check-input" value="{{ $adminVote->id }}" name="admin_vote_id"

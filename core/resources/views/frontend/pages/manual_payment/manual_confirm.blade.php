@@ -42,8 +42,7 @@
                                                 <div class="form-group step__form__group">
                                                     <label class="form--label text-white"><strong>{{__($v->field_level)}} @if($v->validation == 'required') <span class="text-danger">*</span>  @endif</strong></label>
                                                     <br>
-
-                                                    <input type="file" name="{{$k}}" class="form-control form--control" accept="image/*" >
+                                                    <input type="file" name="{{$k}}" style="line-height:32px;" class="form-control form--control" accept="image/*">
                                                 </div>
                                             </div>
                                         @endif
@@ -51,7 +50,7 @@
                                 @endif
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <button type="submit" class="btn btn-primary w-100 justify-content-center">@lang('Pay Now')</button>
+                                        <button type="submit" class="btn bg-primary w-100 justify-content-center">@lang('Pay Now')</button>
                                     </div>
                                 </div>
 

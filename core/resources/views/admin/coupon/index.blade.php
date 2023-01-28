@@ -27,62 +27,58 @@
             </a>
         </div>
     </div>
+
+    <!-- Button trigger modal -->
     <div class="table-content">
         <div class="shadow-lg card-1 my-3">
-            <!-- Button trigger modal -->
-            <div class="table-content">
-                <div class="shadow-lg card-1 my-3">
-                    <div class="table-wrapper table-responsive">
-                        @php
-                            $i = 1;
-                        @endphp
+            <div class="table-wrapper table-responsive">
+                @php
+                    $i = 1;
+                @endphp
 
-                        <table class="custom-table table text-white rounded mt-5 ">
-                            <thead class="text-center" style="color:#7b8191">
-                                <tr>
-                                    <th scope="col">SI</th>
-                                    <th scope="col">Coupon Name</th>
-                                    <th scope="col">Coupon Code</th>
-                                    <th scope="col">Discount Price</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center" style="color:#7b8191">
-                                @if ($coupons->count() == 0)
-                                <tr>
-                                    <td colspan="99" class="text-center">No data found</td>
-                                </tr>
-                            @endif
-                                @foreach ($coupons as $coupon)
-                                    <tr>
-                                        <td>{{ $i++ }}</td>
-                                        <td class="text-capitalize">{{ $coupon->name }}</td>
-                                        <td>{{ $coupon->code }}</td>
-                                        <td>{{ $coupon->discount_price }}</td>
-                                        <td>
-                                            <form action="{{ route('admin.coupon.status.edit', $coupon->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                <label class="switch" id="switch">
-                                                    <input type="checkbox" name="status"
-                                                        @if ($coupon->status == 1) checked @endif id="switchInput">
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.coupon.destroy', $coupon->id) }}"
-                                                class="btn btn-danger rounded"> <i class="fas fa-trash"
-                                                    data-bs-toggle="modal" data-bs-target="#exampleModal"></i></a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $coupons->links() }}
-                    </div>
-                </div>
+                <table class="custom-table table text-white rounded mt-5 ">
+                    <thead class="text-center" style="color:#7b8191">
+                        <tr>
+                            <th scope="col">SI</th>
+                            <th scope="col">Coupon Name</th>
+                            <th scope="col">Coupon Code</th>
+                            <th scope="col">Discount Price</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center" style="color:#7b8191">
+                        @if ($coupons->count() == 0)
+                            <tr>
+                                <td colspan="99" class="text-center">No data found</td>
+                            </tr>
+                        @endif
+                        @foreach ($coupons as $coupon)
+                            <tr>
+                                <td>{{ $i++ }}</td>
+                                <td class="text-capitalize">{{ $coupon->name }}</td>
+                                <td>{{ $coupon->code }}</td>
+                                <td>{{ $coupon->discount_price }}</td>
+                                <td>
+                                    <form action="{{ route('admin.coupon.status.edit', $coupon->id) }}" method="POST">
+                                        @csrf
+                                        <label class="switch" id="switch">
+                                            <input type="checkbox" name="status"
+                                                @if ($coupon->status == 1) checked @endif id="switchInput">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </form>
+                                </td>
+                                <td>
+                                    <a href="{{ route('admin.coupon.destroy', $coupon->id) }}"
+                                        class="btn btn-danger rounded"> <i class="fas fa-trash" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $coupons->links() }}
             </div>
         </div>
     </div>
@@ -107,10 +103,9 @@
                 @endif
                 <form action="{{ route('admin.coupon.store') }}" method="POST">
                     @csrf
-                    <div class="modal-body">
-                        <div class="modal-content">
-
-                            <div class="modal-header bg--primary">
+                    
+                        <div class="modal-content" style="padding:0px">
+                            <div class="modal-header ">
                                 <h5 class="modal-title text-white">@lang('Add Coupon')</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
@@ -132,13 +127,13 @@
                                     <input class="form-control form--control" type="number" name="price"
                                         placeholder="@lang('Coupon Price')" required value="{{ old('price') }}">
                                 </div>
+                                <div class="text-end">
+                                    <button type="submit" class="btn--base bg--primary">Save</button>
+                                    <button type="button" class="btn--base bg-danger" data-bs-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
+                   
                 </form>
             </div>
         </div>

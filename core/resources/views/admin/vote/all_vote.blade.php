@@ -30,60 +30,57 @@
     @php
         $i = 1;
     @endphp
+
+    <!-- Button trigger modal -->
     <div class="table-content">
-        <div class="shadow-lg card-1 my-3">
-            <!-- Button trigger modal -->
-            <div class="table-content">
-                <div class="shadow-lg card-1 my-3">
-                    <div class="table-wrapper table-responsive">
-                        <table class=" custom-table table text-white rounded mt-5">
-                            <thead class="text-center" style="color:#7b8191">
-                                <tr>
-                                    <th scope="col">SI</th>
-                                    <th scope="col">User</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Voted Image</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center" style="color:#7b8191">
-                                @if ($votes->count() == 0)
-                                    <tr>
-                                        <td colspan="99"class="text-center">No data found</td>
-                                    </tr>
-                                @endif
-                                @foreach ($votes as $item)
-                                    <tr>
-                                        <td class="text-capitalize">{{ $i++}}</td>
-                                        <td class="text-capitalize">
-                                            <img class="table-user-img img-fluid d-block me-auto"  src="{{getImage(imagePath()['profile']['user']['path'].'/'.$item->user->photo ) }} ?? '' " alt="user-image">
-                                        </td>
-                                        <td class="text-capitalize">{{ $item->user->full_name ?? ' '}}</td>
-                                        </td>
-                                        <td class="text-capitalize">
-                                            @php
-                                                $date = $item->created_at;
-                                                echo date('d/m/Y', strtotime($date));
-                                            @endphp
-                                        </td>
-                                        <td class="text-capitalize"><img class="table-user-img img-fluid d-block me-auto" src="{{ asset('core\storage\app\public\votes\\' . $item->adminVoteImage->image) }}" alt="user-image"></td>
-                                        <td>
-                                            <a href="{{ route('admin.vote.view',$item->id) }}"
-                                                class="btn btn-primary rounded">
-                                                <i class="fas fa-eye"></i></a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $votes->links() }}
-                    </div>
-                </div>
-            </div>
+        <div class="table-wrapper table-responsive">
+            <table class=" custom-table table text-white rounded mt-5">
+                <thead class="text-center" style="color:#7b8191">
+                    <tr>
+                        <th scope="col">SI</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Voted Image</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center" style="color:#7b8191">
+                    @if ($votes->count() == 0)
+                        <tr>
+                            <td colspan="99"class="text-center">No data found</td>
+                        </tr>
+                    @endif
+                    @foreach ($votes as $item)
+                        <tr>
+                            <td class="text-capitalize">{{ $i++ }}</td>
+                            <td class="text-capitalize">
+                                <img class="table-user-img img-fluid d-block me-auto"
+                                    src="{{ getImage(imagePath()['profile']['user']['path'] . '/' . $item->user->photo) }} "
+                                    alt="user-image">
+                            </td>
+                            <td class="text-capitalize">{{ $item->user->full_name ?? ' ' }}</td>
+                            </td>
+                            <td class="text-capitalize">
+                                @php
+                                    $date = $item->created_at;
+                                    echo date('d/m/Y', strtotime($date));
+                                @endphp
+                            </td>
+                            <td class="text-capitalize"><img class="table-user-img img-fluid d-block me-auto"
+                                    src="{{ asset('core\storage\app\public\votes\\' . $item->adminVoteImage->image) }}"
+                                    alt="user-image"></td>
+                            <td>
+                                <a href="{{ route('admin.vote.view', $item->id) }}" class="btn btn-primary rounded">
+                                    <i class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $votes->links() }}
         </div>
     </div>
-
 @endsection
 @section('css')
     <style>

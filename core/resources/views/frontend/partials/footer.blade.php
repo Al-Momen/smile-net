@@ -5,7 +5,7 @@
                 <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                     <img class="img-fluid" src="{{URL::asset('assets/frontend/images/logo/logo1.png')}}" alt="logo" style="height: 4rem;">
                     <p class="py-3">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        {!!$footer->heading!!}
                     </p>
                 </div>
 
@@ -25,7 +25,7 @@
                     </p>
                 </div>
 
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                {{-- <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
                     <h6 class="text-uppercase fw-bold mb-4">
                         Legal
@@ -39,7 +39,7 @@
                     <p>
                         <a href="#0" class="text-reset">Security</a>
                     </p>
-                </div>
+                </div> --}}
 
                 <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                     <!-- Links -->
@@ -58,7 +58,7 @@
     <div class="d-flex justify-content-center justify-content-lg-between border-top p-4 container">
         <div class="me-5 d-none d-lg-block">
             <p>
-                © 2022 Copyright:
+                © {{$footer->title}} Copyright:
                 <a class="text-reset fw-bold" href="{{route('index')}}">{{$general->sitename}}</a>
             </p>
         </div>

@@ -140,10 +140,16 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-12 col-lg-12 col-md-12">
-                                            <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
-                                                <label for="editor" class="form-label">@lang('Description')</label>
-                                                <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
+                                        <div class="col-lg-12 mt-30 mb-5">
+                                            <div class="gateway-item">
+                                                <div class="user-info-header two">
+                                                    <h5 class="title">Instruction</h5>
+                                                </div>
+                                                <div class="row justify-content-center mb-10-none">
+                                                    <textarea class="form--control" name="description" id=""
+                                                        rows="10"placeholder="Write Text Here" value="">
+                                                    </textarea>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -222,20 +228,7 @@
 @section('scripts')
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
-    <script>
-        let editor;
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .then(newEditor => {
-                editor = newEditor;
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        $('#btn_add').click(function() {
-            var descriptionData = editor.getData();
-        })
-    </script>
+   
     <script>
         $('.gateway-form').on('click', '#fieldAddNew', function() {
             $('#fieldAddNew').closest('.gateway-form').find('#fieldAppend').last().clone().show().appendTo(

@@ -1,5 +1,21 @@
 @extends('frontend.master')
 @section('content')
+
+@push("css")
+
+<style>
+    .card .bg-image{
+        height: 250px;
+    }
+    .card .bg-image img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+    }
+</style>
+    
+@endpush
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     Start Banner Section
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
@@ -24,7 +40,7 @@
                     <div class="col-12 col-lg-4 col-md-6">
                         <div class="card shadow-lg ">
                             <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                                <img src="{{ asset('core\storage\app\public\news\\' . $news->image) }}" class="img-fluid" style="height:250px"/>
+                                <img src="{{ asset('core\storage\app\public\news\\' . $news->image) }}" class="img-fluid"/>
                             </div>
                             <div class="card-body text-white">
                                 <a href="{{ route('news_details', $news->id) }}" class="text-decoration-none">

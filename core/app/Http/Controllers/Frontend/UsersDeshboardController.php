@@ -43,7 +43,7 @@ class UsersDeshboardController extends Controller
         $ticketTypePlans = TicketTypeDetails::with(['ticket_type'])->where('user_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->count();
         $eventPlanTranactionTicketCount = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->count();
 
-        $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->where('status', 1)->orderBy('id', 'desc')->paginate(5, ['*'], 'eventPlanTranaction');
+        $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('buy_user_id', Auth::guard('general')->user()->id)->where('status', 1)->orderBy('id', 'desc')->paginate(5, ['*'], 'eventPlanTranaction');
 
         $books = BookTransaction::where('buy_user_id', Auth::guard('general')->id())->where('author_book_type', 'App\Models\GeneralUser')->where('status', 1)->orderBy('id', 'desc')->paginate(5, ['*'], 'books');
 
@@ -194,7 +194,8 @@ class UsersDeshboardController extends Controller
     }
     public function buyingEventTicket()
     {
-        $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->user()->id)->where('status', 1)->orderBy('id', 'desc')->paginate(10);
+        $eventPlanTranaction = EventPlanTransaction::with(['eventPlans.ticketType'])->where('buy_user_id', Auth::guard('general')->user()->id)->where('status', 1)->orderBy('id', 'desc')->paginate(10);
+        // dd($eventPlanTranaction);
         $priceCurrency = PriceCurrency::first();
         $empty_message = 'No Data Found';
         return view('frontend.deshboard.pages.buying_plan', compact(

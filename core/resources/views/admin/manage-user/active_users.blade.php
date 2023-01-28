@@ -25,89 +25,62 @@
 
         </div>
     </div>
+
+    <!-- Button trigger modal -->
     <div class="table-content">
-        <div class="shadow-lg card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('danger'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session('danger') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            <!-- Button trigger modal -->
-            <div class="table-content">
-                <div class="table-wrapper table-responsive">
-                    <table class="custom-table table text-white rounded mt-5">
-                        <thead class="text-center" style="color:#7b8191">
-                            <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Phone</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Country</th>
-                                <th scope="col" class="text-center">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($active_users->count() == 0)
-                                <tr>
-                                    <td colspan="99" class="text-center">No data found</td>
-                                </tr>
-                            @endif
-                            @foreach ($active_users as $user)
-                                <tr>
-                                    <td class="text-capitalize">{{ $user->full_name }}</td>
-                                    <td><img class="table-user-img img-fluid d-block me-auto"
-                                            src="{{ getImage(imagePath()['profile']['user']['path'].'/'. $user->photo)}}"
-                                            alt="Image"></td>
-                                    <td>{{ $user->phone }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->country }}</td>
-                                    <td>
-                                        <form action="{{ route('admin.user.access.edit', $user->id) }}" method="POST">
-                                            @csrf
-                                            <div class="btn-container">
-                                                <label class="switch btn-color-mode-switch">
-                                                    <input type="checkbox" name="access" id="color_mode"
-                                                        @if ($user->access == 1) checked @endif>
-                                                    <label for="color_mode" data-on="Banned" data-off="Active"
-                                                        class="btn-color-mode-switch-inner"></label>
-                                                </label>
-                                            </div>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <a href="{{ route('admin.view.user', $user->id) }}"
-                                            class="btn btn-primary rounded">
-                                            <i class="fas fa-eye" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $active_users->links() }}
-                </div>
-            </div>
+        <div class="table-wrapper table-responsive">
+            <table class="custom-table table text-white rounded mt-5">
+                <thead class="text-center" style="color:#7b8191">
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Country</th>
+                        <th scope="col" class="text-center">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center" style="color:#7b8191">
+                    @if ($active_users->count() == 0)
+                        <tr>
+                            <td colspan="99" class="text-center">No data found</td>
+                        </tr>
+                    @endif
+                    @foreach ($active_users as $user)
+                        <tr>
+                            <td class="text-capitalize">{{ $user->full_name }}</td>
+                            <td><img class="table-user-img img-fluid d-block me-auto"
+                                    src="{{ getImage(imagePath()['profile']['user']['path'] . '/' . $user->photo) }}"
+                                    alt="Image"></td>
+                            <td>{{ $user->phone }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>{{ $user->country }}</td>
+                            <td>
+                                <form action="{{ route('admin.user.access.edit', $user->id) }}" method="POST">
+                                    @csrf
+                                    <div class="btn-container">
+                                        <label class="switch btn-color-mode-switch">
+                                            <input type="checkbox" name="access" id="color_mode"
+                                                @if ($user->access == 1) checked @endif>
+                                            <label for="color_mode" data-on="Banned" data-off="Active"
+                                                class="btn-color-mode-switch-inner"></label>
+                                        </label>
+                                    </div>
+                                </form>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.view.user', $user->id) }}" class="btn btn-primary rounded">
+                                    <i class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#exampleModal"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $active_users->links() }}
         </div>
     </div>
-    </div>
-
+   
 @endsection
 @section('css')
     <style>

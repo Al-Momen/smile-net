@@ -10,62 +10,76 @@
 @endphp
 
 @section('content')
-    <!-- Modal -->
+<div class="dashboard-title-part">
+    <h5 class="title">Dashboard</h5>
+    <div href="" class="dashboard-path">
+        <a href={{ route('admin.dashboard') }}>
+            <span class="main-path">Dashboards</span>
+        </a>
+        <i class="las la-angle-right"></i>
+        <a href="#">
+            <span class="active-path g-color">Edit Video-song</span>
+        </a>
+    </div>
+    <div class="view-prodact">
+       
+    </div>
+</div>
 
-    <form action="{{ route('admin.update.video.music',$videoMusic->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.update.video.music', $videoMusic->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="modal-body">
-            <div class="modal-content">
-                <div class="modal-header bg--primary">
-                    <h5 class="modal-title text-white">@lang('Edit Song')</h5>
-                    
+        <div class="user-info-header two mb-4">
+            <h5 class="modal-title text-white">@lang('Edit Song')</h5>
+
+        </div>
+        <div class="dashboard-form-area two mt-10">
+            <div class="row g-4k" style="padding: 20px;">
+                <div class=" col-lg-6 col-md-6 col-12 form-group">
+                    <label for="title">@lang('Song Title')</label>
+                    <input type="text" class="form--control" placeholder="Title" name="title" id="title"
+                        value="{{ $videoMusic->title }}" required>
                 </div>
-                <div class="modal-body">
-                    <div class="row g-4k" style="padding: 20px;">
-                        <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="title" class="form-label">@lang('Song Title')</label>
-                            <input type="text" class="form-control" placeholder="Title" name="title" id="title"
-                                value="{{ $videoMusic->title }}" required>
-                        </div>
-                        <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="file" class="form-label">@lang('Artist')</label>
-                            <input type="text" class="form-control" placeholder="Song Name Artist" name="artist" id="file"
-                                value="{{ $videoMusic->artist }}" required>
-                        </div>
-                        <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="singer_name" class="form-label">@lang('Singer Name')</label>
-                            <input type="text" class="form-control" placeholder="Singer Name" name="singer_name" id="singer_name"
-                                value="{{ $videoMusic->singer_name }}" required>
-                        </div>
-                        {{-- <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="date" class="form-label">Date</label>
+                <div class=" col-lg-6 col-md-6 col-12 form-group">
+                    <label for="file">@lang('Artist')</label>
+                    <input type="text" class="form--control" placeholder="Song Name Artist" name="artist" id="file"
+                        value="{{ $videoMusic->artist }}" required>
+                </div>
+                <div class=" col-lg-6 col-md-6 col-12 form-group">
+                    <label for="singer_name">@lang('Singer Name')</label>
+                    <input type="text" class="form--control" placeholder="Singer Name" name="singer_name"
+                        id="singer_name" value="{{ $videoMusic->singer_name }}" required>
+                </div>
+                {{-- <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 form-group">
+                            <label for="date">Date</label>
                             <input type="datetime-local" class="form-control" placeholder="Date" name="date" value="{{ $music->date }}"
                                 id="date" required>
                         </div> --}}
-                        <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="thumbnail" class="form-label">@lang('Thumbnail') </label>
-                            <input type="file" src="" class="form-control px-3 pt-2" name="image"
-                                accept="image/*" id="thumbnail" required>
-                        </div>
+                <div class="col-lg-6 col-md-6 col-12 form-group">
+                    <label for="">@lang('Thumbnail') </label>
+                    <input type="file" src="" class="form--control " name="image" accept="image/*"
+                        id="thumbnail">
+                </div>
 
-                        <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="audio" class="form-label">@lang('Video Music')</label>
-                            <input type="file" src="" class="form-control px-3 pt-2" name="mp4"
-                                accept="video/*,.mkv" id="mp4" required>
-                        </div>
-                        
-                    </div>
-                </div>-+
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary"><a href="{{route('admin.video.music.index')}}">Back</a></button>
-                <button type="submit" class="btn btn-primary">Update</button>
+                <div class="col-12 form-group">
+                    <label for="">@lang('Video Music')</label>
+                    <input type="file" src="" class="form--control " name="mp4" accept="video/*,.mkv"
+                        id="mp4">
+                </div>
+                <div class="col-lg-12 text-end">
+                    <button type="submit" class="btn--base">Update</button>
+                    <button type="button" class="btn--base bg-danger"><a
+                            href="{{ route('admin.video.music.index') }}">Back</a></button>
+                </div>
             </div>
         </div>
     </form>
 @endsection
 @section('css')
     <style>
+        .img-height {
+            line-height: 35px;
+        }
+
         .table-user-img {
             height: 60px;
             width: 60px;

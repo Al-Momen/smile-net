@@ -2,10 +2,10 @@
 @section('Dashboard', 'active')
 @section('Dashboard', 'open')
 @section('title')
-    @lang('admin_action.list_page_title')
+    @lang('Password Change')
 @endsection
 @section('page-name')
-    @lang('admin_action.list_page_sub_title')
+    @lang('Password Change')
 @endsection
 @section('content')
     <div class="dashboard-title-part">
@@ -13,7 +13,7 @@
         <a href="{{ route('admin.dashboard') }}" class="dashboard-path">
             <span class="main-path">Dashboards</span>
             <i class="las la-angle-right"></i>
-            <span class="active-path g-color">Profile</span>
+            <span class="active-path g-color">Password Change</span>
         </a>
         <div class="view-prodact">
 

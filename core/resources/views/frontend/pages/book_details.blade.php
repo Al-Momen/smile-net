@@ -60,10 +60,18 @@
                     @else
                         <div class="d-lg-flex justify-content-between">
                             <a href="{{route('book.user.profile',$book->author_book_id)}}" class="book-author text-decoration-none pb-4 d-flex">
+                                @if ($book->author_book_type == 'App\Models\GeneralUser')
+                                <div class="pe-3">
+                                    <img src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$book->user->photo,imagePath()['profile']['user']['size'])}}"
+                                        alt="" class="rounded-circle img-fluid">
+                                </div>
+                                @else
                                 <div class="pe-3">
                                     <img src="{{ asset('core\storage\app\public\profile\\' . $book->user->photo) }}"
                                         alt="" class="rounded-circle img-fluid">
                                 </div>
+                                @endif
+                                
                                 <div>
                                     <h4 class="fs-6 text-capitalize">{{ $book->user->full_name }}<span class="text-primary"
                                             style="font-size: 12px;">-

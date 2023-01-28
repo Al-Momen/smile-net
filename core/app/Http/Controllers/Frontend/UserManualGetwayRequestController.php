@@ -59,7 +59,7 @@ class UserManualGetwayRequestController extends Controller
 
         //  user money back 
         $userWallet = UserWallet::where('user_id',$manualGetwayRequestView->user_id)->first();
-        $userWallet->balance = $userWallet->balance + $manualGetwayRequestView->amount;
+        $userWallet->balance = $userWallet->balance + $manualGetwayRequestView->total;
         $userWallet->update();
         $notify[] = ['success', 'User request is Cancelled'];
         return redirect()->route('admin.user.manual.getway.request.view',$id)->withNotify($notify);

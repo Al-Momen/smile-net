@@ -1,8 +1,8 @@
 @extends('frontend.master')
 @section('content')
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                Start Banner Section
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    Start Banner Section
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     {{-- {{ dd($site_image->image) }} --}}
     <section class="ticket-banner  bg-overlay-base">
         @if ($site_image->image ?? '')
@@ -11,12 +11,12 @@
         @endif
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                End Banner Section
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    End Banner Section
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                Start Pricing Section
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    Start Pricing Section
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="overflow-hidden py-5">
         <div class="container pt-5">
             <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold">Subscription Plan</h1>
@@ -45,11 +45,21 @@
                     <div class="col-lg-4 col-md-12 mb-4 text-white">
                         <div class="card card1 h-100">
                             <div class="card-body">
-                                <h5 class="card-title text-capitalize">{{ $item->name }} <span class=" text-danger">
-                                        @if ($item->name == 'basic')
-                                            /Free
-                                        @endif
-                                    </span></h5>
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h5 class="card-title text-capitalize">{{ $item->name }} <span
+                                                class=" text-danger">
+                                                @if ($item->name == 'basic')
+                                                    /Free
+                                                @endif
+                                            </span>
+
+                                        </h5>
+                                    </div>
+                                        <div>
+                                            <h5 class="text-white">{{$item->days}} days</h5>
+                                        </div>
+                                </div>
                                 <span class="h2 pt-4">{{ $item->priceCurrency->symbol }}{{ $item->price }}</span>
                                 <p class="">{!! $item->description !!}</p>
                                 @if ($item->name != 'basic')
@@ -67,6 +77,6 @@
             </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                End Pricing Section
-            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                    End Pricing Section
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 @endsection

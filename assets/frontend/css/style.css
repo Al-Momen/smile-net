@@ -45,8 +45,7 @@ html {
 }
 
 body {
-  background: -webkit-gradient(linear, left top, right top, from(rgb(46, 46, 55)), color-stop(43%, rgb(18, 17, 17)), to(rgb(16, 36, 40))) !important;
-  background: linear-gradient(90deg, rgb(46, 46, 55) 0%, rgb(18, 17, 17) 43%, rgb(16, 36, 40) 100%) !important;
+background-image: linear-gradient(to right top, #121e30, #161d2f, #1a1b2e, #1d1a2c, #20192a) !important;
   font-family: "Poppins", sans-serif !important;
   font-size: 16px;
   font-weight: normal;
@@ -2959,8 +2958,7 @@ option {
 
 .sidebar {
   width: 300px;
-  background: -webkit-gradient(linear, left top, right top, from(rgb(46, 46, 55)), color-stop(43%, rgb(18, 17, 17)), to(rgb(16, 36, 40)));
-  background: linear-gradient(90deg, rgb(46, 46, 55) 0%, rgb(18, 17, 17) 43%, rgb(16, 36, 40) 100%);
+  background-image: linear-gradient(to right top, #121e30, #161d2f, #1a1b2e, #1d1a2c, #20192a) !important;
   position: fixed;
   top: 0;
   left: 0;
@@ -3329,8 +3327,7 @@ option {
 .dropdown-menu.dropdown-menu--sm {
   min-width: 10rem;
   top: 42% !important;
-  background: -webkit-gradient(linear, left top, right top, from(rgb(46, 46, 55)), color-stop(43%, rgb(18, 17, 17)), to(rgb(16, 36, 40)));
-  background: linear-gradient(90deg, rgb(46, 46, 55) 0%, rgb(18, 17, 17) 43%, rgb(16, 36, 40) 100%);
+ background-image: linear-gradient(to right top, #121e30, #161d2f, #1a1b2e, #1d1a2c, #20192a) !important;
 }
 
 .dropdown-menu__item {
@@ -3571,8 +3568,7 @@ option {
 
 .dashbord-user {
   word-wrap: break-word;
-  background: -webkit-gradient(linear, left top, right top, from(rgb(121, 57, 57)), color-stop(40%, rgb(8, 53, 85)), to(rgb(44, 124, 112)));
-  background: linear-gradient(90deg, rgb(121, 57, 57) 0%, rgb(8, 53, 85) 40%, rgb(44, 124, 112) 100%);
+  background-image: linear-gradient(to right top, #0a3575, #2f2957, #082147, #051937, #833535);
   background-clip: border-box;
   border: 0 solid transparent;
   border-bottom: 4px solid #ce3242;
@@ -3706,11 +3702,11 @@ option {
       -ms-flex-pack: justify;
           justify-content: space-between;
   min-height: 100vh;
-  background: linear-gradient(-45deg, rgb(46, 46, 55) 0%, rgb(18, 17, 17) 43%, rgb(16, 36, 40) 100%);
+background-image: linear-gradient(to right top, #121e30, #161d2f, #1a1b2e, #1d1a2c, #20192a) !important;
 }
 
 .navbar-wrapper {
-  background: linear-gradient(-45deg, rgb(46, 46, 55) 0%, rgb(18, 17, 17) 43%, rgb(16, 36, 40) 100%);
+background-image: linear-gradient(to right top, #121e30, #161d2f, #1a1b2e, #1d1a2c, #20192a) !important;
   margin-bottom: 40px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin-left: 300px;
@@ -3861,8 +3857,7 @@ option {
   border: none !important;
 }
 .table-content .user-card {
-  background: -webkit-gradient(linear, left top, right top, from(rgb(125, 125, 141)), color-stop(43%, rgb(65, 51, 51)), to(rgb(31, 55, 59))) !important;
-  background: linear-gradient(90deg, rgb(125, 125, 141) 0%, rgb(65, 51, 51) 43%, rgb(31, 55, 59) 100%) !important;
+  background-image: linear-gradient(to right top, #0a3575, #2f2957, #082147, #051937, #242f53) !important;
 }
 .table-content .card:hover:hover {
   -webkit-transform: translateY(-4px);
@@ -3871,8 +3866,7 @@ option {
   box-shadow: 0 5px 10px rgba(30, 32, 37, 0.12);
 }
 .table-content .card-1 {
-  background: -webkit-gradient(linear, left top, right top, from(rgb(46, 46, 55)), color-stop(43%, rgb(18, 17, 17)), to(rgb(16, 36, 40)));
-  background: linear-gradient(90deg, rgb(46, 46, 55) 0%, rgb(18, 17, 17) 43%, rgb(16, 36, 40) 100%);
+ background-image: linear-gradient(to right top, #121e30, #161d2f, #1a1b2e, #1d1a2c, #20192a) !important;
   border-radius: 5px;
 }
 .table-content .form-dashboard .form-control {
@@ -5245,9 +5239,8 @@ option {
   transition: 0.3s transform cubic-bezier(0.155, 1.105, 0.295, 1.12), 0.3s box-shadow, 0.3s -webkit-transform cubic-bezier(0.155, 1.105, 0.295, 1.12);
   cursor: pointer;
   overflow: hidden;
-  border: 1px solid #fff !important;
-  background: -webkit-gradient(linear, left top, right top, from(rgb(46, 46, 55)), color-stop(43%, rgb(18, 17, 17)), to(rgb(16, 36, 40)));
-  background: linear-gradient(90deg, rgb(46, 46, 55) 0%, rgb(18, 17, 17) 43%, rgb(16, 36, 40) 100%);
+border-radius: 15px;
+background-image: linear-gradient(to right top, #1c2636, #1f2536, #232436, #262335, #2a2234);
 }
 .card h5 {
   color: #fff !important;
@@ -5285,8 +5278,7 @@ option {
   height: 50px;
 }
 .header-section .navbar {
-  background: -webkit-gradient(linear, left top, right top, from(rgb(46, 46, 55)), color-stop(43%, rgb(18, 17, 17)), to(rgb(16, 36, 40))) !important;
-  background: linear-gradient(90deg, rgb(46, 46, 55) 0%, rgb(18, 17, 17) 43%, rgb(16, 36, 40) 100%) !important;
+background-image: linear-gradient(to right top, #15243b, #1a2137, #1e1f33, #201c2e, #211a2a);
 }
 .header-section .navbar-light .navbar-toggler {
   border: none !important;
@@ -5350,6 +5342,9 @@ option {
 }
 
 /* footer */
+.footer {
+  background-image: linear-gradient(to right top, #15243b, #1a2137, #1e1f33, #201c2e, #211a2a);
+}
 .footer .footer-link p a {
   text-decoration: none;
   color: white;
@@ -5996,4 +5991,11 @@ option {
       -ms-flex-direction: row !important;
           flex-direction: row !important;
   display: contents !important;
+}
+
+.adcardmodal {
+  background: linear-gradient(90deg, rgba(39,49,83,1) 0%, rgba(37,50,89,1) 35%, rgba(77,31,63,1) 100%) !important;
+}
+.img-file {
+  height: 40px !important;
 }

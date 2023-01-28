@@ -15,7 +15,7 @@ class AdminSmileTvController extends Controller
 {
     public function index()
     {
-        $allSmileTv = AdminSmileTv::paginate(8);
+        $allSmileTv = AdminSmileTv::orderBy('id','desc')->paginate(8);
         $categories = AdminCategory::get();
         $ticketTypes = TicketType::get();
         return view('admin.smile-tv.index',compact('allSmileTv','categories','ticketTypes'));
@@ -26,13 +26,12 @@ class AdminSmileTvController extends Controller
             'title' => 'required|min:2|max:255',
             'name' => 'required',
             'category' => 'required',
-            'type' => 'required',
             'date' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg', 
             'mp4' => 'mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
         ]);
         if($request->smile_tv_link == '' && $request->mp4 == ''){
-            $notify[] = ['error', 'smile_tv_link or video one field is required'];
+            $notify[] = ['error', 'Smile-tv link or video one field is required'];
             return redirect()->back()->withNotify($notify);
         };
 
@@ -44,13 +43,12 @@ class AdminSmileTvController extends Controller
             $smileTv->category_id = $request->category;
             $smileTv->title = $request->title;
             $smileTv->name = $request->name;
-            $smileTv->type = $request->type;
             $smileTv->date = $request->date;
             $smileTv->smile_tv_link = $request->smile_tv_link;
             $smileTv->image = Generals::upload('smile-tv/', 'png', $request->image);
             if($request->hasFile('mp4')){
 
-                $smileTv->mp4 = Generals::upload('smile-tv/video/', $request->mp4->getClientOriginalExtension(), $request->mp4);
+                $smileTv->mp4 = Generals::FileUpload('smile-tv/video/', $request->mp4);
             }
             $smileTv->save();
             $notify[] = ['success', 'Smile-Tv Create Successfully'];
@@ -86,19 +84,19 @@ class AdminSmileTvController extends Controller
     }
     public function updateSmileTv(Request $request, $id)
     {
-        //   dd($request->all());
         $request->validate([
             'title' => 'required|min:2|max:255',
             'name' => 'required',
             'category' => 'required',
-      
-            'type' => 'required',
             'date' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg', 
+            'image' => 'image|mimes:jpeg,png,jpg', 
             'mp4' => 'mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
         ]);
-        if($request->smile_tv_link == '' && $request->mp4 == ''){
-            $notify[] = ['error', 'smile_tv_link or video one field is required'];
+
+        $smileTv = AdminSmileTv::where('id', $id)->first();
+        if($request->smile_tv_link == null && $smileTv->smile_tv_link == null && 
+        (!isset($request->mp4)) && $smileTv->mp4 == null){
+            $notify[] = ['error', 'smile tv link or video one field is required'];
             return redirect()->back()->withNotify($notify);
         };
         try {
@@ -109,12 +107,19 @@ class AdminSmileTvController extends Controller
             $smileTv->category_id = $request->category;
             $smileTv->title = $request->title;
             $smileTv->name = $request->name;
-            $smileTv->type = $request->type;
             $smileTv->date = $request->date;
             $smileTv->smile_tv_link = $request->smile_tv_link;
-            $smileTv->image = Generals::update('smile-tv/', $oldImage, 'png', $request->image);
-            $smileTv->mp4 = Generals::update('smile-tv/video/', $oldmp4, $request->mp4->getClientOriginalExtension(), $request->mp4);
             $smileTv->update();
+            if($request->hasFile('image')){
+
+                $smileTv->image = Generals::update('smile-tv/', $oldImage, 'png', $request->image);
+                $smileTv->update();
+            }
+            if($request->hasFile('mp4')){
+
+                $smileTv->mp4 = Generals::FileUpdate('smile-tv/video/', $oldmp4, $request->mp4);
+                $smileTv->update();
+            }
             $notify[] = ['success', 'Smile-Tv is Upadte Successfully'];
             return redirect()->route("admin.smile.tv.index")->withNotify($notify);
         } catch (QueryException $e) {
@@ -125,7 +130,9 @@ class AdminSmileTvController extends Controller
     {
         $smileTv = AdminSmileTv::find($id);
         Generals::unlink("smile-tv/", $smileTv->image);
+        Generals::unlink("smile-tv/video/", $smileTv->mp4);
         $smileTv->delete();
-        return redirect()->back()->with('success', "Smile-Tv delete Successfully");;
+        $notify[] = ['success', 'Smile-Tv Delete Successfully'];
+        return redirect()->back()->withNotify($notify);
     }
 }

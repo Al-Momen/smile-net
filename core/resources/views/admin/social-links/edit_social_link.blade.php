@@ -18,7 +18,7 @@
             </a>
             <i class="las la-angle-right"></i>
             <a href="{{ route('admin.price.index') }}">
-                <span class="active-path g-color">Contact & Social Link</span>
+                <span class="active-path g-color">Social Link</span>
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
@@ -46,51 +46,52 @@
                 <form action="{{ route('admin.social.update', $socialLink->id) }}" method="POST">
                     @csrf
                     <div>
-                        <div>
-                            <h5>@lang('Edit Contact & Social Link')</h5>
+                        
+                        <div class="user-info-header two mb-4">
+                            <h5 class="title text--base">@lang('Edit Contact & Social Link')</h5>
                         </div>
                         <div>
                             <div class="form-group">
                                 <label>@lang('Social Email')</label>
-                                <input class="form-control" type="text" name="email"
+                                <input class="form--control" type="text" name="email"
                                     placeholder="@lang('Currency Name')" required value="{{ $socialLink->email }}">
                             </div>
                             <div class="form-group">
                                 <label>@lang('Phone')</label>
-                                <input class="form-control " type="text" name="phone"
+                                <input class="form--control " type="text" name="phone"
                                     placeholder="@lang('e.g: USD')" required value="{{ $socialLink->phone }}">
                             </div>
                             <div class="form-group">
                                 <label>@lang('Address')</label>
-                                <input class="form-control " type="text" name="address"
+                                <input class="form--control " type="text" name="address"
                                     placeholder="@lang('e.g: $')" required value="{{ $socialLink->address }}">
                             </div>
                             <div class="form-group">
                                 <label>@lang('Facebook-link')</label>
-                                <input class="form-control " type="text" name="fb_link"
+                                <input class="form--control " type="text" name="fb_link"
                                     placeholder="@lang('e.g: $')" required value="{{ $socialLink->fb_link }}">
                             </div>
                             <div class="form-group">
                                 <label>@lang('Address')</label>
-                                <input class="form-control " type="text" name="twitter_link"
+                                <input class="form--control " type="text" name="twitter_link"
                                     placeholder="@lang('e.g: $')" required value="{{$socialLink->twitter_link }}">
                             </div>
                             <div class="form-group">
                                 <label>@lang('Instragram-link')</label>
-                                <input class="form-control " type="text" name="instragram_link"
+                                <input class="form--control " type="text" name="instragram_link"
                                     placeholder="@lang('e.g: $')" required value="{{ $socialLink->instragram_link }}">
                             </div>
                             <div class="form-group">
                                 <label>@lang('Linkedin-link')</label>
-                                <input class="form-control " type="text" name="linkedin_link"
+                                <input class="form--control " type="text" name="linkedin_link"
                                     placeholder="@lang('e.g: $')" required value="{{ $socialLink->linkedin_link }}">
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><a
+                    <div class="text-end">
+                        <button type="submit" class="btn--base bg-primary">Update</button>
+                        <button type="button" class="btn--base bg-danger" data-bs-dismiss="modal"><a
                                 href="{{ route('admin.social.index') }}">Close</a></button>
-                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>

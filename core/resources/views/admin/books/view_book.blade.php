@@ -18,7 +18,7 @@
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">All-News</span>
+                <span class="active-path g-color">View-Book</span>
             </a>
         </div>
         <div class="view-prodact">
@@ -27,27 +27,7 @@
     </div>
     <div class="table-content">
         <div class="shadow-lg p-4 card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('danger'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session('danger') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
+            
         </div>
     </div>
     <!-- Modal -->
@@ -55,7 +35,7 @@
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                     Start ES Section
                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-    <div class="details-card">
+    <div class="details-card dashboard-form-area">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-12">
                 <div>
@@ -90,7 +70,7 @@
             </div>
 
             <div> 
-                <a href="{{route('admin.book.all.books')}}" type="button" class="btn btn-info" style="float: right;">Back</a>
+                <a href="{{route('admin.book.all.books')}}" type="button" class="btn--base btn-info" style="float: right;">Back</a>
             </div>
             
         </div>

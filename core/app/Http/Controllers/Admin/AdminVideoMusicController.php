@@ -71,8 +71,8 @@ class AdminVideoMusicController extends Controller
             'title' => 'required|min:2|max:255',
             'artist' => 'required',
             'singer_name' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg',
-            'mp4' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg',
+            
 
         ]);
         try {
@@ -83,7 +83,6 @@ class AdminVideoMusicController extends Controller
             $videoMusic->title = $request->title;
             $videoMusic->artist = $request->artist;
             $videoMusic->singer_name = $request->singer_name;
-            $videoMusic->status = $request->status;
             $videoMusic->image = Generals::update('music/photo/', $oldImage, 'png', $request->image);
             $videoMusic->mp4 = Generals::FileUpdate('music/video/', $oldFile, $request->mp4);
             $videoMusic->update();

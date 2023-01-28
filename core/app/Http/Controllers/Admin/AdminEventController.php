@@ -104,7 +104,7 @@ class AdminEventController extends Controller
                }
            }
            $notify[] = ['success', 'Events update Successfully'];
-           return redirect()->route("user.events")->withNotify($notify);
+           return redirect()->route("admin.event.index")->withNotify($notify);
        } catch (QueryException $e) {
            dd($e->getMessage());
        }

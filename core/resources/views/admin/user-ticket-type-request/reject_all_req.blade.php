@@ -27,88 +27,61 @@
 
         </div>
     </div>
+    <!-- Button trigger modal -->
     <div class="table-content">
-        <div class="shadow-lg card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('danger'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session('danger') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            <!-- Button trigger modal -->
-            <div class="table-content">
-                <div class="shadow-lg card-1 my-3">
-                    <div class="table-wrapper table-responsive">
-                        <table class="custom-table table text-white rounded mt-5 ">
-                            <thead class="text-center" style="color:#7b8191">
-                                <tr>
-                                    <th scope="col">User</th>
-                                    <th scope="col">Getway-name</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Trancation</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-center" style="color:#7b8191">
-                                @if ($allManualTicketTypeRequest->count() == 0)
-                                    <tr>
-                                        <td colspan="99" class="text-center">No data found</td>
-                                    </tr>
+        <div class="table-wrapper table-responsive">
+            <table class="custom-table table text-white rounded mt-5 ">
+                <thead class="text-center" style="color:#7b8191">
+                    <tr>
+                        <th scope="col">User</th>
+                        <th scope="col">Getway-name</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Trancation</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center" style="color:#7b8191">
+                    @if ($allManualTicketTypeRequest->count() == 0)
+                        <tr>
+                            <td colspan="99" class="text-center">No data found</td>
+                        </tr>
+                    @endif
+                    @foreach ($allManualTicketTypeRequest as $item)
+                        <tr>
+                            <td class="text-capitalize">{{ $item->user->full_name ?? ' ' }}</td>
+                            <td class="text-capitalize">{{ $item->payment_getway ?? ' ' }}</td>
+                            <td class="text-capitalize">{{ $item->final_amo ?? ' ' }}{{ $priceCurrency->symbol ?? ' ' }}
+                            </td>
+                            <td class="text-capitalize">
+                                @php
+                                    $date = $item->created_at;
+                                    echo date('d/m/Y', strtotime($date));
+                                @endphp
+                            </td>
+                            <td class="text-capitalize">{{ $item->transaction_id ?? ' ' }}</td>
+                            <td class="text-capitalize">
+                                @if ($item->status == 0)
+                                    <span class="badge bg-warning"> Pending </span>
+                                @elseif($item->status == 1)
+                                    <span class="badge bg-success"> Approved </span>
+                                @else
+                                    <span class="badge bg-danger"> Cancelled </span>
                                 @endif
-                                @foreach ($allManualTicketTypeRequest as $item)
-                                    <tr>
-                                        <td class="text-capitalize">{{ $item->user->full_name ?? ' '}}</td>
-                                        <td class="text-capitalize">{{ $item->payment_getway ?? ' '}}</td>
-                                        <td class="text-capitalize">{{ $item->final_amo ?? ' '}}{{ $priceCurrency->symbol ?? ' '}}</td>
-                                        <td class="text-capitalize">
-                                            @php
-                                                $date = $item->created_at;
-                                                echo date('d/m/Y', strtotime($date));
-                                            @endphp
-                                        </td>
-                                        <td class="text-capitalize">{{ $item->transaction_id ?? ' '}}</td>
-                                        <td class="text-capitalize">
-                                            @if ($item->status == 0)
-                                                <span class="badge bg-warning"> Pending </span>
-                                            @elseif($item->status == 1)
-                                                <span class="badge bg-success"> Approved </span>
-                                            @else
-                                                <span class="badge bg-danger"> Cancelled </span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.user.manual.ticket.request.view', $item->id) }}"
-                                                class="btn btn-primary rounded">
-                                                <i class="fas fa-eye"></i></a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        {{ $allManualTicketTypeRequest->links() }}
-                    </div>
-                </div>
-            </div>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.user.manual.ticket.request.view', $item->id) }}"
+                                    class="btn btn-primary rounded">
+                                    <i class="fas fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $allManualTicketTypeRequest->links() }}
         </div>
     </div>
-
 @endsection
 @section('css')
     <style>

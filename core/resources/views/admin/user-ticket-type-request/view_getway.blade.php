@@ -18,7 +18,7 @@ User Manual Ticket-Type
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color"> User Manual Ticket-Type</span>
+                <span class="active-path g-color"> User Manual Subscription Plan</span>
             </a>
         </div>
         <div class="view-prodact">
@@ -37,7 +37,7 @@ User Manual Ticket-Type
                 <div class="card-body">
                     <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-center align-items-center text-center">
                         <span class="text-center"><img
-                                src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$allManualTicketTypeRequest->user->photo,imagePath()['profile']['user']['size'])}} ?? '' "
+                                src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$allManualTicketTypeRequest->user->photo,imagePath()['profile']['user']['size'])}} "
                                 
                                 alt="user image" style="width: 150px; height: 150px; border-radius: 99px;"></span>
                     </div>
@@ -124,9 +124,9 @@ User Manual Ticket-Type
 
                     <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-end align-items-center">
                         @if ($allManualTicketTypeRequest->status == 2)
-                            <button class="btn btn-success me-2"><a
+                            <button class="btn--base bg-success me-2"><a
                                     href="{{ route('admin.manual.ticket.request.approved', $allManualTicketTypeRequest->id) }}">Approved</a></button>
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            <button type="button" class="btn--base bg-danger" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal">
                                 Reject
                             </button>
@@ -157,8 +157,8 @@ User Manual Ticket-Type
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Reject</button>
+                        <button type="button" class="btn--base bg-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn--base bg-success">Reject</button>
                     </div>
                 </form>
             </div>

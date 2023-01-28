@@ -73,7 +73,7 @@
                             <tr>
                                 <td class="text-capitalize">{{ $item->name }}</td>
                                 <td><img class="table-user-img img-fluid d-block me-auto"
-                                        src="{{ asset('core\storage\app\public\manual-getway\\' . $item->image) }}"
+                                        src="{{ getImage(imagePath()['gateway']['path'].'/'. $item->image,imagePath()['gateway']['size'])}}"
                                         alt="Image"></td>
                                 <td>
                                     <form action="{{ route('admin.manual.getway.status.edit', $item->id) }}" method="POST">
@@ -86,12 +86,12 @@
                                     </form>
                                 </td>
                                 <td>
+                                    <a href="{{ route('admin.manual.paymentgetway.edit', $item->id) }}"
+                                            class="btn btn-primary rounded">
+                                            <i class="fas fa-edit"></i></a>
                                     <a
                                         href="{{ route('admin.manual.paymentgetway.destroy', $item->id) }}"class="btn btn-danger rounded"><i
                                             class="fas fa-trash"></i></a>
-                                    {{-- <a href="{{ route('admin.manual.paymentgetway.edit', $item->id) }}"
-                                            class="btn btn-primary rounded">
-                                            <i class="fas fa-edit"></i></a> --}}
                                 </td>
                             </tr>
                         @endforeach

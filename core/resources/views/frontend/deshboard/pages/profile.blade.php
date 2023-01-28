@@ -19,7 +19,7 @@
                         <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
                             <p class="text-white m-0 fw-bold">Active Plan:</p>
                             <p class="text-white m-0 text-capitalize">
-                                {{ $ticketTypeDetails != null ? $ticketTypeDetails->ticket_type->name : 'null' }}</p>
+                                {{ $ticketTypeDetails != null ? $ticketTypeDetails->ticket_type->name : 'N/A' }}</p>
                         </div>
                     </div>
                 </div>

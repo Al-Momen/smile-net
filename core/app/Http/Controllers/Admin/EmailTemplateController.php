@@ -122,6 +122,7 @@ class EmailTemplateController extends Controller
         $config = $general->mail_config;
         $receiver_name = explode('@', $request->email)[0];
         $subject = 'Testing ' . strtoupper($config->name) . ' Mail';
+        // dd($subject);
         $message = 'This is a test email, please ignore it if you are not meant to get this email.';
 
 

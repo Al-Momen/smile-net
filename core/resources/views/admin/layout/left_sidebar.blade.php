@@ -40,6 +40,68 @@
             </a>
         </li>
 
+        <li class="sidebar-menu-item sidebar-dropdown
+        
+        @if (Request::is('admin/manage/site') ||
+                Request::is('admin/seo*') ||
+                Request::is('smile-net/admin/social') ||
+                Request::is('admin/manage/site')) active @endif">
+            <a href="#0" class="">
+                <i class="menu-icon las la-terminal"></i>
+                <span class="menu-title">Manage Section</span>
+            </a>
+            <ul class="sidebar-submenu"
+            @if (Request::is('admin/manage/site') ||
+                        Request::is('admin/seo*') ||
+                        Request::is('smile-net/admin/social') ||
+                        Request::is('admin/footer')) style="display:block"
+            @else
+                style="display:none" @endif>
+                @php
+                    $lastSegment = collect(request()->segments())->last();
+                @endphp
+
+                <li class="sidebar-menu-item">
+
+                    <li class="sidebar-menu-item @if (Request::is('admin/manage/site')) active @endif">
+                        <a href="{{ route('admin.manage.site') }}" class="nav-link">
+                            <i class="menu-icon las la-dot-circle"></i>
+                            <span class="menu-title">Site Banner</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item sidebar-dropdown {{ Request::is('admin/seo*') ? 'active' : '' }} ">
+                        <li class="sidebar-menu-item {{ Request::is('admin/seo*') ? 'active' : '' }}">
+                            <a href="{{ route('admin.seo.page') }}" class="nav-link">
+                                <i class="menu-icon las la-dot-circle"></i>
+                                <span class="menu-title"{{ Request::is('admin/seo/manage') ? 'text--base' : ' ' }}>SEO Manager</span>
+                            </a>
+                        </li>
+                    </li>
+                    <li class="sidebar-menu-item @if (Request::is('smile-net/admin/social')) active @endif">
+                        <a href="{{ route('admin.social.index') }}" class="nav-link">
+                            <i class="menu-icon las la-dot-circle"></i>
+                            <span class="menu-title">Social Link</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-menu-item @if (Request::is('admin/footer')) active @endif">
+                        <a href="{{ route('admin.footer.index') }}" class="nav-link">
+                            <i class="menu-icon las la-dot-circle"></i>
+                            <span class="menu-title">Footer section</span>
+                        </a>
+                    </li>
+                    {{-- @foreach (getPageSections(true) as $k => $secs)
+                        @if ($secs['builder'])
+                            <a href="{{ route('admin.frontend.sections', $k) }}" class="nav-link">
+                                <i class="menu-icon las la-dot-circle"></i>
+                                <span class="menu-title">{{ __($secs['name']) }}</span>
+                            </a>
+                        @endif
+                    @endforeach --}}
+                </li>
+
+            </ul>
+        </li>
+
 
         <li class="sidebar-menu-item sidebar-dropdown 
         @if (Request::is('admin/vote') || Request::is('admin/all/votes')) active @endif">
@@ -66,7 +128,8 @@
 
 
 
-        <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin/all-users') ||
+        <li class="sidebar-menu-item sidebar-dropdown 
+        @if (Request::is('admin/all-users') ||
                 Request::is('admin/active-users') ||
                 Request::is('admin/banned-users') ||
                 Request::is('admin/plan')) active @endif">
@@ -201,7 +264,7 @@
                 Request::is('admin/user/ticket/reject')) active @endif">
             <a href="#">
                 <i class="menu-icon las la-ticket-alt"></i>
-                <span class="menu-title">@lang('Manage Ticket')</span>
+                <span class="menu-title">@lang('Manage Plan')</span>
             </a>
             <ul class="sidebar-submenu"
                 @if (Request::is('admin/ticket/index') ||
@@ -308,12 +371,7 @@
             </ul>
         </li>
 
-        <li class="sidebar-menu-item @if (Request::is('admin/manage/site')) active @endif">
-            <a href="{{ route('admin.manage.site') }}" class="nav-link">
-                <i class="menu-icon las la-terminal"></i>
-                <span class="menu-title">Magage Site Banner</span>
-            </a>
-        </li>
+        
         <li class="sidebar-menu-item @if (Request::is('admin/coupon')) active @endif">
             <a href="{{ route('admin.coupon.index') }}" class="nav-link">
                 <i class="menu-icon las la-barcode"></i>
@@ -340,12 +398,7 @@
                 <span class="menu-title">News</span>
             </a>
         </li> --}}
-        <li class="sidebar-menu-item @if (Request::is('smile-net/admin/social')) active @endif">
-            <a href="{{ route('admin.social.index') }}" class="nav-link">
-                <i class="menu-icon las la-link"></i>
-                <span class="menu-title">Social Link</span>
-            </a>
-        </li>
+      
         {{-- <li class="sidebar-menu-item ">
             <a href="{{ route('admin.social.index') }}" class="nav-link">
                 <i class="menu-icon las la-dot-circle"></i>
@@ -449,16 +502,7 @@
 
         <li class="sidebar__menu-header">NOTIFY SETTINGS</li>
 
-        <li class="sidebar-menu-item sidebar-dropdown {{ Request::is('admin/seo*') ? 'active' : '' }} ">
-            <li class="sidebar-menu-item {{ Request::is('admin/seo*') ? 'active' : '' }}">
-                <a href="{{ route('admin.seo.page') }}" class="nav-link">
-                    <i class="menu-icon las la-globe"></i>
-                    <span class="menu-title"{{ Request::is('admin/seo/manage') ? 'text--base' : ' ' }}>SEO Manager</span>
-                </a>
-            </li>
-        </li>
-
-
+        
         <li class="sidebar-menu-item sidebar-dropdown {{ Request::is('admin/email-template*') ? 'active' : '' }}">
             <a href="#" class="">
                 <i class="menu-icon las la-envelope-open-text"></i>
@@ -478,12 +522,12 @@
                         <span
                             class="menu-title {{ Request::is('admin/email-template/setting') ? 'text--base' : '' }}">Email
                             Configuration</span>
-                        <a href="{{ route('admin.email.template.index') }}" class="nav-link active">
+                        {{-- <a href="{{ route('admin.email.template.index') }}" class="nav-link active">
                             <i class="menu-icon las la-dot-circle"></i>
                             <span
                                 class="menu-title {{ Request::is('admin/email-template/index') ? 'text--base' : '' }}">Email
                                 notification</span>
-                        </a>
+                        </a> --}}
                     </a>
                 </li>
             </ul>

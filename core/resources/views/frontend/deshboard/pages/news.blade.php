@@ -80,7 +80,7 @@
                                 </tr>
                             @endif
                             <tr>
-                                @foreach ($general_news as $news)
+                            @foreach ($general_news as $news)
                             <tr>
                                 <td>{{ $news->title }}</td>
                                 <td>{{ optional($news->category)->name ?? 'N/A' }}</td>

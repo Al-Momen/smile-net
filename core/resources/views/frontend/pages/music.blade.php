@@ -34,7 +34,7 @@
                                 <div class="card-img-overlay d-flex flex-column">
                                     <div class="card-body">
                                         <small class="card-meta mb-2">
-                                            Smile net
+                                            {{$general->sitename}}
                                             {{-- {{ $val->admin->adminUser->first_name }}
                                         {{ $val->admin->adminUser->last_name }} --}}
                                         </small>
@@ -53,7 +53,7 @@
                                                 alt="Generic placeholder image" style="max-width:50px">
                                             <div class="media-body">
                                                 <h6 class="my-0 text-white d-block">{{ $val->song_name }}</h6>
-                                                <small>Singer: {{ $val->singer_name }}</small> <br>
+                                                {{-- <small>Singer: {{ $val->singer_name }}</small> <br> --}}
                                                 <small>Artist: {{ $val->artist }}</small>
                                             </div>
                                         </div>
@@ -172,7 +172,7 @@
                         @foreach ($allMusicVideo as $key => $val)
                             @if ($val->mp4 !== null)
                                 <div class="swiper-slide">
-                                    <div class="card" style="width: 18rem;">
+                                    <div class="card">
                                         <div class="subscription">
                                         </div>
                                         <img src="{{ asset('core/storage/app/public/music/photo/' . $val->image) }}"
@@ -197,10 +197,8 @@
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                        End Music Section
-                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
-
+        End Music Section
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 
     @if (isset($access) && $access != null)

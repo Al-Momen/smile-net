@@ -29,18 +29,6 @@
     </div>
     <div class="table-content">
         <div class="shadow-lg card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-
-
             <div class="table-wrapper table-responsive">
                 <table class="custom-table table text-white rounded mt-5 ">
                     <thead style="color:#7b8191">
@@ -48,7 +36,6 @@
                             <th scope="col">Name</th>
                             <th scope="col">Title</th>
                             <th scope="col">Category</th>
-                            <th scope="col">Type</th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -64,8 +51,6 @@
                                 <td>{{ $smileTv->name }}</td>
                                 <td>{{ $smileTv->title }}</td>
                                 <td>{{ optional($smileTv->category)->name ?? 'N/A' }}</td>
-                                <td>{{ $smileTv->type }}</td>
-                              
                                 <td>
                                     <form action="{{ route('admin.smile.tv.status.edit', $smileTv->id) }}" method="POST">
                                         @csrf
@@ -99,93 +84,67 @@
     <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+                <div class="modal-header ">
+                    <h5 class="modal-title text-white">@lang('Add TV Show')</h5>
+                    {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+                </div>
                 <form action="{{ route('admin.store.smile.tv') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="modal-content">
-                            <div class="modal-header bg--primary">
-                                <h5 class="modal-title text-white">@lang('Add TV Show')</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                        <div class="row g-4k" style="padding: 0px 20px;">
+                            <div class="col-lg-6 col-md-6 col-12 form-group">
+                                <label for="title">@lang('Title')</label>
+                                <input type="text" class="form--control" placeholder="Title" name="title"
+                                    id="title" value="">
                             </div>
-                            <div class="modal-body">
-                                <div class="row g-4k" style="padding: 20px;">
-                                    <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="title" class="form-label">@lang('Title')</label>
-                                        <input type="text" class="form-control" placeholder="Title" name="title"
-                                            id="title" value="">
-                                    </div>
-                                    <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="name" class="form-label">@lang('Name')</label>
-                                        <input type="text" class="form-control" placeholder="Name" name="name"
-                                            id="name" value="">
-                                    </div>
-
-                                    <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="categoty" class="form-label">@lang('Category')</label>
-                                        <select class="form-select form-select-md mb-3 text-capitalize"
-                                            style="padding: 12px 10px;" aria-label=".form-select-lg example"
-                                            name="category">
-                                            <option value=""> -- </option>
-                                            @foreach ($categories as $category)
-                                                <option @if ($category->id)  @endif
-                                                    value="{{ $category->id }}">
-                                                    {{ $category->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    {{-- <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="Ticket-Type" class="form-label">@lang('Ticket-Type')</label>
-                                        <select class="form-select form-select-md mb-3 text-capitalize"
-                                            style="padding: 12px 10px;" aria-label=".form-select-lg example"
-                                            name="ticket_type">
-                                            <option value=""> -- </option>
-                                            @foreach ($ticketTypes as $ticketType)
-                                                <option @if ($ticketType->id)  @endif
-                                                    value="{{ $ticketType->id }}">
-                                                    {{ $ticketType->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div> --}}
-                                    <div class="mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="type" class="form-label">@lang('Type')</label>
-                                        <input type="text" class="form-control" placeholder="Type" name="type"
-                                            id="type" value="">
-                                    </div>
-                                    <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                                        <label>@lang('Date')</label>
-                                        <input class="form-control" type="datetime-local" name="date"
-                                            placeholder="@lang('date')" required value="{{ old('date') }}">
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="image" class="form-label">@lang('Image') </label>
-                                        <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="image" accept="image/*" id="image">
-                                    </div>
-                                    <div class=" mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="smile_tv_link" class="form-label">@lang('Smile-Tv Link')</label>
-                                        <input type="text" class="form-control" placeholder="Smile-Tv Link"
-                                            name="smile_tv_link" id="smile_tv_link" value="">
-                                    </div>
-                                    <div class="mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="video" class="form-label">@lang('Video') </label>
-                                        <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="mp4" accept="video/*,.mkv" id="video">
-                                    </div>
-
-                                </div>
+                            <div class="col-lg-6 col-md-6 col-12 form-group">
+                                <label for="name">@lang('Name')</label>
+                                <input type="text" class="form--control" placeholder="Name" name="name" id="name"
+                                    value="">
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
+
+                            <div class=" col-lg-6 col-md-6 col-12 form-group">
+                                <label for="categoty">@lang('Category')</label>
+                                <select class="form--control text-capitalize" style="padding: 12px 10px;"
+                                    aria-label=".form-select-lg example" name="category">
+                                    <option value=""> -- </option>
+                                    @foreach ($categories as $category)
+                                        <option @if ($category->id)  @endif value="{{ $category->id }}">
+                                            {{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class=" col-lg-6 col-md-6 col-12 form-group">
+                                <label>@lang('Date')</label>
+                                <input class="form--control" type="datetime-local" name="date"
+                                    placeholder="@lang('date')" required value="{{ old('date') }}">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-12 form-group">
+                                <label for="image">@lang('Image') </label>
+                                <input type="file" src="" class="form--control" name="image" accept="image/*"
+                                    id="image">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-12 form-group">
+                                <label for="smile_tv_link">@lang('Smile-Tv Link')</label>
+                                <input type="text" class="form--control" placeholder="Smile-Tv Link"
+                                    name="smile_tv_link" id="smile_tv_link" value="">
+                            </div>
+                            <div class=" col-lg-12 col-md-12 col-12 form-group">
+                                <label for="">@lang('Video') </label>
+                                <input type="file" src="" class="form--control" name="mp4"
+                                    accept="video/*,.mkv" id="video">
+                            </div>
+                            <div class="text-end">
+                                <button type="submit" class="btn--base bg-primary">Save</button>
+                                <button type="button" class="btn--base bg-danger" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('scripts')

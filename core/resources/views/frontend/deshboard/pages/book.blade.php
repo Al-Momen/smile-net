@@ -71,12 +71,17 @@
                                 <th scope="col">Price</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Sold out</th>
+                                <th scope="col">Read</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody class="">
-
-                            @forelse ($general_books as $book)
+                            @if ($general_count == 0)
+                                <tr class="text-center">
+                                    <td colspan="99">No data found</td>
+                                </tr>
+                            @endif
+                            @foreach ($general_books as $book)
                                 @if ($book->author_book_type == 'App\Models\GeneralUser')
                                     <tr>
                                         <td>{{ $book->title }}</td>
@@ -99,6 +104,9 @@
                                             </a>
                                         </td>
                                         <td class="">
+                                            <a target="_blank" class="btn btn-primary" href="{{ route('user.books.read', $book->id) }}">Read</a>
+                                        </td>
+                                        <td class="">
                                             <a href="{{ route('user.destroy.books', $book->id) }}"><i
                                                     class="fa-solid fa-trash-can btn btn-danger rounded">
                                                 </i></a>
@@ -109,11 +117,7 @@
                                         </td>
                                     </tr>
                                 @endif
-                            @empty
-                                <tr class="col-md-12 w-100">
-                                    <td>{{ $empty_data }}</td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                     {{ $general_books->links() }}
@@ -128,7 +132,8 @@
             id="addEventForm">
             @csrf
             <div class="modal-dialog">
-                <div class="modal-content" style=" background-image: linear-gradient(to right top, #15243b, #1a2137, #1e1f33, #201c2e, #211a2a);!important;">
+                <div class="modal-content"
+                    style=" background-image: linear-gradient(to right top, #15243b, #1a2137, #1e1f33, #201c2e, #211a2a);!important;">
                     <div class="modal-header">
                         <h5 class="modal-title text-white" id="addModalLabel">Books Add</h5>
                         <button type="button" class="btn-close" id="cross_close" data-bs-dismiss="modal"
@@ -155,13 +160,13 @@
                                     <span class="input-group-text"
                                         style="
                                         border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $price->symbol }}</span>
-                                    <input type="number" class="form-control text-white" min="0" id="doller-input"
-                                        placeholder="Price" name="price">
+                                    <input type="number" class="form-control" min="0"
+                                        id="doller-input" placeholder="Price" name="price">
                                 </div>
                             </div>
                             <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="categoty" class="form-label text-white">Category</label>
-                                <select class="form-select form-select-md mb-3 text-capitalize text-white"
+                                <select class="form-select form-select-md mb-3 text-capitalize "
                                     style="padding: 12px 10px;" aria-label=".form-select-lg example" name="category">
                                     <option value=""> -- </option>
                                     @foreach ($categories as $category)
@@ -178,8 +183,9 @@
                             </div>
 
                             <div class="mb-3  mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                <label for="file" class="form-label text-white">File <span class="text-danger" style="font-size:14px">(Pdf upload)</span></label>
-                                
+                                <label for="file" class="form-label text-white">File <span class="text-danger"
+                                        style="font-size:14px">(Pdf upload)</span></label>
+
                                 <input type="file" src="" class="form-control " name="file"
                                     accept="application/pdf" id="file">
                             </div>
@@ -213,6 +219,8 @@
 @endpush
 @push('css')
     <style>
+
+       
         .modal-header .btn-close {
             padding: 0.5rem 0.5rem;
             margin: 0.5rem 2.5rem -29.5rem auto;

@@ -172,6 +172,10 @@ class BookController extends Controller
         return view('frontend.deshboard.pages.manual_book_request.book_view', compact('book_request_view','priceCurrency'));
     }
 
-
+    public function read($id)
+    {
+        $buyBooks = Book::where('id', $id)->first();
+        return response()->file("core/storage/app/public/books/" . $buyBooks->file);
+    }
 
 }

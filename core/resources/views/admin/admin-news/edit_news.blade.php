@@ -18,99 +18,76 @@
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">Author-wall</span>
+                <span class="active-path g-color">Edit Author-wall</span>
             </a>
         </div>
         <div class="view-prodact">
-            <a >
-                <i class="las la-plus"></i>
-                <span>Author-wall</span>
-            </a>
+            
         </div>
     </div>
-    <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('danger'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session('danger') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-        </div>
-    </div>
+
     <!-- Modal -->
 
-    <form action="{{ route('admin.update.news',$news->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.update.news', $news->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="modal-body">
-            <div class="modal-content">
-                <div class="modal-header bg--primary">
-                    <h5 class="modal-title text-white">@lang('Edit Wall')</h5>
+
+        <div class="user-info-header two mb-4">
+            <h6 class="title">@lang('Edit Wall')</h6>
+        </div>
+        <div class="dashboard-form-area two mt-10">
+            <div class="row g-4k" style="padding: 20px;">
+                <div class=" col-lg-6 col-md-6 col-12 form-group">
+                    <label for="title">@lang('Title')</label>
+                    <input type="text" class="form--control" placeholder="Title" name="title" id="title"
+                        value="{{ $news->title }}">
                 </div>
-                <div class="modal-body">
-                    <div class="row g-4k" style="padding: 20px;">
-                        <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="title" class="form-label">@lang('Title')</label>
-                            <input type="text" class="form-control" placeholder="Title" name="title" id="title"
-                                value="{{$news->title}}">
-                        </div>
 
-                        <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="categoty" class="form-label">Category</label>
-                            <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
-                                aria-label=".form-select-lg example" name="category">
-                                <option value=""> -- </option>
-                                @foreach ($categories as $category)
-                                    <option @if ($news->category_id == $category->id) selected @endif value="{{ $category->id }}">
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="image" class="form-label">@lang('Image') </label>
-                            <input type="file" src="" class="form-control px-3 pt-2" name="image"
-                                accept="image/*" id="image">
-                        </div>
+                <div class="mb-3 col-lg-6 col-md-6 col-12 form-group">
+                    <label for="categoty">Category</label>
+                    <select class="form--control" style="padding: 12px 10px;" aria-label=".form-select-lg example"
+                        name="category">
+                        <option value=""> -- </option>
+                        @foreach ($categories as $category)
+                            <option @if ($news->category_id == $category->id) selected @endif value="{{ $category->id }}">
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-lg-6 col-md-6 col-12 form-group">
+                    <label for="image">@lang('Image')</label>
+                    <input type="file" src="" class="form--control img-height" name="image" accept="image/*"
+                        id="image">
+                </div>
 
-                        <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="tag" class="form-label">@lang('Tag')</label>
-                            <input type="text" src="" class="form-control px-3 pt-2" name="tag"
-                                id="tag" placeholder="@lang('Tag')" value="{{$news->tag}}">
-                        </div>
-                       
-                        <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
-                            <label for="editor" class="form-label">@lang('Description')</label>
-                            <textarea id="editor" name="description" rows="5" class="form-control" value="">{{$news->description}}</textarea>
-                        </div>
+                <div class="col-lg-6 col-md-6 col-12 form-group">
+                    <label for="tag">@lang('Tag')</label>
+                    <input type="text" src="" class="form--control px-3 pt-2" name="tag" id="tag"
+                        placeholder="@lang('Tag')" value="{{ $news->tag }}">
+                </div>
+
+                <div class="mt-col-lg-12 col-md-12 col-12 form-group">
+                    <label for="editor">@lang('Description')</label>
+                    <textarea id="editor" name="description" rows="5" class="form--control" value="">{{ $news->description }}</textarea>
+                </div>
+                <div class="col-lg-12 text-end">
+                    <div class="edit-top-btn text-end ms-1">
+                        <button type="submit" class="btn--base">Update</button>
+                        <a href="{{ route('admin.news.index') }}" class="btn--base bg-danger d-inline-flex">Close</a>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save</button>
+
             </div>
         </div>
+        
     </form>
-
 @endsection
 @section('css')
     <style>
+        .img-height {
+            line-height: 35px;
+        }
+
         .table-user-img {
             height: 60px;
             width: 60px;
@@ -130,15 +107,8 @@
             font-size: 15px;
         }
 
-        /* Ck-editor css */
-        .ck-blurred {
-            height: 300px !important;
-        }
 
-        .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
-        .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
-            height: 300px;
-        }
+
 
         /* switch button css */
         .switch {

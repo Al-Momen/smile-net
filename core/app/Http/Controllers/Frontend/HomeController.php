@@ -119,6 +119,8 @@ class HomeController extends Controller
                 }
                 $notify[] = ['success', 'You can see only music'];
                 return redirect()->route('ticketTypePricing')->withNotify($notify);
+            } else if ($premium != null) {
+                return view('frontend.pages.play_video', compact('playMovies'));
             } else {
                 $notify[] = ['success', 'Please upgrade your Subscription Plan'];
                 return redirect()->route('ticketTypePricing')->withNotify($notify);
@@ -131,6 +133,7 @@ class HomeController extends Controller
     public function itemMoviesPlay($id)
     {
         // check login
+
         if (Auth::guard('general')->user()) {
             $playMovies = AdminNewItemMovies::with('ticketType')->where('id', $id)->first();
 
@@ -142,12 +145,14 @@ class HomeController extends Controller
 
                 return view('frontend.pages.play_video', compact('playMovies'));
             } else if ($findTicket != null) {
+                if ($findTicket->ticket_slug == 'standard' && $findTicket->access == 'movies' || $premium) {
 
-                if ($findTicket->ticket_slug == 'standard' && $findTicket->access == 'movies' || $premium != null) {
                     return view('frontend.pages.play_video', compact('playMovies'));
                 }
                 $notify[] = ['success', 'You can see only music'];
                 return redirect()->route('ticketTypePricing')->withNotify($notify);
+            } else if ($premium != null) {
+                return view('frontend.pages.play_video', compact('playMovies'));
             } else {
                 $notify[] = ['success', 'Please upgrade your Subscription Plan'];
                 return redirect()->route('ticketTypePricing')->withNotify($notify);

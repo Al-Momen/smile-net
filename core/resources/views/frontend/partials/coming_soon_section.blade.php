@@ -42,15 +42,15 @@
 <div class="modal fade" id="commingSoonDetails" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="commingSoonDetailsLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
-        <div class="modal-content container">
+        <div class="modal-content container" style="background-image: linear-gradient(to right top, #15243b, #1a2137, #1e1f33, #201c2e, #211a2a);!important;">
             <div class="modal-header">
                 <h5 class="modal-title" id="commingSoonDetailsLabel">Description</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body container" id="movie_description_modal">
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-danger mt-5 mb-3" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

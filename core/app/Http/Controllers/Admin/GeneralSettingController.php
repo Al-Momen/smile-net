@@ -27,6 +27,7 @@ class GeneralSettingController extends Controller
 
     public function update(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'base_color' => 'nullable', 'regex:/^[a-f0-9]{6}$/i',
             'secondary_color' => 'nullable', 'regex:/^[a-f0-9]{6}$/i',
@@ -35,7 +36,7 @@ class GeneralSettingController extends Controller
 
         $general = GeneralSetting::first();
         $general->ev = $request->ev ? 1 : 0;
-        $general->en = $request->en ? 1 : 0;
+        $general->en = $request->en ? 1 : 1;
         $general->sv = $request->sv ? 1 : 0;
         $general->sn = $request->sn ? 1 : 0;
         $general->dark = $request->dark ? 1 : 0;
@@ -57,14 +58,15 @@ class GeneralSettingController extends Controller
         $general->secondary_color = $request->secondary_color;
         $general->component_color = $request->component_color;
         $general->otp_expiration = $request->otp_expiration;
+        $general->timezone = $request->timezone;
         $general->save();
 
         $timezoneFile = config_path('timezone.php');
-        $content = '<?php $timezone = '.$request->timezone.' ?>';
+        $content = '<?php $timezone = "'.$request->timezone.'" ?>';
         file_put_contents($timezoneFile, $content);
-        //$notify[] = ['success', 'General setting has been updated.'];
-        // return back()->withNotify($notify);
-        return back()->with('success','General setting has been updated.');
+        $notify[] = ['success', 'General setting has been updated.'];
+        return back()->withNotify($notify);
+        // return back()->with('success','General setting has been updated.');
     }
 
     public function optimize(){

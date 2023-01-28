@@ -28,147 +28,115 @@
             </a>
         </div>
     </div>
+
+    <!-- Button trigger modal -->
     <div class="table-content">
-        <div class="shadow-lg card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('danger'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session('danger') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            <!-- Button trigger modal -->
-            <div class="table-content">
-                <div class="shadow-lg card-1 my-3">
-                    <div class="table-wrapper table-responsive">
-                        <table class="custom-table table text-white rounded mt-5 ">
-                        <thead class="text-center" style="color:#7b8191">
-                            <tr>
-                                <th scope="col">Song Title</th>
-                                <th scope="col">Artist Name</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Thumbnail</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($allMusic->count() == 0)
-                                <tr>
-                                    <td colspan="99" class="text-center">No data found</td>
-                                </tr>
-                            @endif
-                            @foreach ($allMusic as $music)
-                                <tr>
-                                    <td>{{ $music->title }}</td>
-                                    <td>{{ $music->artist }}</td>
-                                    <td>
-                                        @php
-                                            $date = $music->created_at;
-                                            echo date('d/m/Y , h:i a ', strtotime($date));
-                                        @endphp
-                                    </td>
-                                    <td>
-                                        <img class="table-user-img img-fluid d-block mx-auto"
-                                            src="{{ asset('core\storage\app\public\music\photo\\' . $music->image) }}"
-                                            alt="Image">
-                                    </td>
-                                    <td>
-                                        <form action="{{ route('admin.status.edit', $music->id) }}" method="POST">
-                                            @csrf
-                                            <label class="switch" id="switch">
-                                                <input type="checkbox" name="status"
-                                                    @if ($music->status == 1) checked @endif id="switchInput">
-                                                <span class="slider round"></span>
-                                            </label>
-                                        </form>
-                                    </td>
-                                    <td>
-                                        <a
-                                            href="{{ route('admin.music.destroy', $music->id) }}"class="btn btn-danger rounded"><i
-                                            class="fas fa-trash"></i></a>
-                                        <a href="{{ route('admin.edit.music', $music->id) }}"
-                                            class="btn btn-primary rounded">
-                                            <i class="fas fa-edit" data-bs-toggle="modal"
-                                            data-bs-target="#exampleModal"></i></a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $allMusic->links() }}
-                </div>
-                </div>
-            </div>
+        <div class="table-wrapper table-responsive">
+            <table class="custom-table table text-white rounded mt-5 ">
+                <thead class="text-center" style="color:#7b8191">
+                    <tr>
+                        <th scope="col">Song Title</th>
+                        <th scope="col">Artist Name</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Thumbnail</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center" style="color:#7b8191">
+                    @if ($allMusic->count() == 0)
+                        <tr>
+                            <td colspan="99" class="text-center">No data found</td>
+                        </tr>
+                    @endif
+                    @foreach ($allMusic as $music)
+                        <tr>
+                            <td>{{ $music->title }}</td>
+                            <td>{{ $music->artist }}</td>
+                            <td>
+                                @php
+                                    $date = $music->created_at;
+                                    echo date('d/m/Y , h:i a ', strtotime($date));
+                                @endphp
+                            </td>
+                            <td>
+                                <img class="table-user-img img-fluid d-block mx-auto"
+                                    src="{{ asset('core\storage\app\public\music\photo\\' . $music->image) }}"
+                                    alt="Image">
+                            </td>
+                            <td>
+                                <form action="{{ route('admin.status.edit', $music->id) }}" method="POST">
+                                    @csrf
+                                    <label class="switch" id="switch">
+                                        <input type="checkbox" name="status"
+                                            @if ($music->status == 1) checked @endif id="switchInput">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </form>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.music.destroy', $music->id) }}"class="btn btn-danger rounded"><i
+                                        class="fas fa-trash"></i></a>
+                                <a href="{{ route('admin.edit.music', $music->id) }}" class="btn btn-primary rounded">
+                                    <i class="fas fa-edit" data-bs-toggle="modal"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $allMusic->links() }}
         </div>
     </div>
+
     <!-- Modal audio music-->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text--base">@lang('Add Song')</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <form action="{{ route('admin.store.music') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="modal-content">
-                            <div class="modal-header bg--primary">
-                                <h5 class="modal-title text-white">@lang('Add Song')</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                        <div class="row g-4k" style="padding: 0px 20px;">
+                            <div class=" col-lg-6 col-md-6 col-12 form-group">
+                                <label for="title">@lang('Song Name')</label>
+                                <input type="text" class="form--control" placeholder="Song Name" name="title"
+                                    id="title" value="" required>
                             </div>
-                            <div class="modal-body">
-                                <div class="row g-4k" style="padding: 20px;">
-                                    <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="title" class="form-label">@lang('Song Name')</label>
-                                        <input type="text" class="form-control" placeholder="Song Name" name="title"
-                                            id="title" value="" required>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="artist" class="form-label">@lang('Artist Name')</label>
-                                        <input type="text" class="form-control" placeholder="Song Artist Name " name="artist"
-                                            id="artist" value="" required>
-                                    </div>
-                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="singer_name" class="form-label">@lang('Singer Name')</label>
-                                        <input type="text" class="form-control" placeholder="Singer Name" name="singer_name"
-                                            id="singer_name" value="" required>
-                                    </div>
-                                    {{-- <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="date" class="form-label">Date</label>
+                            <div class="col-lg-6 col-md-6 col-12 form-group">
+                                <label for="artist">@lang('Artist Name')</label>
+                                <input type="text" class="form--control" placeholder="Song Artist Name " name="artist"
+                                    id="artist" value="" required>
+                            </div>
+                            {{-- <div class="col-lg-6 col-md-6 col-12 form-group">
+                                <label for="singer_name">@lang('Singer Name')</label>
+                                <input type="text" class="form--control" placeholder="Singer Name" name="singer_name"
+                                    id="singer_name" value="" required>
+                            </div> --}}
+                            {{-- <div class="col-lg-6 col-md-6 col-12 form-group">
+                                        <label for="date">Date</label>
                                         <input type="datetime-local" class="form-control" placeholder="Date"
                                             name="date" id="date" required>
                                     </div> --}}
-                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="thumbnail" class="form-label">@lang('Thumbnail') </label>
-                                        <input type="file" src="" class="form-control px-3 pt-2" name="image"
-                                            accept="image/*" id="thumbnail" required>
-                                    </div>
+                            <div class="col-lg-6 col-md-6 col-12 form-group">
+                                <label for="">@lang('Thumbnail') </label>
+                                <input type="file" src="" class="form--control" name="image"
+                                    accept="image/*" id="thumbnail" required>
+                            </div>
 
-                                    <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="audio" class="form-label">@lang('Audio File')</label>
-                                        <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="mp3" accept="audio/*" id="audio">
-                                    </div>
-                                  
+                            <div class="col-lg-6 col-md-6 col-12 form-group">
+                                <label for="">@lang('Audio File')</label>
+                                <input type="file" src="" class="form--control" name="mp3"
+                                    accept="audio/*" id="audio">
+                            </div>
+                            <div class="col-12 form-group w-100">
+                                <div class="text-end mt-3">
+                                    <button type="submit" class="btn--base bg-primary">Save</button>
+                                    <button type="button" class="btn--base bg-danger" data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success">Save</button>
                         </div>
                     </div>
                 </form>
@@ -179,6 +147,8 @@
 @endsection
 @section('css')
     <style>
+        
+
         .table-user-img {
             height: 60px;
             width: 60px;

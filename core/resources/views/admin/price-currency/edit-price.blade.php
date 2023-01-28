@@ -46,31 +46,31 @@ $roles = userRolePermissionArray();
                 <form action="{{ route('admin.price.currency.update', $currency->id) }}" method="POST">
                     @csrf
                     <div>
-                        <div>
-                            <h5>@lang('Edit Currency')</h5>
+                        <div class="user-info-header two mb-4">
+                            <h5 class="title text-white">@lang('Edit Currency')</h5>
                         </div>
                         <div>
                             <div class="form-group">
                                 <label>@lang('Currency Name')</label>
-                                <input class="form-control form--control" type="text" name="name"
+                                <input class="form--control" type="text" name="name"
                                     placeholder="@lang('e.g.USD')" required value="{{ $currency->name }}">
                             </div>
                             <div class="form-group">
                                 <label>@lang('Currency Code')</label>
-                                <input class="form-control form--control" type="text" name="code"
+                                <input class="form--control" type="text" name="code"
                                     placeholder="@lang('e.g. USD')" required value="{{ $currency->code }}">
                             </div>
                             <div class="form-group">
                                 <label>@lang('Currency Symbol')</label>
-                                <input class="form-control form--control" type="text" name="symbol"
+                                <input class="form--control" type="text" name="symbol"
                                     placeholder="@lang('e.g.$')" required value="{{ $currency->symbol }}">
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><a
+                    <div class="text-end">
+                        <button type="submit" class="btn--base bg-primary">Update</button>
+                        <button type="button" class="btn--base bg-danger" data-bs-dismiss="modal"><a
                                 href="{{ route('admin.price.index') }}">Close</a></button>
-                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>

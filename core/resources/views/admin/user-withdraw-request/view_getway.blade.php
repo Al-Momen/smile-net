@@ -132,9 +132,9 @@
                             @endforeach
                             <div class="block d-md-flex mb-sm-2 mb-md-0 justify-content-end align-items-center">
                                 @if ($manualGetwayRequestView->status == 0)
-                                    <button class="btn btn-success me-2"><a
+                                    <button class="btn--base bg-success me-2"><a
                                             href="{{ route('admin.manual.getway.request.approved', $manualGetwayRequestView->id) }}">Approved</a></button>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                    <button type="button" class="btn--base bg-danger" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal">
                                         Reject
                                     </button>
@@ -166,8 +166,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-success">Reject</button>
+                            <button type="button" class="btn--base bg-danger" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn--base bg-success">Reject</button>
                         </div>
                     </form>
                 </div>

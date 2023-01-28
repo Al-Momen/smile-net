@@ -15,8 +15,20 @@
                 <div class="header-title">
                     <h4>Sold Events</h4>
                 </div>
+
+                {{-- {{ dd($sold_event_history->items()) }}
+
+                 --}}
+                @php
+                    $no_data = true;
+                @endphp
                 @foreach ($sold_event_history as $events)
-                    @forelse ($events->eventPlanTransaction as $event)
+                    @if ($events->eventPlanTransaction->count() > 0)
+                        @php
+                            $no_data = false;
+                        @endphp
+                    @endif
+                    @foreach ($events->eventPlanTransaction as $event)
                         <div class="col-12">
                             <div class="card mb-3">
                                 <div class="card-text mt-2">
@@ -57,19 +69,17 @@
                                 </div>
                             </div>
                         </div>
-                    @empty
-                        <div class="col-12">
-                            <div class="card mb-3 card-text">
-                                <div class="card-text text-center">
-                                    <span class="text-capitalize text-center">{{ $empty_message }}</span>
-                                </div>
+                    @endforeach
+                @endforeach
+                @if($no_data == true)
+                    <div class="col-12">
+                        <div class="card mb-3 card-text">
+                            <div class="card-text text-center">
+                                <span class="text-capitalize text-center">{{ $empty_message }}</span>
                             </div>
                         </div>
-                        <div class="col-12 text-center text-white">
-
-                        </div>
-                    @endforelse
-                @endforeach
+                    </div>
+                @endif
             </div>
             {{ $sold_event_history->links() }}
         </div>

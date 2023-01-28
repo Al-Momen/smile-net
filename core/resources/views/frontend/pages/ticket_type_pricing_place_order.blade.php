@@ -4,25 +4,7 @@
         <div class="container py3">
             <div class="shadow-lg p-4 rounded">
                 <div>
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                    @if (\Session::has('error'))
-                        <div class="alert alert-danger">{{ \Session::get('error') }}</div>
-                        {{ \Session::forget('error') }}
-                    @endif
-                    @if (session('success'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                                data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    @endif
+                    
                     <div class="text-white">
 
                         <h4 class="fw-bold fs-4 text-white">Order Summary</h4>

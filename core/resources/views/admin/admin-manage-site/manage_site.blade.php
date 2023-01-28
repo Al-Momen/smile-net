@@ -1,4 +1,3 @@
-
 @extends('admin.layout.master')
 @section('title')
     Home Manage Site
@@ -7,7 +6,7 @@
     Home Manage Site
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
 
 @section('content')
@@ -29,128 +28,99 @@ $roles = userRolePermissionArray();
             </a>
         </div>
     </div>
+
+    <!-- Button trigger modal -->
     <div class="table-content">
-        <div class="shadow-lg card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('danger'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session('danger') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            <!-- Button trigger modal -->
-            <div class="table-content">
-                <div class="shadow-lg card-1 my-3">
-                    <div class="table-wrapper table-responsive">
-                        <table class="custom-table table text-white rounded mt-5 ">
-                        <thead class="text-center" style="color:#7b8191">
-                            <tr>
-                                <th scope="col" >Pages</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" style="color:#7b8191">
-                            @if ($allSiteImages->count() == 0)
-                                <tr>
-                                    <td colspan="99" class="text-center">No data found</td>
-                                </tr>
-                            @endif
-                            @foreach ($allSiteImages as $item)
-                                
-                                    <tr>
-                                        <td class="text-capitalize">{{ $item->manageSite->pages }}</td>
-                                        <td><img class="table-user-img img-fluid d-block me-auto"
-                                                src="{{ asset('core\storage\app\public\manage-site\\' . $item->image) }}"
-                                                alt="Image"></td>
-                                        <td>
-                                            <form action="{{ route('admin.manage.site.status.edit', $item->id) }}" method="POST">
-                                                @csrf
-                                                <label class="switch" id="switch">
-                                                    <input type="checkbox" name="status"
-                                                        @if ($item->status == 1) checked @endif id="switchInput">
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <a
-                                                href="{{ route('admin.destroy.manage.site', $item->id) }}"class="btn btn-danger rounded"><i
-                                                    class="fas fa-trash"></i></a>
-                                            <a href="{{ route('admin.edit.manage.site', $item->id) }}"
-                                                class="btn btn-primary rounded">
-                                                <i class="fas fa-edit"></i></a>
-                                        </td>
-                                    </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                 {{$allSiteImages->links()}}
-                </div>
-                </div>
-            </div>
+
+        <div class="table-wrapper table-responsive">
+            <table class="custom-table table text-white rounded mt-5 ">
+                <thead class="text-center" style="color:#7b8191">
+                    <tr>
+                        <th scope="col">Pages</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center" style="color:#7b8191">
+                    @if ($allSiteImages->count() == 0)
+                        <tr>
+                            <td colspan="99" class="text-center">No data found</td>
+                        </tr>
+                    @endif
+                    @foreach ($allSiteImages as $item)
+                        <tr>
+                            <td class="text-capitalize">{{ $item->manageSite->pages }}</td>
+                            <td><img class="table-user-img img-fluid d-block me-auto"
+                                    src="{{ asset('core\storage\app\public\manage-site\\' . $item->image) }}"
+                                    alt="Image"></td>
+                            <td>
+                                <form action="{{ route('admin.manage.site.status.edit', $item->id) }}" method="POST">
+                                    @csrf
+                                    <label class="switch" id="switch">
+                                        <input type="checkbox" name="status"
+                                            @if ($item->status == 1) checked @endif id="switchInput">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </form>
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.destroy.manage.site', $item->id) }}"class="btn btn-danger rounded"><i
+                                        class="fas fa-trash"></i></a>
+                                <a href="{{ route('admin.edit.manage.site', $item->id) }}" class="btn btn-primary rounded">
+                                    <i class="fas fa-edit"></i></a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            {{ $allSiteImages->links() }}
         </div>
     </div>
+
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text--base">@lang('Add Banner')</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <form action="{{ route('admin.store.manage.site') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <div class="modal-content">
-                            <div class="modal-header bg--primary">
-                                <h5 class="modal-title text-white">@lang('Add Title')</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+
+                        <div class="row g-4k" style="padding: 0px 20px;">
+                            <div class="col-lg-6 col-md-6 col-12 form-group">
+                                <label for="pages">@lang('Pages')</label>
+                                <select class="form--control text-capitalize" style="padding: 12px 10px;"
+                                    aria-label=".form-select-lg example" name="pages">
+                                    <option value=""> -- </option>
+                                    @foreach ($pages as $page)
+                                        <option @if ($page->id)  @endif value="{{ $page->id }}">
+                                            {{ $page->pages }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            <div class="modal-body">
-                                <div class="row g-4k" style="padding: 20px;">
-                                    <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="pages" class="form-label">@lang('Pages')</label>
-                                        <select class="form-select form-select-md mb-3 text-capitalize"
-                                            style="padding: 12px 10px;" aria-label=".form-select-lg example"
-                                            name="pages">
-                                            <option value=""> -- </option>
-                                            @foreach ($pages as $page)
-                                                <option @if ($page->id)  @endif
-                                                    value="{{ $page->id }}">
-                                                    {{ $page->pages }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
-                                        <label for="image" class="form-label">@lang('Image') </label>
-                                        <input type="file" src="" class="form-control px-3 pt-2"
-                                            name="image" accept="image/*" id="image">
-                                    </div>
+                            <div class="col-lg-6 col-md-6 col-12 form-group">
+                                <label for="">@lang('Image') </label>
+                                <input type="file" src="" class="form--control " name="image" accept="image/*"
+                                    id="image">
+                            </div>
+                            <div class="col-12 form-group w-100">
+                                <div class="text-end mt-3">
+                                    <button type="submit" class="btn--base bg-primary">Save</button>
+                                    <button type="button" class="btn--base bg-danger"
+                                        data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    
 @endsection
 @section('css')
     <style>

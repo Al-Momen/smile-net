@@ -16,7 +16,6 @@ class AdminPriceCurrencyController extends Controller
 
     public function storeCurrency(Request $request)
     {
-       
         $request->validate([
             'name' => 'required|min:2|max:255',
             'code' => 'required|min:2|max:255',
@@ -43,7 +42,7 @@ class AdminPriceCurrencyController extends Controller
     {
         $request->validate([
             'name' => 'required|min:2|max:255',
-            'code' => 'required|min:4|max:255',
+            'code' => 'required|min:2|max:255',
             'symbol' => 'required',
         ]);
         $currency =  PriceCurrency::where('id', $id)->first();

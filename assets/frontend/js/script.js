@@ -178,9 +178,9 @@
   }
 
   // play
-  $(".season-play-btn").on("click", function () {
-    $(".music__player").toggleClass("open");
-  });
+  // $(".season-play-btn").on("click", function () {
+  //   $(".music__player").toggleClass("open");
+  // });
 
   const $_player = query("#music-player");
   const $_file = query("#file-audio");
@@ -217,7 +217,7 @@
     // id: (() => trackList.slice(-1).id + 1)(),
     cover: `https://www.iphonefaq.org/files/styles/large/public/apple_music.jpg?itok=nqYGxWgh`,
     title: `Unknown`,
-    artist: `unknown`,
+    artist: `unknown`
   };
   const fixPath = `https://raw.githubusercontent.com/miko-github/miko-github/gh_assets/assets/sounds`;
   // TODO : use online src link
@@ -226,101 +226,101 @@
     {
       id: 0,
       title: `Arayeshe Ghaliz`,
-      src: `${fixPath}/Homayoun%20Shajarian%20-%20Arayeshe%20Ghaliz.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Homayoun Shajarian`,
-      cover: `https://www.ganja2music.com/Image/Post/06.93/08/Homayoun-Shajarian---Arayes.jpg`,
+      cover: `https://www.ganja2music.com/Image/Post/06.93/08/Homayoun-Shajarian---Arayes.jpg`
     },
     {
       id: 1,
       title: `Nowruz`,
-      src: `${fixPath}/Homayoun%20Shajarian%20&%20Sohrab%20Pournazeri%20-%20Norouz.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Homayoun Shajarian`,
-      cover: `https://myritm.com/Uploads/Pictures/1397-07/H/Homayoun-Shajarian-Norooz-Picture.jpg`,
+      cover: `https://myritm.com/Uploads/Pictures/1397-07/H/Homayoun-Shajarian-Norooz-Picture.jpg`
     },
     {
       id: 2,
       title: `Sholeh Var (Flaming)`,
-      src: `${fixPath}/Homayoun_shajarian_SholehVar_Final.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Homayoun Shajarian`,
-      cover: `https://www.ganja2music.com/Image/Post/5.2021/Homayoun%20Shajarian%20-%20Flaming%20(Sholeh%20Var).jpg`,
+      cover: `https://www.ganja2music.com/Image/Post/5.2021/Homayoun%20Shajarian%20-%20Flaming%20(Sholeh%20Var).jpg`
     },
     {
       id: 3,
       title: `Saghi Bia`,
-      src: `${fixPath}/MohammadReza%20Shajaryan%20-%20Saghi%20Bia.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Mohammad Reza Shajarian`,
-      cover: `https://mahurmusic.com/wp-content/uploads/ostad_shajarian_saghi_bia.jpg`,
+      cover: `https://mahurmusic.com/wp-content/uploads/ostad_shajarian_saghi_bia.jpg`
     },
     {
       id: 4,
       title: `Rap God`,
-      src: `${fixPath}/Eminem%20-%20Rap%20God.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Eminem`,
-      cover: `https://i1.sndcdn.com/artworks-000060420372-r3rrjq-t500x500.jpg`,
+      cover: `https://i1.sndcdn.com/artworks-000060420372-r3rrjq-t500x500.jpg`
     },
     {
       id: 5,
       title: `Bande Naaf Ta Khatte Saaf`,
-      src: `${fixPath}/yas-bande-naaf-ta-khatte-saaf-ft-moer.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: [`Yas`, `Moer`],
-      cover: `https://www.ganja2music.com/Image/Post/3.2018/Yas%20-%20Bande%20Naaf%20Ta%20Khatte%20Saaf%20(Ft%20Moer).jpg`,
+      cover: `https://www.ganja2music.com/Image/Post/3.2018/Yas%20-%20Bande%20Naaf%20Ta%20Khatte%20Saaf%20(Ft%20Moer).jpg`
     },
     {
       id: 6,
       title: `Halal Osoun`,
-      src: `${fixPath}/ali_ardavan%20&%20sohrab%20mj_halal_osoun.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: [`Ali Ardavan`, `Sohrab MJ`],
-      cover: `http://r3d-dl.online/thumb500/AliArdavanHalalOsoun.jpg`,
+      cover: `http://r3d-dl.online/thumb500/AliArdavanHalalOsoun.jpg`
     },
     {
       id: 7,
       title: `Sobhoone`,
-      src: `${fixPath}/Ho3ein%20-%20Sobhoone.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Ho3ein`,
-      cover: `https://i1.sndcdn.com/artworks-P62UUTWyllEk4zqO-5e8VaA-t500x500.jpg`,
+      cover: `https://i1.sndcdn.com/artworks-P62UUTWyllEk4zqO-5e8VaA-t500x500.jpg`
     },
     {
       id: 8,
       title: `Hamid Sefat - Hayhat`,
-      src: `${fixPath}/Hamid%20Sefat%20-%20Hayhat.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Hamid Sefat`,
-      cover: `https://i1.sndcdn.com/artworks-000219705530-hx9noo-t500x500.jpg`,
+      cover: `https://i1.sndcdn.com/artworks-000219705530-hx9noo-t500x500.jpg`
     },
     {
       id: 9,
       title: `Makhlase Kaloom`,
-      src: `${fixPath}/Shayea%20-%20Makhlase%20Kaloom.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Shayea`,
-      cover: `https://i1.sndcdn.com/artworks-cWW8UKEe1zhiRgBk-WWS5xQ-t500x500.jpg`,
+      cover: `https://i1.sndcdn.com/artworks-cWW8UKEe1zhiRgBk-WWS5xQ-t500x500.jpg`
     },
     {
       id: 10,
       title: `Tukur Tukur`,
-      src: `${fixPath}/Tukur%20Tukur%20-%20Arijit%20Singh.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Pritam Chakraborty`,
-      cover: `https://a10.gaanacdn.com/gn_img/albums/w4MKPgOboj/4MKPanrg3o/size_l.webp`,
+      cover: `https://a10.gaanacdn.com/gn_img/albums/w4MKPgOboj/4MKPanrg3o/size_l.webp`
     },
     {
       id: 11,
       title: `Tharki Chokro`,
-      src: `${fixPath}/01%20-%20Tharki%20Chokro.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Swaroop Khan`,
-      cover: `https://a10.gaanacdn.com/images/albums/99/265399/crop_480x480_265399.jpg`,
+      cover: `https://a10.gaanacdn.com/images/albums/99/265399/crop_480x480_265399.jpg`
     },
     {
       id: 12,
       title: `BTS - Mic Drop`,
-      src: `${fixPath}/Bts-Mic-Drop-128.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `BTS`,
-      cover: `https://i1.sndcdn.com/artworks-000402783318-vlz0bb-t500x500.jpg`,
+      cover: `https://i1.sndcdn.com/artworks-000402783318-vlz0bb-t500x500.jpg`
     },
     {
       id: 13,
       title: `Ludovico Einaudi - Experience`,
-      src: `${fixPath}/Ludovico%20Einaudi%20-%20Experience.mp3`,
+      src: `https://mehedi.appdevs.net/yescast/assets/images/frontend/episode/mp3/630de6e22af691661855458.mp3`,
       artist: `Ludovico Einaudi`,
-      cover: `https://i1.sndcdn.com/artworks-000505758237-m6u0q8-t500x500.jpg`,
-    },
+      cover: `https://i1.sndcdn.com/artworks-000505758237-m6u0q8-t500x500.jpg`
+    }
   ];
 
   // +++ HELPER FUNCTIONS +++ //
@@ -406,9 +406,9 @@
     return repeatCount === 1
       ? $_repeat.firstElementChild.classList.replace("fa-repeat", "fa-repeat-1")
       : $_repeat.firstElementChild.classList.replace(
-          "fa-repeat-1",
-          "fa-repeat"
-        );
+        "fa-repeat-1",
+        "fa-repeat"
+      );
   }
 
   function goCurrentPlaylistItem() {
@@ -603,9 +603,9 @@
     $_volume_btn.firstElementChild.className.indexOf(`fa-volume-mute`) != -1
       ? unMuteVolume()
       : (() => {
-          state.lastVolume = $audio.volume >= 0.1 ? $audio.volume : 0.1;
-          muteVolume();
-        })();
+        state.lastVolume = $audio.volume >= 0.1 ? $audio.volume : 0.1;
+        muteVolume();
+      })();
   });
 
   // [backward]:click

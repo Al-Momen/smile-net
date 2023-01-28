@@ -39,7 +39,7 @@ class AdminMoviesController extends Controller
         $newItemMovies->ticket_type_id = $request->ticket_type_id;
         $newItemMovies->description = $request->description;
         $newItemMovies->image = Generals::upload('new-item-movies/photo/', 'png', $request->image);
-        $newItemMovies->mp4 = Generals::upload('new-item-movies/movies/', $request->mp4->getClientOriginalExtension(), $request->mp4);
+        $newItemMovies->mp4 = Generals::fileUpload('new-item-movies/movies/', $request->mp4);
         $newItemMovies->slug = url('/'). "/core/storage/app/public/new-item-movies/movies/". $newItemMovies->mp4;
         $newItemMovies->save();
         $notify[] = ['success', 'New Item Movies create Successfully'];
@@ -70,13 +70,14 @@ class AdminMoviesController extends Controller
 
     public function updateNewItemSeason(Request $request,$id)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required|min:2|max:255',
             'ticket_type_id' => 'required',
             'description' => 'required',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,wepd,svg|max:4000',
-            'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
+            'image' => 'image|mimes:jpeg,png,jpg,wepd,svg|max:4000',
+            'mp4' => 'mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
         ]);
         $newItemMovies = AdminNewItemMovies::where('id', $id)->first();
         $oldNewItemMoviesImage= $newItemMovies->image;
@@ -86,8 +87,15 @@ class AdminMoviesController extends Controller
         $newItemMovies->admin_id = Auth::user()->id;
         $newItemMovies->ticket_type_id = $request->ticket_type_id;
         $newItemMovies->description = $request->description;
-        $newItemMovies->image = Generals::update('new-item-movies/photo/', $oldNewItemMoviesImage,'png', $request->image);
-        $newItemMovies->mp4 = Generals::update('new-item-movies/movies/', $oldNewItemMoviesMp4, $request->mp4->getClientOriginalExtension(), $request->mp4);
+
+        if($request->hasFile('image')){
+            $newItemMovies->image = Generals::update('new-item-movies/photo/', $oldNewItemMoviesImage,'png', $request->image);
+            $newItemMovies->update();
+        }
+        if($request->hasFile('mp4')){
+            $newItemMovies->mp4 = Generals::FileUpdate('new-item-movies/movies/', $oldNewItemMoviesMp4, $request->mp4);
+            $newItemMovies->update();
+        }
         $newItemMovies->slug = url('/'). "/core/storage/app/public/new-item-movies/movies/". $newItemMovies->mp4;
         $newItemMovies->update();
         $notify[] = ['success', 'New Item Movies Update Successfully'];
@@ -97,7 +105,7 @@ class AdminMoviesController extends Controller
     {
         $newItemMovies = AdminNewItemMovies::find($id);
         Generals::unlink('new-item-movies/photo/',$newItemMovies->image);
-        Generals::unlink('new-item-movies/movies/',$newItemMovies->mp4);
+        Generals::fileUnlink('new-item-movies/movies/',$newItemMovies->mp4);
         $newItemMovies->delete();
         $notify[] = ['success', 'New Item Movies delete Successfully'];
         return redirect()->back()->withNotify($notify); 
@@ -130,7 +138,7 @@ class AdminMoviesController extends Controller
         $topMovies->ticket_type_id = $request->ticket_type_id;
         $topMovies->description = $request->description;
         $topMovies->image = Generals::upload('top-movies/photo/', 'png', $request->image);
-        $topMovies->mp4 = Generals::upload('top-movies/movies/', $request->mp4->getClientOriginalExtension(), $request->mp4);
+        $topMovies->mp4 = Generals::fileUpload('top-movies/movies/',$request->mp4);
         $topMovies->slug = url('/'). "/core/storage/app/public/top-movies/movies/". $topMovies->mp4;
         $topMovies->save();
         $notify[] = ['success', 'Top Movies create Successfully'];
@@ -166,8 +174,8 @@ class AdminMoviesController extends Controller
             'ticket_type_id' => 'required',
             'description' => 'required',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:4000',
-            'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:4000',
+            'mp4' => 'mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
         ]);
         $topMovies = AdminTopMovies::where('id', $id)->first();
         $oldTopMoviesImage= $topMovies->image;
@@ -177,8 +185,14 @@ class AdminMoviesController extends Controller
         $topMovies->admin_id = Auth::user()->id;
         $topMovies->ticket_type_id = $request->ticket_type_id;
         $topMovies->description = $request->description;
-        $topMovies->image = Generals::update('top-movies/photo/', $oldTopMoviesImage,'png', $request->image);
-        $topMovies->mp4 = Generals::update('top-movies/movies/', $oldTopMoviesMp4, $request->mp4->getClientOriginalExtension(), $request->mp4);
+        if($request->hasFile('image')){
+
+            $topMovies->image = Generals::update('top-movies/photo/', $oldTopMoviesImage,'png', $request->image);
+        }
+        if($request->hasFile('mp4')){
+ 
+            $topMovies->mp4 = Generals::fileUpdate('top-movies/movies/', $oldTopMoviesMp4, $request->mp4);
+        }
         $topMovies->slug = url('/'). "/core/storage/app/public/top-movies/movies/". $topMovies->mp4;
         $topMovies->update();
         $notify[] = ['success', 'Top Movies Update Successfully'];
@@ -188,7 +202,7 @@ class AdminMoviesController extends Controller
     {
         $topMovies = AdminTopMovies::find($id);
         Generals::unlink('top-movies/photo/',$topMovies->image);
-        Generals::unlink('top-movies/movies/',$topMovies->mp4);
+        Generals::fileUnlink('top-movies/movies/',$topMovies->mp4);
         $topMovies->delete();
         $notify[] = ['success', 'Top Movies delete Successfully'];
         return redirect()->back()->withNotify($notify); 
@@ -219,7 +233,7 @@ class AdminMoviesController extends Controller
          $commingSoonMovies->ticket_type_id = $request->ticket_type_id;
          $commingSoonMovies->description = $request->description;
          $commingSoonMovies->image = Generals::upload('comming-soon-movies/photo/', 'png', $request->image);
-         $commingSoonMovies->mp4 = Generals::upload('comming-soon-movies/movies/', $request->mp4->getClientOriginalExtension(), $request->mp4);
+         $commingSoonMovies->mp4 = Generals::FileUpload('comming-soon-movies/movies/', $request->mp4);
          $commingSoonMovies->slug = url('/'). "/core/storage/app/public/comming-soon-movies/movies/". $commingSoonMovies->mp4;
          $commingSoonMovies->save();
          $notify[] = ['success', 'Top Movies create Successfully'];
@@ -256,8 +270,8 @@ class AdminMoviesController extends Controller
             'description' => 'required',
             'year' => 'required|numeric',
             'category' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:4000',
-            'mp4' => 'required|mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
+            'image' => 'image|mimes:jpeg,png,jpg,svg|max:4000',
+            'mp4' => 'mimes:mp4,ogx,oga,ogv,ogg,webm,mov,mkv|max:9000000',
          ]);
          $commingSoonMovies = AdminCommingSoonMovies::where('id', $id)->first();
          $oldcommingSoonMoviesImage= $commingSoonMovies->image;
@@ -268,8 +282,15 @@ class AdminMoviesController extends Controller
          $commingSoonMovies->admin_id = Auth::user()->id;
          $commingSoonMovies->ticket_type_id = $request->ticket_type_id;
          $commingSoonMovies->description = $request->description;
-         $commingSoonMovies->image = Generals::update('comming-soon-movies/photo/', $oldcommingSoonMoviesImage,'png', $request->image);
-         $commingSoonMovies->mp4 = Generals::update('comming-soon-movies/movies/', $oldcommingSoonMoviesMp4, $request->mp4->getClientOriginalExtension(), $request->mp4);
+         if($request->hasFile('image')){
+
+             $commingSoonMovies->image = Generals::update('comming-soon-movies/photo/', $oldcommingSoonMoviesImage,'png', $request->image);
+         }
+         if($request->hasFile('mp4')){
+
+             $commingSoonMovies->mp4 = Generals::FileUpdate('comming-soon-movies/movies/', $oldcommingSoonMoviesMp4, $request->mp4);
+         }
+
          $commingSoonMovies->slug = url('/'). "/core/storage/app/public/comming-soon-movies/movies/". $commingSoonMovies->mp4;
          $commingSoonMovies->update();
          $notify[] = ['success', 'Comming soon Movies Update Successfully'];
@@ -279,7 +300,7 @@ class AdminMoviesController extends Controller
      {
          $commingSoonMovies = AdminCommingSoonMovies::find($id);
          Generals::unlink('comming-soon-movies/photo/',$commingSoonMovies->image);
-         Generals::unlink('comming-soon-movies/movies/',$commingSoonMovies->mp4);
+         Generals::fileUnlink('comming-soon-movies/movies/',$commingSoonMovies->mp4);
          $commingSoonMovies->delete();
          $notify[] = ['success', 'Comming soon Movies delete Successfully'];
          return redirect()->back()->withNotify($notify); 

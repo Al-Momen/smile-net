@@ -10,55 +10,68 @@
 @endphp
 
 @section('content')
+    <div class="dashboard-title-part">
+        <h5 class="title">Dashboard</h5>
+        <div href="" class="dashboard-path">
+            <a href={{ route('admin.dashboard') }}>
+                <span class="main-path">Dashboards</span>
+            </a>
+            <i class="las la-angle-right"></i>
+            <a href="#">
+                <span class="active-path g-color">Edit Music-Song</span>
+            </a>
+        </div>
+        <div class="view-prodact">
+
+        </div>
+    </div>
     <!-- Modal -->
 
-    <form action="{{ route('admin.update.music',$music->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.update.music', $music->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="modal-body">
-            <div class="modal-content">
-                <div class="modal-header bg--primary">
-                    <h5 class="modal-title text-white">@lang('Edit Song')</h5>
-                    
+        <div class="user-info-header two mb-4">
+            <h5 class="title text-white">@lang('Edit Song')</h5>
+
+        </div>
+        <div class="dashboard-form-area two mt-10">
+            <div class="row g-4k" style="padding: 20px;">
+                <div class="col-lg-6 col-md-6 col-12 pe-4">
+                    <label for="title">@lang('Song Title')</label>
+                    <input type="text" class="form--control" placeholder="Title" name="title" id="title"
+                        value="{{ $music->title }}" required>
                 </div>
-                <div class="modal-body">
-                    <div class="row g-4k" style="padding: 20px;">
-                        <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="title" class="form-label">@lang('Song Title')</label>
-                            <input type="text" class="form-control" placeholder="Title" name="title" id="title"
-                                value="{{ $music->title }}" required>
-                        </div>
-                        <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="file" class="form-label">@lang('Artist')</label>
-                            <input type="text" class="form-control" placeholder="Song Name Artist" name="artist" id="file"
-                                value="{{ $music->artist }}" required>
-                        </div>
-                        <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="singer_name" class="form-label">@lang('Singer Name')</label>
-                            <input type="text" class="form-control" placeholder="Singer Name" name="singer_name" id="singer_name"
-                                value="{{ $music->singer_name }}" required>
-                        </div>
-                        {{-- <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="date" class="form-label">Date</label>
+                <div class="col-lg-6 col-md-6 col-12 form-group">
+                    <label for="file">@lang('Artist')</label>
+                    <input type="text" class="form--control" placeholder="Song Name Artist" name="artist" id="file"
+                        value="{{ $music->artist }}" required>
+                </div>
+                {{-- <div class="col-lg-6 col-md-6 col-12 form-group">
+                    <label for="singer_name">@lang('Singer Name')</label>
+                    <input type="text" class="form--control" placeholder="Singer Name" name="singer_name"
+                        id="singer_name" value="{{ $music->singer_name }}" required>
+                </div> --}}
+                {{-- <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 form-group">
+                            <label for="date">Date</label>
                             <input type="datetime-local" class="form-control" placeholder="Date" name="date" value="{{ $music->date }}"
                                 id="date" required>
                         </div> --}}
-                        <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="thumbnail" class="form-label">@lang('Thumbnail') </label>
-                            <input type="file" src="" class="form-control px-3 pt-2" name="image"
-                                accept="image/*" id="thumbnail" required>
-                        </div>
+                <div class="col-lg-6 col-md-6 col-12 form-group">
+                    <label for="thumbnail">@lang('Thumbnail') </label>
+                    <input type="" src="" class="form--control" name="image" accept="image/*"
+                        id="thumbnail" required>
+                </div>
 
-                        <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="audio" class="form-label">@lang('Audio File')</label>
-                            <input type="file" src="" class="form-control px-3 pt-2" name="mp3"
-                                accept="audio/*" id="audio" required>
-                        </div>
-                        
+                <div class="col-lg-6 col-md-6 col-12 form-group">
+                    <label for="">@lang('Audio File')</label>
+                    <input type="file" src="" class="form--control" name="mp3" accept="audio/*"
+                        id="audio">
+                </div>
+                <div class="col-lg-12 form-group">
+                    <div class="edit-top-btn d-flex justify-content-end">
+                        <button type="submit" class="btn--base me-2">Update</button>
+                        <a href="{{ route('admin.music.index') }}" class="btn--base bg-danger">Back</a>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Update</button>
             </div>
         </div>
     </form>
@@ -84,15 +97,6 @@
             font-size: 15px;
         }
 
-        /* Ck-editor css */
-        .ck-blurred {
-            height: 300px !important;
-        }
-
-        .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
-        .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
-            height: 300px;
-        }
 
         /* switch button css */
         .switch {

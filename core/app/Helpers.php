@@ -762,7 +762,7 @@ function sendGeneralEmail($email, $subject, $message, $receiver_name = '')
     $general = GeneralSetting::first();
     
     if ($general->en != 1 || !$general->email_from) {
-        
+        // dd('ok');
         return;
     }
     

@@ -62,6 +62,7 @@ use App\Http\Controllers\Admin\AdminNewsLikeCommentController;
 use App\Http\Controllers\Admin\AdminLiveTvLikeCommentController;
 use App\Http\Controllers\Admin\ManualEventPlanRequestController;
 use App\Http\Controllers\Admin\AdminSmileTvLikeCommentController;
+use App\Http\Controllers\Admin\FooterSectionController;
 use App\Http\Controllers\Admin\LiveController;
 use App\Http\Controllers\Admin\ManualTicketTypeRequestController;
 use App\Http\Controllers\Admin\RoomController as AdminRoomController;
@@ -299,6 +300,7 @@ Route::namespace('Frontend')->group(function () {
         Route::post('update/books/{id}', [BookController::class, 'updateBooks'])->name('update.books');
         Route::get('sold/books/{id}', [BookController::class, 'sold_out'])->name('sold.out.books');
         Route::get('destroy/books/{id}', [BookController::class, 'destroy'])->name('destroy.books');
+        Route::get('books/read/{id}', [BookController::class, 'read'])->name('books.read');
 
         // --------------------news all route--------------------
         Route::get('news', [NewsController::class, 'news'])->name('news');
@@ -421,6 +423,12 @@ Route::namespace('Frontend')->group(function () {
 //  --------------------Admin all route--------------------
 Route::namespace('Admin')->group(function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], function () {
+
+        // ---------------admin footer section ---------------
+        Route::get('footer', [FooterSectionController::class, 'index'])->name('footer.index');
+        Route::post('footer/section/update/{id}', [FooterSectionController::class, 'update'])->name('update.footer');
+
+
         // ---------------admin category controller---------------
         Route::get('category', [AdminCategoryController::class, 'index'])->name('category.index');
         Route::post('category/store', [AdminCategoryController::class, 'storeCategory'])->name('category.store');
@@ -467,6 +475,7 @@ Route::namespace('Admin')->group(function () {
         Route::post('update/book/{id}', [AdminBookController::class, 'updateBook'])->name('update.book');
         Route::post('book/status/edit/{id}', [AdminBookController::class, 'editStatusBook'])->name('book.status.edit');
         Route::get('book/destroy/{id}', [AdminBookController::class, 'destroy'])->name('book.destroy');
+        Route::get('book/read/{id}', [AdminBookController::class, 'read'])->name('book.read');
 
         // ---------------admin access Coupon code---------------
         Route::get('coupon', [AdminCouponController::class, 'index'])->name('coupon.index');
@@ -482,7 +491,7 @@ Route::namespace('Admin')->group(function () {
         Route::post('music/status/edit/{id}', [AdminMusicController::class, 'editStatusMusic'])->name('status.edit');
         Route::get('music/destroy/{id}', [AdminMusicController::class, 'destroy'])->name('music.destroy');
 
-        // ---------------admin access Music---------------
+        // ---------------admin access Music video---------------
         Route::get('video/music', [AdminVideoMusicController::class, 'index'])->name('video.music.index');
         Route::post('store/video/music', [AdminVideoMusicController::class, 'storeMusic'])->name('store.video.music');
         Route::get('edit/video/music/{id}', [AdminVideoMusicController::class, 'editMusic'])->name('edit.video.music');
@@ -652,7 +661,7 @@ Route::namespace('Admin')->group(function () {
         Route::get('banned-users', [AdminUserManageController::class, 'bannedUsers'])->name('banned.users');
         Route::post('user/status/edit/{id}', [AdminUserManageController::class, 'statusAccess'])->name('user.access.edit');
         Route::get('banned-users', [AdminUserManageController::class, 'bannedUsers'])->name('banned.users');
-        Route::get('User-details/{id}', [AdminUserManageController::class, 'userDetails'])->name('view.user');
+        Route::get('user-details/{id}', [AdminUserManageController::class, 'userDetails'])->name('view.user');
         Route::get('plan', [AdminUserManageController::class, 'plan'])->name('plan.users');
 
         // ------------------------------------- admin manage users ---------------
@@ -724,10 +733,6 @@ Route::namespace('Admin')->group(function () {
 
     });
 });
-
-
-
-
 
 
 

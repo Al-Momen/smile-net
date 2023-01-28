@@ -970,6 +970,7 @@ blockquote .quote-icon {
 .custom--card .card-body {
   padding: 20px 30px;
 }
+
 @media only screen and (max-width: 991px) {
   .custom--card .card-body {
     padding: 20px;

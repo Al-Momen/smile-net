@@ -74,8 +74,14 @@
                             </tr>
                         </thead>
                         <tbody class="text-capitalize" style="font-size: 14px;">
+                            
+                                {{-- @if ($general_count == 0)
                             <tr>
-                                @forelse ($general_events as $event)
+                                <td colspan="99">No data found</td>
+                            </tr>
+                            @endif --}}
+                            @foreach ($general_events as $event)
+                            <tr>
                                     <td>{{ $event->title }}</td>
                                     <td>
                                         @php
@@ -113,12 +119,8 @@
                                                 class="fa-solid fa-edit btn btn-primary rounded font-icon">
                                             </i></a>
                                     </td>
-                            @empty
-                            <tr class="col-md-12 w-100">
-                                <td>{{ $empty_data }}</td>
-                            </tr>
-                            @endforelse
-                            </tr>
+                                </tr>
+                                @endforeach
                         </tbody>
                     </table>
                     {{ $general_events->links() }}
@@ -133,7 +135,8 @@
             id="addEventForm">
             @csrf
             <div class="modal-dialog">
-                <div class="modal-content" style="  background-image: linear-gradient(to right top, #15243b, #1a2137, #1e1f33, #201c2e, #211a2a);!important;">
+                <div class="modal-content"
+                    style="  background-image: linear-gradient(to right top, #15243b, #1a2137, #1e1f33, #201c2e, #211a2a);!important;">
                     <div class="modal-header">
                         <h5 class="modal-title text-white" id="addModalLabel">Events Add</h5>
                         <button type="button" class="btn-close" id="cross_close" data-bs-dismiss="modal"

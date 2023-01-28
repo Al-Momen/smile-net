@@ -6,27 +6,27 @@
     General Settings Page
 @endsection
 @php
-$roles = userRolePermissionArray();
+    $roles = userRolePermissionArray();
 @endphp
 @section('content')
-<div class="dashboard-title-part">
-    <h5 class="title">Dashboard</h5>
-    <div href="" class="dashboard-path">
-        <a href={{ route('admin.dashboard') }}>
-            <span class="main-path">Dashboards</span>
-        </a>
-        <i class="las la-angle-right"></i>
-        <a href="{{ route('admin.admin-user') }}">
-            <span class="active-path g-color">Admin Users</span>
-        </a>
-    </div>
-    <div class="view-prodact">
-        <a href="{{ route('admin.permission-group.new') }}">
-            {{-- <i class="las la-plus align-middle me-1"></i>
+    <div class="dashboard-title-part">
+        <h5 class="title">Dashboard</h5>
+        <div href="" class="dashboard-path">
+            <a href={{ route('admin.dashboard') }}>
+                <span class="main-path">Dashboards</span>
+            </a>
+            <i class="las la-angle-right"></i>
+            <a href="{{ route('admin.admin-user') }}">
+                <span class="active-path g-color">Site Setting</span>
+            </a>
+        </div>
+        <div class="view-prodact">
+            <a href="{{ route('admin.permission-group.new') }}">
+                {{-- <i class="las la-plus align-middle me-1"></i>
             <span>New Permission Group</span> --}}
-        </a>
+            </a>
+        </div>
     </div>
-</div>
 
     <div class="user-detail-area">
         <div class="user-info-header two">
@@ -75,6 +75,7 @@ $roles = userRolePermissionArray();
                                         value="{{ $general->site_sub_title ?? '' }}">
                                 </div>
                                 <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6 form-group">
+                                    {{-- @dd($general->timezone) --}}
                                     <label>OTP Expiration</label>
                                     <div class="input-group">
                                         <input type="number" name="otp_expiration" class="form--control"
@@ -88,10 +89,11 @@ $roles = userRolePermissionArray();
                                 </div>
                                 <div class="col-xxl-3 col-xl-12 col-lg-12 col-md-6 col-sm-6 form-group">
                                     <label>Timezone</label>
+
                                     <select class="form--control" name='timezone'>
                                         @foreach ($timezones as $timezone)
-                                            <option value="'{{ @$timezone }}'"
-                                                @if (config('app.timezone') == $timezone) selected @endif>{{ __($timezone) }}
+                                            <option value="{{ @$timezone }}"
+                                                @if ($general->timezone == $timezone) selected @endif>{{ $timezone }}
                                             </option>
                                         @endforeach
                                     </select>

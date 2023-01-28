@@ -145,4 +145,10 @@ class AdminBookController extends Controller
         return view('admin.books.view_book', compact('book', 'categories', 'price'));
     }
 
+    public function read($id)
+    {
+        $buyBooks = Book::where('id', $id)->first();
+        return response()->file("core/storage/app/public/books/" . $buyBooks->file);
+    }
+
 }

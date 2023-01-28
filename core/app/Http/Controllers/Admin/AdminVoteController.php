@@ -25,6 +25,7 @@ class AdminVoteController extends Controller
     }
     public function storeVote(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'vote_name' => 'required|min:2|max:255',
             'vote_image' => 'required|image|mimes:jpeg,png,jpg',

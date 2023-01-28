@@ -31,7 +31,7 @@
                 <div class="user-info-header two">
                     <h5 class="title">Manual Gateway</h5>
                 </div>
-                <form class="dashboard-form" action="{{ route('admin.gateway.manual.update', $manual_gateway->id) }}"
+                <form class="dashboard-form" action="{{ route('admin.manual.paymentgetway.update', $manual_gateway->id) }}"
                     method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="dashboard-form-area two mt-10">
@@ -40,11 +40,8 @@
                                 <div class="image-upload">
                                     <div class="thumb">
                                         <div class="avatar-preview">
-                                            <div class="profilePicPreview bg_img"
-                                                data-background="assets/images/paypal-m.png"
-                                                style="background-image: url(&quot;assets/images/paypal-m.png&quot;);">
-                                                <button type="button" class="remove-image"><i
-                                                        class="fa fa-times"></i></button>
+                                            <div class="profilePicPreview"
+                                                style="background-image: url('{{ getImage(imagePath()['gateway']['path'] . '/' . $manual_gateway->image, imagePath()['gateway']['size']) }}')">
                                             </div>
                                         </div>
                                         <div class="avatar-edit">
@@ -65,8 +62,15 @@
                                             </div>
                                             <div class="col-lg-6 form-group">
                                                 <label>Currency *</label>
-                                                <input type="text" class="form--control"
-                                                    value="{{ @$manual_gateway->currency->code }}" name="currency_code">
+
+                                                <select class="custom-select form-control form--control" name="currency_code" id="currency_code">
+                                                    @foreach ($currency as $item)
+                                                    <option @if ($item->id)  @endif
+                                                        value="{{ $item->id }}">
+                                                        {{ $item->code }}</option>
+                                                @endforeach
+                                                </select>
+                                               
                                             </div>
                                         </div>
                                     </div>
@@ -141,18 +145,18 @@
 
                                 </div>
                             </div>
-                            
+
                             <div class="col-lg-12 mt-30">
                                 <div class="gateway-item">
                                     <div class="user-info-header two">
                                         <h5 class="title">Instruction</h5>
                                     </div>
                                     <div class="row justify-content-center mb-10-none">
-                                        <textarea class="form--control" name="description" id="" cols="30" rows="10"placeholder="Write Text Here">
-                                            {{ $manual_gateway->description}}
+                                        <textarea class="form--control" name="description" id="" cols="30"
+                                            rows="10"placeholder="Write Text Here">
+                                            {{ $manual_gateway->description }}
                                         </textarea>
                                     </div>
-
                                 </div>
                             </div>
                             <div class="col-lg-12 mt-30">
@@ -169,7 +173,7 @@
                                         @endphp
                                         @if ($manual_gateway != null)
                                             @foreach ($manual_gateway as $k => $v)
-                                                <div class="row ptb-30 justify-content-center mb-10-none">
+                                                <div class="row ptb-30 justify-content-center mb-10-none user-data">
                                                     <div class="col-lg-4 col-md-4  form-group">
                                                         <input name="field_name[]" class="form-control form--control"
                                                             type="text" value="{{ $v->field_level }}" required
@@ -233,7 +237,7 @@
             $('.currency_symbol').text($('input[name=currency_code]').val());
             $('.addUserData').on('click', function() {
                 var html = `
-                        <div class="row ptb-30 justify-content-center mb-10-none">
+                        <div class="row ptb-30 justify-content-center mb-10-none user-data">
                             <div class="col-lg-4 col-md-4  form-group">
                                 <input name="field_name[]" class="form-control form--control" type="text" required placeholder="@lang('Field Name')">
                             </div>

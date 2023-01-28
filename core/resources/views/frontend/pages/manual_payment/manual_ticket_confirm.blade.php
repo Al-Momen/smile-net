@@ -43,7 +43,7 @@
                                                     <label class="form--label text-white"><strong>{{__($v->field_level)}} @if($v->validation == 'required') <span class="text-danger">*</span>  @endif</strong></label>
                                                     <br>
 
-                                                    <input type="file" name="{{$k}}" class="form-control form--control" accept="image/*" >
+                                                    <input type="file" name="{{$k}}" style="line-height:32px !important" class="form-control form--control" accept="image/*" >
                                                 </div>
                                             </div>
                                         @endif

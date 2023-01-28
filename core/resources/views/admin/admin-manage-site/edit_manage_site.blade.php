@@ -1,9 +1,9 @@
 @extends('admin.layout.master')
 @section('title')
-     Manage Site
+    Manage Site
 @endsection
 @section('page-name')
-     Manage Site
+    Manage Site
 @endsection
 @php
     $roles = userRolePermissionArray();
@@ -22,55 +22,23 @@
             </a>
         </div>
         <div class="view-prodact">
-            <a data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="las la-plus"></i>
-                <span> Manage Site</span>
-            </a>
-        </div>
-    </div>
-    <div class="table-content">
-        <div class="shadow-lg p-4 card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    <strong>{{ session('success') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            @if (session('danger'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>{{ session('danger') }}!</strong> <button type="button" class="btn-close"
-                        data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            <!-- Button trigger modal -->
-            <div>
-               
-            </div>
+            
         </div>
     </div>
     <!-- Modal -->
 
-    <form action="{{ route('admin.update.manage.site',$siteImage->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.update.manage.site', $siteImage->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="modal-body">
             <div class="modal-content">
-                <div class="modal-header bg--primary">
-                    <h5 class="modal-title text-white">@lang('Edit Manage Site')</h5>
+                <div class="modal-header ">
+                    <h5 class="modal-title text--base">@lang('Edit Manage Site')</h5>
                 </div>
                 <div class="modal-body">
                     <div class="row g-4k" style="padding: 20px;">
-                        <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="pages" class="form-label">@lang('Pages')</label>
-                            <select class="form-select form-select-md mb-3 text-capitalize" style="padding: 12px 10px;"
+                        <div class="col-lg-6 col-md-6 col-12 form-group">
+                            <label for="pages">@lang('Pages')</label>
+                            <select class="form--control text-capitalize" style="padding: 12px 10px;"
                                 aria-label=".form-select-lg example" name="pages">
                                 <option value=""> -- </option>
                                 @foreach ($pages as $page)
@@ -79,21 +47,20 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3 col-lg-6 col-md-6 col-12 pe-4">
-                            <label for="image" class="form-label">@lang('Image') </label>
-                            <input type="file" src="" class="form-control px-3 pt-2" name="image"
-                                accept="image/*" id="image">
+                        <div class="col-lg-6 col-md-6 col-12 form-group">
+                            <label for="image">@lang('Image') </label>
+                            <input type="file" src="" class="form--control" name="image" accept="image/*"
+                                id="image">
+                        </div>
+                        <div class="col-12 form-group d-flex justify-content-end">
+                            <button type="submit" class="btn--base bg-primary me-2">Update</button>
+                            <a href="{{route('admin.manage.site')}}" class="btn--base bg-danger" data-bs-dismiss="modal">Close</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Update</button>
-            </div>
         </div>
     </form>
-
 @endsection
 @section('css')
     <style>
