@@ -20,7 +20,8 @@ class AdminNewsController extends Controller
         return view('admin.admin-news.news',compact('categories','allNews'));
     }
     public function storeNews(Request $request)
-    {
+    {   
+
           $request->validate([
             'title' => 'required|min:2|max:255',
             'category' => 'required',

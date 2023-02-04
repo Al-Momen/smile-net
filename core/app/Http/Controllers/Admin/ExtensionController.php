@@ -30,11 +30,12 @@ class ExtensionController extends Controller
         $extension->shortcode = $shortcode;
         $extension->save();
         $notify[] = ['success', $extension->name . ' has been updated'];
-        return redirect()->route('admin.extensions.index')->withNotify($notify);
+        return redirect()->route('admin.setting.extensions.index')->withNotify($notify);
     }
 
     public function statusChange(Request $request)
     {
+        // dd($request->all());
         if ($request->ajax()) {
             $data = $request->all();
             if ($data['status'] == "Active") {
@@ -43,7 +44,7 @@ class ExtensionController extends Controller
                 $status = 1;
             }
             Extension::where('id', $data['item_id'])->update(['status' => $status]);
-            return  response()->json(['status' => $status, 'item_id' => $data['item_id']]);
+            return response()->json(['status' => $status, 'item_id' => $data['item_id']]);
         }
     }
 }

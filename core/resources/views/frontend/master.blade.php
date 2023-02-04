@@ -123,15 +123,15 @@
                     spaceBetween: 30,
                 },
                 '768': {
-                    slidesPerView: 3,
+                    slidesPerView: 1,
                     spaceBetween: 20,
                 },
                 '820': {
-                    slidesPerView: 3,
+                    slidesPerView: 1,
                     spaceBetween: 20,
                 },
                 '912': {
-                    slidesPerView: 3,
+                    slidesPerView: 1,
                     spaceBetween: 20,
                 },
             },
@@ -177,13 +177,41 @@
         var swiper = new Swiper(".mySwiper4", {
             slidesPerView: 4,
             spaceBetween: 30,
-            autoplay: {
-                delay: 6000,
-                disableOnInteraction: false
-            },
+            // autoplay: {
+            //     delay: 6000,
+            //     disableOnInteraction: false
+            // },
             breakpoints: {
                 1199: {
                 slidesPerView: 3,
+                },
+                991: {
+                slidesPerView: 2,
+                },
+                767: {
+                slidesPerView: 2,
+                },
+                575: {
+                slidesPerView: 1,
+                },
+                320: {
+                slidesPerView: 1,
+                },
+            }
+        });
+
+        var swiper = new Swiper(".card-slider", {
+            slidesPerView: 4,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                speed: 1000,
+                delay: 3000,
+            },
+            speed: 1000,
+            breakpoints: {
+                1199: {
+                slidesPerView: 4,
                 },
                 991: {
                 slidesPerView: 3,
@@ -193,8 +221,8 @@
                 },
                 575: {
                 slidesPerView: 1,
-            },
-        }
+                },
+            }
         });
 
         var swiper = new Swiper(".mySwiper5", {
@@ -225,6 +253,7 @@
             },
         });
     </script>
+    @include('partials.plugins')
     @include('partials.notify')
     @stack('js')
 </body>

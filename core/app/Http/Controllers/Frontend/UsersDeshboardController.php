@@ -35,6 +35,7 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Admin\ManualGatewayController;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UsersDeshboardController extends Controller
 {
@@ -165,7 +166,7 @@ class UsersDeshboardController extends Controller
         ]);
         $user_already_voted = UserVote::where('admin_vote_id', $request->admin_vote_id)->where('user_id', Auth::guard('general')->user()->id)->get();
         if ($user_already_voted->count() > 0) {
-            $notify[]=['success', 'You are Already voted this item'];
+            $notify[] = ['success', 'You are Already voted this item'];
             return back()->withNotify($notify);
         }
         $voted = new UserVote();
@@ -188,7 +189,7 @@ class UsersDeshboardController extends Controller
 
     public function buyingBooks()
     {
-        $buyBooks = BookTransaction::with('book')->where('buy_user_id', Auth::guard('general')->user()->id)->where('status', 1)->orderBy('id','desc')->paginate(10);
+        $buyBooks = BookTransaction::with('book')->where('buy_user_id', Auth::guard('general')->user()->id)->where('status', 1)->orderBy('id', 'desc')->paginate(10);
         $empty_message = 'No Data Found';
         return view('frontend.deshboard.pages.buying_books', compact('buyBooks', 'empty_message'));
     }
@@ -200,21 +201,36 @@ class UsersDeshboardController extends Controller
         $empty_message = 'No Data Found';
         return view('frontend.deshboard.pages.buying_plan', compact(
             'eventPlanTranaction',
-             'priceCurrency',
-             'empty_message',
-            ));
+            'priceCurrency',
+            'empty_message',
+        ));
     }
+
+    public function buyingEventTicketPDF($id)
+    {
+        $data = EventPlanTransaction::where('id',$id)->with(['eventPlans.ticketType','user'])->first();
+        $priceCurrency = PriceCurrency::first();
+        
+        $data = [ 
+            'data' => $data,
+            'priceCurrency' => $priceCurrency,
+        ];
+        //   dd($data);
+        $pdf = PDF::loadView('myPDF', $data);
+        return $pdf->download('ticket.pdf');
+    }
+
     public function buyingPlanTicket()
     {
-        $ticketTypePlans = TicketTypeDetails::with(['ticket_type'])->where('user_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->where('status','!=' ,0)->paginate(10);
+        $ticketTypePlans = TicketTypeDetails::with(['ticket_type'])->where('user_id', Auth::guard('general')->user()->id)->orderBy('id', 'desc')->where('status', '!=', 0)->paginate(10);
         // dd($ticketTypePlans);
         $empty_message = 'No Data Found';
         $priceCurrency = PriceCurrency::first();
         return view('frontend.deshboard.pages.buying_ticket', compact(
             'ticketTypePlans',
-             'priceCurrency',
-             'empty_message',
-            ));
+            'priceCurrency',
+            'empty_message',
+        ));
     }
 
     public function openPDF($id)

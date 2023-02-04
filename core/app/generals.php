@@ -7,6 +7,22 @@ use Illuminate\Support\Facades\Storage;
 class Generals
 {
     //Image upload
+    public static function logoupload(string $dir, string $format, $image = null)
+    {
+        if ($image != null) {
+            $imageName = 'whiteLogo' . "." . $format;
+            if (!Storage::disk('public')->exists($dir)) {
+                Storage::disk('public')->makeDirectory($dir);
+            }
+            Storage::disk('public')->put($dir . $imageName, file_get_contents($image));
+            // dd(file_get_contents($image));
+            // dd($imageName);
+            return $imageName;
+        } else {
+            $imageName = 'def.png';
+        }
+        return $imageName;
+    }
     public static function upload(string $dir, string $format, $image = null)
     {
         if ($image != null) {

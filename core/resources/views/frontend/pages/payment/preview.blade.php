@@ -32,7 +32,7 @@
                                     src="{{ asset('assets\images\gateway\\' . $data->gatewayCurrency()->image) }}"
                                     alt="@lang('image')">
                             </div>
-                           <div class=" col-lg-6 col-md-6 col-12">
+                           <div class=" col-lg-6 col-md-6 col-12 my-auto pt-lg-0 pt-md-0 pt-5">
                             <div class="deposit-content text-white pb-5 pe-5">
                                 <ul>
                                     <li>
@@ -53,12 +53,7 @@
                                         {{ $priceCurrency->code }}
                                     </li>
                                     <hr>
-                                    {{-- <li>
-                                        @lang('Conversion Rate'):
-                                        <strong>1 {{ $priceCurrency->code }} = {{ showAmount($data->rate) }}
-                                            {{ $priceCurrency->code }}</strong>
-                                    </li>
-                                    <hr> --}}
+                                  
                                     <li>
                                         @lang('In') {{ $priceCurrency->code }}:
                                         <strong>{{ showAmount($data->final_amo) }}</strong>

@@ -5344,9 +5344,13 @@ option {
 }
 
 /* coming-soon */
+.coming-soon-thumb{
+  height: 500px;
+}
 .coming-soon img {
   width: auto;
-  height: 500px;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* footer */
@@ -5996,4 +6000,13 @@ option {
       -ms-flex-direction: row !important;
           flex-direction: row !important;
   display: contents !important;
+}
+.mySwiper4{
+  overflow: hidden;
+}
+.music-card{
+  overflow: hidden;
+}
+.card-slider{
+  overflow: hidden;
 }

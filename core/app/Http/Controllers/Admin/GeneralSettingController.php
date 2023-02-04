@@ -5,14 +5,16 @@ namespace App\Http\Controllers\Admin;
 use HTMLPurifier;
 use App\Models\Frontend;
 use Illuminate\Http\Request;
+use App\Http\Helpers\Generals;
 use App\Models\GeneralSetting;
 use App\Rules\FileTypeValidate;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Artisan;
-// use Intervention\Image\Facades\Image as FacadesImage;
-use Intervention\Image\Facades\Image as FacadesImage;
 use Illuminate\Support\Facades\URL;
+// use Intervention\Image\Facades\Image as FacadesImage;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image as FacadesImage;
 
 class GeneralSettingController extends Controller
 {
@@ -108,12 +110,16 @@ class GeneralSettingController extends Controller
 
         if ($request->hasFile('whiteLogo')) {
             try {
+                // dd($request->whiteLogo);
                 $path = imagePath()['logoIcon']['path'];
                 if (!file_exists($path)) {
                     mkdir($path, 0755, true);
                 }
-                // FacadesImage::make($request->whiteLogo)->save($path . '/whiteLogo.png');
+                // dd($request->whiteLogo);
+                Generals::logoupload('logo/', 'png', $request->whiteLogo);
                 File::move($request->whiteLogo, $path . '/whiteLogo.png');
+                
+                
             } catch (\Exception $exp) {
                 $notify[] = ['error', 'White Logo could not be uploaded.'];
                 return back()->withNotify($notify);

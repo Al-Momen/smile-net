@@ -12,7 +12,9 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand header-logo" href="{{ route('index') }}"><img
-                    src="{{ asset('assets/frontend/images/logo/logo1.png') }}" alt="logo" srcset=""></a>
+                    src="{{ asset(imagePath()['logoIcon']['path'].'/whiteLogo.png')}}" alt="logo" srcset=""></a>
+            {{-- <a class="navbar-brand header-logo" href="{{ route('index') }}"><img
+                    src="{{ asset('assets/frontend/images/logo/logo1.png') }}" alt="logo" srcset=""></a> --}}
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -84,11 +86,11 @@
                         @endphp
                     @endif
 
-                    @if ($premium != null)
+                    {{-- @if ($premium != null)
                         <li class="nav-item pe-1">
                             <a class="nav-link text-white fs-6" href="{{ route('user.host_meeting') }}">Live Now</a>
                         </li>
-                    @endif
+                    @endif --}}
 
                     <li class="nav-item pe-1">
                         <a class="nav-link text-white fs-6" href="{{ route('smile_tv') }}">Smile TV</a>

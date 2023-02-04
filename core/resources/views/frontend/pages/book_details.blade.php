@@ -66,10 +66,10 @@
                                         alt="" class="rounded-circle img-fluid">
                                 </div>
                                 @else
-                                <div class="pe-3">
+                                {{-- <div class="pe-3">
                                     <img src="{{ asset('core\storage\app\public\profile\\' . $book->user->photo) }}"
                                         alt="" class="rounded-circle img-fluid">
-                                </div>
+                                </div> --}}
                                 @endif
                                 
                                 <div>
@@ -85,7 +85,7 @@
                                                 class="fab fa-facebook"></i></a></li>
                                     <li><a href="{{ $book->user->instagram }}" target="blank"><i
                                                 class="fab fa-instagram"></i></a></li>
-                                    <li><a href="#" target="blank"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="{{$book->user->twitter}}" target="blank"><i class="fab fa-twitter"></i></a></li>
                                 </ul>
                             </div>
                         </div>

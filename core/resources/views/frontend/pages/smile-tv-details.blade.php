@@ -60,8 +60,7 @@
                     <div class="comment-area mt-4" id="smileTvComment">
                         @foreach ($smileTvComments as $comment)
                             <div class="d-flex cmnt-details mt-2 p-2 rounded-3">
-                                <img src="{{ asset('core\storage\app\public\profile\\' . $comment->user?->photo) }}"
-                                    class="rounded-circle me-3" alt="">
+                                <img src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$comment->user->photo)}} "alt=""/>
                                 <div>
                                     <h6 class="text-white  fw-light">{{ $comment->user?->full_name }}</h6>
                                     <p class="fs-6 text-white pe-3 fw-lighter">{{ $comment->comment }}</p>
@@ -215,13 +214,12 @@
                             console.log(res);
                             if (res.status) {
                                 $('#addSmileTvCommentForm').trigger("reset");
-                                let photo =
-                                    "{{ asset('core/storage/app/public/profile/' . ':photo') }}";
+                                let photo ="{{ getImage(imagePath()['profile']['user']['path'].'/' .':photo') }}";
                                 photo = photo.replace(':photo', res.data.user.photo);
                                 $('#smileTvComment').append(
                                     `
                                         <div class="d-flex cmnt-details mt-2 p-2 rounded-3">
-                                            <img src="${photo}" class="rounded-circle me-3" alt="${res.data.user.full_name}">
+                                            <img src="${photo}"  alt="${res.data.user.full_name}">
                                             <div>
                                                 <h6 class="text-white fw-light">${res.data.user.full_name}</h6>
                                                 <p class="fs-6 text-white pe-3 fw-lighter">${res.data.comment}</p>

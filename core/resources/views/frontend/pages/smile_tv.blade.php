@@ -22,6 +22,7 @@
             <hr class="text-danger p-1 rounded" style="width: 100px;">
             <div class="row g-5 pt-4">
                 @foreach ($allSmileTvs as $smileTv)
+                    @if ($smileTv->smile_tv_link != null)
                     <div class="col-lg-3 col-md-4 col-12">
                         <div class="card">
                             <div class="subscription">
@@ -40,6 +41,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 @endforeach
             </div>
         </div>

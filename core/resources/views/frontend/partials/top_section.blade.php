@@ -1,3 +1,18 @@
+@push("css")
+
+<style>
+    .subscription-thumb{
+        height: 300px;
+    }
+    .subscription-thumb img{
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+    }
+</style>
+    
+@endpush
+
 <section class="overflow-hidden">
     <div class="container py-5">
         <div class="d-flex justify-content-between">
@@ -11,13 +26,15 @@
         </div>
         <div class="row row-cols-1 row-cols-lg-4 row-cols-md-4 g-5 pt-3 px-1">
             @foreach ($all_topMovies as $item)
-                <div class="col">
-                    <div class="card" style="width: 250px;">
+                <div class="col-12 col-md-6 col-sm-6 col-lg-4 col-xl-3">
+                    <div class="card">
                         <div class="subscription-premium">
                             <h3 class="text-white text-uppercase">{{ $item->ticketType->name ?? ''}}</h3>
                         </div>
-                        <img src="{{ asset('core\storage\app\public\top-movies\photo\\' . $item->image ?? '') }}"
-                            class="card-img-top" alt="image" style="width: 100%; height: 310px">
+                        <div class="subscription-thumb">
+                            <img src="{{ asset('core\storage\app\public\top-movies\photo\\' . $item->image ?? '') }}"
+                            class="card-img-top" alt="image" style="width: 100%;">
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title text-white">{{ $item->name ?? ''}}</h5>
                             <p class="primary-color">{{ $item->category ?? ''}}</p>
@@ -60,10 +77,21 @@
 <style>
     .sm-btn-wrapper{
         display: flex;
-        justify-content: space-between
+        justify-content: space-between;
+        margin: -5px;
+    }
+    @media screen and (max-width: 767px) {
+        .card{
+            text-align: center;
+        }
+        .sm-btn-wrapper{
+            display: block !important;
+            text-align: center;
+        }
     }
     .sm-btn{
         font-size: 12px;
+        margin: 5px;
     }
     
 </style>

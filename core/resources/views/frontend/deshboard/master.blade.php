@@ -70,23 +70,23 @@
         Start Bottom-nav
 ~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <div class="bottom-nav">
-        <a href="dashboard-ticket.html">
+        <a href="{{route('user.buying.plan.ticket.view')}}">
             <i class="las la-credit-card"></i>
-            <p>Ticket</p>
-        </a>
-        <a href="dashboard-plan.html">
-            <i class="las fa-solid fa-box"></i>
             <p>Plan</p>
         </a>
-        <a href="dashboard.html" class="mid">
+        <a href="{{route('user.events')}}">
+            <i class="las fa-solid fa-box"></i>
+            <p>Events</p>
+        </a>
+        <a href="{{route('user.deshboard')}}" class="mid">
             <i class="las la-home"></i>
             <p>Dashboard</p>
         </a>
-        <a href="dashboard-book.html">
+        <a href="{{route('user.books')}}">
             <i class="las fa-solid fa-book"></i>
             <p>Book</p>
         </a>
-        <a href="user-profile.html">
+        <a href="{{route('user.profile')}}">
             <i class="las la-user"></i>
             <p>Account</p>
         </a>

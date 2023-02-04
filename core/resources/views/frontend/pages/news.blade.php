@@ -33,7 +33,7 @@
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section>
         <div class="container py-5">
-            <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold">News</h1>
+            <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold">Walls</h1>
             <hr class="text-danger p-1 rounded" style="width: 100px;">
             <div class="row pt-3 g-5">
                 @foreach ($allNews as $news)

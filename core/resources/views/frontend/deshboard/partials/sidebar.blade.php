@@ -3,7 +3,8 @@
         <div class="sidebar-top-inner">
             <div class="sidebar__logo">
                 <a href="{{ route('index') }}" class="sidebar__main-logo">
-                    <img src="{{ asset('assets/frontend/images/logo/logo1.png') }}" alt="logo">
+                    <img
+                    src="{{ asset(imagePath()['logoIcon']['path'].'/whiteLogo.png')}}" alt="logo" srcset="">
                 </a>
                 <div class="navbar__left">
                     <button class="navbar__expand">
@@ -139,7 +140,7 @@
                             ->where('user_id', Auth::guard('general')->user()->id)->where('status',1)
                             ->first();
                     @endphp
-                    @if ($premium != null)
+                    {{-- @if ($premium != null)
                         <li class="sidebar-menu-item sidebar-dropdown">
                             <a href="#">
                                 <i class="menu-icon las fa-Solid fa-tv"></i>
@@ -170,7 +171,7 @@
                                 </li>
                             </ul>
                         </li>
-                    @endif
+                    @endif --}}
                     <li class="sidebar-menu-item">
                         <a href="{{ route('user.profile') }}">
                             <i class="menu-icon las fa-solid fa-user-circle"></i>

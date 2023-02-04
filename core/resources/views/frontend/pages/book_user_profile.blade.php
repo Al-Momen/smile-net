@@ -6,8 +6,9 @@
             <div class="row g-5 d-flex justify-content-center align-items-center">
                 <div class="col-lg-4 col-md-12 col-12">
                     <img class="img-fluid rounded d-block mx-auto"
-                        src="{{ asset('core\storage\app\public\profile\\' . $bookprofile->user->photo) }}" alt="Image"
+                        src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$bookprofile->user->photo,imagePath()['profile']['user']['size'])}}" alt="Image"
                         height="250" width="250">
+                        
                 </div>
                 <div class="col-lg-8 col-md-12 col-12 pt-4">
                     <div class="row g-4k">

@@ -21,10 +21,10 @@ $roles = userRolePermissionArray();
             </a>
         </div>
         <div class="view-prodact">
-            <a href="#" onclick="return false;">
+            {{-- <a href="#" onclick="return true;">
                 <i class="las la-plus"></i>
                 <span>Extension</span>
-            </a>
+            </a> --}}
         </div>
     </div>
 
@@ -61,6 +61,7 @@ $roles = userRolePermissionArray();
                                 <td data-label="@lang('Action')">
                                     <!-- Button trigger modal -->
                                     <button type="button" class="btn btn-primary btn-sm editBtn" data-bs-toggle="modal"
+                                        data-id="{{ __($item->id) }}"
                                         data-name="{{ __($item->name) }}"
                                         data-shortcode="{{ json_encode($item->shortcode) }}"
                                         data-bs-target="#editModal">
@@ -90,14 +91,14 @@ $roles = userRolePermissionArray();
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="helpModalLabel">Need Help?</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn btn-danger" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="POST">
                     @csrf
                     <div class="modal-body">
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger rounded" data-bs-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
@@ -110,9 +111,10 @@ $roles = userRolePermissionArray();
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@lang('Update Extension'): <span class="extension-name"></span></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close  btn btn-danger" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="" method="post">
+                    @csrf
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="col-md-12 control-label font-weight-bold">@lang('Script') <span
@@ -123,8 +125,8 @@ $roles = userRolePermissionArray();
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary rounded" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary rounded">Save</button>
+                        <button type="button" class="btn btn-danger rounded" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary rounded">Update</button>
                     </div>
                 </form>
             </div>
@@ -137,21 +139,25 @@ $roles = userRolePermissionArray();
         $(document).on("click", ".item_status", function() {
             var status = $(this).text();
             var item_id = $(this).attr("item_id");
+          
             $.ajax({
-                type: 'post',
-                url: '{{ route('admin.setting.extensions.status') }}',
+                
+                method: 'post',
+                url: "{{ route('admin.setting.extensions.status')}}",
                 data: {
+                    "_token": "{{ csrf_token() }}",
                     status: status,
                     item_id: item_id
                 },
+                // headers: {'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')}
                 success: function(resp) {
                     if (resp['status'] == 0) {
                         $("#item_" + item_id).html(
-                            "<a href='javascript:void(0)' class='item_status'>Inactive</a>"
+                            "<a href='javascript:void(0)' class='text--small badge font-weight-normal '>Inactive</a>"
                         )
                     } else if (resp['status'] == 1) {
                         $("#item_" + item_id).html(
-                            "<a href='javascript:void(0)' class='item_status'>Active</a>"
+                            "<a href='javascript:void(0)' class=' text--small badge font-weight-normal '>Active</a>"
                         )
                     }
                     setTimeout(function() {
@@ -168,9 +174,12 @@ $roles = userRolePermissionArray();
             $('.editBtn').on('click', function() {
                 var modal = $('#editModal');
                 var shortcode = $(this).data('shortcode');
+                var id = $(this).data('id');
+                var action = '{{url("/")}}'+'/admin/setting/extensions/update/' +id;
 
                 modal.find('.extension-name').text($(this).data('name'));
-                modal.find('form').attr('action', $(this).data('action'));
+                modal.find('form').attr('action', action);
+                
 
                 var html = '';
                 $.each(shortcode, function(key, item) {

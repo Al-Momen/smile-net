@@ -104,7 +104,7 @@
                                                 <span class="text-capitalize">{{ $item->payment_getway }}</span>
                                             </div>
                                         </div>
-                                        <div class="">
+                                        <div class="me-4">
                                             <span>
                                                 @php
                                                     $date = $item->created_at;

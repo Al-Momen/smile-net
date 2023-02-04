@@ -16,7 +16,7 @@ $roles = userRolePermissionArray();
                 <div class="col-lg-10">
                 </div>
                 <div class="col-lg-2">
-                    <div class="table-wrapper table-responsive">
+                    <div class=" table-responsive">
                         <a class='btn btn--base'href="{{route('admin.email.template.mail.noticication')}}">Send mail <i class="las la-paper-plane"></i></a>
                     </div>
                 </div>
@@ -35,9 +35,9 @@ $roles = userRolePermissionArray();
                                     <input type="text" class="form--control" placeholder="@lang('Email address')"
                                         name="email_from" value="{{ $general->email_from }}" required readonly>
                                 </div>
-                                <div class="col-lg-12 form-group">
+                                {{-- <div class="col-lg-12 form-group">
                                     <textarea  class="form--control" name="email_template" placeholder="@lang('Your email template')" readonly>{{ $general->email_template }}</textarea>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

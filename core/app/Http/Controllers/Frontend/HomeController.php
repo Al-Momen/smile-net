@@ -223,11 +223,13 @@ class HomeController extends Controller
     // ---------------------------------------book User Profile page---------------------------------------
     public function bookUserProfile($id)
     {
+        
         $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
             $query->where('pages', 'magazine-details');
         })->latest()->first();
 
         $bookprofile = Book::with(['user'])->where('author_book_id', $id)->where('author_book_type', "App\Models\GeneralUser")->first();
+        // dd($bookprofile);
         return view('frontend.pages.book_user_profile', compact('bookprofile', 'site_image'));
     }
     // ---------------------------------------book Admin profile page---------------------------------------
@@ -310,8 +312,8 @@ class HomeController extends Controller
                     $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
                         $query->where('pages', 'music');
                     })->latest()->first();
-                    $allMusic = Music::with('admin.adminUser')->orderBy('id', 'DESC')->paginate(10);
-                    $allMusicVideo = AdminVideoMusic::with('admin.adminUser')->where('status', 1)->orderBy('id', 'DESC')->paginate(10);
+                    $allMusic = Music::with('admin.adminUser')->where('status',1)->orderBy('id', 'DESC')->paginate(12,['*'],'allMusic');
+                    $allMusicVideo = AdminVideoMusic::with('admin.adminUser')->where('status', 1)->orderBy('id', 'DESC')->paginate(10,['*'],'allMusicVideo');
                     return view('frontend.pages.music', compact('allMusicVideo', 'allMusic', 'site_image', 'access'));
                 }
             }
@@ -327,8 +329,8 @@ class HomeController extends Controller
                         $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
                             $query->where('pages', 'music');
                         })->latest()->first();
-                        $allMusic = Music::with('admin.adminUser')->orderBy('id', 'DESC')->paginate(10);
-                        $allMusicVideo = AdminVideoMusic::with('admin.adminUser')->where('status', 1)->orderBy('id', 'DESC')->paginate(10);
+                        $allMusic = Music::with('admin.adminUser')->where('status',1)->orderBy('id', 'DESC')->paginate(12,['*'],'allMusic');
+                        $allMusicVideo = AdminVideoMusic::with('admin.adminUser')->where('status', 1)->orderBy('id', 'DESC')->paginate(10,['*'],'allMusicVideo');
                         return view('frontend.pages.music', compact('allMusicVideo', 'allMusic', 'site_image'));
                     } else {
                         $standard->ticket_status = 0;
@@ -349,8 +351,8 @@ class HomeController extends Controller
                     $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
                         $query->where('pages', 'music');
                     })->latest()->first();
-                    $allMusic = Music::with('admin.adminUser')->orderBy('id', 'DESC')->paginate(10);
-                    $allMusicVideo = AdminVideoMusic::with('admin.adminUser')->where('status', 1)->orderBy('id', 'DESC')->paginate(10);
+                    $allMusic = Music::with('admin.adminUser')->where('status',1)->orderBy('id', 'DESC')->paginate(12,['*'],'allMusic');
+                    $allMusicVideo = AdminVideoMusic::with('admin.adminUser')->where('status', 1)->orderBy('id', 'DESC')->paginate(10,['*'],'allMusicVideo');
                     return view('frontend.pages.music', compact('allMusicVideo', 'allMusic', 'site_image'));
                 } else {
                     $premium->ticket_status = 0;
@@ -377,7 +379,7 @@ class HomeController extends Controller
     // --------------------------Ajax for the audio player use in music page---------------------------------------
     public function latestSongs()
     {
-        $latest_songs = Music::orderBy('id', 'DESC')->take(20)->get();
+        $latest_songs = Music::orderBy('id', 'DESC')->where('status',1)->take(20)->get();
         return response()->json($latest_songs);
     }
 

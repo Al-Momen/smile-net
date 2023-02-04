@@ -316,6 +316,7 @@ Route::namespace('Frontend')->group(function () {
 
         // --------------------buying Event ticket route--------------------
         Route::get('buying/events/ticket', [UsersDeshboardController::class, 'buyingEventTicket'])->name('buying.event.ticket.view');
+        Route::get('buying/events/ticket/PDF/{id}', [UsersDeshboardController::class, 'buyingEventTicketPDF'])->name('buying.event.ticket.view.pdf');
 
         // --------------------buying Plan ticket route--------------------
         Route::get('buying/plan/ticket', [UsersDeshboardController::class, 'buyingPlanTicket'])->name('buying.plan.ticket.view');

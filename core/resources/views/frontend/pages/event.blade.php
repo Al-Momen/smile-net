@@ -13,6 +13,11 @@
         height: 100%;
         object-fit: cover;
     }
+    @media screen and (max-width: 1199px) {
+        .card-inner-thumb{
+            width: 100%;
+        }
+    }
 </style>
     
 @endpush
@@ -39,24 +44,24 @@
             <div class="row">
                 @foreach ($events as $event)
                     @foreach ($event->events as $item)
-                        <div class="col-xl-6 col-lg-6 col-md-6">
+                        <div class="col-xl-6 col-lg-6 col-md-6 pt-md-4">
                             <a href="{{ route('event.all.plan', $item->id) }}" class="d-inline-block" style=" text-decoration: none;">
-                                <div class="row px-4 d-flex justify-content-center justify-content-md-start"
-                                    style="margin-left: -20px;">
+                                <div class="row px-4 d-flex pt-2"
+                                    style="">
                                     {{-- {{dd($item->id)}} --}}
                                     @if ($item->status == 1)
                                         {{-- <form action="{{ route('event.all.plan', $item->id) }}" method="post"> --}}
-                                        <div class="card my-3 col-lg-12 col-md-12 col-12 "
-                                            style=" margin-left: -20px; ">
+                                        <div class="card col-lg-12 col-md-12"
+                                            style="">
                                             <div class="row p-0">
-                                                <div class="col-md-4 p-0">
+                                                <div class="col-xl-4 p-0 my-auto">
                                                     <div class="card-inner-thumb">
                                                         <img src="{{ asset('core\storage\app\public\events\\' . $item->image) }}"
                                                         alt="Trendy Pants and Shoes" class="img-fluid rounded-start"
                                                         />
                                                     </div>
                                                 </div>
-                                                <div class="col-md-8 my-auto ">
+                                                <div class="col-xl-8 my-auto col-12">
                                                     <div class="card-body text-white">
                                                         <h5 class="card-title text-capitalize">{{ $item->title }}</h5>
                                                         <div class="card-text pt-3 pb-0">

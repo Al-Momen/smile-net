@@ -25,15 +25,15 @@
                     {{-- <div>
                             <h4 class="text-center mt-5 pt-5 pb-4">Method Name: Paypal</h4>
                         </div> --}}
-                    <div class="card pt-5 ps-5">
-                        <div class="deposit-item d-flex mt-2">
+                    <div class="card pt-4 ps-5">
+                        <div class="deposit-item row">
                             <div class="deposit-thumb col-lg-6 col-md-6 col-12">
                                 <img width="320px" height="320px"
                                     src="{{ asset('assets\images\gateway\\' . $data->gatewayCurrency()->image) }}"
                                     alt="@lang('image')">
                             </div>
-                            <div class=" col-lg-6 col-md-6 col-12">
-                                <div class="deposit-content text-white pb-5 pe-5">
+                            <div class="col-lg-6 col-md-6 col-12 my-auto pt-lg-0 pt-md-0 pt-5">
+                                <div class="deposit-content text-white">
                                     <ul>
                                         <li>
                                             @lang('Price'):

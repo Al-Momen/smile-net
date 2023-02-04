@@ -140,12 +140,13 @@ class EmailTemplateController extends Controller
 
     public function sendMailNotification(Request $request)
     {
+        
         $all_email = GeneralUser::get();
         foreach ($all_email as $email) {
             $general = GeneralSetting::first();
             $config = $general->mail_config;
-            $receiver_name = explode('@', $email->email)[0];
-            $subject = 'Testing ' . strtoupper($config->name) . ' Mail';
+            $receiver_name = explode('@', $email->full_name)[0];
+            $subject = 'Hi ' . strtoupper($config->name);
             $message = '';
 
             try {

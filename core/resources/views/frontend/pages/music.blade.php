@@ -1,8 +1,16 @@
 @extends('frontend.master')
+@push('css')
+    <style>
+        .pagination .page-item a,
+        .pagination .page-item span {
+            color: white !important
+        }
+    </style>
+@endpush
 @section('content')
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                      Start Banner Section
-                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                      Start Banner Section
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="ticket-banner  bg-overlay-base">
         @if ($site_image->image ?? '')
             <img class="img-fluid"
@@ -10,14 +18,14 @@
         @endif
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                        End Banner Section
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                        End Banner Section
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                        Start Music Section
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                        Start Music Section
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="music-card">
         <div class="container py-5 mx-auto">
             <h1 class="text-white fw-bold fs-1 text-uppercase fw-bold">Music </h1>
@@ -27,14 +35,14 @@
                     @if ($val->mp3 !== null)
                         <div class="col-sm-12 col-md-6 col-lg-4 mb-4 season-play-btn" id="mp3Play_{{ $val->id }}">
                             <div class="card text-white card-has-bg click-col"
-                                style="background-image:url({{ asset('core/storage/app/public/music/photo/' . $val->image) }});">
+                                style="background-image:url({{ asset('core/storage/app/public/music/photo/' . $val->image) }}); background-size: cover background-position: top">
                                 <img class="card-img d-none"
                                     src="{{ asset('core\storage\app\public\music\photo\\' . $val->image) }}"
                                     alt="Goverment Lorem Ipsum Sit Amet Consectetur dipisi?">
                                 <div class="card-img-overlay d-flex flex-column">
                                     <div class="card-body">
                                         <small class="card-meta mb-2">
-                                            {{$general->sitename}}
+                                            {{ $general->sitename }}
                                             {{-- {{ $val->admin->adminUser->first_name }}
                                         {{ $val->admin->adminUser->last_name }} --}}
                                         </small>
@@ -67,8 +75,8 @@
                             </div>
                         </div>
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                    Start Music Player
-                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            Start Music Player
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                         {{-- music player  --}}
                         <div id="music-player_{{ $val->id }}" class="music music__player  animate__slideInDown">
                             <audio style="display: none" id="music-audio_{{ $val->id }}"
@@ -79,7 +87,9 @@
                             <div class="music__cover_{{ $val->id }}">
                                 <img id="music-cover_{{ $val->id }}" class="music__image"
                                     src="{{ url('/') . '/core/storage/app/public/music/photo/' . $val->image }}"
-                                    alt="mini music player - miko-github" />
+                                    alt="mini music player - miko-github" style="
+                                    object-fit: cover;
+                                    object-position: top;" />
                                 <div class="music__name">
                                     <h4 id="music-title_{{ $val->id }}" class="music__title">
                                         {{ $val->title }}</h4>
@@ -155,58 +165,58 @@
                             </div>
                         </div>
                         <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                     End Music Player
-                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                                     End Music Player
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
                     @endif
                 @endforeach
-
             </div>
+            <div class="">{{ $allMusic->links() }}</div>
+
         </div>
         {{-- --------------- music video--------------- --}}
-        <div class="container py-5 mx-auto">
+        <div class="container py-5">
             <h1 class="text-white fw-bold fs-1 text-uppercase fw-bold">Music video</h1>
             <hr class="text-danger p-1 rounded" style="width: 70px;">
-            <div class="row g-5 pt-5">
-                <div class="swiper2 mySwiper4 pt-3">
-                    <div class="swiper-wrapper text-white" data-swiper-autoplay="6000">
-                        @foreach ($allMusicVideo as $key => $val)
-                            @if ($val->mp4 !== null)
-                                <div class="swiper-slide">
-                                    <div class="card">
-                                        <div class="subscription">
-                                        </div>
-                                        <img src="{{ asset('core/storage/app/public/music/photo/' . $val->image) }}"
-                                            alt="Image" class="card-img-top" alt="image"
-                                            style="width: 100%; height: 350px">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ $val->title }}</h5>
-                                            <p class="primary-color">{{ $val->artist }}</p>
-                                            <a target="_blank" href="{{ route('video.music.play', $val->id) }}"
-                                                class="btn btn-outline-secondary video-btn">
-                                                Watch Now
-                                            </a>
-                                        </div>
+            <div class="card-slider">
+                <div class="swiper-wrapper text-white">
+                    @foreach ($allMusicVideo as $key => $val)
+                        @if ($val->mp4 !== null)
+                            <div class="swiper-slide">
+                                <div class="card">
+                                    <div class="subscription">
+                                    </div>
+                                    <img src="{{ asset('core/storage/app/public/music/photo/' . $val->image) }}"
+                                        alt="Image" class="card-img-top" alt="image"
+                                        style="width: 100%; height: 350px">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ $val->title }}</h5>
+                                        <p class="primary-color">{{ $val->artist }}</p>
+                                        <a target="_blank" href="{{ route('video.music.play', $val->id) }}"
+                                            class="btn btn-outline-secondary video-btn">
+                                            Watch Now
+                                        </a>
                                     </div>
                                 </div>
-                            @endif
-                        @endforeach
-                    </div>
-                    <div class="swiper-pagination"></div>
+                            </div>
+                        @endif
+                    @endforeach
+                    {{ $allMusicVideo->links() }}
                 </div>
             </div>
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        End Music Section
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                        End Music Section
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 
     @if (isset($access) && $access != null)
         <!-- Modal -->
         <div>
-            <div class="modal fade" id="exampleModalCenter" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-                aria-labelledby="addModalLabel" aria-hidden="true">
-                <form class="form-dashboard" action="" method="POST" enctype="multipart/form-data" id="addAccessForm">
+            <div class="modal fade" id="exampleModalCenter" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+                <form class="form-dashboard" action="" method="POST" enctype="multipart/form-data"
+                    id="addAccessForm">
                     @csrf
                     <div class="modal-dialog ">
                         <div class="modal-content" style="background-color: white!important;">
@@ -230,12 +240,14 @@
                                     <div class="radio-item d-flex justify-content-center px-3 mb-3">
                                         <input type="radio" id="movies" name="access" class="radio-item-two"
                                             value="movies" required style="width: 30px;">
-                                        <label for="#cc" class="ms-2 text-capitalize text-black my-auto">Movies</label>
+                                        <label for="#cc"
+                                            class="ms-2 text-capitalize text-black my-auto">Movies</label>
                                     </div>
                                     <div class="radio-item d-flex justify-content-center px-3 mb-3">
                                         <input type="radio" id="movies" name="access" class="radio-item-two"
-                                        value="movies" required style="width: 22px">
-                                        <label for="#cc" class="ms-2 text-capitalize text-black my-auto">Music</label>
+                                            value="movies" required style="width: 22px">
+                                        <label for="#cc"
+                                            class="ms-2 text-capitalize text-black my-auto">Music</label>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -245,6 +257,7 @@
                                 </div> <!-- Button trigger modal -->
                             </div>
                         </div>
+                    </div>
                 </form>
             </div>
         </div>

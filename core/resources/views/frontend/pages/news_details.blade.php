@@ -61,7 +61,7 @@
                     <div id="commentShow">
                         @foreach ($newsComments as $comment)
                             <div class="d-flex cmnt-details mt-5 p-2 bg-primary rounded-3">
-                                <img src="{{ asset('core\storage\app\public\profile\\' . $comment->user?->photo) }}"
+                                <img src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$comment->user->photo)}}"
                                     class="rounded-circle me-3" alt="">
                                 <div>
                                     <h6 class="text-white">{{ $comment->user?->full_name }}</h6>
@@ -72,7 +72,6 @@
                     </div>
                     <br>
                     <span style="width: max-content; margin-left: auto;">{{$newsComments->links()}}</span>
-                    
                 </div>
             </div>
         </div>
@@ -135,7 +134,7 @@
                             if (res.status) {
                                 $('#addNewsCommentForm').trigger("reset");
                                 let photo =
-                                    "{{ asset('core/storage/app/public/profile/' . ':photo') }}";
+                                    "{{ getImage(imagePath()['profile']['user']['path'].'/'.':photo') }}";
                                 photo = photo.replace(':photo', res.data.user.photo);
                                 $('#commentShow').append(
                                     `

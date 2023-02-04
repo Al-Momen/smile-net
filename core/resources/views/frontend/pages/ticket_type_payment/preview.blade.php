@@ -1,8 +1,8 @@
 @extends('frontend.master')
 @section('content')
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                            Start Banner Section
-                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        Start Banner Section
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 
     <section class="ticket-banner bg-overlay-base">
@@ -12,66 +12,67 @@
         @endif
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                End Banner Section
-                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        End Banner Section
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                            Start News Card Section
-                                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        Start News Card Section
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section>
         <div class="container pt-5">
-            <div class="row justify-content-center g-4">
-                <div class="col-xxl-7 col-xl-8 col-lg-6">
-                    {{-- <div>
-                            <h4 class="text-center mt-5 pt-5 pb-4">Method Name: Paypal</h4>
-                        </div> --}}
-                    <div class="card pt-5 ps-5">
-                        <div class="deposit-item d-flex mt-2">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card p-5">
+                        <div class="d-flex">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-12">
+                                    <div>
+                                        <img class="img fluid" 
+                                        src="{{ asset('assets\images\gateway\\' . $data->gatewayCurrency()->image) }}"
+                                        alt="@lang('image')" >
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-12 my-auto pt-lg-0 pt-md-0 pt-5">
+                                    <div class="deposit-content text-white pb-5 pe-5">
+                                        <ul>
+                                            <li>
+                                                @lang('Price'):
+                                                <strong> {{ showAmount($data->paid_price) }}</strong>
+                                                {{ $data->method_currency }}
+                                            </li>
+                                            <hr>
+                                            <li>
+                                                @lang('Charge'):
+                                                <strong>{{ showAmount($data->charge) }}</strong>
+                                                {{ $data->method_currency }}
+                                            </li>
+                                            <hr>
+                                            <li>
+                                                @lang('Payable'):
+                                                <strong> {{ showAmount($data->paid_price + $data->charge) }}</strong>
+                                                {{ $data->method_currency }}
+                                            </li>
 
-                            <div class="deposit-thumb col-lg-6 col-md-6 col-12 pb-5">
-                                <img width="320px" height="320px"
-                                    src="{{ asset('assets\images\gateway\\' . $data->gatewayCurrency()->image) }}"
-                                    alt="@lang('image')">
-                            </div>
-                            <div class=" col-lg-6 col-md-6 col-12">
-                                <div class="deposit-content text-white pb-5 pe-5">
-                                    <ul>
-                                        <li>
-                                            @lang('Price'):
-                                            <strong> {{ showAmount($data->paid_price) }}</strong>
-                                            {{ $data->method_currency }}
-                                        </li>
-                                        <hr>
-                                        <li>
-                                            @lang('Charge'):
-                                            <strong>{{ showAmount($data->charge) }}</strong> {{ $data->method_currency }}
-                                        </li>
-                                        <hr>
-                                        <li>
-                                            @lang('Payable'):
-                                            <strong> {{ showAmount($data->paid_price + $data->charge) }}</strong>
-                                            {{ $data->method_currency }}
-                                        </li>
-
-                                        <hr>
-                                        <li>
-                                            @lang('In') {{ $priceCurrency->code }}:
-                                            <strong>{{ showAmount($data->final_amo) }}</strong>
-                                        </li>
-                                        <hr>
-                                    </ul>
-                                    <div class="mt-4 ps-4">
-                                        @if (1000 > $data->method_code)
-                                            <a href="{{ route('ticket.buy.confirm') }}"
-                                                class=" px-3 btn btn-primary w-100 justify-content-center">
-                                                @lang('Pay Now')
-                                            </a>
-                                        @else
-                                            <a href="{{ route('ticket.buy.manual.confirm') }}"
-                                                class="py-3 btn btn-primary w-100 justify-content-center">
-                                                @lang('Pay Now Manual')
-                                            </a>
-                                        @endif
+                                            <hr>
+                                            <li>
+                                                @lang('In') {{ $priceCurrency->code }}:
+                                                <strong>{{ showAmount($data->final_amo) }}</strong>
+                                            </li>
+                                            <hr>
+                                        </ul>
+                                        <div class="mt-4 ps-4">
+                                            @if (1000 > $data->method_code)
+                                                <a href="{{ route('ticket.buy.confirm') }}"
+                                                    class=" px-3 btn btn-primary w-100 justify-content-center">
+                                                    @lang('Pay Now')
+                                                </a>
+                                            @else
+                                                <a href="{{ route('ticket.buy.manual.confirm') }}"
+                                                    class="py-3 btn btn-primary w-100 justify-content-center">
+                                                    @lang('Pay Now Manual')
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -82,8 +83,8 @@
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                               End News Card Section
-                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        End News Card Section
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 @endsection
 
 @push('css')
@@ -93,4 +94,3 @@
         }
     </style>
 @endpush
-

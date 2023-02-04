@@ -1,14 +1,16 @@
 <section>
-    <div class="container py-5 overflow-hidden">
+    <div class="container overflow-hidden">
         <div>
             <!-- Swiper -->
             <div class="swiper mySwiper5 pt-3" data-swiper-autoplay="4000">
                 <div class="swiper-wrapper text-white">
                     @foreach ($all_commingSoonMovies as $item)
                         <div class="swiper-slide">
-                            <div class="card" style="width: 250px;">
-                                <img src="{{ asset('core\storage\app\public\comming-soon-movies\photo\\' . $item->image ?? '') }}"
-                                    class="card-img-top" alt="image" style="width: 100%; height: 200px">
+                            <div class="card">
+                                <div class="all-section-thumb">
+                                    <img src="{{ asset('core\storage\app\public\comming-soon-movies\photo\\' . $item->image ?? '') }}"
+                                        class="card-img-top" alt="image">
+                                </div>
                                 <div class="card-body">
                                     <h5 class="card-title text-white">{{ $item->name }}</h5>
                                     <p class="primary-color">{{ $item->category }}</p>
@@ -60,6 +62,21 @@
         .sm-btn {
             font-size: 12px;
         }
+
+        .all-section-thumb {
+            height: 350px;
+            width: 100%;
+            
+        }
+        @media screen and (max-width: 1024px) {
+        .card{
+            text-align: center;
+        }
+        .sm-btn-wrapper{
+            display: block !important;
+            text-align: center;
+        }
+    }
     </style>
 @endpush
 @push('js')

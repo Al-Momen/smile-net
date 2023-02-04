@@ -1,3 +1,18 @@
+@push("css")
+
+<style>
+    .comming-soon-btn a, .comming-soon-btn button{
+        margin: 5px;
+    }
+    @media screen and (max-width: 575px) {
+        .comming-soon-btn a, .comming-soon-btn button{
+            font-size: 12px;
+        }
+    }
+</style>
+
+@endpush
+
 <section class="coming-soon">
     <div class="container py-5 overflow-hidden">
         <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold">Coming Soon Movie</h1>
@@ -12,11 +27,9 @@
                                 <h1 class="text-white fs-1 text-uppercase">{{ $item->name ?? '' }} <span
                                         class="fw-lighter fs-5">- {{ $item->year ?? '' }}</span>
                                 </h1>
-                                <div class="d-flex py-3">
-                                    <a target="_blank" href ="{{ route('comming.soon.movies.play',$item->id,)  }}">
-                                        <button class="btn btn-outline-success rounded-pill  video-btn px-3 py-2 me-3">
+                                <div class="d-flex flex-wrap comming-soon-btn py-3">
+                                    <a class="btn btn-outline-success rounded-pill  video-btn px-3 py-2 me-3" target="_blank" href ="{{ route('comming.soon.movies.play',$item->id,)  }}">
                                            Watch Now
-                                        </button>
                                     </a>
 
                                     <button type="button" class="btn btn-outline-danger rounded-pill px-3 py-2"
@@ -26,9 +39,11 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-12">
-                                <img class="mx-auto d-block"
+                                <div class="coming-soon-thumb">
+                                    <img class="mx-auto d-block"
                                     src="{{ asset('core\storage\app\public\comming-soon-movies\photo\\' . $item->image ?? '') }}"
                                     alt="banner image">
+                                </div>
                             </div>
                         </div>
                     </div>
