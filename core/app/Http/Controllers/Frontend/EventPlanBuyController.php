@@ -220,6 +220,12 @@ class EventPlanBuyController extends Controller
         $eventPlanDetails->status = 2; // pending
         $eventPlanDetails->save();
 
+        // seat sub
+        $eventPlan = EventPlan::where('id',$eventPlanDetails->event_plan_id)->first();
+        $eventPlan->seat = $eventPlan->seat - 1;
+        $eventPlan->update();
+
+
         $general = GeneralSetting::first();
         // notify($eventPlanDetails->user, 'DEPOSIT_REQUEST', [
         //     'method_name' => $eventPlanDetails->gatewayCurrency->name,
@@ -245,6 +251,11 @@ class EventPlanBuyController extends Controller
             $eventPlanDetails->status = 1;
             $eventPlanDetails->save();
 
+            // seat sub
+            $eventPlan = EventPlan::where('id',$eventPlanDetails->event_plan_id)->first();
+            $eventPlan->seat = $eventPlan->seat - 1;
+            $eventPlan->update();
+         
             // ----------------User Wallet balance save----------------
             $user_wallet = UserWallet::where('user_id', $eventPlanDetails->author_event_id)->first();
             
@@ -252,7 +263,6 @@ class EventPlanBuyController extends Controller
             $user_wallet->update();
 
             $user = GeneralUser::find($eventPlanDetails->buy_user_id);
-
 
 
             $notify[] = ['success', 'Your Payment Successful'];

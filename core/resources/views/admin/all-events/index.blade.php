@@ -5,9 +5,16 @@
 @section('page-name')
     All-Events
 @endsection
-@php
-    $roles = userRolePermissionArray();
-@endphp
+
+@section('search')
+    <form class="app-search d-none d-lg-block col p-0" action="" method="post">
+        @csrf
+        <div class="position-relative">
+            <input class="form-control" id="search" type="text" placeholder="Search . . . ." aria-label="Search" name='search'>
+            <span class="las la-search"></span>
+        </div>
+    </form>
+@endsection
 
 @section('content')
     <div class="dashboard-title-part">
@@ -50,30 +57,70 @@
                             </tr>
                         @endif
                         @foreach ($events as $event)
-                            <tr>
-                                <td>{{ $event->user->full_name }}</td>
-                                <td><img class="table-user-img img-fluid d-block me-auto"
-                                        src="{{ getImage(imagePath()['profile']['user']['path'] . '/' . $event->user->photo, imagePath()['profile']['user']['size']) }}"
-                                        alt="User Image"></td>
-                                <td>{{ $event->title ?? '' }}</td>
-                                <td>{{ $event->category->name ?? '' }}</td>
-                                <td>
-                                    <form action="{{ route('admin.event.status.edit', $event->id) }}" method="POST">
-                                        @csrf
-                                        <label class="switch" id="switch">
-                                            <input type="checkbox" name="status"
-                                                @if ($event->status == 1) checked @endif id="switchInput">
-                                            <span class="slider round"></span>
-                                        </label>
-                                    </form>
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.event.destroy', $event->id) }}"class="btn btn-danger rounded"><i
-                                            class="fas fa-trash"></i></a>
-                                    <a href="{{ route('admin.event.view', $event->id) }}" class="btn btn-primary rounded">
-                                        <i class="fas fa-edit"></i></a>
-                                </td>
-                            </tr>
+                            @if ($event->author_event_type == 'App\Models\User')
+                                <tr>
+                                    <td>
+                                        {{ ($event->admin->adminUser->first_name ?? ' ') . ' ' . ($event->admin->adminUser->last_name ?? '') }}
+                                    </td>
+                                    <td>
+                                        <img class="table-user-img img-fluid d-block me-auto"
+                                            src="{{ asset('core\storage\app\public\admin-profile\\' . $event->admin->adminUser->profile_pic ?? '') }}"
+                                            alt="User Image">
+                                    </td>
+
+
+                                    <td>{{ $event->title ?? '' }}</td>
+                                    <td>{{ $event->category->name ?? '' }}</td>
+                                    <td>
+                                        <form action="{{ route('admin.event.status.edit', $event->id) }}" method="POST">
+                                            @csrf
+                                            <label class="switch" id="switch">
+                                                <input type="checkbox" name="status"
+                                                    @if ($event->status == 1) checked @endif id="switchInput">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a
+                                            href="{{ route('admin.event.destroy', $event->id) }}"class="btn btn-danger rounded"><i
+                                                class="fas fa-trash"></i></a>
+                                        <a href="{{ route('admin.event.view', $event->id) }}"
+                                            class="btn btn-primary rounded">
+                                            <i class="fas fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            @endif
+                            @if ($event->author_event_type == 'App\Models\GeneralUser')
+                                <tr>
+                                    <td>{{ ucfirst($event->user->full_name) }}</td>
+                                    <td>
+                                        <img class="table-user-img img-fluid d-block me-auto"
+                                            src="{{ getImage(imagePath()['profile']['user']['path'] . '/' . $event->user->photo, imagePath()['profile']['user']['size']) }}"
+                                            alt="User Image">
+                                    </td>
+                                    <td>{{ $event->title ?? '' }}</td>
+                                    <td>{{ $event->category->name ?? '' }}</td>
+                                    <td>
+                                        <form action="{{ route('admin.event.status.edit', $event->id) }}" method="POST">
+                                            @csrf
+                                            <label class="switch" id="switch">
+                                                <input type="checkbox" name="status"
+                                                    @if ($event->status == 1) checked @endif id="switchInput">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <a
+                                            href="{{ route('admin.event.destroy', $event->id) }}"class="btn btn-danger rounded"><i
+                                                class="fas fa-trash"></i></a>
+                                        <a href="{{ route('admin.event.view', $event->id) }}"
+                                            class="btn btn-primary rounded">
+                                            <i class="fas fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     </tbody>
                 </table>
@@ -81,7 +128,7 @@
             </div>
         </div>
     </div>
- 
+
 
     <!-- Modal -->
 @endsection

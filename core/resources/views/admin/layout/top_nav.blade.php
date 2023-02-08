@@ -8,10 +8,15 @@
                 <i class="las la-bars"></i>
             </button>
             <form class="app-search d-none d-lg-block col p-0">
-                {{-- <div class="position-relative">
-                    <input class="form-control" type="text" placeholder="Search . . . ." aria-label="Search">
-                    <span class="las la-search"></span>
-                </div> --}}
+                <div class="position-relative">
+                    <div class="dropdown">
+                        <input class="form-control" type="text" placeholder="Search . . . ." name="search" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="las la-search"></span>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                             <li><a class="dropdown-item" href="#">No data found</a></li> 
+                        </ul>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="navbar__right">

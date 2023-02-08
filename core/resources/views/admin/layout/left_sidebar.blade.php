@@ -54,7 +54,8 @@
                 @if (Request::is('admin/manage/site') ||
                         Request::is('admin/seo*') ||
                         Request::is('smile-net/admin/social') ||
-                        Request::is('admin/footer')) style="display:block"
+                        Request::is('admin/footer')||
+                        Request::is('admin/faq')) style="display:block"
             @else
                 style="display:none" @endif>
                 @php
@@ -73,8 +74,7 @@
                 <li class="sidebar-menu-item {{ Request::is('admin/seo*') ? 'active' : '' }}">
                     <a href="{{ route('admin.seo.page') }}" class="nav-link">
                         <i class="menu-icon las la-dot-circle"></i>
-                        <span class="menu-title"{{ Request::is('admin/seo/manage') ? 'text--base' : ' ' }}>SEO
-                            Manager</span>
+                        <span class="menu-title"{{ Request::is('admin/seo/manage') ? 'text--base' : ' ' }}>SEO Manager</span>
                     </a>
                 </li>
         </li>
@@ -88,6 +88,12 @@
             <a href="{{ route('admin.footer.index') }}" class="nav-link">
                 <i class="menu-icon las la-dot-circle"></i>
                 <span class="menu-title">Footer section</span>
+            </a>
+        </li>
+        <li class="sidebar-menu-item @if (Request::is('admin/faq')) active @endif">
+            <a href="{{ route('admin.faq.index') }}" class="nav-link">
+                <i class="menu-icon las la-dot-circle"></i>
+                <span class="menu-title">FAQ section</span>
             </a>
         </li>
         {{-- @foreach (getPageSections(true) as $k => $secs)
@@ -216,7 +222,8 @@
         </ul>
     </li>
 
-    <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin/event') ||
+    <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin/events') ||
+            Request::is('admin/all/events') ||
             Request::is('admin/event-plan/manual/index') ||
             Request::is('admin/user/event-plan/approved') ||
             Request::is('admin/user/event-plan/pending') ||
@@ -226,7 +233,8 @@
             <span class="menu-title">@lang('Manage Events')</span>
         </a>
         <ul class="sidebar-submenu"
-            @if (Request::is('admin/event') ||
+            @if (Request::is('admin/events') ||
+                    Request::is('admin/all/events') ||
                     Request::is('admin/event-plan/manual/index') ||
                     Request::is('admin/user/event-plan/approved') ||
                     Request::is('admin/user/event-plan/pending') ||
@@ -234,7 +242,11 @@
             @else
                 style="display:none" @endif>
             <li class="sidebar-menu-item">
-                <a href="{{ route('admin.event.index') }}" class="nav-link">
+                <a href="{{ route('admin.index.events') }}" class="nav-link">
+                    <i class="menu-icon las la-dot-circle"></i>
+                    <span class="menu-title">@lang('My Events')</span>
+                </a>
+                <a href="{{ route('admin.event.all.events') }}" class="nav-link">
                     <i class="menu-icon las la-dot-circle"></i>
                     <span class="menu-title">@lang('All Events')</span>
                 </a>
@@ -408,7 +420,10 @@
         </li> --}}
 
 
-    <li class="sidebar-menu-item sidebar-dropdown @if (Request::is('admin/gateway/automatic') || Request::is('admin/gateway/manual')) active @endif">
+    <li class="sidebar-menu-item sidebar-dropdown 
+        @if (Request::is('admin/gateway/automatic') || 
+        Request::is('admin/gateway/manual')) active 
+        @endif">
         <a href="#">
             <i class="menu-icon las la-wallet"></i>
             <span class="menu-title">@lang('Payments Getway')</span>
@@ -474,7 +489,7 @@
                     Request::is('admin/user/withdraw/reject') ||
                     Request::is('admin/user/manual-getway/request')) style="display:block"
             @else
-                style="display:none" @endif>
+                 @endif>
             <li class="sidebar-menu-item">
                 <a href="{{ route('admin.manual.paymentgetway.view') }}" class="nav-link">
                     <i class="menu-icon las la-dot-circle"></i>
@@ -515,19 +530,16 @@
                 <a href="{{ route('admin.email.template.global') }}" class="nav-link">
                     <i class="menu-icon las la-dot-circle"></i>
                     <span
-                        class="menu-title {{ Request::is('admin/email-template/global') ? 'text--base' : '' }}">Global
-                        Template</span>
+                        class="menu-title {{ Request::is('admin/email-template/global') ? 'text--base' : '' }}">Global Template</span>
                 </a>
                 <a href="{{ route('admin.email.template.setting') }}" class="nav-link ">
                     <i class="menu-icon las la-dot-circle"></i>
                     <span
-                        class="menu-title {{ Request::is('admin/email-template/setting') ? 'text--base' : '' }}">Email
-                        Configuration</span>
+                        class="menu-title {{ Request::is('admin/email-template/setting') ? 'text--base' : '' }}">Email Configuration</span>
                     <a href="{{ route('admin.email.template.index') }}" class="nav-link active">
                         <i class="menu-icon las la-dot-circle"></i>
                         <span
-                            class="menu-title {{ Request::is('admin/email-template/index') ? 'text--base' : '' }}">Email
-                            notification</span>
+                            class="menu-title {{ Request::is('admin/email-template/index') ? 'text--base' : '' }}">Email notification</span>
                     </a>
                 </a>
             </li>
@@ -545,14 +557,11 @@
             <li class="sidebar-menu-item">
                 <a href="{{ route('admin.setting.index') }}" class="nav-link">
                     <i class="menu-icon las la-dot-circle"></i>
-                    <span class="menu-title {{ Request::is('admin/setting/index') ? 'text--base' : ' ' }}">Site
-                        Settings</span>
+                    <span class="menu-title {{ Request::is('admin/setting/index') ? 'text--base' : ' ' }}">Site Settings</span>
                 </a>
                 <a href="{{ route('admin.setting.logo.icon') }}" class="nav-link">
                     <i class="menu-icon las la-dot-circle"></i>
-                    <span class="menu-title {{ Request::is('admin/setting/logo-icon') ? 'text--base' : ' ' }}">Logo
-                        &
-                        favicon</span>
+                    <span class="menu-title {{ Request::is('admin/setting/logo-icon') ? 'text--base' : ' ' }}">Logo & favicon</span>
                 </a>
 
                 <a href="{{ route('admin.setting.extensions.index') }}" class="nav-link">
@@ -565,13 +574,4 @@
             </li>
         </ul>
     </li>
-
-
-    {{-- <li class="sidebar-menu-item @if (Request::is('admin/setting/extensions/list')) active @endif">
-        <a href="{{ route('admin.setting.extensions.index') }}" class="nav-link">
-            <i class="menu-icon las la-puzzle-piece"></i>
-            <span class="menu-title">Extensions</span>
-        </a>
-    </li> --}}
-
 </div>

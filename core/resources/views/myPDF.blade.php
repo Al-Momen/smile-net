@@ -376,6 +376,8 @@
                                 </div>
                                 <div class="invoice-card-body">
                                     <ul class="invoice-card-list">
+                                        <li><span>Ticket-Name : </span>
+                                            {{ ucfirst($data->eventPlans->event->title) }}</li>
                                         <li><span>Ticket-Type : </span>
                                             {{ ucfirst($data->eventPlans->ticketType->name) }}</li>
                                         <li><span>Date : </span>

@@ -1,34 +1,59 @@
-@extends('frontend.deshboard.master')
+@extends('admin.layout.master')
+@section('title')
+    All-Events
+@endsection
+@section('page-name')
+    All-Events
+@endsection
+@php
+    $roles = userRolePermissionArray();
+@endphp
+
 @section('content')
-   
-    <form class="form-dashboard" action="{{ route('user.update.events', $event->id) }}"method="POST"
+    <div class="dashboard-title-part">
+        <h5 class="title">Dashboard</h5>
+        <div href="" class="dashboard-path">
+            <a href={{ route('admin.dashboard') }}>
+                <span class="main-path">Dashboards</span>
+            </a>
+            <i class="las la-angle-right"></i>
+            <a href="#">
+                <span class="active-path g-color">Edit-Events</span>
+            </a>
+        </div>
+        <div class="view-prodact">
+
+
+        </div>
+    </div>
+
+    <form class="form-dashboard" action="{{ route('admin.update.events', $event->id) }}"method="POST"
         enctype="multipart/form-data" id="addEventForm">
         @csrf
-        <div class="errMsgContainer" style="padding: 20px;">
-
+        <div class="user-info-header two ">
+            <h6 class="title">@lang('Events Update')</h6>
         </div>
 
         <div class="row g-4k" style="padding: 20px;">
-            <h5 class="modal-title mb-4" id="addModalLabel">Events Update</h5>
-            <div class=" col-lg-6 col-md-6 col-12 pe-4">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" placeholder="Title" name="title" id="title"
+            <div class=" col-lg-6 col-md-6 col-12 form-group">
+                <label for="title">Title</label>
+                <input type="text" class="form--control" placeholder="Title" name="title" id="title"
                     value="{{ $event->title }}">
             </div>
-            <div class="mb-3  col-lg-6 col-md-6 col-12 pe-4">
-                <label for="start_date" class="form-label">Start Date</label>
-                <input type="date" class="form-control" placeholder="Start Date" name="start_date" id="start_date"
+            <div class="col-lg-6 col-md-6 col-12 form-group">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form--control" placeholder="Start Date" name="start_date" id="start_date"
                     value="{{ $event->start_date }}" required>
             </div>
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="end_date" class="form-label">End Date</label>
-                <input type="date" class="form-control" placeholder="End Date" name="end_date" id="end_date"
+            <div class="col-lg-6 col-md-6 col-12 form-group">
+                <label for="end_date">End Date</label>
+                <input type="date" class="form--control" placeholder="End Date" name="end_date" id="end_date"
                     value="{{ $event->end_date }}" required>
             </div>
 
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="categoty" class="form-label">Category</label>
-                <select class="form-select form-select-md mb-3" style="padding: 12px 10px;"
+            <div class="col-lg-6 col-md-6 col-12 form-group">
+                <label for="categoty">Category</label>
+                <select class="form--control" style="padding: 12px 10px;"
                     aria-label=".form-select-lg example" name="category">
                     <option value=""> -- </option>
                     @foreach ($categories as $category)
@@ -38,11 +63,10 @@
                     @endforeach
                 </select>
             </div>
-
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4 checkbox-block bg-white">
+            <div class="col-lg-6 col-md-6 col-12 form-group checkbox-block">
                 @foreach ($event->eventPlans as $item)
                     <div class="single-checkbox">
-                        <input class="checkboxInput" type="checkbox" id="{{ $item->ticketType->name }}"
+                        <input class="checkboxInput form--control" type="checkbox" id="{{ $item->ticketType->name }}"
                             name="ticket_type_id[]" value="{{ $item->ticket_type_id }}" data-bs-toggle="collapse"
                             data-bs-target="#{{ $item->ticketType->name }}" aria-expanded="true" aria-controls="collapse"
                             @if ($item->ticket_type_id) checked @endif>
@@ -50,46 +74,41 @@
                             class="text-capitalize">{{ $item->ticketType->name }}</label>
                         <div class="collapse show" id="{{ $item->ticketType->name }}">
                             <label for="basic">Seat</label>
-                            <input type="number" name="seat[]" placeholder="Enter your Seat" value="{{ $item->seat }}">
+                            <input type="number" name="seat[]" placeholder="Enter your Seat" class="form--control" value="{{ $item->seat }}">
                             <label for="basic">Price</label>
                             <div class="input-group mb-3 mt-3">
                                 <span class="input-group-text"
                                     style="
-                                        border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $priceCurrency->symbol }}</span>
-                                        <input class="d-none" type="text" name="price_currency_id" value="{{ $priceCurrency->id }}">
-                                <input type="number" class="form-control" min="0"
-                                    id="doller-input" placeholder="Enter your {{ $item->name }} Price" name="price[]" value="{{$item->price}}">
+                                                    border-top-left-radius: 5px;border-bottom-left-radius:5px;">{{ $priceCurrency->symbol }}</span>
+                                <input class="d-none" type="text" class="form--control" name="price_currency_id"
+                                    value="{{ $priceCurrency->id }}">
+                                <input type="number" class="form--control" min="0" id="doller-input"
+                                    placeholder="Enter your {{ $item->name }} Price" name="price[]"
+                                    value="{{ $item->price }}">
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
-            <div class="mb-3 mt-4 col-lg-6 col-md-6 col-12 pe-4">
-                <label for="image" class="form-label">Image</label>
-                <input type="file" src="" class="form-control" name="image" accept="image/*"
-                    id="image"style="height: 50px !important; line-height: 38px;">
+            <div class="col-lg-6 col-md-6 col-12 form-group">
+                <label for="">Image</label>
+                <input type="file" src="" class="form--control" name="image" accept="image/*"
+                    id="image">
             </div>
-            <div class="mb-4 mt-4 col-lg-12 col-md-12 col-12 pe-4">
-                <label for="editor" class="form-label">Description</label>
-                <textarea id="editor" name="description" rows="5" class="form-control">{{ $event->description }}</textarea>
+            <div class=" col-lg-12 col-md-12 col-12 form-group">
+                <label for="editor">Description</label>
+                <textarea id="editor" name="description" rows="5" class="form--control">{{ $event->description }}</textarea>
 
             </div>
             <div class="text-center" style="margin: auto;">
-                <button type="submit" style="width: 440px;" class="btn btn-primary " id="btn_add">Update</button>
-
+                <button type="submit" style="width: 440px;" class="btn btn--base bg-primary " id="btn_add">Update</button>
             </div>
         </div>
-
     </form>
-@endsection
 
-@push('meta')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="alternate" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
-        type="application/atom+xml" title="Atom">
-@endpush
-@push('css')
+    <!-- Modal -->
+@endsection
+@section('css')
     <style>
         .form-control {
 
@@ -227,8 +246,14 @@
             border-radius: 50%;
         }
     </style>
-@endpush
-@push('js')
+@endsection
+
+@section('scripts')
+    <script>
+        $('.switch').click(function() {
+            $(this).parents('form').submit();
+        })
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     {{-- Ck-editor js --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
@@ -249,27 +274,27 @@
     </script>
 
     <script>
-        $('.checkboxInput').on('change',function() {
-            if($(this).is(':checked') === false) {
+        $('.checkboxInput').on('change', function() {
+            if ($(this).is(':checked') === false) {
                 $(this).parents('.single-checkbox').find('input').val("");
-                
-                $(this).parents('.single-checkbox').find('input').attr('required',false);
-            }else {
-                $(this).parents('.single-checkbox').find('input').attr('required',true);
+
+                $(this).parents('.single-checkbox').find('input').attr('required', false);
+            } else {
+                $(this).parents('.single-checkbox').find('input').attr('required', true);
             }
         });
         $(document).ready(function() {
             var allCheckbox = $('.checkboxInput');
-            $.each(allCheckbox,function(index,item){
+            $.each(allCheckbox, function(index, item) {
                 // var inputItems = $(item).find('input');
-                if($(item).is(":checked") === false) {
-                   console.log($(item));
+                if ($(item).is(":checked") === false) {
+                    console.log($(item));
                     $(item).parents('.single-checkbox').find('input').val("");
-                    $(item).parents('.single-checkbox').find('input').attr('required',false);
-                }else {
-                    $(item).parents('.single-checkbox').find('input').attr('required',true);
+                    $(item).parents('.single-checkbox').find('input').attr('required', false);
+                } else {
+                    $(item).parents('.single-checkbox').find('input').attr('required', true);
                 }
             });
         });
     </script>
-@endpush
+@endsection

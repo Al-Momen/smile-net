@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,7 @@
     <!-- fav link -->
     <link rel="shortcut icon" href="{{ getImage(imagePath()['logoIcon']['path'] . '/favicon.png') }}"
         type="image/x-icon">
-   
+
     <!-- fontawesome css link -->
     <link rel="stylesheet" href="{{ URL::asset('core/public/admin') }}/assets/css/fontawesome-all.min.css">
     <!-- bootstrap css link -->
@@ -23,8 +24,20 @@
     <link rel="stylesheet" href="{{ URL::asset('core/public/admin') }}/assets/css/animate.css">
     <!-- main style css link -->
     <link rel="stylesheet" href="{{ URL::asset('core/public/admin') }}/assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
     @include('admin.layout.includes.css')
+    <style>
+        .field-icon {
+            float: right;
+            margin-right: 11px;
+            margin-top: -54px;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            color: black;
+
+        }
+    </style>
 </head>
 
 <body>
@@ -84,18 +97,22 @@
                     </p>
                 </div>
             @endif
-            <form class="login-form" action="{{ route('admin.login') }}" method="post" >
+            <form class="login-form" action="{{ route('admin.login') }}" method="post">
                 @csrf
                 <span class="title">Log-in</span>
                 <label for="username">Email</label>
                 <input type="text" id="loginEmail" name="email" placeholder="Enter email">
                 <label for="password">Password</label>
-                <input id="loginPassword" type="password" name="password" placeholder="Enter password">
+                {{-- <input id="loginPassword" type="password" name="password" placeholder="Enter password"> --}}
+                <div class="">
+                    <input id="loginPassword" type="password" name="password" placeholder="Enter password">
+                    <span toggle="#loginPassword" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                </div>
                 <span class="forget"><a href="#">Forget password?</a></span>
                 <input type="submit" value="Login">
-                <span class="new">Admin Login to <b>{{$general->sitename}}</b> dashboard</span>
+                <span class="new">Admin Login to <b>{{ $general->sitename }}</b> dashboard</span>
             </form>
-           
+
         </div>
     </div>
     <!--~~~~~~~~~~~~~~End Login~~~~~~~~~~~~~~~-->
@@ -152,17 +169,32 @@
             $(this).toggleClass('active');
         });
     </script>
-    @if(env('APP_MODE')=='demo')
     <script>
-        function copy_cred() {
-            $('#loginEmail').val('admin@admin.com');
-            $('#loginPassword').val('admin123');
-            toastr.success('Copied successfully!', 'Success!', {
-                CloseButton: true,
-                ProgressBar: true
-            });
-        }
+        $(".toggle-password").click(function() {
+
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            console.log(input);
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
     </script>
-@endif
+    @if (env('APP_MODE') == 'demo')
+        <script>
+            function copy_cred() {
+                $('#loginEmail').val('admin@admin.com');
+                $('#loginPassword').val('admin123');
+                toastr.success('Copied successfully!', 'Success!', {
+                    CloseButton: true,
+                    ProgressBar: true
+                });
+            }
+        </script>
+        
+    @endif
 </body>
+
 </html>

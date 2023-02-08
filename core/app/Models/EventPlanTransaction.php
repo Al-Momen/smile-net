@@ -45,6 +45,9 @@ class EventPlanTransaction extends Model
     public function eventPlans(){
         return $this->belongsTo(EventPlan::class,'event_plan_id','id');
     }
+    public function admin(){
+        return $this->belongsTo(Auth::class,'author_book_id','id');
+    }
     public function user(){
         return $this->belongsTo(GeneralUser::class,'buy_user_id','id');
     }

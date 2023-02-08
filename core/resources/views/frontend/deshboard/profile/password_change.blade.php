@@ -1,12 +1,11 @@
 @extends('frontend.deshboard.master')
 @section('content')
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            Start Forgot Section
-                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                Start Forgot Section
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section>
         <div class="container mx-auto py-5">
             <div class="col-lg-8 offset-lg-1 mx-auto">
-
                 <h3 class="mb-3 text-white fs-2 px-3">Password Change</h3>
                 <div class="shadow-lg rounded">
                     <div class="pe-0">
@@ -36,20 +35,21 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    
-                                        {{-- <label class="mb-3 text-white">Confirm Password<span class="text-danger">*</span></label>
+
+                                    {{-- <label class="mb-3 text-white">Confirm Password<span class="text-danger">*</span></label>
                                         <input type="text" name="confirm_pass" placeholder="Confirm Password"
                                             class="form-control" id="confirm_pass" onclick="myFunction()"> --}}
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label text-white">Confirm Password<span class="text-danger">*</span></label>
-                                            <div class="col-md-12">
-                                                <input id="password-field" type="password" class="form-control"
-                                                    name="confirm_pass">
-                                                <span toggle="#password-field"
-                                                    class="fa fa-fw fa-eye field-icon toggle-password"></span>
-                                            </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label text-white">Confirm Password<span
+                                                class="text-danger">*</span></label>
+                                        <div class="col-md-12">
+                                            <input id="password-field" type="password" class="form-control"
+                                                name="confirm_pass">
+                                            <span toggle="#password-field"
+                                                class="fa fa-fw fa-eye field-icon toggle-password"></span>
                                         </div>
-                                    
+                                    </div>
+
                                 </div>
                                 <div class="col-12">
                                     <div>
@@ -61,12 +61,11 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            End forgot Section
-                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                End forgot Section
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 @endsection
 
 @push('js')
@@ -99,8 +98,8 @@
             position: relative;
             z-index: 2;
             cursor: pointer;
-            color:black;
-           
+            color: black;
+
         }
     </style>
 @endpush

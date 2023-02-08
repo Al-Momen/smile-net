@@ -22,7 +22,11 @@ class EventController extends Controller
 {
     public function events()
     {
-         $data['general_events'] = Event::with(['category','eventPlans.eventPlanTransaction','eventPlans.ticketType'])->where('author_event_id', Auth::guard('general')->id())->orderBy('id','desc')->paginate(8);
+         $data['general_events'] = Event::with(['category','eventPlans.eventPlanTransaction','eventPlans.ticketType'])
+         ->where('author_event_id', Auth::guard('general')->id()) 
+         ->where('author_event_type',get_class(Auth::guard('general')->user()))
+         ->orderBy('id','desc')
+         ->paginate(8);
         // --------------total events count--------------
         $data['general_count'] = Event::where('author_event_id', Auth::guard('general')->id())->count();
         // --------------active events count--------------
@@ -39,15 +43,14 @@ class EventController extends Controller
     }
     public function storeEvents(Request $request)
     {
-       
         // $ticketId = $request->ticket_type_id;
         //     dd($ticketId);
         // dd($request->all());
         $request->validate([
             'title' => 'required|min:2|max:255',
             'description' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
             'image' => 'required|image|mimes:jpeg,png,jpg',
             'category' => 'required',
             'ticket_type_id' => 'required',
@@ -55,6 +58,7 @@ class EventController extends Controller
         try {
             $event = new Event();
             $event->author_event_id = Auth::guard('general')->user()->id;
+            $event->author_event_type = get_class(Auth::guard('general')->user());
             $event->price_currency_id = $request->price_currency_id;
             $event->title = $request->title;
             $event->description = $request->description;
@@ -100,9 +104,9 @@ class EventController extends Controller
         $request->validate([
             'title' => 'required|min:2|max:255',
             'description' => 'required',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'image' => 'image|mimes:jpeg,png,jpg',
             'category' => 'required',
             'ticket_type_id' => 'required',
         ]);
@@ -111,14 +115,18 @@ class EventController extends Controller
             $event = Event::findOrFail($id);
             $oldImage = $event->image;
             $event->author_event_id = Auth::guard('general')->user()->id;
+            $event->author_event_type = get_class(Auth::guard('general')->user());
             $event->price_currency_id = $request->price_currency_id;
             $event->title = $request->title;
             $event->description = $request->description;
             $event->start_date = $request->start_date;
             $event->end_date = $request->end_date;
             $event->category_id = $request->category;
-            $event->image = Generals::update('events/', $oldImage, 'png', $request->image);
             $event->update();
+            if($request->has('image')){
+                $event->image = Generals::update('events/', $oldImage, 'png', $request->image);
+                $event->update();
+            }
 
             $ticketTypeIds = $request->ticket_type_id;
             $ticketSeats = $request->seat;

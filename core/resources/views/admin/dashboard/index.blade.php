@@ -250,7 +250,7 @@
                             <i class="las las la-bullhorn"></i>
                         </div>
                         <div class="view-all-btn">
-                            <a href="{{route('admin.event.index')}}">View All</a>
+                            <a href="{{route('admin.index.events')}}">View All</a>
                         </div>
                     </div>
                 </div>
@@ -273,7 +273,7 @@
                             <i class="las las la-bullhorn"></i>
                         </div>
                         <div class="view-all-btn">
-                            <a href="{{route('admin.event.index')}}">View All</a>
+                            <a href="{{route('admin.index.events')}}">View All</a>
                         </div>
                     </div>
                 </div>
@@ -296,7 +296,7 @@
                             <i class="las las la-bullhorn"></i>
                         </div>
                         <div class="view-all-btn">
-                            <a href="{{route('admin.event.index')}}">View All</a>
+                            <a href="{{route('admin.index.events')}}">View All</a>
                         </div>
                     </div>
                 </div>

@@ -99,6 +99,9 @@
                     <li class="nav-item pe-1">
                         <a class="nav-link text-white fs-6" href="{{ route('news') }}">Author Walls</a>
                     </li>
+                    <li class="nav-item pe-1">
+                        <a class="nav-link text-white fs-6" href="{{ route('faq') }}">FAQ</a>
+                    </li>
 
                 </ul>
                 {{-- <select class="my-select selectpicker me-3" data-container="body">

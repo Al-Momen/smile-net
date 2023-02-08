@@ -43,15 +43,7 @@
             </div>
         </div>
         <div class="shadow-lg p-4 card-1 my-3">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+            
             <!-- Button trigger modal -->
             <div class="text-end">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -205,7 +197,7 @@
                             <div class="mb-4 mt-4 col-lg-6 col-md-6 col-12 pe-4">
                                 <label for="image" class="form-label text-white">Image</label>
                                 <input type="file" src="" class="form-control" name="image"
-                                    accept="image/*" id="image">
+                                    accept="image/*" id="image" style="height: 40px !important; line-height: 27px;">
                             </div>
 
                             <div class="mb-3 mt-2 col-lg-12 col-md-12 col-12 pe-4">

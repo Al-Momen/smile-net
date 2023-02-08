@@ -48,6 +48,10 @@ class Event extends Model
     {
         return $this->belongsTo(GeneralUser::class,'author_event_id','id');
     }   
+
+    public function admin(){
+        return $this->belongsTo(Auth::class,'author_event_id','id');
+    } 
    
     public function priceCurrency()
     {

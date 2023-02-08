@@ -36,7 +36,7 @@
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                    Start News Card Section
-          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section>
         <div class="container pt-5">
             <hr class="text-danger p-1 rounded" style="width: 100px;">
@@ -66,9 +66,15 @@
                                             </div>
                                             <p class="text-capitalize">{!! Str::words($events->description, 20, '') !!}</p>
                                         </div>
+                                        @if ($eventPlan->seat <= 0)
+                                            <p class="text-center mt-3 btn btn-danger"> Not Available</p>
+                                        @else
                                         <a href="{{ route('event.plan.pricing', $eventPlan->id) }}"><button
                                                 class="btn btn-outline-danger mt-3">Buy
                                                 tickets</button></a>
+                                        @endif
+
+
                                     </div>
                                 </div>
                             </div>

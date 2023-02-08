@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use Carbon\Carbon;
+use App\Models\FAQ;
 use App\Models\Book;
+use App\Models\News;
 use App\Models\Plan;
 use App\Models\Event;
 use App\Models\Music;
@@ -22,6 +25,7 @@ use App\Models\PriceCurrency;
 use App\Models\AdminTopMovies;
 use App\Models\AdminLiveTvLike;
 use App\Models\AdminManageSite;
+use App\Models\AdminVideoMusic;
 use App\Models\AdminVipPricing;
 use App\Models\BookTransaction;
 use App\Models\AdminNewsComment;
@@ -34,14 +38,12 @@ use Illuminate\Support\Facades\DB;
 use App\Models\AdminSmileTvComment;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\PrettyPrinter\Standard;
 use App\Models\AdminCommingSoonMovies;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Controllers\Admin\AdminMoviesController;
-use App\Models\AdminVideoMusic;
-use Carbon\Carbon;
-use Illuminate\Database\QueryException;
-use PhpParser\PrettyPrinter\Standard;
 
 class HomeController extends Controller
 {
@@ -232,6 +234,7 @@ class HomeController extends Controller
         // dd($bookprofile);
         return view('frontend.pages.book_user_profile', compact('bookprofile', 'site_image'));
     }
+
     // ---------------------------------------book Admin profile page---------------------------------------
     public function bookAdminProfile($id)
     {
@@ -244,6 +247,7 @@ class HomeController extends Controller
         return view('frontend.pages.book_admin_profile', compact('bookprofile', 'site_image'));
     }
 
+   
 
 
 
@@ -452,6 +456,40 @@ class HomeController extends Controller
         $totalLike = AdminNewsLike::with('user')->where('news_id', $id)->where('like', '=', 'true')->count();
         return view('frontend.pages.news_details', compact('news', 'newsComments', 'totalLike'));
     }
+
+     // ---------------------------------------news Admin profile page---------------------------------------
+     public function newsAdminProfile($id)
+     {
+        
+         $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
+             $query->where('pages', 'magazine-details');
+         })->latest()->first();
+ 
+         $newsprofile = AdminNews::with(['admin.adminUser'])->where('id', $id)->where('news_type', 'App\Models\User')->first();
+         $allNews = AdminNews::with('user')->where('user_id',$newsprofile->user_id)->where('news_type', 'App\Models\User')->paginate(12);
+         return view('frontend.pages.news.news_admin_profile', compact(
+            'newsprofile', 
+            'site_image',
+            'allNews'
+        ));
+     }
+
+     public function newsUserProfile($id)
+     {
+         $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
+             $query->where('pages', 'magazine-details');
+         })->latest()->first();
+ 
+         $newsprofile = AdminNews::with('user')->where('id', $id)->where('news_type', 'App\Models\GeneralUser')->first();
+         $allNews = AdminNews::with('user')->where('user_id', $newsprofile->user_id)->where('news_type', 'App\Models\GeneralUser')->paginate(12);
+        
+         return view('frontend.pages.news.news_user_profile', compact(
+            'newsprofile',
+             'site_image',
+             'allNews'
+            ));
+     }
+
     // ---------------------------------------Place order page---------------------------------------
     public function placeOrder()
     {
@@ -479,10 +517,22 @@ class HomeController extends Controller
     // ---------------------------------------Plan page---------------------------------------
     public function eventAllPlans($id)
     {
+        
         $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
             $query->where('pages', 'plan');
         })->latest()->first();
         $events = Event::with(['eventPlans', "eventPlans.ticketType"])->findOrFail($id);
         return view('frontend.pages.events_plans', compact('events', 'site_image'));;
+    }
+
+    // ---------------------------------------Plan page---------------------------------------
+    public function faq()
+    {
+        $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
+            $query->where('pages', 'faq');
+        })->latest()->first();
+        $allFaq = FAQ::all();
+       
+        return view('frontend.pages.faq.index', compact('site_image','allFaq'));
     }
 }

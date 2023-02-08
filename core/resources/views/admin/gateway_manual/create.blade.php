@@ -10,18 +10,19 @@
 @endphp
 @section('content')
     <div class="dashboard-title-part">
-        <div class="view-prodact">
-            <a href="#">
-                <i class="las la-arrow-left align-middle me-1"></i>
-                <span>Go Back</span>
-            </a>
-        </div>
+        <h5 class="title">Dashboard</h5>
         <div class="dashboard-path">
             <span class="main-path">Payment Gateway</span>
             <i class="las la-angle-right"></i>
             <span class="active-path g-color">Manual Gateways</span>
         </div>
-        <h5 class="title">Dashboard</h5>
+
+        <div class="view-prodact">
+            <a href="{{ route('admin.gateway.manual.index') }}">
+                <i class="las la-arrow-left align-middle me-1"></i>
+                <span>Go Back</span>
+            </a>
+        </div>
     </div>
 
     <div class="user-detail-area">
@@ -144,11 +145,10 @@
                                     <div class="user-info-header two">
                                         <h5 class="title">Deposit Instruction</h5>
                                     </div>
-                                    <div class="dashboard-form">
-                                        <div class="row justify-content-center mb-10-none">
-                                            <div class="col-lg-12 form-group">
-                                                <textarea class="form--control nicEdit" placeholder="Write Text Here" name="instruction">{{ old('instruction') }}</textarea>
-                                            </div>
+                                    <div class="row justify-content-center mb-10-none">
+                                        <div class="col-lg-12 form-group">
+                                            {{-- <textarea class="form--control nicEdit" placeholder="Write Text Here" name="instruction">{{ old('instruction') }}</textarea> --}}
+                                            <textarea id="editor" name="description" rows="5" class="form-control" value=""></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -210,7 +210,35 @@
         </div>
     </div>
 @endsection
+@push('css')
+    <style>
+        /* Ck-editor css */
+        .ck-blurred {
+            height: 400px !important;
+        }
+
+        .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
+        .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
+            height: 400px;
+        }
+    </style>
+@endpush
 @section('scripts')
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+    <script>
+        let editor;
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(newEditor => {
+                editor = newEditor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        $('#btn_add').click(function() {
+            var descriptionData = editor.getData();
+        })
+    </script>
     <script>
         (function($) {
             "use strict";

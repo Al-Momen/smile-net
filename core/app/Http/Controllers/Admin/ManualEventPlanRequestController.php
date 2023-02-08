@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\EventPlan;
 use App\Models\UserWallet;
 use Illuminate\Http\Request;
 use App\Models\PriceCurrency;
 use App\Models\BookTransaction;
+use App\Models\TicketTypeDetails;
 use App\Http\Controllers\Controller;
 use App\Models\EventPlanTransaction;
-use App\Models\TicketTypeDetails;
 
 class ManualEventPlanRequestController extends Controller
 {
@@ -49,7 +50,6 @@ class ManualEventPlanRequestController extends Controller
         $allManualEventPlanRequest = EventPlanTransaction::with('user', "eventPlans")->where('id', $id)->first();
         $allManualEventPlanRequest->status = 1;
         $allManualEventPlanRequest->update();
-         
 
         // ----------------User Wallet balance save----------------
         $user_wallet = UserWallet::where('user_id', $allManualEventPlanRequest->author_event_id)->first();
@@ -69,6 +69,13 @@ class ManualEventPlanRequestController extends Controller
         $allManualEventPlanRequest->status = 3;
         $allManualEventPlanRequest->reject = $request->reject;
         $allManualEventPlanRequest->update();
+
+
+         // seat sub
+         $eventPlan = EventPlan::where('id',$allManualEventPlanRequest->event_plan_id)->first();
+         $eventPlan->seat = $eventPlan->seat + 1;
+         $eventPlan->update();
+         
         $notify[] = ['success', 'User Event-Plan request is Cancelled'];
         return redirect()->route('admin.event.manual.index')->withNotify($notify);
     }

@@ -285,7 +285,6 @@
         @endif
     </script>
     {{-- Ck-editor js --}}
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
     {{-- <script>
         $("#btn_close").click(function(e) {
             var descriptionData = editor.getData();
@@ -337,6 +336,7 @@
             });
         });
     </script> --}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
     <script>
         let editor;
         ClassicEditor

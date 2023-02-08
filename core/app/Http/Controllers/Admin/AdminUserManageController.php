@@ -11,7 +11,7 @@ class AdminUserManageController extends Controller
 {
     public function allUsers()
     {
-        $all_users = GeneralUser::paginate(8);
+        $all_users = GeneralUser::orderBy('id','desc')->paginate(8);
         return view('admin.manage-user.all_users',compact('all_users'));
     }
     public function activeUsers()
@@ -38,6 +38,27 @@ class AdminUserManageController extends Controller
     {
         $sub_plans = TicketTypeDetails::with('user','ticket_type')->paginate(8);
         return view('admin.manage-user.plan_users',compact('sub_plans'));
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+       if($request->search != ''){
+            $data = GeneralUser::where('full_name','LIKE',"%$search%")
+            ->orWhere('email','LIKE',"%$search%")
+            ->orderBy('id','desc')->paginate();
+            if($data->count() > 0){
+                return response()->json([
+                    'data'=> $data,
+                    'status' => 1,
+                ]);
+            }else{
+                return response()->json([
+                    'data'=> 'No found data',
+                    'status' => 0,
+                ]);
+            }
+       }
     }
     
     public function statusAccess(Request $request, $id)

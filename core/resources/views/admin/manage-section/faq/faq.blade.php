@@ -1,9 +1,9 @@
 @extends('admin.layout.master')
 @section('title')
-    Author-walls
+    Home Manage Site
 @endsection
 @section('page-name')
-    Author-walls
+    Home Manage Site
 @endsection
 @php
     $roles = userRolePermissionArray();
@@ -18,113 +18,81 @@
             </a>
             <i class="las la-angle-right"></i>
             <a href="#">
-                <span class="active-path g-color">Author-walls</span>
+                <span class="active-path g-color">FAQ</span>
             </a>
         </div>
         <div class="view-prodact">
             <a data-bs-toggle="modal" data-bs-target="#exampleModal">
                 <i class="las la-plus"></i>
-                <span>Author-walls</span>
+                <span>New FAQ</span>
             </a>
         </div>
     </div>
 
-
     <!-- Button trigger modal -->
     <div class="table-content">
+        @php
+            $i = 1;
+        @endphp
 
         <div class="table-wrapper table-responsive">
             <table class="custom-table table text-white rounded mt-5 ">
-                <thead class="text-center" style="color:#7b8191">
-                    <tr>
-                        <th scope="col">Title</th>
-                        <th scope="col">Category Name</th>
-                        <th scope="col">Image</th>
-                        {{-- <th scope="col">Status</th> --}}
+                <thead style="color:#7b8191;">
+                    <tr class="text-center">
+                        <th scope="col">No</th>
+                        <th scope="col" style="text-align: center!important;">Queston</th>
+                        <th scope="col" style="text-align: center!important;">Ans</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody class="text-center" style="color:#7b8191">
-                    @if ($allNews->count() == 0)
+                    @if ($allFaq->count() == 0)
                         <tr>
                             <td colspan="99" class="text-center">No data found</td>
                         </tr>
                     @endif
-                    @foreach ($allNews as $news)
+                    @foreach ($allFaq as $item)
                         <tr>
-                            <td>{{ $news->title }}</td>
-                            <td>{{ $news->category->name }}</td>
-                            <td><img class="table-user-img img-fluid d-block me-auto"
-                                    src="{{ asset('core\storage\app\public\news\\' . $news->image) }}" alt="Image"></td>
-                            {{-- <td>
-                                            <form action="{{ route('admin.news.status.edit', $news->id) }}" method="POST">
-                                                @csrf
-                                                <label class="switch" id="switch">
-                                                    <input type="checkbox" name="status"
-                                                        @if ($news->status == 1) checked @endif id="switchInput">
-                                                    <span class="slider round"></span>
-                                                </label>
-                                            </form>
-                                        </td> --}}
+                            <td class="text-capitalize">{{$i++}}</td>
+                            <td class="text-capitalize" style="text-align: center!important;">{{ $item->question }}</td>
+                            <td class="text-capitalize" style="text-align: center!important;">{!! Str::words($item->ans,10) !!}</td>
                             <td>
-                                <a href="{{ route('admin.news.destroy', $news->id) }}"class="btn btn-danger rounded"><i
-                                        class="fas fa-trash"></i></a>
-                                <a href="{{ route('admin.edit.news', $news->id) }}" class="btn btn-primary rounded">
+                                <a href="{{ route('admin.faq.edit', $item->id) }}" class="btn btn-primary rounded">
                                     <i class="fas fa-edit"></i></a>
+                                <a href="{{ route('admin.faq.destroy', $item->id) }}"class="btn btn-danger rounded"><i
+                                    class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            {{ $allNews->links() }}
+            {{ $allFaq->links() }}
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    
+     <!-- Modal -->
+     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-            <form action="{{ route('admin.store.news') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.faq.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="modal-content">
                         <div class="modal-header ">
-                            <h5 class="modal-title text--base">@lang('Add Title')</h5>
+                            <h5 class="modal-title text--base">@lang('Add FAQ')</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <div class="row g-4k" style="padding: 0px 20px;">
-                                <div class=" col-lg-6 col-md-6 col-12 form-group">
-                                    <label for="title">@lang('Title')</label>
-                                    <input type="text" class="form--control" placeholder="Title" name="title"
+                                <div class=" col-lg-12 col-md-12 col-12 form-group">
+                                    <label for="title">@lang('Question')</label>
+                                    <input type="text" class="form--control" placeholder="question" name="question"
                                         id="title" value="">
                                 </div>
 
-                                <div class="mb-3 col-lg-6 col-md-6 col-12 form-group">
-                                    <label for="categoty">@lang('Category')</label>
-                                    <select class="form--control text-capitalize" style="padding: 12px 10px;"
-                                        aria-label=".form-select-lg example" name="category">
-                                        <option value=""> -- </option>
-                                        @foreach ($categories as $category)
-                                            <option @if ($category->id)  @endif value="{{ $category->id }}">
-                                                {{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class=" col-lg-6 col-md-6 col-12 form-group">
-                                    <label for="image">@lang('Image') </label>
-                                    <input type="file" src="" class="form--control" name="image"
-                                        accept="image/*" id="image">
-                                </div>
-
-                                <div class="col-lg-6 col-md-6 col-12 form-group">
-                                    <label for="tag">@lang('Tag')</label>
-                                    <input type="text" src="" class="form--control px-3 pt-2" name="tag"
-                                        id="tag" placeholder="@lang('Tag')">
-                                </div>
-
                                 <div class="col-lg-12 col-md-12 col-12 form-group">
-                                    <label for="editor">@lang('Description')</label>
-                                    <textarea id="editor" name="description" rows="5" class="form--control" value=""></textarea>
+                                    <label for="editor">@lang('Ans')</label>
+                                    <textarea id="editor" name="ans" rows="5" class="form--control" value=""></textarea>
                                 </div>
                                 <div class="text-end mb-3">
                                     <button type="submit" class="btn--base">Save</button>
@@ -141,10 +109,6 @@
 @endsection
 @section('css')
     <style>
-        .img-height {
-            line-height: 35px;
-        }
-
         .table-user-img {
             height: 60px;
             width: 60px;

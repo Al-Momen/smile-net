@@ -208,7 +208,7 @@ class UsersDeshboardController extends Controller
 
     public function buyingEventTicketPDF($id)
     {
-        $data = EventPlanTransaction::where('id',$id)->with(['eventPlans.ticketType','user'])->first();
+        $data = EventPlanTransaction::where('id',$id)->with(['eventPlans.ticketType','eventPlans.event','user'])->first();
         $priceCurrency = PriceCurrency::first();
         
         $data = [ 

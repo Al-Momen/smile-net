@@ -11,10 +11,7 @@
 @section('content')
     <div class="dashboard-title-part">
         <div class="view-prodact">
-            <a href="#">
-                <i class="las la-arrow-left align-middle me-1"></i>
-                <span>Go Back</span>
-            </a>
+            
         </div>
         <div class="dashboard-path">
             <span class="main-path">Payment Gateway</span>

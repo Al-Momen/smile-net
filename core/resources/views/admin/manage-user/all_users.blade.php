@@ -8,7 +8,6 @@
 @php
     $roles = userRolePermissionArray();
 @endphp
-
 @section('content')
     <div class="dashboard-title-part">
         <h5 class="title">Dashboard</h5>
@@ -41,7 +40,7 @@
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody class="text-center" style="color:#7b8191">
+                <tbody class="text-center" id ="allUser" style="color:#7b8191">
                     @if ($all_users->count() == 0)
                         <tr>
                             <td colspan="99" class="text-center">No data found</td>
@@ -75,7 +74,6 @@
 
         </div>
     </div>
-   
 @endsection
 @section('css')
     <style>
@@ -171,6 +169,83 @@
 @endsection
 
 @section('scripts')
+    {{-- <script>
+        $(document).ready(function() {
+            $('.app-search').keyup(function(e) {
+                var search = $('input[name=search]').val();
+                $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                if (search != "") {
+                    $.ajax({
+                        url: "{{route('admin.search.users')}}",
+                        method: "POST",
+                        data: {
+                            'search': search,
+                        },
+                        success: function(res) {
+                            if (res.status) {
+                                addDataToTable(res.data.data)
+                            } else {
+                                alert(res.message)
+                            }
+                        },
+                        error: function(err) {
+                            let error = err.responseJSON;
+                            $.each(error.errors, function(index, value) {
+                                console.log(value);
+                                $('#commentShow').append(
+                                    '<span class="text-danger">' +
+                                    value +
+                                    '</span>' + '</br>');
+                            });
+                        }
+                    });
+                }
+            })
+
+            function addDataToTable(data) {
+                var table = $('tbody#allUser');
+                console.log(data);
+                table.html('');
+                data.forEach((element, key) => {
+                    var status = element.access == 0 ?
+                                   '<span class="badge bg-success">Active</span>'
+                                :
+                                    '<span class="badge bg-danger">Banned</span>';
+                    var image =`{{ getImage(imagePath()['profile']['user']['path'] . '/' . ':photo') }}`;
+                    image = image.replace(':photo',element.photo);
+                    var link = `{{ route('admin.view.user', ':id') }}`;
+                    link = link.replace(':id',element.id);     
+                    table.append(`
+                        <tr>
+                            <td class="text-capitalize">${element.full_name}</td>
+                            <td>
+                                <img class="table-user-img img-fluid d-block me-auto"
+                                    src="${image}"
+                                    alt="Image">
+                            </td>
+                            <td>${element.phone}</td>
+                            <td>${element.email}</td>
+                            <td>${element.country}</td>
+                            <td>
+                               ${status}
+                            </td>
+                            <td>
+                                <a href="${link}" class="btn btn-primary rounded">
+                                    <i class="fas fa-eye" data-bs-toggle="modal" data-bs-target="#exampleModal"></i></a>
+                            </td>
+                        </tr>
+                    `)
+                });
+            }
+        })
+    </script> --}}
+
+
+
     <script>
         $('.switch').click(function() {
             $(this).parents('form').submit();

@@ -21,7 +21,7 @@
             </a>
         </div>
         <div class="view-prodact">
-            
+
         </div>
     </div>
 
@@ -70,7 +70,8 @@
                                             <div class="col-lg-6 form-group">
                                                 <label>rate*</label>
                                                 <input type="number" class="form--control"
-                                                    value="{{ old('rate', @$method->single_currency->rate) }}" name="rate">
+                                                    value="{{ old('rate', @$method->single_currency->rate) }}"
+                                                    name="rate">
                                             </div>
                                         </div>
                                     </div>
@@ -150,12 +151,13 @@
                                         <h5 class="title">Deposit Instruction</h5>
                                     </div>
                                     <div class="row justify-content-center mb-10-none">
-
-                                        <textarea class="form--control" name="instruction" id="" cols="30" rows="10"
-                                            placeholder="Write Text Here">{{ __(@$method->description) }}</textarea>
+                                        <div class="col-lg-12 form-group">
+                                        {{-- <textarea class="form--control" name="instruction" id="" cols="30" rows="10"
+                                            placeholder="Write Text Here">{{ __(@$method->description) }}</textarea> --}}
+                                        <textarea id="editor" name="description" rows="5" class="form-control" value="">{{ __(@$method->description) }}</textarea>
 
                                     </div>
-
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-12 mt-30">
@@ -222,7 +224,35 @@
         </div>
     </div>
 @endsection
+@push('css')
+    <style>
+        /* Ck-editor css */
+        .ck-blurred {
+            height: 400px !important;
+        }
+
+        .ck-rounded-corners .ck.ck-editor__main>.ck-editor__editable,
+        .ck.ck-editor__main>.ck-editor__editable.ck-rounded-corners {
+            height: 400px;
+        }
+    </style>
+@endpush
 @section('scripts')
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+    <script>
+        let editor;
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(newEditor => {
+                editor = newEditor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        $('#btn_add').click(function() {
+            var descriptionData = editor.getData();
+        })
+    </script>
     <script>
         (function($) {
             "use strict";

@@ -22,31 +22,31 @@
                         <div class="mb-4 col-lg-6 col-md-6 col-12 pe-4">
                             <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
                                 <p class="text-white m-0 fw-bold">Email:</p>
-                                <p class="text-white m-0 ">{{ $bookprofile->user->email ?? '' }}</p>
+                                <p class="text-white m-0 ">{{ $bookprofile->user->email ?? 'N/A' }}</p>
                             </div>
                         </div>  
                         <div class="mb-4 col-lg-6 col-md-6 col-12 pe-4">
                             <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
                                 <p class="text-white m-0 fw-bold">Country:</p>
-                                <p class="text-white m-0 ">{{ $bookprofile->user->country ?? '' }}</p>
+                                <p class="text-white m-0 ">{{ $bookprofile->user->country ?? 'N/A' }}</p>
                             </div>
                         </div>
                         <div class="mb-4 col-lg-6 col-md-6 col-12 pe-4">
                             <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
                                 <p class="text-white m-0 fw-bold">Facebook:</p>
-                                <p class="text-white m-0 ">{{ $bookprofile->user->facebook ?? '' }}</p>
+                                <p class="text-white m-0 ">{{ $bookprofile->user->facebook ?? 'N/A' }}</p>
                             </div>
                         </div>
                         <div class="mb-4 col-lg-6 col-md-6 col-12 pe-4">
                             <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
                                 <p class="text-white m-0 fw-bold">Instagram:</p>
-                                <p class="text-white m-0 ">{{ $bookprofile->user->instagram ?? '' }}</p>
+                                <p class="text-white m-0 ">{{ $bookprofile->user->instagram ?? 'N/A' }}</p>
                             </div>
                         </div>
                         <div class="mb-4 col-lg-6 col-md-6 col-12 pe-4">
                             <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
                                 <p class="text-white m-0 fw-bold">Twitter:</p>
-                                <p class="text-white m-0 ">{{ $bookprofile->user->twitter ?? '' }}</p>
+                                <p class="text-white m-0 ">{{ $bookprofile->user->twitter ?? 'N/A' }}</p>
                             </div>
                         </div>
 

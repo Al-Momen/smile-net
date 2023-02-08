@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <link rel="apple-touch-icon" href="{{ asset('/app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('/app-assets/images/ico/favicon.ico') }}">
-    
+
     <link rel="icon" href="{{ asset('images/logoIcon/favicon.png') }}" type="image/x-icon">
     <link rel="shortcut icon" href="{{ getImage(imagePath()['logoIcon']['path'] . '/favicon.png') }}"
         type="image/x-icon">
@@ -107,8 +108,61 @@
             });
         })(jQuery);
     </script>
+    {{-- -------------------- search navber ------------ --}}
+    <script>
+        var menu_link_item_array = new Array();
+        var menu_link_item = $('.sidebar-menu-item a');
+        menu_link_item.each(function(index, value) {
+            var href = $(value).attr('href');
+            var title = $(value).find('span').html();
+            if (href != '#') {
+                var m_array = {
+                    href: href,
+                    title: title,
+                };
+                menu_link_item_array.push(m_array);
+            }
+
+        });
+        dataMatch(menu_link_item_array);
+        // data match
+        function dataMatch(data) {
+            $("input[name='search']").keyup(function() {
+                var card = "";
+                var findArray = [];
+                data.forEach(element => {
+                    var search = $(this).val();
+                    var arrayTitle = (element.title).toLowerCase();
+                    var findData = arrayTitle.match(search);
+                    if (findData != null) {
+                        findArray.push(element);
+                    }
+                })
+                // append data
+                var manu = $('.dropdown .dropdown-menu');
+                findArray.forEach(element => {
+
+                    card += `<li><a class="dropdown-item" href="${element.href}">${element.title}</a></li>`;
+
+                });
+                if (findArray.length == 0) {
+                    card = `<li><a class="dropdown-item" href="#">No data found</a></li>`;
+                    $(manu).html(card);
+
+                }
+                $(manu).html(card);
+            });
+        }
+    </script>
 </body>
 
+
+<style>
+    .dropdown-menu{
+        max-height: 600px;
+    overflow-y: auto;
+    }
+</style>
 
 <!-- END: Body-->
 

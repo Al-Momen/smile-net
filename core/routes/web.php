@@ -62,6 +62,7 @@ use App\Http\Controllers\Admin\AdminNewsLikeCommentController;
 use App\Http\Controllers\Admin\AdminLiveTvLikeCommentController;
 use App\Http\Controllers\Admin\ManualEventPlanRequestController;
 use App\Http\Controllers\Admin\AdminSmileTvLikeCommentController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\FooterSectionController;
 use App\Http\Controllers\Admin\LiveController;
 use App\Http\Controllers\Admin\ManualTicketTypeRequestController;
@@ -220,6 +221,9 @@ Route::namespace('Frontend')->group(function () {
     Route::get('item/movies/play/{id}', [HomeController::class, 'itemMoviesPlay'])->name('new.item.movies.play');
     Route::get('comming/soon/movies/play/{id}', [HomeController::class, 'commingSoonMoviesPlay'])->name('comming.soon.movies.play');
     Route::get('video/music/play/{id}', [HomeController::class, 'videoMusicPlay'])->name('video.music.play');
+    
+    // --------------------Faq list-------------------- 
+    Route::get('faq', [HomeController::class, 'faq'])->name('faq');
 
 
     // -------------------Live tv details comment -----------------
@@ -250,6 +254,8 @@ Route::namespace('Frontend')->group(function () {
 
     // --------------------navbar events list-------------------- 
     Route::get('user/event/{name}', [HomeController::class, 'eventList'])->name('user.event');
+
+    
 
     // -------------------- User Email verify by OTP--------------------
     Route::get('otp', [UsersAuthController::class, 'userOtpForm'])->name('otp.form');
@@ -354,10 +360,7 @@ Route::namespace('Frontend')->group(function () {
         Route::get('/meeting_history', [UserMeetingController::class, 'meeting_history'])->name('meeting_history');
         Route::get('/room/{room_name}', [RoomController::class, 'room'])->name('room');
         Route::post('/join', [RoomController::class, 'join'])->name('join');
-
     });
-
-
 
     // --------------------if login then access pages--------------------
     Route::group(['middleware' => 'general_user'], function () {
@@ -415,6 +418,8 @@ Route::namespace('Frontend')->group(function () {
         // --------------------- news---------------------
         Route::get('news', [HomeController::class, 'news'])->name('news');
         Route::get('news-details/{id}', [HomeController::class, 'newsDetails'])->name('news_details');
+        Route::get('news-admin-profile/{id}', [HomeController::class, 'newsAdminProfile'])->name('news.admin.profile');
+        Route::get('news-user-profile/{id}', [HomeController::class, 'newsUserProfile'])->name('news.user.profile');
 
         //------------------------access movies/ music------------------------
         Route::post('user/package/access', [HomeController::class, 'userPackageAccess'])->name('user.package.access');
@@ -424,7 +429,6 @@ Route::namespace('Frontend')->group(function () {
 //  --------------------Admin all route--------------------
 Route::namespace('Admin')->group(function () {
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'auth'], function () {
-
         // ---------------admin footer section ---------------
         Route::get('footer', [FooterSectionController::class, 'index'])->name('footer.index');
         Route::post('footer/section/update/{id}', [FooterSectionController::class, 'update'])->name('update.footer');
@@ -444,8 +448,18 @@ Route::namespace('Admin')->group(function () {
         Route::post('ticket-type/update/{id}', [AdminTicketTypeController::class, 'updateTicketType'])->name('ticket.type.update');
         Route::get('ticket-type/destroy/{id}', [AdminTicketTypeController::class, 'destroy'])->name('ticket.type.destroy');
 
+
+         // -------------------- admin event all route--------------------
+         Route::get('events', [AdminEventController::class, 'index'])->name('index.events');
+         Route::post('store/events', [AdminEventController::class, 'store'])->name('store.events');
+         Route::get('edit/events/{id}', [AdminEventController::class, 'edit'])->name('edit.events');
+         Route::post('update/events/{id}', [AdminEventController::class, 'update'])->name('update.events');
+         Route::get('sold/events/{id}', [AdminEventController::class, 'sold_out'])->name('sold.out.events');
+        //  Route::get('view/events/{id}', [EventController::class, 'viewEvents'])->name('view.events');
+
+
         // ---------------admin access events---------------
-        Route::get('event', [AdminEventController::class, 'index'])->name('event.index');
+        Route::get('all/events', [AdminEventController::class, 'allEvents'])->name('event.all.events');
         Route::get('event/view/{id}', [AdminEventController::class, 'editEvent'])->name('event.view');
         Route::post('event/view/{id}', [AdminEventController::class, 'updateEvents'])->name('event.update');
         Route::post('event/status/edit/{id}', [AdminEventController::class, 'editStatusEvent'])->name('event.status.edit');
@@ -466,6 +480,8 @@ Route::namespace('Admin')->group(function () {
         Route::get('vote/destroy/{id}', [AdminVoteController::class, 'destroy'])->name('vote.destroy');
         Route::get('all/votes', [AdminVoteController::class, 'allVote'])->name('all.vote');
         Route::get('vote/views/{id}', [AdminVoteController::class, 'voteView'])->name('vote.view');
+
+       
 
         // ---------------admin access Books---------------
         Route::get('book', [AdminBookController::class, 'index'])->name('book.index');
@@ -517,6 +533,14 @@ Route::namespace('Admin')->group(function () {
         Route::post('update/live/tv/{id}', [AdminLiveTvController::class, 'updateLiveTv'])->name('update.live.tv');
         Route::post('live/tv/status/edit/{id}', [AdminLiveTvController::class, 'editStatusLiveTv'])->name('live.tv.status.edit');
         Route::get('live/tv/destroy/{id}', [AdminLiveTvController::class, 'destroy'])->name('live.tv.destroy');
+
+        // ---------------admin FAQ portion ---------------
+        Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
+        Route::post('store/faq', [FaqController::class, 'storeFaq'])->name('faq.store');
+        Route::get('edit/faq/{id}', [FaqController::class, 'editFaq'])->name('faq.edit');
+        Route::post('update/faq/{id}', [FaqController::class, 'updateFaq'])->name('faq.update');
+        Route::get('destroy/faq/{id}', [FaqController::class, 'destroy'])->name('faq.destroy');
+        
 
         // ---------------admin access site social link---------------
         Route::get('social', [AdminSocialController::class, 'index'])->name('social.index');
@@ -652,7 +676,6 @@ Route::namespace('Admin')->group(function () {
 
 
 
-
         //  Route::post('password/update/{id}', [AdminProfileController::class, 'updatePasssword'])->name('update.password');
 
 
@@ -664,6 +687,8 @@ Route::namespace('Admin')->group(function () {
         Route::get('banned-users', [AdminUserManageController::class, 'bannedUsers'])->name('banned.users');
         Route::get('user-details/{id}', [AdminUserManageController::class, 'userDetails'])->name('view.user');
         Route::get('plan', [AdminUserManageController::class, 'plan'])->name('plan.users');
+
+        Route::post('all-users/search', [AdminUserManageController::class, 'search'])->name('search.users');
 
         // ------------------------------------- admin manage users ---------------
         Route::get('seo/manage', [GeneralSettingController::class, 'seoPage'])->name('seo.page');

@@ -1,8 +1,8 @@
 @extends('frontend.master')
 @section('content')
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                        Start Banner Section
-                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                            Start Banner Section
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="ticket-banner  bg-overlay-base">
         @if ($site_image->image ?? '')
             <img class="img-fluid"
@@ -10,12 +10,12 @@
         @endif
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            End Banner Section
-                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                End Banner Section
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            Start Book Details Section
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                Start Book Details Section
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="overflow-hidden pt-5">
         <div class="container py-5">
             <div class="row shadow-lg p-3">
@@ -37,16 +37,19 @@
                     </div>
                     @if ($book->author_book_type == 'App\Models\User')
                         <div class="d-lg-flex justify-content-between">
-                            <a href="{{route('book.admin.profile',$book->author_book_id)}}" class="book-author text-decoration-none pb-4 d-flex">
+                            <a href="{{ route('book.admin.profile', $book->author_book_id) }}"
+                                class="book-author text-decoration-none pb-4 d-flex">
                                 <div class="pe-3">
                                     <img src="{{ asset('core\storage\app\public\admin-profile\\' . $book->admin->adminUser->profile_pic) }}"
                                         alt="" class="rounded-circle img-fluid">
                                 </div>
                                 <div>
-                                    <h4 class="fs-6 text-capitalize">{{$book->admin->adminUser->first_name}}{{$book->admin->adminUser->last_name}}<span class="text-primary"
-                                            style="font-size: 12px;">-
+                                    <h4 class="fs-6 text-capitalize">
+                                        {{ $book->admin->adminUser->first_name }}{{ $book->admin->adminUser->last_name }}<span
+                                            class="text-primary" style="font-size: 12px;">-
                                             Profile</span></h4>
-                                    <p class="fw-lighter text-white">{{$book->admin->adminUser->first_name}} has sold {{$book->bookTransaction->count()}} books</p>
+                                    <p class="fw-lighter text-white">{{ $book->admin->adminUser->first_name }} has sold
+                                        {{ $book->bookTransaction->count() }} books</p>
                                 </div>
                             </a>
                             <div class="social-menu">
@@ -59,24 +62,26 @@
                         </div>
                     @else
                         <div class="d-lg-flex justify-content-between">
-                            <a href="{{route('book.user.profile',$book->author_book_id)}}" class="book-author text-decoration-none pb-4 d-flex">
+                            <a href="{{ route('book.user.profile', $book->author_book_id) }}"
+                                class="book-author text-decoration-none pb-4 d-flex">
                                 @if ($book->author_book_type == 'App\Models\GeneralUser')
-                                <div class="pe-3">
-                                    <img src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$book->user->photo,imagePath()['profile']['user']['size'])}}"
-                                        alt="" class="rounded-circle img-fluid">
-                                </div>
+                                    <div class="pe-3">
+                                        <img src="{{ getImage(imagePath()['profile']['user']['path'] . '/' . $book->user->photo, imagePath()['profile']['user']['size']) }}"
+                                            alt="" class="rounded-circle img-fluid">
+                                    </div>
                                 @else
-                                {{-- <div class="pe-3">
+                                    {{-- <div class="pe-3">
                                     <img src="{{ asset('core\storage\app\public\profile\\' . $book->user->photo) }}"
                                         alt="" class="rounded-circle img-fluid">
                                 </div> --}}
                                 @endif
-                                
+
                                 <div>
                                     <h4 class="fs-6 text-capitalize">{{ $book->user->full_name }}<span class="text-primary"
                                             style="font-size: 12px;">-
                                             Profile</span></h4>
-                                    <p class="fw-lighter text-white">{{ ucWords($book->user->full_name) }} has sold over {{$book->count()}} books</p>
+                                    <p class="fw-lighter text-white">{{ ucWords($book->user->full_name) }} has sold over
+                                        {{ $book->count() }} books</p>
                                 </div>
                             </a>
                             <div class="social-menu">
@@ -85,7 +90,8 @@
                                                 class="fab fa-facebook"></i></a></li>
                                     <li><a href="{{ $book->user->instagram }}" target="blank"><i
                                                 class="fab fa-instagram"></i></a></li>
-                                    <li><a href="{{$book->user->twitter}}" target="blank"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="{{ $book->user->twitter }}" target="blank"><i
+                                                class="fab fa-twitter"></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -108,6 +114,6 @@
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                End Book Details Section
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                                    End Book Details Section
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 @endsection
