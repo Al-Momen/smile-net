@@ -1,10 +1,8 @@
 @extends('frontend.master')
 @section('content')
-
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             Start SignIn Section
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-
 
     <section>
         <div class="container mx-auto py-5">

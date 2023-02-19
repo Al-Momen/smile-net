@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
 
-ini_set('memory_limit',-1);
 class AppServiceProvider extends ServiceProvider
 {
     /**

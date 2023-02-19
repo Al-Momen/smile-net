@@ -225,7 +225,9 @@ class TicketBuyController extends Controller
         } else {
             $ticketTypeDetails->detail = null;
         }
-        $check_exist_buy_ticket_type = TicketTypeDetails::with('gateway')->where('user_id', Auth::guard('general')->user()->id)->where('status',1)->orWhere('status',2)->where('ticket_status',1)->first();
+
+        
+        $check_exist_buy_ticket_type = TicketTypeDetails::with('gateway')->where('user_id', Auth::guard('general')->user()->id)->where('ticket_status',1)->where('status',1)->orWhere('status',2)->first();
         // dd($ticketTypeDetails);
      
         if ($ticketTypeDetails->status == 0) {
@@ -235,7 +237,7 @@ class TicketBuyController extends Controller
                 $ticketTypeDetails->save();
             }else{
                
-                $check_exist_buy_ticket_type->ticket_status = 0;
+                $check_exist_buy_ticket_type->ticket_status = 1;
                 $check_exist_buy_ticket_type->update();
                 $ticketTypeDetails->status = 2; // pending
                 $ticketTypeDetails->save();
@@ -255,13 +257,13 @@ class TicketBuyController extends Controller
     {
         $general = GeneralSetting::first();
         $ticketTypeDetails = TicketTypeDetails::where('transaction_id', $trx)->first();
-        $check_exist_buy_ticket_type = TicketTypeDetails::with('gateway')->where('user_id', Auth::guard('general')->user()->id)->where('status',1)->orWhere('status',2)->where('ticket_status',1)->first();
+        $check_exist_buy_ticket_type = TicketTypeDetails::with('gateway')->where('user_id', Auth::guard('general')->user()->id)->where('ticket_status',1)->where('status',1)->orWhere('status',2)->first();
     
-        // dd($ticketTypeDetails);
-
+        
         if ($ticketTypeDetails->status == 0) {
             // dd($check_exist_buy_ticket_type);
             if($check_exist_buy_ticket_type == null){
+                
                 $ticketTypeDetails->status = 1; // pending
                 $ticketTypeDetails->date =Carbon::now()->addDay($ticketTypeDetails->ticket_type->days);
                 $ticketTypeDetails->save();

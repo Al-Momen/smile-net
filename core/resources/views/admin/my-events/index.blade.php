@@ -17,8 +17,12 @@
                 <span class="main-path">Dashboards</span>
             </a>
             <i class="las la-angle-right"></i>
-            <a href="#">
+            <a href="{{route('admin.index.events')}}">
                 <span class="active-path g-color">My-Events</span>
+            </a>
+            <i class="las la-angle-right"></i>
+            <a href="">
+                <span class="active-path g-color">Events-sold</span>
             </a>
         </div>
         <div class="view-prodact">

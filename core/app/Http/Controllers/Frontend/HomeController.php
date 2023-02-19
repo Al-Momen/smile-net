@@ -535,4 +535,143 @@ class HomeController extends Controller
        
         return view('frontend.pages.faq.index', compact('site_image','allFaq'));
     }
+
+    // ---------------------------------------Plan page---------------------------------------
+    public function moviesSearch(Request $request)
+    {
+        // $request->validate([
+        //     'data' => 'required',
+        // ]);
+
+        $site_image = AdminManageSite::where('status', 1)->whereHas('manageSite', function (Builder $query) {
+            $query->where('pages', 'home');
+        })->get();
+
+
+        // return print_r($request->all());
+        $data = [];
+        $data['newItem'] = AdminNewItemMovies::where('status',1)->where('name','LIKE','%'.$request->data.'%')->get();
+        $data['topItem'] = AdminTopMovies::where('status',1)->where('name','LIKE','%'.$request->data.'%')->get();
+        $data['commingSoonItem'] = AdminCommingSoonMovies::where('status',1)->where('name','LIKE','%'.$request->data.'%')->get();
+
+        if ($request->data != '') {
+            return response()->json([
+                'success' => 'new item found successful',
+                'data' => $data,
+                'status' => 1,
+            ]);
+        } else {
+            return response()->json([
+                'success' => "No data found",
+                'status' => 1,
+            ]);
+        };
+    }
+
+    //  books search
+    public function booksSearch(Request $request)
+    {
+        $data = Book::where('status',1)->where('title','LIKE','%'.$request->data.'%')->get();
+        if ($request->data != '') {
+            return response()->json([
+                'success' => 'Books found successful',
+                'data' => $data,
+                'status' => 1,
+            ]);
+        } else {
+            return response()->json([
+                'success' => "No data found",
+                'status' => 1,
+            ]);
+        };
+    }
+
+    // news search
+    public function newsSearch(Request $request)
+    {
+        $data = AdminNews::where('status',1)->where('title','LIKE','%'.$request->data.'%')->get();
+        if ($request->data != '') {
+            return response()->json([
+                'success' => 'News found successful',
+                'data' => $data,
+                'status' => 1,
+            ]);
+        } else {
+            return response()->json([
+                'success' => "No data found",
+                'status' => 1,
+            ]);
+        };
+    }
+
+    // Smile-tv search
+    public function SmileTvSearch(Request $request)
+    {
+        $data = AdminSmileTv::where('status',1)->where('mp4', '!=', null)->where('title','LIKE','%'.$request->data.'%')->get();
+        if ($request->data != '') {
+            return response()->json([
+                'success' => 'Smile-tv found successful',
+                'data' => $data,
+                'status' => 1,
+            ]);
+        } else {
+            return response()->json([
+                'success' => "No data found",
+                'status' => 1,
+            ]);
+        };
+    }
+    // Music search
+    public function musicsVideoSearch(Request $request)
+    {
+        $data = AdminVideoMusic::where('status',1)->where('title','LIKE','%'.$request->data.'%')->get();
+        if ($request->data != '') {
+            return response()->json([
+                'success' => 'Music video found successful',
+                'data' => $data,
+                'status' => 1,
+            ]);
+        } else {
+            return response()->json([
+                'success' => "No data found",
+                'status' => 1,
+            ]);
+        };
+    }
+    // vote search
+    public function voteSearch(Request $request)
+    {
+        $data = AdminVote::where('status',1)->where('vote_name','LIKE','%'.$request->data.'%')->get();
+        if ($request->data != '') {
+            return response()->json([
+                'success' => 'Vote found successful',
+                'data' => $data,
+                'status' => 1,
+            ]);
+        } else {
+            return response()->json([
+                'success' => "No data found",
+                'status' => 1,
+            ]);
+        };
+    }
+
+    // Events search
+    public function eventsSearch(Request $request)
+    {
+       
+        $data = Event::where('status',1)->where('category_id',$request->category_id)->where('title','LIKE','%'.$request->data.'%')->get();
+        if ($request->data != '') {
+            return response()->json([
+                'success' => 'event found successful',
+                'data' => $data,
+                'status' => 1,
+            ]);
+        } else {
+            return response()->json([
+                'success' => "No data found",
+                'status' => 1,
+            ]);
+        };
+    }
 }

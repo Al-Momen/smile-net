@@ -71,7 +71,7 @@
                             <span class="navbar-user__thumb"><img
                                     src="{{ asset('core\storage\app\public\admin-profile\\' . $profile->adminUser->profile_pic) }}" alt="user"></span>
                             <span class="navbar-user__info">
-                                <span class="navbar-user__name">admin</span>
+                                <span class="navbar-user__name">{{$profile->adminUser->first_name}} {{$profile->adminUser->last_name}}</span>
                             </span>
                             <span class="icon"><i class="las la-chevron-circle-down"></i></span>
                         </span>

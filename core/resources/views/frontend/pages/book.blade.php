@@ -1,8 +1,8 @@
 @extends('frontend.master')
 @section('content')
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                Start Banner Section
-                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+            Start Banner Section
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="ticket-banner  bg-overlay-base">
         @if ($site_image->image ?? '')
             <img class="img-fluid"
@@ -10,13 +10,13 @@
         @endif
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                            End Banner Section
-                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                End Banner Section
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                Start New Books Section
-                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+             Start New Books Section
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="new-books">
         <div class="container py-5 overflow-hidden">
             <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold">New Books</h1>
@@ -73,12 +73,12 @@
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                                                End New Books Section
-                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+             End New Books Section
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Start Populars Books Section
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                Start Populars Books Section
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="populars-book py-5">
         <div class="container">
             <h1 class="text-white fw-bold fs-2 text-uppercase fw-bold">Populars Books</h1>
@@ -130,6 +130,97 @@
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        End Populars Books Section
-     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                End Populars Books Section
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+@section('search')
+    <form class="m-0" action="" method="">
+        <div class="position-relative">
+            <div class="dropdown">
+                <input class="header-search-input" type="search" placeholder="Search . . . " name="search"
+                    class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                <span class="las la-search"></span>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#">No data found</a></li>
+                </ul>
+            </div>
+        </div>
+    </form>
 @endsection
+
+
+@endsection
+
+{{-- ------------- ajax search bar------------- --}}
+@push('js')
+<script>
+    $(document).ready(function() {
+        $(document).on("keyup", ".header-search-input", function(event) {
+            var data = $(this).val();
+
+            var card = "";
+            var manu = $('.dropdown .dropdown-menu');
+            event.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ route('books.search') }}",
+                method: "POST",
+                data: {
+                    "data": data,
+                },
+                success: function(res) {
+                    if (res.status) {
+                        console.log(res.success);
+                        var item = res.data;
+                        $.each(item, function(index, value) {
+                            console.log(value);
+                            card +=
+                                `<li><a class="dropdown-item" href="books-details/${value.id}">${value.title}</a></li>`;
+                        })
+                        $(manu).html(card);
+                        console.log(item.length);
+
+                        if (item.length == 0) {
+                            card =
+                                `<li><a class="dropdown-item" href="">No data found</a></li>`;
+                        }
+
+                        $(manu).html(card);
+
+                    } else {
+                        console.log('error');
+                    }
+                },
+                error: function(err) {
+                    let error = err.responseJSON;
+                    $.each(error.errors, function(index, value) {
+                        console.log(value);
+
+                    });
+                }
+            });
+
+        })
+    })
+</script>
+@endpush
+
+
+
+@push('css')
+<style>
+    .position-relative .dropdown .dropdown-menu {
+        color: black;
+        background-color: white;
+        width: 100%;
+
+    }
+    .header-section .dropdown-menu li a:hover {
+        background-color: #f7f7f7;
+    }
+</style>
+@endpush

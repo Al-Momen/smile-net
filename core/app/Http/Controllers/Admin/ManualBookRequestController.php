@@ -63,7 +63,9 @@ class ManualBookRequestController extends Controller
             'reject' =>'required',
         ]);
         $manualBookRequestView = BookTransaction::with('user', "book")->where('id', $id)->first();
-        $manualBookRequestView->status =3;
+        
+
+        $manualBookRequestView->status = 3;
         $manualBookRequestView->reject = $request->reject;
         $manualBookRequestView->update();
         $notify[] = ['success', 'User book request is Cancelled'];

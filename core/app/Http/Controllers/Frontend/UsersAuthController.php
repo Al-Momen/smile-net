@@ -174,7 +174,7 @@ class UsersAuthController extends Controller
             sendGeneralEmail($request->email, $subject, $message, $receiver_name);
             $encreptProfileId = encrypt($profile->id);
 
-            $notify[] = ['success', "Please Check ypur Email"];
+            $notify[] = ['success', "Please Check your Email"];
             return redirect()->route('password.reset.otp.form', $encreptProfileId)->withNotify($notify);
         } else {
             

@@ -6,7 +6,7 @@
             <div class="row g-5 d-flex justify-content-center">
                 <div class="col-lg-4 col-md-12 col-12">
                     <img class="img-fluid rounded d-block mx-auto" src="{{ getImage(imagePath()['profile']['user']['path'].'/'.$profile->photo,imagePath()['profile']['user']['size'])}}" alt="Image" height="350"
-                        width="300">
+                        width="300" style="border-radius: 166px !important;">
                     <div>
                         <div class="d-flex justify-content-between mt-4 rounded-2 p-2 user-card">
                             <p class="text-white m-0 fw-bold">Name:</p>

@@ -65,6 +65,8 @@
                                             <h3>Pending</h3>
                                         @elseif($ticketTypePlan->status == 1 && $ticketTypePlan->ticket_status == 0)
                                             <h3> Plan Expired</h3>
+                                        @elseif($ticketTypePlan->status == 3 && $ticketTypePlan->ticket_status == 1)
+                                            <h3>Cancelled</h3>
                                             {{-- <h3>Pending</h3> --}}
                                         @endif
                                     </div>

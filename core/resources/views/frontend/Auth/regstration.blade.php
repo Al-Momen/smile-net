@@ -61,16 +61,21 @@
 
                                 <div class="col-12">
                                     <label class="text-white">Password<span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <input type="password" name="password" class="form-control" placeholder="Password">
+                                    <div class="">
+                                        <input id="password" type="password" name="password" class="form-control" placeholder="Password">
+                                        <span toggle="#password"
+                                        class="fa fa-fw fa-eye field-icon toggle-password"></span>
+
                                     </div>
                                 </div>
 
                                 <div class="col-12">
                                     <label class="text-white">Confirm Password<span class="text-danger">*</span></label>
-                                    <div class="input-group">
-                                        <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password">
-                                    </div>
+                                    <div class="">
+                                        <input id="password-field" type="password" name="confirm_password" class="form-control" placeholder="Confirm Password">
+                                        <span toggle="#password-field"
+                                        class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                                    </div> 
                                 </div>
 
                                 <div class="col-12">
@@ -92,7 +97,32 @@
         End SignIn Section
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
-    
-
-
 @endsection
+@push('js')
+    <script>
+        $(".toggle-password").click(function() {
+
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+    </script>
+@endpush
+@push('css')
+    <style>
+        .field-icon {
+            float: right;
+            margin-right: 15px;
+            margin-top: -33px;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            color: black;
+
+        }
+    </style>
+@endpush

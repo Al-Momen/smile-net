@@ -255,6 +255,16 @@ Route::namespace('Frontend')->group(function () {
     // --------------------navbar events list-------------------- 
     Route::get('user/event/{name}', [HomeController::class, 'eventList'])->name('user.event');
 
+
+    // --------------------search-bar home page -------------------- 
+    Route::post('home/movies/search', [HomeController::class, 'moviesSearch'])->name('movies.search');
+    Route::post('books/search', [HomeController::class, 'booksSearch'])->name('books.search');
+    Route::post('news/search', [HomeController::class, 'newsSearch'])->name('news.search');
+    Route::post('smile-tv/search', [HomeController::class, 'SmileTvSearch'])->name('smile.tv.search');
+    Route::post('music/video/search', [HomeController::class, 'musicsVideoSearch'])->name('music.video.search');
+    Route::post('voting/search', [HomeController::class, 'voteSearch'])->name('voting.search');
+    Route::post('event/search', [HomeController::class, 'eventsSearch'])->name('event.search');
+
     
 
     // -------------------- User Email verify by OTP--------------------

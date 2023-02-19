@@ -24,8 +24,8 @@
 
 
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                                        Start Music Section
-                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        Start Music Section
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
     <section class="music-card">
         <div class="container py-5 mx-auto">
             <h1 class="text-white fw-bold fs-1 text-uppercase fw-bold">Music </h1>
@@ -206,8 +206,25 @@
         </div>
     </section>
     <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                        End Music Section
-                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+        End Music Section
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+
+    
+    @section('search')
+        <form class="m-0" action="" method="">
+            <div class="position-relative">
+                <div class="dropdown">
+                    <input class="header-search-input" type="search" placeholder="Search . . . " name="search"
+                        class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="las la-search"></span>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">No data found</a></li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    @endsection
 
 
     @if (isset($access) && $access != null)
@@ -809,4 +826,77 @@
             });
         });
     </script>
+@endpush
+
+@push('css')
+<style>
+    .position-relative .dropdown .dropdown-menu {
+        color: black;
+        background-color: white;
+        width: 100%;
+
+    }
+    .header-section .dropdown-menu li a:hover {
+        background-color: #f7f7f7;
+    }
+</style>
+@endpush
+
+
+{{-- ------------- ajax search bar------------- --}}
+@push('js')
+<script>
+    $(document).ready(function() {
+        $(document).on("keyup", ".header-search-input", function(event) {
+            var data = $(this).val();
+
+            var card = "";
+            var manu = $('.dropdown .dropdown-menu');
+            event.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ route('music.video.search') }}",
+                method: "POST",
+                data: {
+                    "data": data,
+                },
+                success: function(res) {
+                    if (res.status) {
+                        console.log(res.success);
+                        var item = res.data;
+                        $.each(item, function(index, value) {
+                            console.log(value);
+                            card +=
+                                `<li><a class="dropdown-item" href="video/music/play/${value.id}">${value.title}</a></li>`;
+                        })
+                        $(manu).html(card);
+                        console.log(item.length);
+
+                        if (item.length == 0) {
+                            card =
+                                `<li><a class="dropdown-item" href="">No data found</a></li>`;
+                        }
+
+                        $(manu).html(card);
+
+                    } else {
+                        console.log('error');
+                    }
+                },
+                error: function(err) {
+                    let error = err.responseJSON;
+                    $.each(error.errors, function(index, value) {
+                        console.log(value);
+
+                    });
+                }
+            });
+
+        })
+    })
+</script>
 @endpush

@@ -227,6 +227,7 @@ class ProcessController extends Controller
             $notify[] = ['error', 'Invalid request.'];
             return redirect()->route(gatewayRedirectUrl())->withNotify($notify);
         }
+        
         $this->validate($request, [
             'cardNumber' => 'required',
             'cardExpiry' => 'required',
@@ -264,9 +265,10 @@ class ProcessController extends Controller
                     'amount' => $cnts,
                     'description' => 'item',
                 ));
-
                 if ($charge['status'] == 'succeeded') {
+                    
                     TicketBuyController::userDataUpdate($ticketTypeDetails->transaction_id);
+                    
                     $notify[] = ['success', 'Payment captured successfully.'];
                     return redirect()->route(gatewayRedirectUrl(true))->withNotify($notify);
                 }
